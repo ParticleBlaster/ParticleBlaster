@@ -14,7 +14,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let player = SKSpriteNode(imageNamed: "player")
     
     override func didMove(to view: SKView) {
-        backgroundColor = SKColor.white
+        backgroundColor = Constants.backgroundColor
         player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
         addChild(player)
         
