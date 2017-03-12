@@ -18,6 +18,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
         addChild(player)
         
+        // Set up the physics world to have no gravity
+        physicsWorld.gravity = CGVector.zero
+        // Set the scene as the delegate to be notified when two physics bodies collide.
+        physicsWorld.contactDelegate = self
+        
         run(SKAction.repeatForever(
             SKAction.sequence([
                 SKAction.run(addMonster),
@@ -38,6 +43,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create sprite
         let monster = SKSpriteNode(imageNamed: "monster")
+        
+        // Create a physics body for the sprite defined as a rectangle of the same size
+        monster.physicsBody = SKPhysicsBody(rectangleOf: monster.size)
+        // Set the sprite to be dynamic (The movement of the monster will be conntrolled uusing move actions)
+        monster.physicsBody?.isDynamic = true
+        // Set the category bit mask to be the monsterCategory
+        monster.physicsBody?.categoryBitMask = PhysicsCategory.Monster
+        // Indicates that contact with projectiles should the contact listener when they intersect
+        monster.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
+        // Currently prevent the monster and projectile to bounce off each other
+        monster.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Determine where to spawn the monster along the Y axis
         let actualY = random(min: monster.size.height/2, max: size.height - monster.size.height/2)
@@ -71,6 +87,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let projectile = SKSpriteNode(imageNamed: "projectile")
         projectile.position = player.position
         
+        // Create a physics body for the sprite defined by a cicrle
+        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
+        projectile.physicsBody?.isDynamic = true
+        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
+        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
+        projectile.physicsBody?.usesPreciseCollisionDetection = true
+        
         // Determine offset of location to projectile
         let offset = touchLocation - projectile.position
         
@@ -94,5 +118,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actionMoveDone = SKAction.removeFromParent()
         projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
         
+    }
+    
+    // Projectile collides with the monster
+    func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
+        print("Hit")
+        projectile.removeFromParent()
+        monster.removeFromParent()
+    }
+    
+    // Contact delegate method
+    func didBegin(_ contact: SKPhysicsContact) {
+        
+        // Arranges two colliding bodies so they are sorted by their category bit masks
+        var firstBody: SKPhysicsBody
+        var secondBody: SKPhysicsBody
+        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
+            firstBody = contact.bodyA
+            secondBody = contact.bodyB
+        } else {
+            firstBody = contact.bodyB
+            secondBody = contact.bodyA
+        }
+        
+        // Checks if the two bodies that collide are the projectile and monster
+        // If so calls the method you wrote earlier.
+        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+            if let monster = firstBody.node as? SKSpriteNode, let
+                projectile = secondBody.node as? SKSpriteNode {
+                projectileDidCollideWithMonster(projectile: projectile, monster: monster)
+            }
+        }
     }
 }
