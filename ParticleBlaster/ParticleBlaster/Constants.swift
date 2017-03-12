@@ -7,6 +7,8 @@
 //
 
 import Foundation
+import SpriteKit
 
 class Constants {
+    static let backgroundColor = SKColor.white
 }
