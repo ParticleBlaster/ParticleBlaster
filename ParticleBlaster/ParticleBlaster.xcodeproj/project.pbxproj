@@ -19,6 +19,7 @@
 		0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB61B1E752D2700DEF8CC /* Constants.swift */; };
 		0CCDB6231E752F8700DEF8CC /* IsoscelesTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */; };
 		0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */; };
+		0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -36,6 +37,7 @@
 		0CCDB61B1E752D2700DEF8CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsoscelesTriangle.swift; sourceTree = "<group>"; };
 		0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
+		0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -75,6 +77,7 @@
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
+				0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
 				0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
@@ -174,6 +177,7 @@
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
 				0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */,
+				0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

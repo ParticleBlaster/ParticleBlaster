@@ -77,7 +77,7 @@ class GameScene: SKScene {
         // Bail out if shooting down or backwards
         if (offset.x < 0) { return }
         
-        // OK to add now - you've double checked position
+        // Add the projectile after double checked position
         addChild(projectile)
         
         // Get the direction of where to shoot
