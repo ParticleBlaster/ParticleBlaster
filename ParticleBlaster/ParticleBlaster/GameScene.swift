@@ -12,6 +12,8 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private let player = SKSpriteNode(imageNamed: "player")
+    private var monstersDestroyed = 0
+    private let monstersDestroyRequirement = 1
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
@@ -137,6 +139,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         print("Hit")
         projectile.removeFromParent()
         monster.removeFromParent()
+        
+        // Update monstersDestroyed count
+        monstersDestroyed += 1
+        if (monstersDestroyed >= monstersDestroyRequirement) {
+            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+            let gameOverScene = GameOverScene(size: self.size, won: true)
+            self.view?.presentScene(gameOverScene, transition: reveal)
+        }
     }
     
     // Contact delegate method
