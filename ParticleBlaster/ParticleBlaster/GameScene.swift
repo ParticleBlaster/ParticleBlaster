@@ -13,7 +13,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
     private var monstersDestroyed = 0
-    private let monstersDestroyRequirement = 1
+    private let monstersDestroyRequirement = 10
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
@@ -63,7 +63,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Indicates that contact with projectiles should the contact listener when they intersect
         monster.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
         // Currently prevent the monster and projectile to bounce off each other
-        monster.physicsBody?.collisionBitMask = PhysicsCategory.None
+        monster.physicsBody?.collisionBitMask = PhysicsCategory.Projectile
         
         // Determine where to spawn the monster along the Y axis
         let actualY = random(min: radius / 2.0, max: size.height - radius / 2.0)
@@ -108,10 +108,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         // Create a physics body for the sprite defined by a cicrle
         projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectileRadius)
+        projectile.physicsBody?.mass = (projectile.physicsBody?.mass)! * 16
         projectile.physicsBody?.isDynamic = true
         projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
         projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.None
+        projectile.physicsBody?.collisionBitMask = PhysicsCategory.Monster
         projectile.physicsBody?.usesPreciseCollisionDetection = true
         
         // Determine offset of location to projectile
@@ -142,8 +143,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // Projectile collides with the monster
     func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
         print("Hit")
-        projectile.removeFromParent()
-        monster.removeFromParent()
+        // projectile.removeFromParent()
+        // monster.removeFromParent()
         
         // Update monstersDestroyed count
         monstersDestroyed += 1
