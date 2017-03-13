@@ -140,7 +140,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     // Projectile collides with the monster
-    func projectileDidCollideWithMonster(projectile: SKSpriteNode, monster: SKSpriteNode) {
+    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
         print("Hit")
         projectile.removeFromParent()
         monster.removeFromParent()
@@ -172,8 +172,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // If so calls the method you wrote earlier.
         if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            if let monster = firstBody.node as? SKSpriteNode, let
-                projectile = secondBody.node as? SKSpriteNode {
+            if let monster = firstBody.node as? SKShapeNode, let
+                projectile = secondBody.node as? SKShapeNode {
                 projectileDidCollideWithMonster(projectile: projectile, monster: monster)
             }
         }
