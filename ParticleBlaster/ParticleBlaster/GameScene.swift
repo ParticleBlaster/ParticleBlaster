@@ -27,7 +27,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.repeatForever(
             SKAction.sequence([
-                SKAction.run(addMonster),
+                SKAction.run {
+                    self.addCircleObstacle(radius: 20)
+                },
                 SKAction.wait(forDuration: 1.0)
             ])
         ))
@@ -46,13 +48,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    func addMonster() {
+    func addCircleObstacle(radius: CGFloat) {
         
         // Create sprite
-        let monster = SKSpriteNode(imageNamed: "monster")
+        let monster = SKShapeNode(circleOfRadius: radius)
+        monster.fillColor = UIColor.black
         
         // Create a physics body for the sprite defined as a rectangle of the same size
-        monster.physicsBody = SKPhysicsBody(rectangleOf: monster.size)
+        monster.physicsBody = SKPhysicsBody(circleOfRadius: radius)
         // Set the sprite to be dynamic (The movement of the monster will be conntrolled uusing move actions)
         monster.physicsBody?.isDynamic = true
         // Set the category bit mask to be the monsterCategory
@@ -63,20 +66,20 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         monster.physicsBody?.collisionBitMask = PhysicsCategory.None
         
         // Determine where to spawn the monster along the Y axis
-        let actualY = random(min: monster.size.height/2, max: size.height - monster.size.height/2)
+        let actualY = random(min: radius / 2.0, max: size.height - radius / 2.0)
         
         // Position the monster slightly off-screen along the right edge,
         // and along a random position along the Y axis as calculated above
-        monster.position = CGPoint(x: size.width + monster.size.width/2, y: actualY)
+        monster.position = CGPoint(x: size.width + radius / 2.0, y: actualY)
         
         // Add the monster to the scene
         addChild(monster)
         
         // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(2.0), max: CGFloat(4.0))
+        let actualDuration = random(min: CGFloat(8.0), max: CGFloat(16.0))
         
         // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -monster.size.width/2, y: actualY), duration: TimeInterval(actualDuration))
+        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration))
         let actionMoveDone = SKAction.removeFromParent()
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
