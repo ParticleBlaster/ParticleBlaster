@@ -125,7 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private func checkJoystickTouch(touch: UITouch) -> Bool {
         let location = touch.location(in: self)
         if plateAllowedRange.frame.contains(location) {
-            //print ("true")
             return true
         } else {
             return false
@@ -134,43 +133,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-//            if self.checkFireButtonActive(touch: t) {
-//                print ("Fire in the hole!")
-//                self.fire()
-//            } else {
-//                self.rotateJoystickAndSpaceship(touch: t)
-//            }
-            
-            let location = t.location(in: self)
-            if plateTouchEndRange.frame.contains(location) {
-                if self.checkJoystickTouch(touch: t) {
-                    self.rotateJoystickAndSpaceship(touch: t)
-                } else {
-                    self.endJoystick()
-                }
-            }
+            self.checkJoystickOp(touch: t)
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-//            if !self.checkFireButtonActive(touch: t) {
-//                self.rotateJoystickAndSpaceship(touch: t)
-//            }
-            
-            let location = t.location(in: self)
-            if plateTouchEndRange.frame.contains(location) {
-                if self.checkJoystickTouch(touch: t) {
-                    self.rotateJoystickAndSpaceship(touch: t)
-                } else {
-                    self.flyingVelocity = CGFloat(0)
-                    self.endJoystick()
-                }
+            self.checkJoystickOp(touch: t)
+        }
+    }
+    
+    private func checkJoystickOp(touch: UITouch) {
+        let location = touch.location(in: self)
+        if plateTouchEndRange.frame.contains(location) {
+            if self.checkJoystickTouch(touch: touch) {
+                self.rotateJoystickAndSpaceship(touch: touch)
+            } else {
+                self.flyingVelocity = CGFloat(0)
+                self.endJoystick()
             }
-            
-//            if self.checkJoystickTouch(touch: t) {
-//                self.rotateJoystickAndSpaceship(touch: t)
-//            }
         }
     }
     
@@ -183,16 +164,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.unitOffset = directionVector
         let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
         var radius = plate.size.width / 2
-        self.flyingVelocity = self.basicVelocity * (length / radius)
+        self.flyingVelocity = length >= radius ? self.basicVelocity : self.basicVelocity * (length / radius)
         if length < radius {
             radius = length
         }
         
         joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
         player.zRotation = rotationAngle
-        //self.updateTriPosition()
     }
     
+    // Reserved for possible future use
 //    private func updateTriPosition() {
 //        let currTime = DispatchTime.now()
 //        let elapsedTime = Double(currTime.uptimeNanoseconds - self.prevTime.uptimeNanoseconds) / 1_000_000_000
@@ -211,7 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
             //        self.unitOffset = CGVector(dx:0, dy: 1)
             
-            let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
+            //let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
             //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
             self.flyingVelocity = CGFloat(0)
         }
@@ -281,32 +262,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {
-            if self.flyingVelocity == CGFloat(0) {
-                
-            } else {
+            if self.flyingVelocity != CGFloat(0) {
                 let elapsedTime = currentTime - self.prevTime!
                 let currPos = self.player.position
-                //self.player.removeFromParent()
                 let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
                 let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
                 self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-                
             }
             self.prevTime = currentTime
-            
-            
-//            if self.flying {
-//                let elapsedTime = currentTime - self.prevTime!
-//                let currPos = self.player.position
-//                //self.player.removeFromParent()
-//                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-//                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-//                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-//                self.prevTime = currentTime
-//                //self.addChild(self.player)
-//            } else {
-//                
-//            }
         }
     }
     
