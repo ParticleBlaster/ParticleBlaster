@@ -101,11 +101,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let touchLocation = touch.location(in: self)
         
         // Set up initial location of projectile
-        let projectile = SKSpriteNode(imageNamed: "projectile")
+        let projectileRadius: CGFloat = 5.0
+        let projectile = SKShapeNode(circleOfRadius: projectileRadius)
         projectile.position = player.position
+        projectile.fillColor = UIColor.black
         
         // Create a physics body for the sprite defined by a cicrle
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectile.size.width/2)
+        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectileRadius)
         projectile.physicsBody?.isDynamic = true
         projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
         projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
