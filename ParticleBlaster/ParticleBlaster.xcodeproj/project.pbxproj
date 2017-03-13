@@ -131,6 +131,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = MRZ7YD72EV;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -304,6 +305,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ParticleBlaster.ParticleBlaster;
@@ -316,6 +318,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ParticleBlaster.ParticleBlaster;
@@ -343,6 +346,7 @@
 				0CCDB6151E75254300DEF8CC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

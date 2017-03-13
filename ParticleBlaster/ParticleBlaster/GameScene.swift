@@ -15,10 +15,35 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 10
     
+    private let plate = SKSpriteNode(imageNamed: "plate")
+    private let joystick = SKSpriteNode(imageNamed: "top")
+    private var plateAllowedRange: SKShapeNode!
+    private var plateAllowedRangeDistance: CGFloat!
+    
+    private var xDestination: CGFloat = CGFloat(0)
+    private var yDestination: CGFloat = CGFloat(0)
+    private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
+    private var basicVelocity: CGFloat = CGFloat(1200)
+    
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
         player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
         addChild(player)
+        
+        plate.position = CGPoint(x: self.size.width * 0.1, y: self.size.height * 0.1)
+        plate.size = CGSize(width: self.size.width / 8, height: self.size.width / 8)
+        addChild(plate)
+        
+        // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
+        plateAllowedRange = SKShapeNode(circleOfRadius: plate.size.width / 2 + 50)
+        plateAllowedRange.position = CGPoint(x: plate.position.x, y: plate.position.y)
+        
+        joystick.size = CGSize(width: plate.size.width / 2, height: plate.size.height / 2)
+        // Note: position is given as center position already
+        joystick.position = CGPoint(x: plate.position.x, y: plate.position.y)
+        joystick.alpha = 0.8
+        addChild(joystick)
+        joystick.zPosition = 2
         
         // Set up the physics world to have no gravity
         physicsWorld.gravity = CGVector.zero
@@ -90,53 +115,114 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        // Play the sound of shooting
-        run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
-        
-        // Choose one of the touches to work with
-        guard let touch = touches.first else {
-            return
+    private func checkJoystickTouch(touch: UITouch) -> Bool {
+        let location = touch.location(in: self)
+        if plateAllowedRange.frame.contains(location) {
+            //print ("true")
+            return true
+        } else {
+            return false
         }
-        let touchLocation = touch.location(in: self)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+//            if self.checkFireButtonActive(touch: t) {
+//                print ("Fire in the hole!")
+//                self.fire()
+//            } else {
+//                self.rotateJoystickAndSpaceship(touch: t)
+//            }
+            
+            if self.checkJoystickTouch(touch: t) {
+                self.rotateJoystickAndSpaceship(touch: t)
+            }
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+//            if !self.checkFireButtonActive(touch: t) {
+//                self.rotateJoystickAndSpaceship(touch: t)
+//            }
+            
+            if self.checkJoystickTouch(touch: t) {
+                self.rotateJoystickAndSpaceship(touch: t)
+            }
+        }
+    }
+    
+    private func rotateJoystickAndSpaceship(touch: UITouch) {
+        let location = touch.location(in: self)
+        let direction = CGVector(dx: location.x - plate.position.x, dy: location.y - plate.position.y)
+        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
+        let directionVector = CGVector(dx: direction.dx / length, dy: direction.dy / length)
+        self.unitOffset = directionVector
+        let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
+        var radius = plate.size.width / 2
+        if length < radius {
+            radius = length
+        }
+        joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
+        player.zRotation = rotationAngle
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
-        // Set up initial location of projectile
-        let projectileRadius: CGFloat = 5.0
-        let projectile = SKShapeNode(circleOfRadius: projectileRadius)
-        projectile.position = player.position
-        projectile.fillColor = UIColor.black
-        
-        // Create a physics body for the sprite defined by a cicrle
-        projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectileRadius)
-        projectile.physicsBody?.mass = (projectile.physicsBody?.mass)! * 16
-        projectile.physicsBody?.isDynamic = true
-        projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        projectile.physicsBody?.collisionBitMask = PhysicsCategory.Monster
-        projectile.physicsBody?.usesPreciseCollisionDetection = true
-        
-        // Determine offset of location to projectile
-        let offset = touchLocation - projectile.position
-        
-        // Bail out if shooting down or backwards
-        if (offset.x < 0) { return }
-        
-        // Add the projectile after double checked position
-        addChild(projectile)
-        
-        // Get the direction of where to shoot
-        let direction = offset.normalized()
-        
-        // Make it shoot far enough to be guaranteed off screen
-        let shootAmount = direction * 1000
-        
-        // Add the shoot amount to the current position
-        let realDest = shootAmount + projectile.position
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: realDest, duration: 2.0)
-        let actionMoveDone = SKAction.removeFromParent()
-        projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+        for touch in touches {
+            if self.checkJoystickTouch(touch: touch) {
+                joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
+                player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
+                self.unitOffset = CGVector(dx:0, dy: 1)
+            } else { // interpreted as shooting action
+                // Play the sound of shooting
+                run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
+                
+                // Choose one of the touches to work with
+                guard let touch = touches.first else {
+                    return
+                }
+                let touchLocation = touch.location(in: self)
+                
+                // Set up initial location of projectile
+                let projectileRadius: CGFloat = 5.0
+                let projectile = SKShapeNode(circleOfRadius: projectileRadius)
+                projectile.position = player.position
+                projectile.fillColor = UIColor.black
+                
+                // Create a physics body for the sprite defined by a cicrle
+                projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectileRadius)
+                projectile.physicsBody?.mass = (projectile.physicsBody?.mass)! * 16
+                projectile.physicsBody?.isDynamic = true
+                projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
+                projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+                projectile.physicsBody?.collisionBitMask = PhysicsCategory.Monster
+                projectile.physicsBody?.usesPreciseCollisionDetection = true
+                
+                // Determine offset of location to projectile
+                let offset = touchLocation - projectile.position
+                
+                // Bail out if shooting down or backwards
+                if (offset.x < 0) { return }
+                
+                // Add the projectile after double checked position
+                addChild(projectile)
+                
+                // Get the direction of where to shoot
+                let direction = offset.normalized()
+                
+                // Make it shoot far enough to be guaranteed off screen
+                let shootAmount = direction * 1000
+                
+                // Add the shoot amount to the current position
+                let realDest = shootAmount + projectile.position
+                
+                // Create the actions
+                let actionMove = SKAction.move(to: realDest, duration: 2.0)
+                let actionMoveDone = SKAction.removeFromParent()
+                projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
+            }
+        }
         
     }
     

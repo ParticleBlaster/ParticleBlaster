@@ -10,7 +10,6 @@
  *  The `Object` class defines the game objects that
  */
 
-import Foundation
 import SpriteKit
 import UIKit
 
