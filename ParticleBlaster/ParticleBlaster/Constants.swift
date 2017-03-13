@@ -11,4 +11,5 @@ import SpriteKit
 
 class Constants {
     static let backgroundColor = SKColor.white
+    static let TITLE_FONT = "FinalFrontierOldStyle"
 }

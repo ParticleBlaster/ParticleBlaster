@@ -11,7 +11,8 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
+//    private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
+    private let player = SKSpriteNode(imageNamed: "Spaceship")
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 10
     
@@ -32,6 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
+        player.size = CGSize(width: 50, height: 44)
         player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
         addChild(player)
         
@@ -111,7 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actualDuration = random(min: CGFloat(8.0), max: CGFloat(16.0))
         
         // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration) * 20)
+        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration))
         let actionMoveDone = SKAction.removeFromParent()
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)

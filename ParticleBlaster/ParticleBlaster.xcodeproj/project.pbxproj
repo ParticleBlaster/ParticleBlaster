@@ -21,6 +21,8 @@
 		0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */; };
 		0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */; };
 		0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */; };
+		6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */; };
+		6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0318591E76FFF5000FAE05 /* HomePageScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -40,6 +42,8 @@
 		0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = StarTrekFont.ttf; sourceTree = "<group>"; };
+		6A0318591E76FFF5000FAE05 /* HomePageScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,10 +78,12 @@
 			children = (
 				0CCDB6161E752B5A00DEF8CC /* Sounds */,
 				0CCDB6021E75254300DEF8CC /* Actions.sks */,
+				6A0318571E76FF7E000FAE05 /* Fonts */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				0CCDB60B1E75254300DEF8CC /* Assets.xcassets */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
+				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
@@ -97,6 +103,14 @@
 				0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */,
 			);
 			path = Sounds;
+			sourceTree = "<group>";
+		};
+		6A0318571E76FF7E000FAE05 /* Fonts */ = {
+			isa = PBXGroup;
+			children = (
+				6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */,
+			);
+			name = Fonts;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -131,7 +145,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MRZ7YD72EV;
+						DevelopmentTeam = 88JY6L5JJ8;
 						ProvisioningStyle = Automatic;
 					};
 				};
@@ -159,6 +173,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */,
 				0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */,
 				0CCDB60A1E75254300DEF8CC /* Main.storyboard in Resources */,
 				0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */,
@@ -181,6 +196,7 @@
 				0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */,
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
+				6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */,
 				0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */,
 				0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */,
 			);
@@ -305,7 +321,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = 88JY6L5JJ8;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ParticleBlaster.ParticleBlaster;
@@ -318,7 +334,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = 88JY6L5JJ8;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = ParticleBlaster.ParticleBlaster;
