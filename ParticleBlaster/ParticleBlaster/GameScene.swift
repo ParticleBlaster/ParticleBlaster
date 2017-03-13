@@ -24,8 +24,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-    private let basicVelocity: CGFloat = CGFloat(80)
+    private let basicVelocity: CGFloat = CGFloat(400)
     private var flyingVelocity: CGFloat = CGFloat(0)
+    //private var prevTime: DispatchTime!
     private var prevTime: TimeInterval?
     private var flying: Bool = false
     
@@ -110,7 +111,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let actualDuration = random(min: CGFloat(8.0), max: CGFloat(16.0))
         
         // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration))
+        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration) * 20)
         let actionMoveDone = SKAction.removeFromParent()
         let loseAction = SKAction.run() {
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
@@ -140,8 +141,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                self.rotateJoystickAndSpaceship(touch: t)
 //            }
             
-            if self.checkJoystickTouch(touch: t) {
-                self.rotateJoystickAndSpaceship(touch: t)
+            let location = t.location(in: self)
+            if plateTouchEndRange.frame.contains(location) {
+                if self.checkJoystickTouch(touch: t) {
+                    self.rotateJoystickAndSpaceship(touch: t)
+                } else {
+                    self.endJoystick()
+                }
             }
         }
     }
@@ -157,6 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if self.checkJoystickTouch(touch: t) {
                     self.rotateJoystickAndSpaceship(touch: t)
                 } else {
+                    self.flyingVelocity = CGFloat(0)
                     self.endJoystick()
                 }
             }
@@ -176,28 +183,46 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.unitOffset = directionVector
         let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
         var radius = plate.size.width / 2
-        self.flyingVelocity = self.basicVelocity * (radius / length)
+        self.flyingVelocity = self.basicVelocity * (length / radius)
         if length < radius {
             radius = length
         }
+        
         joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
         player.zRotation = rotationAngle
+        //self.updateTriPosition()
     }
     
+//    private func updateTriPosition() {
+//        let currTime = DispatchTime.now()
+//        let elapsedTime = Double(currTime.uptimeNanoseconds - self.prevTime.uptimeNanoseconds) / 1_000_000_000
+//        
+//        let currPos = self.player.position
+//        let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
+//        let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
+//        self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
+//        self.prevTime = currTime
+//    }
+    
     private func endJoystick() {
-        self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
-//        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-//        self.unitOffset = CGVector(dx:0, dy: 1)
-        self.flying = false
-        let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
-        self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
-        self.flyingVelocity = CGFloat(0)
+        if self.flying {
+            self.flying = false
+            self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
+            //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
+            //        self.unitOffset = CGVector(dx:0, dy: 1)
+            
+            let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
+            //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
+            self.flyingVelocity = CGFloat(0)
+        }
+        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
             if self.checkJoystickTouch(touch: touch) {
+                self.flyingVelocity = CGFloat(0)
                 self.endJoystick()
             } else { // interpreted as shooting action
                 // Play the sound of shooting
@@ -256,17 +281,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {
-            if self.flying {
+            if self.flyingVelocity == CGFloat(0) {
+                
+            } else {
                 let elapsedTime = currentTime - self.prevTime!
                 let currPos = self.player.position
                 //self.player.removeFromParent()
                 let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
                 let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
                 self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-                //self.addChild(self.player)
-            } else {
                 
             }
+            self.prevTime = currentTime
+            
+            
+//            if self.flying {
+//                let elapsedTime = currentTime - self.prevTime!
+//                let currPos = self.player.position
+//                //self.player.removeFromParent()
+//                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
+//                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
+//                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
+//                self.prevTime = currentTime
+//                //self.addChild(self.player)
+//            } else {
+//                
+//            }
         }
     }
     
