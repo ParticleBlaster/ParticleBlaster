@@ -11,7 +11,7 @@ import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
-    private let player = SKSpriteNode(imageNamed: "player")
+    private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 1
     
