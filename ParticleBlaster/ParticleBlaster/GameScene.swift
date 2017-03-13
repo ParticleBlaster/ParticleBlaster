@@ -18,12 +18,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private let plate = SKSpriteNode(imageNamed: "plate")
     private let joystick = SKSpriteNode(imageNamed: "top")
     private var plateAllowedRange: SKShapeNode!
+    private var plateTouchEndRange: SKShapeNode!
     private var plateAllowedRangeDistance: CGFloat!
     
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-    private var basicVelocity: CGFloat = CGFloat(1200)
+    private var basicVelocity: CGFloat = CGFloat(800)
+    private var flyingVelocity: CGFloat = CGFloat(0)
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
@@ -37,6 +39,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
         plateAllowedRange = SKShapeNode(circleOfRadius: plate.size.width / 2 + 50)
         plateAllowedRange.position = CGPoint(x: plate.position.x, y: plate.position.y)
+        plateTouchEndRange = SKShapeNode(circleOfRadius: plate.size.width / 2 + 100)
+        plateTouchEndRange.position = CGPoint(x: plate.position.x, y: plate.position.y)
         
         joystick.size = CGSize(width: plate.size.width / 2, height: plate.size.height / 2)
         // Note: position is given as center position already
@@ -146,9 +150,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //                self.rotateJoystickAndSpaceship(touch: t)
 //            }
             
-            if self.checkJoystickTouch(touch: t) {
-                self.rotateJoystickAndSpaceship(touch: t)
+            let location = t.location(in: self)
+            if plateTouchEndRange.frame.contains(location) {
+                if self.checkJoystickTouch(touch: t) {
+                    self.rotateJoystickAndSpaceship(touch: t)
+                } else {
+                    self.endJoystick()
+                }
             }
+            
+//            if self.checkJoystickTouch(touch: t) {
+//                self.rotateJoystickAndSpaceship(touch: t)
+//            }
         }
     }
     
@@ -167,13 +180,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.zRotation = rotationAngle
     }
     
+    private func endJoystick() {
+        self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
+        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
+        self.unitOffset = CGVector(dx:0, dy: 1)
+    }
+    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
             if self.checkJoystickTouch(touch: touch) {
-                joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
-                player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-                self.unitOffset = CGVector(dx:0, dy: 1)
+                self.endJoystick()
             } else { // interpreted as shooting action
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
