@@ -24,8 +24,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-    private var basicVelocity: CGFloat = CGFloat(800)
+    private let basicVelocity: CGFloat = CGFloat(80)
     private var flyingVelocity: CGFloat = CGFloat(0)
+    private var prevTime: TimeInterval?
+    private var flying: Bool = false
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
@@ -166,6 +168,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     private func rotateJoystickAndSpaceship(touch: UITouch) {
+        self.flying = true
         let location = touch.location(in: self)
         let direction = CGVector(dx: location.x - plate.position.x, dy: location.y - plate.position.y)
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
@@ -173,6 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.unitOffset = directionVector
         let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
         var radius = plate.size.width / 2
+        self.flyingVelocity = self.basicVelocity * (radius / length)
         if length < radius {
             radius = length
         }
@@ -182,8 +186,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     private func endJoystick() {
         self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
-        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-        self.unitOffset = CGVector(dx:0, dy: 1)
+//        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
+//        self.unitOffset = CGVector(dx:0, dy: 1)
+        self.flying = false
+        let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
+        self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
+        self.flyingVelocity = CGFloat(0)
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -241,6 +249,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
         
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        // Called before each frame is rendered
+        if self.prevTime == nil {
+            self.prevTime = currentTime
+        } else {
+            if self.flying {
+                let elapsedTime = currentTime - self.prevTime!
+                let currPos = self.player.position
+                //self.player.removeFromParent()
+                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
+                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
+                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
+                //self.addChild(self.player)
+            } else {
+                
+            }
+        }
     }
     
     // Projectile collides with the monster
