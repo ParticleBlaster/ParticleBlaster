@@ -21,6 +21,7 @@
 		0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */; };
 		0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */; };
 		0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */; };
+		0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5CE1E8140EE00E7AB51 /* Player.swift */; };
 		6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */; };
 		6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0318591E76FFF5000FAE05 /* HomePageScene.swift */; };
 		6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */; };
@@ -44,6 +45,7 @@
 		0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = PhysicsCategory.swift; sourceTree = "<group>"; };
 		0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
+		0E02E5CE1E8140EE00E7AB51 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = StarTrekFont.ttf; sourceTree = "<group>"; };
 		6A0318591E76FFF5000FAE05 /* HomePageScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageScene.swift; sourceTree = "<group>"; };
 		6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
@@ -93,6 +95,7 @@
 				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
+				0E02E5CE1E8140EE00E7AB51 /* Player.swift */,
 				0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
@@ -200,6 +203,7 @@
 				6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */,
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,
+				0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */,
 				0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */,
 				6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */,
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,

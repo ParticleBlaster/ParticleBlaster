@@ -71,6 +71,7 @@ class HomePageScene: SKScene, SKPhysicsContactDelegate {
             
 //            self.removeFromParent()
             self.view?.presentScene(gameScene, transition: reveal)
+            
         }
         
     }

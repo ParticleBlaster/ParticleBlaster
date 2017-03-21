@@ -31,6 +31,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var prevTime: TimeInterval?
     private var flying: Bool = false
     
+    // new architecture starts here
+    var newPlayer: Player!
+    var updatePlayerPositionHandler: (() -> ())?
+    
+    
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
         player.size = CGSize(width: 50, height: 44)
@@ -270,6 +275,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
                 let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
                 self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
+                
+                // new logic goes here
+                if let handler = self.updatePlayerPositionHandler {
+                    handler()
+                }
             }
             self.prevTime = currentTime
         }

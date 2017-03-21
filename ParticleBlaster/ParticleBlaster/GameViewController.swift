@@ -11,6 +11,8 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController {
+    
+    var player = Player(image: "Spaceship")
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,7 +21,10 @@ class GameViewController: UIViewController {
     }
     
     func startHomePageView() {
-        let scene = HomePageScene(size: view.bounds.size)
+        //let scene = HomePageScene(size: view.bounds.size)
+        let scene = GameScene(size: view.bounds.size)
+        scene.newPlayer = self.player
+        scene.updatePlayerPositionHandler = self.movePlayerHandler
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -47,5 +52,14 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+    
+    // Logic for GameScene goes here
+    private func movePlayerHandler() {
+        
+    }
+    
+    private func moveJoystickHandler() {
+        
     }
 }
