@@ -1,5 +1,5 @@
 //
-//  Player.swift
+//  JoystickPlate.swift
 //  ParticleBlaster
 //
 //  Created by Richard Jiang on 21/03/17.
@@ -8,17 +8,13 @@
 
 import SpriteKit
 
-class Player : GameObject {
+class JoystickPlate : GameObject {
     init(image: String) {
         super.init(imageName: image)
     }
     
     init() {
-        super.init(imageName: "Spaceship")
-    }
-    
-    func updateRotation(newAngle: CGFloat) {
-        self.shape.zRotation = newAngle
+        super.init(imageName: "top")
     }
     
 }

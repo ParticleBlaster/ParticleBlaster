@@ -12,52 +12,55 @@ import GameplayKit
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
 //    private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
-    private let player = SKSpriteNode(imageNamed: "Spaceship")
+//    private let player = SKSpriteNode(imageNamed: "Spaceship")
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 10
     
-    private let plate = SKSpriteNode(imageNamed: "plate")
-    private let joystick = SKSpriteNode(imageNamed: "top")
+//    private let plate = SKSpriteNode(imageNamed: "plate")
+//    private let joystick = SKSpriteNode(imageNamed: "top")
     private var plateAllowedRange: SKShapeNode!
     private var plateTouchEndRange: SKShapeNode!
     private var plateAllowedRangeDistance: CGFloat!
     
-    private var xDestination: CGFloat = CGFloat(0)
-    private var yDestination: CGFloat = CGFloat(0)
-    private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-    private let basicVelocity: CGFloat = CGFloat(400)
-    private var flyingVelocity: CGFloat = CGFloat(0)
+//    private var xDestination: CGFloat = CGFloat(0)
+//    private var yDestination: CGFloat = CGFloat(0)
+//    private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
+//    private let basicVelocity: CGFloat = CGFloat(400)
+//    private var flyingVelocity: CGFloat = CGFloat(0)
     //private var prevTime: DispatchTime!
     private var prevTime: TimeInterval?
-    private var flying: Bool = false
+//    private var flying: Bool = false
     
     // new architecture starts here
     var newPlayer: Player!
-    var updatePlayerPositionHandler: (() -> ())?
-    
+    var joystickPlate: JoystickPlate!
+    var joystick: Joystick!
+    var updatePlayerPositionHandler: ((TimeInterval) -> ())?
+    var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
+    var endJoystickMoveHandler: (() -> ())?
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
-        player.size = CGSize(width: 50, height: 44)
-        player.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
-        addChild(player)
+        newPlayer.shape.size = CGSize(width: 50, height: 44)
+        newPlayer.shape.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
+        addChild(newPlayer.shape)
         
-        plate.position = CGPoint(x: self.size.width * 0.1, y: self.size.height * 0.1)
-        plate.size = CGSize(width: self.size.width / 8, height: self.size.width / 8)
-        addChild(plate)
+        joystickPlate.shape.position = CGPoint(x: self.size.width * 0.1, y: self.size.height * 0.1)
+        joystickPlate.shape.size = CGSize(width: self.size.width / 8, height: self.size.width / 8)
+        addChild(joystickPlate.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: plate.size.width / 2 + 50)
-        plateAllowedRange.position = CGPoint(x: plate.position.x, y: plate.position.y)
-        plateTouchEndRange = SKShapeNode(circleOfRadius: plate.size.width / 2 + 100)
-        plateTouchEndRange.position = CGPoint(x: plate.position.x, y: plate.position.y)
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         
-        joystick.size = CGSize(width: plate.size.width / 2, height: plate.size.height / 2)
+        joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
         // Note: position is given as center position already
-        joystick.position = CGPoint(x: plate.position.x, y: plate.position.y)
-        joystick.alpha = 0.8
-        addChild(joystick)
-        joystick.zPosition = 2
+        joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        joystick.shape.alpha = 0.8
+        addChild(joystick.shape)
+        joystick.shape.zPosition = 2
         
         // Set up the physics world to have no gravity
         physicsWorld.gravity = CGVector.zero
@@ -129,6 +132,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    private func checkJoystickOp(touch: UITouch) {
+        let location = touch.location(in: self)
+        if plateTouchEndRange.frame.contains(location) {
+            if self.checkJoystickTouch(touch: touch) {
+                let location = touch.location(in: self)
+                //self.rotateJoystickAndSpaceship(touchLocation: location)
+                if let handler = self.rotateJoystickAndPlayerHandler {
+                    handler(location)
+                }
+            } else {
+//                self.flyingVelocity = CGFloat(0)
+//                self.endJoystick()
+                if let handler = self.endJoystickMoveHandler {
+                    handler()
+                }
+            }
+        }
+    }
+    
     private func checkJoystickTouch(touch: UITouch) -> Bool {
         let location = touch.location(in: self)
         if plateAllowedRange.frame.contains(location) {
@@ -150,35 +172,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    private func checkJoystickOp(touch: UITouch) {
-        let location = touch.location(in: self)
-        if plateTouchEndRange.frame.contains(location) {
-            if self.checkJoystickTouch(touch: touch) {
-                self.rotateJoystickAndSpaceship(touch: touch)
-            } else {
-                self.flyingVelocity = CGFloat(0)
-                self.endJoystick()
-            }
-        }
-    }
-    
-    private func rotateJoystickAndSpaceship(touch: UITouch) {
-        self.flying = true
-        let location = touch.location(in: self)
-        let direction = CGVector(dx: location.x - plate.position.x, dy: location.y - plate.position.y)
-        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-        let directionVector = CGVector(dx: direction.dx / length, dy: direction.dy / length)
-        self.unitOffset = directionVector
-        let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
-        var radius = plate.size.width / 2
-        self.flyingVelocity = length >= radius ? self.basicVelocity : self.basicVelocity * (length / radius)
-        if length < radius {
-            radius = length
-        }
-        
-        joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
-        player.zRotation = rotationAngle
-    }
+//    private func rotateJoystickAndSpaceship(touchLocation: CGPoint) {
+//        self.flying = true
+//        //let location = touch.location(in: self)
+//        let direction = CGVector(dx: touchLocation.x - plate.position.x, dy: touchLocation.y - plate.position.y)
+//        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
+//        let directionVector = CGVector(dx: direction.dx / length, dy: direction.dy / length)
+//        self.unitOffset = directionVector
+//        let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
+//        var radius = plate.size.width / 2
+//        self.flyingVelocity = length >= radius ? self.basicVelocity : self.basicVelocity * (length / radius)
+//        if length < radius {
+//            radius = length
+//        }
+//        
+//        joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
+//        player.zRotation = rotationAngle
+//    }
     
     // Reserved for possible future use
 //    private func updateTriPosition() {
@@ -192,26 +202,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //        self.prevTime = currTime
 //    }
     
-    private func endJoystick() {
-        if self.flying {
-            self.flying = false
-            self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
-            //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-            //        self.unitOffset = CGVector(dx:0, dy: 1)
-            
-            //let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
-            //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
-            self.flyingVelocity = CGFloat(0)
-        }
-        
-    }
+//    private func endJoystick() {
+//        if self.flying {
+//            self.flying = false
+//            self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
+//            //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
+//            //        self.unitOffset = CGVector(dx:0, dy: 1)
+//            
+//            //let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
+//            //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
+//            self.flyingVelocity = CGFloat(0)
+//        }
+//        
+//    }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
             if self.checkJoystickTouch(touch: touch) {
-                self.flyingVelocity = CGFloat(0)
-                self.endJoystick()
+//                self.flyingVelocity = CGFloat(0)
+//                self.endJoystick()
+                if let handler = self.endJoystickMoveHandler {
+                    handler()
+                }
             } else { // interpreted as shooting action
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
@@ -225,7 +238,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 // Set up initial location of projectile
                 let projectileRadius: CGFloat = 5.0
                 let projectile = SKShapeNode(circleOfRadius: projectileRadius)
-                projectile.position = player.position
+                projectile.position = newPlayer.shape.position
                 projectile.fillColor = UIColor.black
                 
                 // Create a physics body for the sprite defined by a cicrle
@@ -269,18 +282,21 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {
-            if self.flyingVelocity != CGFloat(0) {
-                let elapsedTime = currentTime - self.prevTime!
-                let currPos = self.player.position
-                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-                
-                // new logic goes here
-                if let handler = self.updatePlayerPositionHandler {
-                    handler()
-                }
+            // new logic goes here
+            let elapsedTime = currentTime - self.prevTime!
+            if let handler = self.updatePlayerPositionHandler {
+                handler(elapsedTime)
             }
+            
+            // old logic flow
+//            if self.flyingVelocity != CGFloat(0) {
+//                let elapsedTime = currentTime - self.prevTime!
+//                let currPos = self.player.position
+//                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
+//                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
+//                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
+//                
+//            }
             self.prevTime = currentTime
         }
     }
