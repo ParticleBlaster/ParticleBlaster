@@ -17,4 +17,12 @@ class Constants {
     static let settingFileName = "settingFileName"
     static let settingSoundKey = "settingSoundKey"
     static let settingMusicKey = "settingMusicKey"
+
+    // asset filenames
+    static let settingBackgroundFilename = "setting-background"
+    static let soundButtonFilename = "sound-btn"
+    static let soundButtonDisabledFilename = "sound-btn-disabled"
+
+    // sizes
+    static let IconButtonDefaultSize = CGSize(width: 100, height: 100)
 }
