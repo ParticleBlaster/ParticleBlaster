@@ -62,7 +62,7 @@ class Constants {
     }
     
     // Game Static Constants
-    static let playerVelocity: CGFloat = CGFloat(400)
-    static let obstacleVelocity: CGFloat = CGFloat(500)
+    static let playerVelocity: CGFloat = CGFloat(500)
+    static let obstacleVelocity: CGFloat = CGFloat(100)
     static let bulletVelocity: CGFloat = CGFloat(1000)
 }

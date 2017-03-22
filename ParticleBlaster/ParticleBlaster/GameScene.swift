@@ -66,6 +66,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
         fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
         fireButton.shape.alpha = 0.8
+        addChild(fireButton.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
         plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
@@ -82,14 +83,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
         }
         
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run {
-                    self.addCircleObstacle(radius: 20)
-                },
-                SKAction.wait(forDuration: 1.0)
-            ])
-        ))
+//        run(SKAction.repeatForever(
+//            SKAction.sequence([
+//                SKAction.run {
+//                    self.addCircleObstacle(radius: 20)
+//                },
+//                SKAction.wait(forDuration: 1.0)
+//            ])
+//        ))
         
         // Play and loop the background music
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
@@ -165,23 +166,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(missile.shape)
         
-        
-        //        let currentFiringAngle = spaceship.zRotation
-        //        let projectile = SKSpriteNode(imageNamed: "missile")
-        //        //projectile.size = CGSize(width: )
-        //        projectile.xScale = 0.3
-        //        projectile.yScale = 0.3
-        //        projectile.position = CGPoint(x: spaceship.position.x, y: spaceship.position.y)
-        //        projectile.zRotation = currentFiringAngle
-        //        projectile.zPosition = -1
-        //
-        //        addChild(projectile)
-        //        let travel = CGVector(dx: self.unitOffset.dx * 1200, dy: self.unitOffset.dy * 1200)
-        //        let destination = CGPoint(x: spaceship.position.x + travel.dx, y: spaceship.position.y + travel.dy)
-        //
-        //        projectile.run(SKAction.move(to: destination, duration: 3), completion: {
-        //            projectile.removeFromParent()
-        //        })
     }
     
     private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
@@ -245,60 +229,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             // new logic goes here
             let elapsedTime = currentTime - self.prevTime!
-            if let handler = self.updatePlayerPositionHandler {
-                handler(elapsedTime)
+            if let playerPositionHandler = self.updatePlayerPositionHandler {
+                playerPositionHandler(elapsedTime)
             }
-            
-            // old logic flow
-//            if self.flyingVelocity != CGFloat(0) {
-//                let elapsedTime = currentTime - self.prevTime!
-//                let currPos = self.player.position
-//                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-//                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-//                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-//                
-//            }
+            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+                obstacleVelocityHandler()
+            }
+
             self.prevTime = currentTime
         }
     }
     
     // Projectile collides with the monster
-    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
-        print("Hit")
-        // projectile.removeFromParent()
-        // monster.removeFromParent()
-        
-        // Update monstersDestroyed count
-        monstersDestroyed += 1
-        if (monstersDestroyed >= monstersDestroyRequirement) {
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: true)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-        }
-    }
+//    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
+//        print("Hit")
+//        // projectile.removeFromParent()
+//        // monster.removeFromParent()
+//        
+//        // Update monstersDestroyed count
+//        monstersDestroyed += 1
+//        if (monstersDestroyed >= monstersDestroyRequirement) {
+//            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+//            let gameOverScene = GameOverScene(size: self.size, won: true)
+//            self.view?.presentScene(gameOverScene, transition: reveal)
+//        }
+//    }
     
-    // Contact delegate method
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        // Arranges two colliding bodies so they are sorted by their category bit masks
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-        // Checks if the two bodies that collide are the projectile and monster
-        // If so calls the method you wrote earlier.
-        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            if let monster = firstBody.node as? SKShapeNode, let
-                projectile = secondBody.node as? SKShapeNode {
-                projectileDidCollideWithMonster(projectile: projectile, monster: monster)
-            }
-        }
-    }
 }

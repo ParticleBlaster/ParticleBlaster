@@ -153,11 +153,15 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
     
     private func moveObstacleHandler(elapsedTime: TimeInterval) {
-        let currPlayerPosition = self.player.shape.position
+        
     }
     
     private func updateObstacleVelocityHandler() {
-        
+        for obs in self.obstaclePool {
+            let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
+            let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
+            obs.shape.physicsBody?.velocity = newVelocity
+        }
     }
     
     // Ideas for the implementation of level: each GameObject should be associated with a default size
@@ -200,7 +204,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 bullet = secondBody.node as? SKSpriteNode {
                 //projectileDidCollideWithMonster(projectile: projectile, monster: monster)
                 self.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
-                print ("Contact!")
             }
         }
     }
@@ -208,5 +211,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         print ("Hit!")
         self.scene.removeElement(node: bullet)
+        self.obstaclePool.filter({$0.shape == obstacle})[0].shape.size = CGSize(width: Constants.obstacleWidth / 2, height: Constants.obstacleHeight / 2)
     }
 }
