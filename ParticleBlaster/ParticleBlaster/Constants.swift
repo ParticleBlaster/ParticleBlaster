@@ -22,7 +22,12 @@ class Constants {
     static let settingBackgroundFilename = "setting-background"
     static let soundButtonFilename = "sound-btn"
     static let soundButtonDisabledFilename = "sound-btn-disabled"
+    static let musicButtonFilename = "music-btn"
+    static let musicButtonDisabledFilename = "music-btn-disabled"
+    static let backButtonFilename = "back-btn"
+    static let backButtonDisabledFilename = "back-btn-disabled"
 
     // sizes
-    static let IconButtonDefaultSize = CGSize(width: 100, height: 100)
+    static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
+    static let screenPadding = CGSize(width: 50, height: 50)
 }

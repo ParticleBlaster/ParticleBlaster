@@ -10,8 +10,26 @@ import Foundation
 
 class GameSetting: NSObject, NSCoding {
     static var instance: GameSetting? = nil
-    var isSoundEnabled: Bool
-    var isMusicEnabled: Bool
+    var isSoundEnabled: Bool {
+        didSet {
+            guard oldValue != isSoundEnabled else {
+                return
+            }
+            if !FileUtils.saveSetting() {
+                isSoundEnabled = oldValue
+            }
+        }
+    }
+    var isMusicEnabled: Bool {
+        didSet {
+            guard oldValue != isMusicEnabled else {
+                return
+            }
+            if !FileUtils.saveSetting() {
+                isMusicEnabled = oldValue
+            }
+        }
+    }
 
     static func getInstance() -> GameSetting {
         if instance == nil {
@@ -23,6 +41,14 @@ class GameSetting: NSObject, NSCoding {
     init(musicEnabled: Bool = true, soundEnabled: Bool = true) {
         isSoundEnabled = soundEnabled
         isMusicEnabled = musicEnabled
+    }
+
+    func toggleMusic() {
+        isMusicEnabled = !isMusicEnabled
+    }
+
+    func toggleSound() {
+        isSoundEnabled = !isSoundEnabled
     }
 
     // MARK: NSCoding
