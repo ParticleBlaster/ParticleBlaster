@@ -62,8 +62,8 @@ class GameObject {
         self.shape.position = newLoation
     }
     
-    func updateVelocity() {
-        
+    public func updateVelocity(newVelocity: CGVector) {
+        self.shape.physicsBody?.velocity = newVelocity
     }
     
 }
