@@ -74,6 +74,6 @@ class Constants {
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
     
-    static let obstacleImpulseValue: CGFloat = CGFloat(500)
+    static let obstacleImpulseValue: CGFloat = CGFloat(1500)
     static let obstacleForceValue: CGFloat = CGFloat(50)
 }

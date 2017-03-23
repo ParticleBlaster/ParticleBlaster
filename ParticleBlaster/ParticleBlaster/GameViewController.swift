@@ -230,7 +230,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & PhysicsCategory.Monster != 0)) {
             if let obs1 = firstBody.node as? SKSpriteNode, let
                 obs2 = secondBody.node as? SKSpriteNode {
-                //self.obstaclesDidCollideWithEachOther(obs1: obs1, obs2: obs2)
+                self.obstaclesDidCollideWithEachOther(obs1: obs1, obs2: obs2)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
@@ -245,17 +245,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         print ("Hit!")
         self.scene.removeElement(node: bullet)
         let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
+        // obstacle's physics body shape should be modified to the current size
         obstacleGotHit.hitByMissile()
         if obstacleGotHit.checkDestroyed() {
             self.scene.removeElement(node: obstacle)
             let obsDestroyedTime = DispatchTime.now()
             let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.startTime.uptimeNanoseconds) / 1_000_000_000
-            let scoreForThisObs = Constants.defaultScoreDivider / elapsedTimeInSeconds
-            self.currLevelObtainedScore += Int(scoreForThisObs)
+            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
+            self.currLevelObtainedScore += scoreForThisObs
+            self.scene.displayScoreAnimation(displayScore: scoreForThisObs)
             print (self.currLevelObtainedScore)
         }
     }
     
+    // For now impulse does not seem to show great visual effects
     private func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
         let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
         let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
