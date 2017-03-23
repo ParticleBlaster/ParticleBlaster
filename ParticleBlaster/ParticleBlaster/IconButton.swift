@@ -19,6 +19,7 @@ class IconButton: SKNode {
             self.toggleBackground()
         }
     }
+    var isEnable: Bool = true
 
     var onPressHandler: (() -> Void)?
     var size: CGSize {
@@ -59,12 +60,18 @@ class IconButton: SKNode {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let scaleAction = SKAction.scale(to: 1.25, duration: 0.1)
+        guard isEnable else {
+            return
+        }
+        let scaleAction = SKAction.scale(to: 1.1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isEnable else {
+            return
+        }
         let scaleAction = SKAction.scale(to: 1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction) { 

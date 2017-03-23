@@ -8,12 +8,13 @@
 
 import SpriteKit
 
-// TODO: support disable button
+// TODO: support disabled background
 class TextButton: SKNode {
     private var positiveButton: SKSpriteNode
     private var label: SKLabelNode
 
     var onPressHandler: (() -> Void)?
+    var isEnabled: Bool = true
     var size: CGSize {
         return positiveButton.size
     }
@@ -37,12 +38,18 @@ class TextButton: SKNode {
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let scaleAction = SKAction.scale(to: 1.25, duration: 0.1)
+        guard isEnabled else {
+            return
+        }
+        let scaleAction = SKAction.scale(to: 1.1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard isEnabled else {
+            return
+        }
         let scaleAction = SKAction.scale(to: 1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction) {
