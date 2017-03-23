@@ -25,6 +25,7 @@ class GameViewController: UIViewController {
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
+        scene.navigationDelegate = self
         skView.presentScene(scene)
     }
 
@@ -47,5 +48,22 @@ class GameViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension GameViewController: NavigationDelegate {
+    func navigateToDesignScene() {
+        // TODO: implement this
+    }
+
+    func navigateToPlayScene() {
+        let skView = view as! SKView
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let gameScene = GameScene(size: skView.frame.size)
+        skView.presentScene(gameScene, transition: reveal)
+    }
+
+    func navigateToLevelSelectScene() {
+        // TODO: implement this
     }
 }

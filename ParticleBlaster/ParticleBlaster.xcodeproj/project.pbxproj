@@ -25,6 +25,7 @@
 		6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */; };
 		6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */; };
 		E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE381E83FE2F0096D277 /* TextButton.swift */; };
+		E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */; };
 		E1E205791E82F91F0018DD13 /* GameSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E205781E82F91F0018DD13 /* GameSetting.swift */; };
 		E1E2057C1E82F9980018DD13 /* FIleUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E2057B1E82F9980018DD13 /* FIleUtils.swift */; };
 		E1E2057F1E82FF710018DD13 /* IconButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1E2057E1E82FF710018DD13 /* IconButton.swift */; };
@@ -52,6 +53,7 @@
 		6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickInput.swift; sourceTree = "<group>"; };
 		E1A4FE381E83FE2F0096D277 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
+		E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDelegate.swift; sourceTree = "<group>"; };
 		E1E205781E82F91F0018DD13 /* GameSetting.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameSetting.swift; sourceTree = "<group>"; };
 		E1E2057B1E82F9980018DD13 /* FIleUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FIleUtils.swift; sourceTree = "<group>"; };
 		E1E2057E1E82FF710018DD13 /* IconButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IconButton.swift; sourceTree = "<group>"; };
@@ -96,6 +98,7 @@
 				E1E2057A1E82F9590018DD13 /* Utils */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				0CCDB60B1E75254300DEF8CC /* Assets.xcassets */,
+				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
@@ -252,6 +255,7 @@
 				E1E205821E830C5C0018DD13 /* GameSettingScene.swift in Sources */,
 				E1E2057C1E82F9980018DD13 /* FIleUtils.swift in Sources */,
 				E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */,
+				E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */,
 				6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */,
 				0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */,
 				0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */,

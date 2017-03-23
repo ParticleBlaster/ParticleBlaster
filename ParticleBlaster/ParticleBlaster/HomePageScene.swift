@@ -17,6 +17,8 @@ class HomePageScene: SKScene {
     private var musicButton: IconButton!
     private var gameSetting: GameSetting!
 
+    var navigationDelegate: NavigationDelegate?
+
     override func didMove(to view: SKView) {
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         gameSetting = GameSetting.getInstance()
@@ -74,9 +76,11 @@ class HomePageScene: SKScene {
     }
 
     private func playButtonPressed() {
+        navigationDelegate?.navigateToPlayScene()
     }
 
     private func designButtonPressed() {
+        navigationDelegate?.navigateToDesignScene()
     }
 
     func musicButtonPressed() {
