@@ -19,8 +19,7 @@ class GameViewController: UIViewController {
     }
     
     func startHomePageView() {
-        //let scene = HomePageScene(size: view.bounds.size)
-        let scene = GameSettingScene(size: view.bounds.size)
+        let scene = HomePageScene(size: view.bounds.size)
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true

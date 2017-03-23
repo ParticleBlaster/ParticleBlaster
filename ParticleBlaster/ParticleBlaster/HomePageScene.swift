@@ -9,71 +9,83 @@
 import SpriteKit
 import GameplayKit
 
-class HomePageScene: SKScene, SKPhysicsContactDelegate {
-    
-    private let background = SKSpriteNode(imageNamed: "homepage")
-    private let buttonGameStart = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 200, height: 60), cornerRadius: 10)
-//        SKSpriteNode(color: SKColor.clear, size: CGSize(width: 200, height: 80))
-    
-    
+class HomePageScene: SKScene {
+    private var background: SKSpriteNode!
+    private var playButton: TextButton!
+    private var designButton: TextButton!
+    private var soundButton: IconButton!
+    private var musicButton: IconButton!
+    private var gameSetting: GameSetting!
+
     override func didMove(to view: SKView) {
-        
-        background.position = CGPoint(x: frame.midX, y: frame.midY)
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        gameSetting = GameSetting.getInstance()
+
+        background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
+        background.position = .zero
         background.size = size
         background.zPosition = 0
         addChild(background)
-        
-        // Create a simple red rectangle that's 100x44
-        
-        buttonGameStart.position = CGPoint(x: size.width * 0.1, y: size.height * 0.1)
-        buttonGameStart.fillColor = SKColor.clear
-        buttonGameStart.strokeColor = SKColor.white
-        buttonGameStart.lineWidth = 5
-        buttonGameStart.zPosition = 1
-        
+
         let titleText = SKLabelNode(text: "Tri Adventure")
         titleText.fontSize = 120
         titleText.fontName = Constants.TITLE_FONT
-        titleText.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
+        titleText.position = CGPoint(x: 0, y: size.height / 2 - Constants.screenPadding.height - titleText.frame.size.height)
         titleText.fontColor = SKColor.white
         titleText.zPosition = 1
         addChild(titleText)
-        
-        let buttonText = SKLabelNode(text: "Start Game")
-        buttonText.fontSize = 40
-        buttonText.fontName = Constants.TITLE_FONT
-        buttonText.position = CGPoint(x: buttonGameStart.frame.size.width * 0.5, y: buttonGameStart.frame.size.height * 0.25)
-        buttonText.fontColor = SKColor.white
-        buttonText.zPosition = 2
-        
-        buttonGameStart.addChild(buttonText)
-        
-        addChild(buttonGameStart)
-        
-        
+
+        playButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelPlay)
+        playButton.position = CGPoint(x: 0, y: playButton.size.height)
+        playButton.zPosition = 1
+        playButton.onPressHandler = self.playButtonPressed
+        addChild(playButton)
+
+        designButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelDesign)
+        designButton.position = CGPoint(x: 0, y: playButton.size.height / 2  - designButton.size.height / 2 - Constants.buttonVerticalMargin)
+        designButton.zPosition = 1
+        designButton.onPressHandler = self.designButtonPressed
+        addChild(designButton)
+
+        soundButton = IconButton(size: Constants.iconButtonDefaultSize,
+                                 imageNamed: Constants.soundButtonFilename,
+                                 disabledImageNamed: Constants.soundButtonDisabledFilename,
+                                 isPositive: gameSetting.isSoundEnabled)
+        musicButton = IconButton(size: Constants.iconButtonDefaultSize,
+                                 imageNamed: Constants.musicButtonFilename,
+                                 disabledImageNamed: Constants.musicButtonDisabledFilename,
+                                 isPositive: gameSetting.isMusicEnabled)
+        soundButton.zPosition = 1
+        soundButton.position = CGPoint(x: -soundButton.size.width / 2 - Constants.buttonVerticalMargin / 2,
+                                       y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - soundButton.size.height / 2);
+        soundButton.onPressHandler = self.soundButtonPressed
+        addChild(soundButton)
+
+        musicButton.zPosition = 1
+        musicButton.position = CGPoint(x: musicButton.size.width / 2 + Constants.buttonVerticalMargin / 2,
+                                       y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - musicButton.size.height / 2);
+        musicButton.onPressHandler = self.musicButtonPressed
+        addChild(musicButton)
+
         // Play and loop the background music
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
         backgroundMusic.autoplayLooped = true
         addChild(backgroundMusic)
     }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        let touchLocation = touch!.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if buttonGameStart.contains(touchLocation) {
-            print("game start tapped!")
-            
-//            let reveal = SKTransition.crossFade(withDuration: 0.5)
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameScene = GameScene(size: self.size)
-            gameScene.scaleMode = .resizeFill
-            
-//            self.removeFromParent()
-            self.view?.presentScene(gameScene, transition: reveal)
-        }
-        
+
+    private func playButtonPressed() {
     }
 
-    
+    private func designButtonPressed() {
+    }
+
+    func musicButtonPressed() {
+        gameSetting.toggleMusic()
+        musicButton.isPositive = gameSetting.isMusicEnabled
+    }
+
+    func soundButtonPressed() {
+        gameSetting.toggleSound()
+        soundButton.isPositive = gameSetting.isSoundEnabled
+    }
 }
