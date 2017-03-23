@@ -7,7 +7,7 @@
 //
 
 /**
- *  The `Object` class defines the game objects that
+ *  The `IsoscelesTriangle` class
  */
 
 import SpriteKit
@@ -24,22 +24,6 @@ class IsoscelesTriangle: SKShapeNode {
         self.color = color
         
         super.init()
-        
-//        let p1 = CGPoint(x: 0.0, y: 0.0)
-//        let p2 = CGPoint(x: base, y: 0.0)
-//        let p3 = CGPoint(x: base / 2.0, y: height)
-//        let centroid = CGPoint(x: base / 2.0, y: height / 3.0)
-//        let path = UIBezierPath()
-//        path.move(to: centroid)
-//        path.addLine(to: p3)
-//        path.addLine(to: p1)
-//        path.addLine(to: p2)
-//        path.addLine(to: p3)
-//        path.addLine(to: centroid)
-//        path.move(to: p1)
-//        path.addLine(to: p2)
-//        path.addLine(to: p3)
-//        path.addLine(to: p1)
         
         let centroid = CGPoint(x: 0.0, y: 0.0)
         let p1 = CGPoint(x: -base / 2.0, y: -height / 3.0)
