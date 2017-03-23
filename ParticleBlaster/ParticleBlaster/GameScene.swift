@@ -126,6 +126,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
+    func displayScoreAnimation(displayScore: Int) {
+        
+    }
+    
+    func displayMissileHitAnimation() {
+        
+    }
+    
+    func displayObstacleImpulseAnimation() {
+        
+    }
+    
     func removeElement(node: SKSpriteNode) {
         node.removeFromParent()
     }
