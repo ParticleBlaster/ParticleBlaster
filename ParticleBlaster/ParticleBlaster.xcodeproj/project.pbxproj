@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */; };
 		0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */; };
 		0CCDB6031E75254300DEF8CC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6021E75254300DEF8CC /* Actions.sks */; };
 		0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6041E75254300DEF8CC /* GameScene.swift */; };
@@ -35,6 +36,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		0CCDB5FB1E75254300DEF8CC /* ParticleBlaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleBlaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CCDB6021E75254300DEF8CC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -122,6 +124,7 @@
 				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
+				0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
@@ -230,6 +233,7 @@
 				6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */,
 				0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */,
+				0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */,
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,
 				0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */,
 				0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */,
