@@ -78,6 +78,7 @@
 		0CC56B301E8374A8003A39F7 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
 				0EB2CD521E82A3C400237FA9 /* Obstacle.swift */,
 				0E02E5CE1E8140EE00E7AB51 /* Player.swift */,
@@ -110,7 +111,6 @@
 			children = (
 				0CC56B301E8374A8003A39F7 /* GameObjects */,
 				0CCDB6161E752B5A00DEF8CC /* Sounds */,
-				0CCDB6021E75254300DEF8CC /* Actions.sks */,
 				6A0318571E76FF7E000FAE05 /* Fonts */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				0CCDB60B1E75254300DEF8CC /* Assets.xcassets */,
@@ -119,7 +119,6 @@
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
-				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
@@ -127,6 +126,7 @@
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
 				0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */,
+				0CCDB6021E75254300DEF8CC /* Actions.sks */,
 			);
 			path = ParticleBlaster;
 			sourceTree = "<group>";
