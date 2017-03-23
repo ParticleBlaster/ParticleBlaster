@@ -31,6 +31,7 @@ class LevelSelectScene: SKScene {
         background.position = .zero
         background.zPosition = 0
         backButton.zPosition = 1
+        background.size = size
         backButton.position = CGPoint(x: -(self.size.width / 2 - Constants.screenPadding.width - backButton.size.width / 2),
                                       y: -(self.size.height / 2 - Constants.screenPadding.height - backButton.size.height / 2))
         nextButton.zPosition = 1
