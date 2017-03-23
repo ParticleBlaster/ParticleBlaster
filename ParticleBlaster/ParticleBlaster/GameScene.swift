@@ -32,28 +32,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 //    private var flying: Bool = false
     
     // new architecture starts here
+    var viewController: UIViewController!
     var newPlayer: Player!
     var joystickPlate: JoystickPlate!
     var joystick: Joystick!
+    var fireButton: FireButton!
     var updatePlayerPositionHandler: ((TimeInterval) -> ())?
     var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
     var endJoystickMoveHandler: (() -> ())?
     
+    var obstacleHitHandler: (() -> ())?
+    var obstacleMoveHandler: (() -> ())?
+    var obstacleVelocityUpdateHandler: (() -> ())?
+    var fireHandler: (() -> ())?
+    
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
-        newPlayer.shape.size = CGSize(width: 50, height: 44)
-        newPlayer.shape.position = CGPoint(x: size.width * 0.1, y: size.height * 0.5)
+        newPlayer.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+        newPlayer.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
         addChild(newPlayer.shape)
         
-        joystickPlate.shape.position = CGPoint(x: self.size.width * 0.1, y: self.size.height * 0.1)
-        joystickPlate.shape.size = CGSize(width: self.size.width / 8, height: self.size.width / 8)
+        joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
         addChild(joystickPlate.shape)
-        
-        // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
-        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
-        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         
         joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
         // Note: position is given as center position already
@@ -62,19 +63,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(joystick.shape)
         joystick.shape.zPosition = 2
         
+        fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
+        fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
+        fireButton.shape.alpha = 0.8
+        addChild(fireButton.shape)
+        
+        // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        
         // Set up the physics world to have no gravity
         physicsWorld.gravity = CGVector.zero
         // Set the scene as the delegate to be notified when two physics bodies collide.
-        physicsWorld.contactDelegate = self
+        //physicsWorld.contactDelegate = self
+        if let controller = self.viewController {
+            //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
+            physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
+        }
         
-        run(SKAction.repeatForever(
-            SKAction.sequence([
-                SKAction.run {
-                    self.addCircleObstacle(radius: 20)
-                },
-                SKAction.wait(forDuration: 1.0)
-            ])
-        ))
+//        run(SKAction.repeatForever(
+//            SKAction.sequence([
+//                SKAction.run {
+//                    self.addCircleObstacle(radius: 20)
+//                },
+//                SKAction.wait(forDuration: 1.0)
+//            ])
+//        ))
         
         // Play and loop the background music
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
@@ -132,31 +148,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    private func checkJoystickOp(touch: UITouch) {
-        let location = touch.location(in: self)
-        if plateTouchEndRange.frame.contains(location) {
-            if self.checkJoystickTouch(touch: touch) {
-                let location = touch.location(in: self)
-                //self.rotateJoystickAndSpaceship(touchLocation: location)
-                if let handler = self.rotateJoystickAndPlayerHandler {
-                    handler(location)
-                }
-            } else {
-//                self.flyingVelocity = CGFloat(0)
-//                self.endJoystick()
-                if let handler = self.endJoystickMoveHandler {
-                    handler()
-                }
-            }
-        }
+    func removeElement(node: SKSpriteNode) {
+        node.removeFromParent()
     }
     
-    private func checkJoystickTouch(touch: UITouch) -> Bool {
+    func addSingleObstacle(newObstacle: Obstacle) {
+        // obstacle's size has been set previously
+        // TODO: think about whether to put the position and size setting for spritenodes
+        newObstacle.shape.position = newObstacle.initialPosition
+        addChild(newObstacle.shape)
+    }
+    
+    func addMissile(missile: Bullet, directionAngle: CGFloat, position: CGPoint) {
+        missile.shape.position = position
+        missile.shape.zRotation = directionAngle
+        missile.shape.zPosition = -1
+        
+        addChild(missile.shape)
+        
+    }
+    
+    private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
         let location = touch.location(in: self)
-        if plateAllowedRange.frame.contains(location) {
+        if frame.contains(location) {
             return true
         } else {
             return false
+        }
+    }
+    
+    private func checkJoystickOp(touch: UITouch) {
+        if self.checkTouchRange(touch: touch, frame: plateTouchEndRange.frame) {
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
+                if let rotateHandler = self.rotateJoystickAndPlayerHandler {
+                    let location = touch.location(in: self)
+                    rotateHandler(location)
+                }
+            } else {
+                if let endHandler = self.endJoystickMoveHandler {
+                    endHandler()
+                }
+            }
         }
     }
     
@@ -172,109 +204,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-//    private func rotateJoystickAndSpaceship(touchLocation: CGPoint) {
-//        self.flying = true
-//        //let location = touch.location(in: self)
-//        let direction = CGVector(dx: touchLocation.x - plate.position.x, dy: touchLocation.y - plate.position.y)
-//        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-//        let directionVector = CGVector(dx: direction.dx / length, dy: direction.dy / length)
-//        self.unitOffset = directionVector
-//        let rotationAngle = atan2(directionVector.dy, directionVector.dx) - CGFloat.pi / 2
-//        var radius = plate.size.width / 2
-//        self.flyingVelocity = length >= radius ? self.basicVelocity : self.basicVelocity * (length / radius)
-//        if length < radius {
-//            radius = length
-//        }
-//        
-//        joystick.position = CGPoint(x: plate.position.x + directionVector.dx * radius, y: plate.position.y + directionVector.dy * radius)
-//        player.zRotation = rotationAngle
-//    }
-    
-    // Reserved for possible future use
-//    private func updateTriPosition() {
-//        let currTime = DispatchTime.now()
-//        let elapsedTime = Double(currTime.uptimeNanoseconds - self.prevTime.uptimeNanoseconds) / 1_000_000_000
-//        
-//        let currPos = self.player.position
-//        let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-//        let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-//        self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-//        self.prevTime = currTime
-//    }
-    
-//    private func endJoystick() {
-//        if self.flying {
-//            self.flying = false
-//            self.joystick.run(SKAction.move(to: CGPoint(x: plate.position.x, y: plate.position.y), duration: 0.2))
-//            //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-//            //        self.unitOffset = CGVector(dx:0, dy: 1)
-//            
-//            //let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
-//            //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
-//            self.flyingVelocity = CGFloat(0)
-//        }
-//        
-//    }
-    
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         
         for touch in touches {
-            if self.checkJoystickTouch(touch: touch) {
-//                self.flyingVelocity = CGFloat(0)
-//                self.endJoystick()
-                if let handler = self.endJoystickMoveHandler {
-                    handler()
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
+                if let endHandler = self.endJoystickMoveHandler {
+                    endHandler()
                 }
-            } else { // interpreted as shooting action
+            } else if self.checkTouchRange(touch: touch, frame: fireButton.shape.frame) {
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
-                
-                // Choose one of the touches to work with
-                guard let touch = touches.first else {
-                    return
+                self.fireButton.shape.alpha = 0.8
+                if let shootHandler = self.fireHandler {
+                    shootHandler()
                 }
-                let touchLocation = touch.location(in: self)
-                
-                // Set up initial location of projectile
-                let projectileRadius: CGFloat = 5.0
-                let projectile = SKShapeNode(circleOfRadius: projectileRadius)
-                projectile.position = newPlayer.shape.position
-                projectile.fillColor = UIColor.black
-                
-                // Create a physics body for the sprite defined by a cicrle
-                projectile.physicsBody = SKPhysicsBody(circleOfRadius: projectileRadius)
-                projectile.physicsBody?.mass = (projectile.physicsBody?.mass)! * 16
-                projectile.physicsBody?.isDynamic = true
-                projectile.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-                projectile.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-                projectile.physicsBody?.collisionBitMask = PhysicsCategory.Monster
-                projectile.physicsBody?.usesPreciseCollisionDetection = true
-                
-                // Determine offset of location to projectile
-                let offset = touchLocation - projectile.position
-                
-                // Bail out if shooting down or backwards
-                if (offset.x < 0) { return }
-                
-                // Add the projectile after double checked position
-                addChild(projectile)
-                
-                // Get the direction of where to shoot
-                let direction = offset.normalized()
-                
-                // Make it shoot far enough to be guaranteed off screen
-                let shootAmount = direction * 1000
-                
-                // Add the shoot amount to the current position
-                let realDest = shootAmount + projectile.position
-                
-                // Create the actions
-                let actionMove = SKAction.move(to: realDest, duration: 2.0)
-                let actionMoveDone = SKAction.removeFromParent()
-                projectile.run(SKAction.sequence([actionMove, actionMoveDone]))
             }
         }
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -284,60 +229,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         } else {
             // new logic goes here
             let elapsedTime = currentTime - self.prevTime!
-            if let handler = self.updatePlayerPositionHandler {
-                handler(elapsedTime)
+            if let playerPositionHandler = self.updatePlayerPositionHandler {
+                playerPositionHandler(elapsedTime)
             }
-            
-            // old logic flow
-//            if self.flyingVelocity != CGFloat(0) {
-//                let elapsedTime = currentTime - self.prevTime!
-//                let currPos = self.player.position
-//                let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-//                let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-//                self.player.run(SKAction.move(to: finalPos, duration: elapsedTime))
-//                
-//            }
+            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+                obstacleVelocityHandler()
+            }
+
             self.prevTime = currentTime
         }
     }
     
     // Projectile collides with the monster
-    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
-        print("Hit")
-        // projectile.removeFromParent()
-        // monster.removeFromParent()
-        
-        // Update monstersDestroyed count
-        monstersDestroyed += 1
-        if (monstersDestroyed >= monstersDestroyRequirement) {
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: true)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-        }
-    }
+//    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
+//        print("Hit")
+//        // projectile.removeFromParent()
+//        // monster.removeFromParent()
+//        
+//        // Update monstersDestroyed count
+//        monstersDestroyed += 1
+//        if (monstersDestroyed >= monstersDestroyRequirement) {
+//            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+//            let gameOverScene = GameOverScene(size: self.size, won: true)
+//            self.view?.presentScene(gameOverScene, transition: reveal)
+//        }
+//    }
     
-    // Contact delegate method
-    func didBegin(_ contact: SKPhysicsContact) {
-        
-        // Arranges two colliding bodies so they are sorted by their category bit masks
-        var firstBody: SKPhysicsBody
-        var secondBody: SKPhysicsBody
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else {
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
-        }
-        
-        // Checks if the two bodies that collide are the projectile and monster
-        // If so calls the method you wrote earlier.
-        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
-            if let monster = firstBody.node as? SKShapeNode, let
-                projectile = secondBody.node as? SKShapeNode {
-                projectileDidCollideWithMonster(projectile: projectile, monster: monster)
-            }
-        }
-    }
 }
