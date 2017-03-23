@@ -22,7 +22,11 @@ class GameObject {
     
     init(imageName: String) {
         self.shape = SKSpriteNode(imageNamed: imageName)
-        self.timeToLive = 10 // by default set to 10 times of hit
+        if imageName == "player" || imageName == "Spaceship" {
+            self.timeToLive = Constants.playerTimeToLive
+        } else {
+            self.timeToLive = Constants.defaultTimeToLive // by default set to 10 times of hit
+        }
         self.isStatic = false // by default the object should be moving
     }
 

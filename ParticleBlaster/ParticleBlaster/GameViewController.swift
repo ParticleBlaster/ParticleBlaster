@@ -29,6 +29,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private var flyingVelocity: CGFloat = CGFloat(0)
     //private var obstacleDirection: CGVector = CGVector(dx: 0, dy: 0)
     private var flying: Bool = false
+    
+    // Score related attributes
+    private var startTime: DispatchTime!
+    private var currLevelObtainedScore: Float = 0
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -66,6 +70,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.ignoresSiblingOrder = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
+        self.startTime = DispatchTime.now()
     }
 
     override var shouldAutorotate: Bool {
@@ -122,7 +127,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.flying = true
         let direction = CGVector(dx: touchLocation.x - Constants.joystickPlateCenterX, dy: touchLocation.y - Constants.joystickPlateCenterY)
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-//        let directionVector = CGVector(dx: direction.dx / length, dy: direction.dy / length)
         self.unitOffset = direction.normalized()
         let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
         var radius = Constants.joystickPlateWidth / 2
@@ -142,7 +146,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.flyingVelocity = CGFloat(0)
         if self.flying {
             self.flying = false
-            self.joystick.shape.run(SKAction.move(to: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), duration: 0.2))
+            self.joystick.releaseJoystick()
+            //self.joystick.shape.run(SKAction.move(to: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), duration: 0.2))
             //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
             //        self.unitOffset = CGVector(dx:0, dy: 1)
             
@@ -160,7 +165,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
             let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
-            obs.shape.physicsBody?.velocity = newVelocity
+            //obs.shape.physicsBody?.velocity = newVelocity
+            obs.updateVelocity(newVelocity: newVelocity)
         }
     }
     
@@ -175,7 +181,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         missile.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
         missile.shape.physicsBody?.collisionBitMask = PhysicsCategory.Monster
         missile.shape.physicsBody?.usesPreciseCollisionDetection = true
-        missile.shape.physicsBody?.velocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
+//        missile.shape.physicsBody?.velocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
+        let missileVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
+        missile.updateVelocity(newVelocity: missileVelocity)
         let currFiringAngle = self.player.shape.zRotation
         let currFiringPosition = self.player.shape.position
         self.scene.addMissile(missile: missile, directionAngle: currFiringAngle, position: currFiringPosition)
@@ -202,7 +210,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 bullet = secondBody.node as? SKSpriteNode {
-                //projectileDidCollideWithMonster(projectile: projectile, monster: monster)
                 self.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
             }
         }
@@ -211,6 +218,15 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         print ("Hit!")
         self.scene.removeElement(node: bullet)
-        self.obstaclePool.filter({$0.shape == obstacle})[0].shape.size = CGSize(width: Constants.obstacleWidth / 2, height: Constants.obstacleHeight / 2)
+        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
+        obstacleGotHit.hitByMissile()
+        if obstacleGotHit.checkDestroyed() {
+            self.scene.removeElement(node: obstacle)
+            let obsDestroyedTime = DispatchTime.now()
+            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.startTime.uptimeNanoseconds) / 1_000_000_000
+            let scoreForThisObs = Constants.defaultScoreDivider / elapsedTimeInSeconds
+            self.currLevelObtainedScore += scoreForThisObs
+            print (self.currLevelObtainedScore)
+        }
     }
 }
