@@ -10,26 +10,13 @@ import SpriteKit
 import GameplayKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    
-//    private let player = IsoscelesTriangle(base: 20, height: 25, color: UIColor.black)
-//    private let player = SKSpriteNode(imageNamed: "Spaceship")
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 10
-    
-//    private let plate = SKSpriteNode(imageNamed: "plate")
-//    private let joystick = SKSpriteNode(imageNamed: "top")
+
     private var plateAllowedRange: SKShapeNode!
     private var plateTouchEndRange: SKShapeNode!
     private var plateAllowedRangeDistance: CGFloat!
-    
-//    private var xDestination: CGFloat = CGFloat(0)
-//    private var yDestination: CGFloat = CGFloat(0)
-//    private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-//    private let basicVelocity: CGFloat = CGFloat(400)
-//    private var flyingVelocity: CGFloat = CGFloat(0)
-    //private var prevTime: DispatchTime!
     private var prevTime: TimeInterval?
-//    private var flying: Bool = false
     
     // new architecture starts here
     var viewController: UIViewController!
@@ -82,15 +69,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
             physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
         }
-        
-//        run(SKAction.repeatForever(
-//            SKAction.sequence([
-//                SKAction.run {
-//                    self.addCircleObstacle(radius: 20)
-//                },
-//                SKAction.wait(forDuration: 1.0)
-//            ])
-//        ))
         
         // Play and loop the background music
         let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
@@ -239,20 +217,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             self.prevTime = currentTime
         }
     }
-    
-    // Projectile collides with the monster
-//    func projectileDidCollideWithMonster(projectile: SKShapeNode, monster: SKShapeNode) {
-//        print("Hit")
-//        // projectile.removeFromParent()
-//        // monster.removeFromParent()
-//        
-//        // Update monstersDestroyed count
-//        monstersDestroyed += 1
-//        if (monstersDestroyed >= monstersDestroyRequirement) {
-//            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-//            let gameOverScene = GameOverScene(size: self.size, won: true)
-//            self.view?.presentScene(gameOverScene, transition: reveal)
-//        }
-//    }
-    
 }
