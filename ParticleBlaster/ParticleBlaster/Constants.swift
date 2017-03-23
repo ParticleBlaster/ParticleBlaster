@@ -34,6 +34,10 @@ class Constants {
     static let backButtonFilename = "back-btn"
     static let backButtonDisabledFilename = "back-btn-disabled"
     static let backgroundButtonLargeFilename = "background-btn-large"
+    static let upwardButtonFilename = "upward-btn"
+    static let upwardButtonDisabledFilename = "upward-btn-disabled"
+    static let downwardButtonFilename = "downward-btn"
+    static let downwardButtonDisabledFilename = "downward-btn-disabled"
 
     // sizes
     static let iconButtonDefaultSize = CGSize(width: 100, height: 100)

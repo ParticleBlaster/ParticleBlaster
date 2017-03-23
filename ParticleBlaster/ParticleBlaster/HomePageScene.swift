@@ -7,7 +7,6 @@
 //
 
 import SpriteKit
-import GameplayKit
 
 class HomePageScene: SKScene {
     private var background: SKSpriteNode!
@@ -76,7 +75,7 @@ class HomePageScene: SKScene {
     }
 
     private func playButtonPressed() {
-        navigationDelegate?.navigateToPlayScene()
+        navigationDelegate?.navigateToLevelSelectScene(isSingleMode: true)
     }
 
     private func designButtonPressed() {

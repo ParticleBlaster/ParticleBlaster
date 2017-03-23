@@ -52,6 +52,14 @@ class GameViewController: UIViewController {
 }
 
 extension GameViewController: NavigationDelegate {
+    func navigateToHomePage() {
+        let skView = view as! SKView
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let scene = HomePageScene(size: skView.frame.size)
+        scene.navigationDelegate = self
+        skView.presentScene(scene, transition: reveal)
+    }
+
     func navigateToDesignScene() {
         // TODO: implement this
     }
@@ -59,11 +67,15 @@ extension GameViewController: NavigationDelegate {
     func navigateToPlayScene() {
         let skView = view as! SKView
         let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let gameScene = GameScene(size: skView.frame.size)
-        skView.presentScene(gameScene, transition: reveal)
+        let scene = GameScene(size: skView.frame.size)
+        skView.presentScene(scene, transition: reveal)
     }
 
-    func navigateToLevelSelectScene() {
-        // TODO: implement this
+    func navigateToLevelSelectScene(isSingleMode: Bool = true) {
+        let skView = view as! SKView
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let scene = LevelSelectScene(size: skView.frame.size)
+        scene.navigationDelegate = self
+        skView.presentScene(scene, transition: reveal)
     }
 }
