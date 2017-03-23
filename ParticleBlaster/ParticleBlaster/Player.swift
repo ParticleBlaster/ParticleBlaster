@@ -21,4 +21,16 @@ class Player : GameObject {
         self.shape.zRotation = newAngle
     }
     
+    func hitByObstacle() {
+        self.timeToLive -= 1
+    }
+    
+    func checkDead() -> Bool {
+        if self.timeToLive == 0 {
+            return true
+        } else {
+            return false
+        }
+    }
+    
 }

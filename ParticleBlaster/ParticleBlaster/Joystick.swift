@@ -17,4 +17,8 @@ class Joystick : GameObject {
         super.init(imageName: "top")
     }
     
+    func releaseJoystick() {
+        self.shape.run(SKAction.move(to: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), duration: 0.2))
+    }
+    
 }

@@ -65,4 +65,11 @@ class Constants {
     static let playerVelocity: CGFloat = CGFloat(500)
     static let obstacleVelocity: CGFloat = CGFloat(100)
     static let bulletVelocity: CGFloat = CGFloat(1000)
+    
+    // Score Related Constants
+    static let defaultScoreDivider: Float = 500
+    
+    // Physics Related Constants
+    static let defaultTimeToLive: Int = 10
+    static let playerTimeToLive: Int = 1
 }
