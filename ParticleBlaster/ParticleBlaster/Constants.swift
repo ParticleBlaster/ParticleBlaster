@@ -55,9 +55,9 @@ class Constants {
         self.playerCenterX = viewSize.width * 0.1
         self.playerCenterY = viewSize.height * 0.5
         
-        self.obstacle1CenterX = viewSize.width * 0.95
+        self.obstacle1CenterX = viewSize.width * 0.9
         self.obstacle1CenterY = viewSize.height * 0.8
-        self.obstacle2CenterX = viewSize.width * 0.95
+        self.obstacle2CenterX = viewSize.width * 0.9
         self.obstacle2CenterY = viewSize.height * 0.2
     }
     
@@ -68,8 +68,12 @@ class Constants {
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500
+    static let scoreDisplayOffset: CGFloat = CGFloat(15)
     
     // Physics Related Constants
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
+    
+    static let obstacleImpulseValue: CGFloat = CGFloat(1500)
+    static let obstacleForceValue: CGFloat = CGFloat(50)
 }

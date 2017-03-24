@@ -32,6 +32,7 @@ class Obstacle : GameObject {
         // end of 好伤心
         let remainingLifePercentage = CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
         self.shape.size = CGSize(width: Constants.obstacleWidth * remainingLifePercentage, height: Constants.obstacleHeight * remainingLifePercentage)
+        //self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
         //self.shape.size = CGSize(width: Constants.obstacleWidth / 2, height: Constants.obstacleHeight / 2)
     }
     
