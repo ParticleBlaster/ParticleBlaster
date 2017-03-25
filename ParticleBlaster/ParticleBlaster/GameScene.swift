@@ -83,48 +83,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    func addCircleObstacle(radius: CGFloat) {
-        
-        // Create sprite
-        let monster = SKShapeNode(circleOfRadius: radius)
-        monster.fillColor = UIColor.black
-        
-        // Create a physics body for the sprite defined as a rectangle of the same size
-        monster.physicsBody = SKPhysicsBody(circleOfRadius: radius)
-        // Set the sprite to be dynamic (The movement of the monster will be conntrolled uusing move actions)
-        monster.physicsBody?.isDynamic = true
-        // Set the category bit mask to be the monsterCategory
-        monster.physicsBody?.categoryBitMask = PhysicsCategory.Monster
-        // Indicates that contact with projectiles should the contact listener when they intersect
-        monster.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile
-        // Currently prevent the monster and projectile to bounce off each other
-        monster.physicsBody?.collisionBitMask = PhysicsCategory.Projectile
-        
-        // Determine where to spawn the monster along the Y axis
-        let actualY = random(min: radius / 2.0, max: size.height - radius / 2.0)
-        
-        // Position the monster slightly off-screen along the right edge,
-        // and along a random position along the Y axis as calculated above
-        monster.position = CGPoint(x: size.width + radius / 2.0, y: actualY)
-        
-        // Add the monster to the scene
-        addChild(monster)
-        
-        // Determine speed of the monster
-        let actualDuration = random(min: CGFloat(8.0), max: CGFloat(16.0))
-        
-        // Create the actions
-        let actionMove = SKAction.move(to: CGPoint(x: -radius / 2.0, y: actualY), duration: TimeInterval(actualDuration))
-        let actionMoveDone = SKAction.removeFromParent()
-        let loseAction = SKAction.run() {
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameOverScene = GameOverScene(size: self.size, won: false)
-            self.view?.presentScene(gameOverScene, transition: reveal)
-        }
-        monster.run(SKAction.sequence([actionMove, loseAction, actionMoveDone]))
-        
-    }
-    
     func displayScoreAnimation(displayScore: Int) {
         
     }
