@@ -76,4 +76,9 @@ class Constants {
     
     static let obstacleImpulseValue: CGFloat = CGFloat(1500)
     static let obstacleForceValue: CGFloat = CGFloat(50)
+    
+    enum gameMode {
+        case single
+        case multi
+    }
 }
