@@ -305,13 +305,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
         let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
-        //let obstacleObject1 = self.obstaclePool.filter({$0.shape == obs1})[0]
-        //let obstacleObject2 = self.obstaclePool.filter({$0.shape == obs2})[0]
-        
+
         obs1.physicsBody?.applyImpulse(impulse1)
         obs2.physicsBody?.applyImpulse(impulse2)
         
-        print ("Impulse triggered!")
+        // print ("Impulse triggered!")
         //self.scene.displayObstacleImpulseAnimation()
     }
     
@@ -324,6 +322,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     private func objectDidCollideWithMap(object: SKSpriteNode) {
+        // TODO: The interaction between player and boundary seems buggy
+        object.removeAllActions()
         print("collision detected")
     }
     /* End of game logic related methods */
