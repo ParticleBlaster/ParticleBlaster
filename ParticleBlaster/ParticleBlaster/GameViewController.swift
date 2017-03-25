@@ -208,12 +208,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
         bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Monster
         bullet.shape.physicsBody?.usesPreciseCollisionDetection = true
-        //missile.shape.physicsBody?.velocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
-        let missileVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
-        bullet.updateVelocity(newVelocity: missileVelocity)
+        
+        let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
+        bullet.updateVelocity(newVelocity: bulletVelocity)
         let currFiringAngle = self.player.shape.zRotation
         let currFiringPosition = self.player.shape.position
-        self.scene.addMissile(missile: bullet, directionAngle: currFiringAngle, position: currFiringPosition)
+        self.scene.addBullet(bullet: bullet, directionAngle: currFiringAngle, position: currFiringPosition)
         
     }
     
@@ -259,7 +259,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.scene.removeElement(node: bullet)
         let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
         // obstacle's physics body shape should be modified to the current size
-        obstacleGotHit.hitByMissile()
+        obstacleGotHit.hitByBullet()
         if obstacleGotHit.checkDestroyed() {
             self.scene.removeElement(node: obstacle)
             let obsDestroyedTime = DispatchTime.now()

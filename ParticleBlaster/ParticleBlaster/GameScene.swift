@@ -129,7 +129,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
     }
     
-    func displayMissileHitAnimation() {
+    func displayBulletHitAnimation() {
         
     }
     
@@ -148,12 +148,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(newObstacle.shape)
     }
     
-    func addMissile(missile: Bullet, directionAngle: CGFloat, position: CGPoint) {
-        missile.shape.position = position
-        missile.shape.zRotation = directionAngle
-        missile.shape.zPosition = -1
+    func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
+        bullet.shape.position = position
+        bullet.shape.zRotation = directionAngle
+        bullet.shape.zPosition = -1
         
-        addChild(missile.shape)
+        addChild(bullet.shape)
         
     }
     
