@@ -13,21 +13,19 @@ import GameplayKit
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     var scene: GameScene!
+
     // Game Objects
     var player = Player(image: "Spaceship")
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
-    
     var obstaclePool = [Obstacle]()
     
     // Supporting Attributes
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
-    //private let basicVelocity: CGFloat = CGFloat(400)
     private var flyingVelocity: CGFloat = CGFloat(0)
-    //private var obstacleDirection: CGVector = CGVector(dx: 0, dy: 0)
     private var flying: Bool = false
     
     // Score related attributes
@@ -37,11 +35,21 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        startHomePageView()
+        initialiseGameSence()
     }
     
-    func startHomePageView() {
-        //let scene = HomePageScene(size: view.bounds.size)
+    /* TODO: Implement game mode indicator for single player mode and multiplayer mode
+    func setGameMode(_ mode: Constants.gameMode) {
+        self.mode = mode
+    }
+     */
+    
+    /* TODO: Implement Level object for loading initial status of players and obstacles
+    func loadLevel(_ level: Level) {
+    }
+     */
+    
+    func initialiseGameSence() {
         self.scene = GameScene(size: view.bounds.size)
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         
@@ -52,13 +60,13 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         scene.joystickPlate = self.joystickPlate
         scene.fireButton = self.fireButton
         
-        // Logic handlers assignments
+        // Logic handlers assignment
         scene.updatePlayerPositionHandler = self.movePlayerHandler
         scene.rotateJoystickAndPlayerHandler = self.moveJoystickAndRotatePlayerHandler
         scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
         scene.fireHandler = self.shootHandler
         
-        // add here: prepare obstacles and pass obstacles into the scene according to level info
+        // TODO: Remove prepareObstacles() method after the Level class is implemented
         self.prepareObstacles()
         for obs in self.obstaclePool {
             scene.addSingleObstacle(newObstacle: obs)
@@ -107,7 +115,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     // Logic for preparing the obstacle according to selected level information
     private func prepareObstacles() {
-        // Currently no level information, hence just add obstacles with fixed info
+        // TODO: Remove manual assignment of obstacle information after the Level class is created
         let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
         let obs2 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle2CenterX, y: Constants.obstacle2CenterY))
         self.prepareObstaclePhysicsProperty(obs: obs1)
@@ -131,7 +139,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Logic for GameScene goes here
     private func movePlayerHandler(elapsedTime: TimeInterval) {
         let currPos = self.player.shape.position
-        let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime), dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
+        let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime),
+                              dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
         let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
         self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
     }
@@ -150,8 +159,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
         self.joystick.updatePosition(newLoation: newJoystickPosition)
-        //joystick.position = CGPoint(x: Constants.joystickPlateCenterX + directionVector.dx * radius, y: Constants.joystickPlateCenterY + directionVector.dy * radius)
-        //player.zRotation = rotationAngle
         self.player.updateRotation(newAngle: rotationAngle)
     }
     
