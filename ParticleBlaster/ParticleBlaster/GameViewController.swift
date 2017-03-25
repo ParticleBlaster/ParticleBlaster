@@ -142,13 +142,41 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     /* End of object initialisation related methods */
     
     /* Start of game logic related methods */
-    // Logic for GameScene goes here
+    private func isGameObjectOutOfBound(object: GameObject, position: CGPoint) -> Bool {
+        let leftLimit = position.x - object.shape.size.width / 2
+        if leftLimit >= view.bounds.width {
+            return true
+        }
+        
+        let rightLimit = position.x + object.shape.size.width / 2
+        if rightLimit <= 0 {
+            return true
+        }
+        
+        let topLimit = position.y - object.shape.size.height / 2
+        if topLimit <= 0 {
+            return true
+        }
+        
+        let bottomLimit = position.y + object.shape.size.height / 2
+        if bottomLimit >= view.bounds.height {
+            return true
+        }
+        
+        return false
+    }
+    
     private func movePlayerHandler(elapsedTime: TimeInterval) {
         let currPos = self.player.shape.position
         let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime),
                               dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
         let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-        self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
+        
+        if isGameObjectOutOfBound(object: self.player, position: finalPos) {
+            
+        } else {
+            self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
+        }
     }
     
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
@@ -173,12 +201,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         if self.flying {
             self.flying = false
             self.joystick.releaseJoystick()
-            //self.joystick.shape.run(SKAction.move(to: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), duration: 0.2))
-            //        self.player.run(SKAction.rotate(toAngle: 0, duration: 0.2))
-            //        self.unitOffset = CGVector(dx:0, dy: 1)
-            
-            //let endingDrift = CGVector(dx: self.unitOffset.dx * 10, dy: self.unitOffset.dy * 10)
-            //self.player.run(SKAction.move(by: endingDrift, duration: 0.2))
             self.flyingVelocity = CGFloat(0)
         }
     }
