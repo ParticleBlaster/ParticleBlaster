@@ -20,6 +20,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
     var obstaclePool = [Obstacle]()
+    var map: MapObject!
     
     // Supporting Attributes
     private var xDestination: CGFloat = CGFloat(0)
@@ -97,6 +98,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         self.preparePlayerPhysicsProperty()
         
+        self.map = MapObject(view: self.view)
+        for boundary in self.map.boundaries {
+            scene.addBoundary(boundary: boundary)
+        }
+        
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -126,8 +132,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Monster
         // contact test bitmask is to invoke the contact listener
         // while collision bitmask is to show the bouncing-off visual effects
-        obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Player
-        obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster
+        obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Player | PhysicsCategory.Map
+        obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Map
     }
     
     
@@ -136,8 +142,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
         self.player.shape.physicsBody?.isDynamic = true
         self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
+        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster | PhysicsCategory.Map
+        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.None | PhysicsCategory.Map
     }
     /* End of object initialisation related methods */
     
@@ -171,12 +177,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime),
                               dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
         let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-        
-        if isGameObjectOutOfBound(object: self.player, position: finalPos) {
-            
-        } else {
-            self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
-        }
+
+        self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
     }
     
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
@@ -213,7 +215,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
             let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
-            //obs.shape.physicsBody?.velocity = newVelocity
             // Note: change here from using velocity to using applyForce
             obs.updateVelocity(newVelocity: newVelocity)
         }
@@ -273,6 +274,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 currPlayer = secondBody.node as? SKSpriteNode {
                 self.obstacleDidCollideWithPlayer(obs: obs, player: currPlayer)
             }
+        } else if ((secondBody.categoryBitMask & PhysicsCategory.Map != 0)) {
+            if let object = firstBody.node as? SKSpriteNode {
+                self.objectDidCollideWithMap(object: object)
+            }
         }
     }
     
@@ -316,6 +321,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             print ("You are dead!")
             self.scene.removeElement(node: player)
         }
+    }
+
+    private func objectDidCollideWithMap(object: SKSpriteNode) {
+        print("collision detected")
     }
     /* End of game logic related methods */
 }

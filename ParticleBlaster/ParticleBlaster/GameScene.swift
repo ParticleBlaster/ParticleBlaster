@@ -106,6 +106,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(newObstacle.shape)
     }
     
+    func addBoundary(boundary: SKShapeNode) {
+        addChild(boundary)
+    }
+    
     func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
         bullet.shape.position = position
         bullet.shape.zRotation = directionAngle
