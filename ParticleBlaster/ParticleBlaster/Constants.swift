@@ -37,6 +37,7 @@ class Constants {
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
     
+    static let defaultBulletRadius: CGFloat = CGFloat(16)
     static let defaultBulletWidth: CGFloat = CGFloat(8)
     static let defaultBulletHeight: CGFloat = CGFloat(64)
     

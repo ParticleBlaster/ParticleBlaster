@@ -18,9 +18,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
-    // new architecture starts here
     var viewController: UIViewController!
-    var newPlayer: Player!
+    var player: Player!
     var joystickPlate: JoystickPlate!
     var joystick: Joystick!
     var fireButton: FireButton!
@@ -35,9 +34,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
-        newPlayer.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        newPlayer.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
-        addChild(newPlayer.shape)
+        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
+        addChild(player.shape)
         
         joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)

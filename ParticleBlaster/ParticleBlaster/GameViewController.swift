@@ -32,11 +32,34 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private var startTime: DispatchTime!
     private var currLevelObtainedScore: Int = 0
 
+    /* Start of UIViewController related methods */
     override func viewDidLoad() {
         super.viewDidLoad()
         
         initialiseGameSence()
     }
+    
+    override var shouldAutorotate: Bool {
+        return true
+    }
+    
+    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
+        if UIDevice.current.userInterfaceIdiom == .phone {
+            return .allButUpsideDown
+        } else {
+            return .all
+        }
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Release any cached data, images, etc that aren't in use.
+    }
+    
+    override var prefersStatusBarHidden: Bool {
+        return true
+    }
+    /* End of UIViewController related methods */
     
     /* TODO: Implement game mode indicator for single player mode and multiplayer mode
     func setGameMode(_ mode: Constants.gameMode) {
@@ -55,7 +78,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // Attributes assignment
         scene.viewController = self
-        scene.newPlayer = self.player
+        scene.player = self.player
         scene.joystick = self.joystick
         scene.joystickPlate = self.joystickPlate
         scene.fireButton = self.fireButton
@@ -83,36 +106,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.startTime = DispatchTime.now()
     }
 
-    override var shouldAutorotate: Bool {
-        return true
-    }
-
-    override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
-        if UIDevice.current.userInterfaceIdiom == .phone {
-            return .allButUpsideDown
-        } else {
-            return .all
-        }
-    }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-
-    override var prefersStatusBarHidden: Bool {
-        return true
-    }
-    
-    private func preparePlayerPhysicsProperty() {
-        self.player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
-        self.player.shape.physicsBody?.isDynamic = true
-        self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
-    }
-    
+    /* Start of object initialisation related methods */
     // Logic for preparing the obstacle according to selected level information
     private func prepareObstacles() {
         // TODO: Remove manual assignment of obstacle information after the Level class is created
@@ -136,6 +130,18 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster
     }
     
+    
+    private func preparePlayerPhysicsProperty() {
+        self.player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+        self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
+        self.player.shape.physicsBody?.isDynamic = true
+        self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
+        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
+    }
+    /* End of object initialisation related methods */
+    
+    /* Start of game logic related methods */
     // Logic for GameScene goes here
     private func movePlayerHandler(elapsedTime: TimeInterval) {
         let currPos = self.player.shape.position
@@ -194,20 +200,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Ideas for the implementation of level: each GameObject should be associated with a default size
     private func shootHandler() {
         
-        let missile = Bullet()
-        missile.shape.size = CGSize(width: Constants.defaultBulletWidth, height: Constants.defaultBulletHeight)
-        missile.shape.physicsBody = SKPhysicsBody(rectangleOf: missile.shape.size)
-        missile.shape.physicsBody?.isDynamic = true
-        missile.shape.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        missile.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        missile.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Monster
-        missile.shape.physicsBody?.usesPreciseCollisionDetection = true
+        let bullet = Bullet()
+        bullet.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
+        bullet.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
+        bullet.shape.physicsBody?.isDynamic = true
+        bullet.shape.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
+        bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
+        bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Monster
+        bullet.shape.physicsBody?.usesPreciseCollisionDetection = true
         //missile.shape.physicsBody?.velocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
         let missileVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
-        missile.updateVelocity(newVelocity: missileVelocity)
+        bullet.updateVelocity(newVelocity: missileVelocity)
         let currFiringAngle = self.player.shape.zRotation
         let currFiringPosition = self.player.shape.position
-        self.scene.addMissile(missile: missile, directionAngle: currFiringAngle, position: currFiringPosition)
+        self.scene.addMissile(missile: bullet, directionAngle: currFiringAngle, position: currFiringPosition)
         
     }
     
@@ -289,4 +295,5 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             self.scene.removeElement(node: player)
         }
     }
+    /* End of game logic related methods */
 }
