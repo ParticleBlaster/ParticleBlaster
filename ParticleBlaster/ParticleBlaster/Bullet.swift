@@ -14,7 +14,7 @@ class Bullet : GameObject {
     }
     
     init() {
-        super.init(imageName: "missile")
+        super.init(imageName: "bullet-blue")
     }
     
 }
