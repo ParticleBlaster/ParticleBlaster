@@ -88,6 +88,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         scene.updatePlayerPositionHandler = self.movePlayerHandler
         scene.rotateJoystickAndPlayerHandler = self.moveJoystickAndRotatePlayerHandler
         scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
+        scene.endJoystickMoveHandler = self.endJoystickMoveHandler
         scene.fireHandler = self.shootHandler
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
@@ -322,7 +323,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     private func objectDidCollideWithMap(object: SKSpriteNode) {
-        // TODO: The interaction between player and boundary seems buggy
+        // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
         object.removeAllActions()
         print("collision detected")
     }
