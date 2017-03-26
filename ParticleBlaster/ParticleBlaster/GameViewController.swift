@@ -12,9 +12,10 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
+    // Initialise game scene for displaying game objects
     var scene: GameScene!
 
-    // Game Objects
+    // Initialise game objects
     var player = Player(image: "Spaceship")
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
@@ -22,22 +23,24 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var obstaclePool = [Obstacle]()
     var map: MapObject!
     
-    // Supporting Attributes
+    // Initialised physical property related supporting attributes
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var flying: Bool = false
     
-    // Score related attributes
+    // Initialised score related supporting attributes
     private var startTime: DispatchTime!
     private var currLevelObtainedScore: Int = 0
 
     /* Start of UIViewController related methods */
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        initialiseGameSence()
+        setupMap()
+        setupGameScene()
     }
     
     override var shouldAutorotate: Bool {
@@ -60,6 +63,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
     /* End of UIViewController related methods */
     
     /* TODO: Implement game mode indicator for single player mode and multiplayer mode
@@ -73,11 +77,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
      */
     
-    func initialiseGameSence() {
+    /* Start of setup related methods */
+    
+    private func setupMap() {
+        self.map = MapObject(view: self.view)
+    }
+    
+    private func setupGameScene() {
         self.scene = GameScene(size: view.bounds.size)
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         
-        // Attributes assignment
+        // Initialise game scene sttributes assignment
         scene.viewController = self
         scene.player = self.player
         scene.joystick = self.joystick
@@ -87,23 +97,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         // Logic handlers assignment
         scene.updatePlayerPositionHandler = self.movePlayerHandler
         scene.rotateJoystickAndPlayerHandler = self.moveJoystickAndRotatePlayerHandler
-        scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
         scene.endJoystickMoveHandler = self.endJoystickMoveHandler
+        scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
         scene.fireHandler = self.shootHandler
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
+        
+        self.initialiseFakeObstacles()
         self.prepareObstacles()
-        for obs in self.obstaclePool {
-            scene.addSingleObstacle(newObstacle: obs)
-        }
         
-        self.preparePlayerPhysicsProperty()
+        self.preparePlayer()
+
+        self.prepareMap()
         
-        self.map = MapObject(view: self.view)
-        for boundary in self.map.boundaries {
-            scene.addBoundary(boundary: boundary)
-        }
-        
+        // Link game scene to view
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -112,10 +119,15 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
         self.startTime = DispatchTime.now()
     }
+    
+    private func prepareMap() {
+        for boundary in self.map.boundaries {
+            scene.addBoundary(boundary: boundary)
+        }
+    }
 
-    /* Start of object initialisation related methods */
     // Logic for preparing the obstacle according to selected level information
-    private func prepareObstacles() {
+    private func initialiseFakeObstacles() {
         // TODO: Remove manual assignment of obstacle information after the Level class is created
         let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
         let obs2 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle2CenterX, y: Constants.obstacle2CenterY))
@@ -126,27 +138,33 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.obstaclePool.append(obs2)
     }
     
+    private func prepareObstacles() {
+        for obs in self.obstaclePool {
+            self.prepareObstaclePhysicsProperty(obs: obs)
+            scene.addSingleObstacle(newObstacle: obs)
+        }
+    }
+    
     private func prepareObstaclePhysicsProperty(obs: Obstacle) {
         obs.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
         obs.shape.physicsBody = SKPhysicsBody(rectangleOf: obs.shape.size)
         obs.shape.physicsBody?.isDynamic = true
         obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Monster
-        // contact test bitmask is to invoke the contact listener
-        // while collision bitmask is to show the bouncing-off visual effects
         obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Player | PhysicsCategory.Map
         obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Map
     }
     
     
-    private func preparePlayerPhysicsProperty() {
+    private func preparePlayer() {
         self.player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
         self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
         self.player.shape.physicsBody?.isDynamic = true
         self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster | PhysicsCategory.Map
-        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.None | PhysicsCategory.Map
+        self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map
     }
-    /* End of object initialisation related methods */
+    
+    /* End of setup related methods */
     
     /* Start of game logic related methods */
     private func isGameObjectOutOfBound(object: GameObject, position: CGPoint) -> Bool {
@@ -223,7 +241,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     // Ideas for the implementation of level: each GameObject should be associated with a default size
     private func shootHandler() {
-        
         let bullet = Bullet()
         bullet.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
         bullet.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
