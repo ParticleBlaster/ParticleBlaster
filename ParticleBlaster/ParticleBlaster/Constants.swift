@@ -10,7 +10,6 @@ import SpriteKit
 
 class Constants {
     static let backgroundColor = SKColor.white
-    static let TITLE_FONT = "FinalFrontierOldStyle"
     
     // Game Scene Constants
     static var joystickPlateWidth: CGFloat!
@@ -74,6 +73,63 @@ class Constants {
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
     
-    static let obstacleImpulseValue: CGFloat = CGFloat(500)
+    static let obstacleImpulseValue: CGFloat = CGFloat(1500)
     static let obstacleForceValue: CGFloat = CGFloat(50)
+    
+    // Homepage Constants
+    static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
+    
+    // Star Wars Theme Obstacles
+    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition)
+    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition)
+    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition)
+    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition)
+    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition)
+    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition)
+    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition)
+    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition)
+    
+    static let starwarsObstacles = [starwarsBB8,
+                                    starwarsBountyHunter,
+                                    starwarsC3PO,
+                                    starwarsDarthVader,
+                                    starwarsPrincess,
+                                    starwarsR2D2,
+                                    starwarsSith,
+                                    starwarsThunderTrooper]
+    
+    static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)
+    static let levelObstacleStandardWidth: CGFloat = 50
+    static func getHeightWithSameRatio(withWidth: CGFloat, forShape: SKSpriteNode) -> CGFloat {
+        return forShape.size.height / forShape.size.width * withWidth
+    }
+    
+    // Border Constants
+    static let cornerRadius: CGFloat = 10
+    
+    static let strokeSmall: CGFloat = 3
+    static let strokeMedium: CGFloat = 5
+    static let strokeLarge: CGFloat = 7
+    
+    // Font Constants
+    static let titleFont = "FinalFrontierOldStyle"
+    static let fontSizeSmall: CGFloat = 10
+    static let fontSizeMedium: CGFloat = 20
+    static let fontSizeLarge: CGFloat = 40
+    static let fontSizeLargeX: CGFloat = 120
+    
+    // Level Designer Constants
+    static let levelScreenRatio: CGFloat = 0.7
+    static let screenBorderMarginRatio: CGFloat = 0.005
+    static let screenBorderOriginRatio: CGFloat = 0.25
+    static let screenBorderSizeRatio: CGFloat = levelScreenRatio + screenBorderMarginRatio * 2
+    static let screenCenterPositionRatio: CGFloat = screenBorderOriginRatio + levelScreenRatio * 0.5 + screenBorderMarginRatio
+    
+}
+
+enum LevelDifficultyLevel: Int {
+    case UNDEFINED = 0
+    case EASY = 1
+    case INTERMEDIATE = 2
+    case HARD = 3
 }

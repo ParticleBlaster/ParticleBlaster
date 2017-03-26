@@ -26,6 +26,11 @@ class Obstacle : GameObject {
         super.init(imageName: "obs")
     }
     
+    init(image: String, userSetInitialPosition: CGPoint) {
+        self.initialPosition = userSetInitialPosition
+        super.init(imageName: image)
+    }
+    
     func hitByMissile() {
         // 看着好伤心，应该是 +=1 才对啊
         self.timeToLive -= 1
