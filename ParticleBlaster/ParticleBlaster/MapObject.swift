@@ -15,37 +15,37 @@ class MapObject {
     init(view: UIView) {
         boundaries = [SKShapeNode]()
         
-        let originX = view.bounds.origin.x
-        let originY = view.bounds.origin.y
-        let limitX = view.bounds.origin.x + view.bounds.width
-        let limitY = view.bounds.origin.y + view.bounds.height
+        let bottomLeft = CGPoint(x: view.bounds.minX, y: view.bounds.minY)
+        let bottomRight = CGPoint(x: view.bounds.maxX, y: view.bounds.minY)
+        let topLeft = CGPoint(x: view.bounds.minX, y: view.bounds.maxY)
+        let topRight = CGPoint(x: view.bounds.maxX, y: view.bounds.maxY)
         
         let leftPath = CGMutablePath()
-        leftPath.move(to: CGPoint(x: originX, y: originY))
-        leftPath.addLine(to: CGPoint(x: originX, y: limitY))
+        leftPath.move(to: bottomLeft)
+        leftPath.addLine(to: topLeft)
         let leftBoundary = SKShapeNode(path: leftPath)
-        leftBoundary.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: originX, y: originY), to: CGPoint(x: originX, y: limitY))
+        leftBoundary.physicsBody = SKPhysicsBody(edgeFrom: bottomLeft, to: topLeft)
         boundaries.append(leftBoundary)
         
         let rightPath = CGMutablePath()
-        rightPath.move(to: CGPoint(x: limitX, y: originY))
-        rightPath.addLine(to: CGPoint(x: limitX, y: limitY))
+        rightPath.move(to: bottomRight)
+        rightPath.addLine(to: topRight)
         let rightBoundary = SKShapeNode(path: rightPath)
-        rightBoundary.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: limitX, y: originY), to: CGPoint(x: limitX, y: limitY))
+        rightBoundary.physicsBody = SKPhysicsBody(edgeFrom: bottomRight, to: topRight)
         boundaries.append(rightBoundary)
         
         let topPath = CGMutablePath()
-        topPath.move(to: CGPoint(x: originX, y: originY))
-        topPath.addLine(to: CGPoint(x: limitX, y: originY))
+        topPath.move(to: topLeft)
+        topPath.addLine(to: topRight)
         let topBoundary = SKShapeNode(path: topPath)
-        topBoundary.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: originX, y: originY), to: CGPoint(x: limitX, y: originY))
+        topBoundary.physicsBody = SKPhysicsBody(edgeFrom: topLeft, to: topRight)
         boundaries.append(topBoundary)
         
         let bottomPath = CGMutablePath()
-        bottomPath.move(to: CGPoint(x: originX, y: limitY))
-        bottomPath.addLine(to: CGPoint(x: limitX, y: limitY))
+        bottomPath.move(to: bottomLeft)
+        bottomPath.addLine(to: bottomRight)
         let bottomBoundary = SKShapeNode(path: bottomPath)
-        bottomBoundary.physicsBody = SKPhysicsBody(edgeFrom: CGPoint(x: originX, y: limitY), to: CGPoint(x: limitX, y: limitY))
+        bottomBoundary.physicsBody = SKPhysicsBody(edgeFrom: bottomLeft, to: bottomRight)
         boundaries.append(bottomBoundary)
         
         for boundary in boundaries {
