@@ -28,6 +28,7 @@ class Constants {
     static var playerCenterY: CGFloat!
     static let playerWidth: CGFloat = CGFloat(50)
     static let playerHeight: CGFloat = CGFloat(50)
+    static let playerRadius: CGFloat = CGFloat(22)
     
     static var obstacle1CenterX: CGFloat!
     static var obstacle1CenterY: CGFloat!

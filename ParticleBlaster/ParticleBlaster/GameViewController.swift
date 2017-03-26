@@ -28,7 +28,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
     private var flyingVelocity: CGFloat = CGFloat(0)
-    private var flying: Bool = false
+    private var isFlying: Bool = false
     
     // Initialised score related supporting attributes
     private var startTime: DispatchTime!
@@ -103,7 +103,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        self.initialiseFakeObstacles()
+        // self.initialiseFakeObstacles()
         self.prepareObstacles()
         
         self.preparePlayer()
@@ -157,7 +157,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     private func preparePlayer() {
         self.player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
+        //self.player.shape.physicsBody = SKPhysicsBody(texture: self.player.shape.texture!, size: self.player.shape.size)
+        // self.player.shape.physicsBody = SKPhysicsBody(rectangleOf: player.shape.size)
+        self.player.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.playerRadius)
         self.player.shape.physicsBody?.isDynamic = true
         self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster | PhysicsCategory.Map
@@ -196,12 +198,22 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime),
                               dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
         let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-
-        self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
+        
+        // Check boundary constraint
+        if isPositionInBoundary(finalPos) {
+            self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
+        }
+    }
+    
+    private func isPositionInBoundary(_ position: CGPoint) -> Bool {
+        return (position.x + Constants.playerRadius) < view.bounds.maxX &&
+               (position.x - Constants.playerRadius) > view.bounds.minX &&
+               (position.y + Constants.playerRadius) < view.bounds.maxY &&
+               (position.y - Constants.playerRadius) > view.bounds.minY
     }
     
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
-        self.flying = true
+        self.isFlying = true
         let direction = CGVector(dx: touchLocation.x - Constants.joystickPlateCenterX, dy: touchLocation.y - Constants.joystickPlateCenterY)
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
         self.unitOffset = direction.normalized()
@@ -219,8 +231,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     private func endJoystickMoveHandler() {
         self.flyingVelocity = CGFloat(0)
-        if self.flying {
-            self.flying = false
+        if self.isFlying {
+            self.isFlying = false
             self.joystick.releaseJoystick()
             self.flyingVelocity = CGFloat(0)
         }
@@ -342,7 +354,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func objectDidCollideWithMap(object: SKSpriteNode) {
         // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
         object.removeAllActions()
-        print("collision detected")
     }
+    
     /* End of game logic related methods */
 }
