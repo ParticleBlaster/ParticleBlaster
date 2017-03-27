@@ -22,6 +22,7 @@ class GameObject {
     
     init(imageName: String) {
         self.shape = SKSpriteNode(imageNamed: imageName)
+        self.shape.name = imageName
         if imageName == "player" || imageName == "Spaceship" {
             self.timeToLive = Constants.playerTimeToLive
         } else {
@@ -36,6 +37,7 @@ class GameObject {
         self.timeToLive = timeToLive
         self.isStatic = isStatic
     }
+    
     
     public func updatePosition(newLoation: CGPoint) {
         self.shape.position = newLoation

@@ -41,7 +41,7 @@ class GameOverScene: SKScene {
         let buttonText = SKLabelNode(text: "Back to home page")
         buttonText.position = CGPoint(x: buttonHomePage.frame.size.width * 0.5, y: buttonHomePage.frame.size.height * 0.25)
         buttonText.fontSize = 40
-        buttonText.fontName = Constants.TITLE_FONT
+        buttonText.fontName = Constants.titleFont
         buttonText.fontColor = SKColor.black
         buttonText.zPosition = 2
         
