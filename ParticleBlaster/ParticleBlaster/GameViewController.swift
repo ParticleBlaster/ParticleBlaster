@@ -218,8 +218,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        // Checks if the two bodies that collide are the projectile and monster
-        // If so calls the method you wrote earlier.
         if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
