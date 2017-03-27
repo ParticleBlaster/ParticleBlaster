@@ -124,6 +124,8 @@ class Constants {
     static let screenBorderOriginRatio: CGFloat = 0.25
     static let screenBorderSizeRatio: CGFloat = levelScreenRatio + screenBorderMarginRatio * 2
     static let screenCenterPositionRatio: CGFloat = screenBorderOriginRatio + levelScreenRatio * 0.5 + screenBorderMarginRatio
+    static let screenMin = screenBorderOriginRatio + screenBorderMarginRatio
+    static let screenMax = screenBorderOriginRatio + screenBorderMarginRatio * 2 + levelScreenRatio
     
     static let currentObstacleZPosition: CGFloat = CGFloat.greatestFiniteMagnitude
     

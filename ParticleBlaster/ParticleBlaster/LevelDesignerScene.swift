@@ -76,7 +76,7 @@ class LevelDesignerScene: SKScene {
                                   height: size.height * Constants.levelScreenRatio)
         levelScreen.position = CGPoint(x: size.width * Constants.screenCenterPositionRatio,
                                        y: size.height * Constants.screenCenterPositionRatio)
-
+        
         levelScreen.alpha = 1
         levelScreen.zPosition = zPositionCounter
         zPositionCounter += 1
@@ -119,6 +119,26 @@ class LevelDesignerScene: SKScene {
         }
     }
     
+    private func touchSceenItems(touch: UITouch) {
+        guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
+            return
+        }
+        
+        for item in currentObstacles {
+            guard currentObstacle == nil else {
+                return
+            }
+            
+            if checkTouchRange(touch: touch, frame: item.shape.frame) {
+                item.shape.position = translateFromLevelScreenToSelf(withPosition: item.shape.position)
+                addCurrentObstacle(item)
+                item.shape.removeFromParent()
+                return
+            }
+        }
+    }
+
+    
     private func moveCurrentObstacle(touch: UITouch) {
         currentObstacle!.shape.position = touch.location(in: self)
     }
@@ -126,6 +146,7 @@ class LevelDesignerScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             self.touchPaletteItems(touch: touch)
+            self.touchSceenItems(touch: touch)
         }
     }
     
@@ -154,8 +175,18 @@ class LevelDesignerScene: SKScene {
         }
         
         if currentObstacle != nil {
-            if let addNewObstacle = self.addNewObstacleHandler {
-                addNewObstacle(currentObstacle!.copy())
+            
+            if checkTouchRange(touch: touch!, frame: levelScreen.frame) {
+                if let addNewObstacle = self.addNewObstacleHandler {
+                    addNewObstacle(currentObstacle!.copy())
+                    removeCurrentObstacle()
+                }
+            } else {
+                let scale = SKAction.scale(to: 0.1, duration: 0.5)
+                let fade = SKAction.fadeOut(withDuration: 0.5)
+                let sequence = SKAction.sequence([scale, fade])
+                
+                currentObstacle!.shape.run(sequence)
                 removeCurrentObstacle()
             }
         }
@@ -193,25 +224,33 @@ class LevelDesignerScene: SKScene {
         }
         print("currentObstacles has \(currentObstacles) elements")
         
-        for child in self.children {
-            if child.name == "1" {
-                child.removeFromParent()
-            }
-        }
+        levelScreen.removeAllChildren()
         
         for index in 0 ..< currentObstacles.count {
             print("obstacle \(index): \(currentObstacles[index].shape.name) at \(currentObstacles[index].shape.position)")
             let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
             shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
                                    height: shape.size.height * Constants.levelScreenRatio))
-            shape.name = "1"
+            shape.position = translateFromSelfToLevelScreen(withPosition: shape.position)
             
             shape.zPosition = zPositionCounter
             zPositionCounter += 1
-            self.addChild(shape)
+            levelScreen.addChild(shape)
         }
         
         print("done with drawObstacles()")
+    }
+    
+    private func translateFromSelfToLevelScreen(withPosition: CGPoint) -> CGPoint {
+        let x = withPosition.x - Constants.screenCenterPositionRatio * size.width
+        let y = withPosition.y - Constants.screenCenterPositionRatio * size.height
+        return CGPoint(x: x, y: y)
+    }
+    
+    private func translateFromLevelScreenToSelf(withPosition: CGPoint) -> CGPoint {
+        let x = withPosition.x + Constants.screenCenterPositionRatio * size.width
+        let y = withPosition.y + Constants.screenCenterPositionRatio * size.height
+        return CGPoint(x: x, y: y)
     }
 
 }
