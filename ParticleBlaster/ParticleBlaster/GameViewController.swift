@@ -103,7 +103,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        // self.initialiseFakeObstacles()
+        self.initialiseFakeObstacles()
         self.prepareObstacles()
         
         self.preparePlayer()
