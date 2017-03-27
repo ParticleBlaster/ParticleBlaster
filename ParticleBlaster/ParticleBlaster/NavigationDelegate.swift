@@ -7,7 +7,7 @@
 //
 
 protocol NavigationDelegate {
-    func navigateToPlayScene()
+    func navigateToPlayScene(isSingleMode: Bool)
     func navigateToDesignScene()
     func navigateToLevelSelectScene(isSingleMode: Bool)
     func navigateToHomePage()

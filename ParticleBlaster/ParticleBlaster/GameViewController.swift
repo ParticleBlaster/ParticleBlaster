@@ -358,32 +358,3 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     /* End of game logic related methods */
 }
-
-extension GameViewController: NavigationDelegate {
-    func navigateToHomePage() {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = HomePageScene(size: skView.frame.size)
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
-    }
-
-    func navigateToDesignScene() {
-        // TODO: implement this
-    }
-
-    func navigateToPlayScene() {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = GameScene(size: skView.frame.size)
-        skView.presentScene(scene, transition: reveal)
-    }
-
-    func navigateToLevelSelectScene(isSingleMode: Bool = true) {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = LevelSelectScene(size: skView.frame.size)
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
-    }
-}

@@ -144,11 +144,8 @@
 				E1E2057A1E82F9590018DD13 /* Utils */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
-				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
-				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
-				0CCDB60B1E75254300DEF8CC /* Assets.xcassets */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
@@ -163,7 +160,6 @@
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
 				0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */,
-				0CCDB6021E75254300DEF8CC /* Actions.sks */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 			);
 			path = ParticleBlaster;
@@ -215,7 +211,6 @@
 			isa = PBXGroup;
 			children = (
 				E1E205811E830C5C0018DD13 /* GameSettingScene.swift */,
-				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */,
 			);
 			name = Scenes;
