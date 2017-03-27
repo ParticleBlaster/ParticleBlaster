@@ -10,7 +10,10 @@ import UIKit
 import SpriteKit
 
 class LevelDesignerViewController: UIViewController {
-    var currentLevel: GameLevel?
+    var currentLevel: GameLevel = GameLevel()
+    var loadedLevel: GameLevel?
+    var skView: SKView!
+//    var currentObstacle: Obstacle?
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -19,8 +22,8 @@ class LevelDesignerViewController: UIViewController {
     }
     
     func startLevelDesignerView() {
+        skView = view as! SKView
         let scene = LevelDesignerScene(size: view.bounds.size)
-        let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
@@ -28,20 +31,25 @@ class LevelDesignerViewController: UIViewController {
         scene.scaleMode = .resizeFill
         scene.viewController = self
         scene.returnHomeHandler = self.returnHome
+        scene.addNewObstacleHandler = self.addNewObstacle
+        scene.removeObstacleHandler = self.removeObstacle
+        scene.updateObstacleHandler = self.updateObstacle
         
         skView.presentScene(scene)
     }
     
-    func addNewObstable(_ newObstacle: Obstacle) {
-        currentLevel?.obstacles.append(newObstacle)
+    private func addNewObstacle(_ newObstacle: Obstacle) {
+        print("in LevelDesignerViewController addNewObstacle")
+        currentLevel.obstacles.append(newObstacle)
+        print("currentLevel has \(currentLevel.obstacles.count) obstacles")
     }
     
-    func removeObstable(_ tag: Int) -> Bool {
-        return currentLevel?.obstacles.remove(at: tag) != nil
+    private func removeObstacle(_ tag: Int) -> Obstacle {
+        return currentLevel.obstacles.remove(at: tag)
     }
     
-    func updateObstacle(tag: Int, newObstacle: Obstacle) {
-        currentLevel?.obstacles[tag] = newObstacle
+    private func updateObstacle(tag: Int, newObstacle: Obstacle) {
+        currentLevel.obstacles[tag] = newObstacle
     }
     
     override var shouldAutorotate: Bool {
@@ -66,6 +74,7 @@ class LevelDesignerViewController: UIViewController {
     }
     
     func returnHome() {
+        self.skView.presentScene(nil)
         self.dismiss(animated: true, completion: nil)
     }
 

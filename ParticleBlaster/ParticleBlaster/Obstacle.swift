@@ -31,6 +31,13 @@ class Obstacle : GameObject {
         super.init(imageName: image)
     }
     
+    init(obstacle: Obstacle) {
+        self.initialPosition = obstacle.initialPosition
+        super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
+                   timeToLive: obstacle.timeToLive,
+                   isStatic: obstacle.isStatic)
+    }
+    
     func hitByMissile() {
         // 看着好伤心，应该是 +=1 才对啊
         self.timeToLive -= 1
@@ -47,5 +54,10 @@ class Obstacle : GameObject {
         } else {
             return false
         }
+    }
+    
+    func copy() -> Obstacle {
+        let copy = Obstacle(obstacle: self)
+        return copy
     }
 }

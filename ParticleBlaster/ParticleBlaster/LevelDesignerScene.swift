@@ -14,12 +14,15 @@ class LevelDesignerScene: SKScene {
     private let background = SKSpriteNode(imageNamed: "homepage")
     private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
     private let levelScreen = SKSpriteNode(imageNamed: "solar-system")
-    var obstacles = [Obstacle]()
+    var paletteItems = [Obstacle]()
     var currentObstacle: Obstacle?
-    var viewController: UIViewController?
+    var viewController: LevelDesignerViewController?
     var zPositionCounter: CGFloat = 0
     let paletteItemInteval: CGFloat = 80
     var returnHomeHandler: (() -> ())?
+    var addNewObstacleHandler: ((Obstacle) -> ())?
+    var removeObstacleHandler: ((Int) -> (Obstacle))?
+    var updateObstacleHandler: ((Int, Obstacle) -> ())?
     
     
     override func didMove(to view: SKView) {
@@ -83,55 +86,132 @@ class LevelDesignerScene: SKScene {
         
         // Create obstacle pallete
         
-        obstacles = Constants.starwarsObstacles
-        for obstacle in obstacles {
-            obstacle.shape.size = CGSize(width: Constants.levelObstacleStandardWidth,
-                                         height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: obstacle.shape))
-            obstacle.shape.position = CGPoint(x: startX, y: startY)
-            obstacle.shape.alpha = 1
-            obstacle.shape.zPosition = zPositionCounter
+        paletteItems = Constants.starwarsObstacles
+        for item in paletteItems {
+            item.shape.size = CGSize(width: Constants.levelObstacleStandardWidth,
+                                         height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: item.shape))
+            item.shape.position = CGPoint(x: startX, y: startY)
+            item.shape.alpha = 1
+            item.shape.zPosition = zPositionCounter
             zPositionCounter += 1
             
-            addChild(obstacle.shape)
+            addChild(item.shape)
             startX += paletteItemInteval
         }
         
+        drawObstacles()
     }
     
+    private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
+        return frame.contains(touch.location(in: self))
+    }
+    
+    private func touchPaletteItems(touch: UITouch) {
+        for item in paletteItems {
+            guard currentObstacle == nil else {
+                return
+            }
+            
+            if checkTouchRange(touch: touch, frame: item.shape.frame) {
+                addCurrentObstacle(item)
+                return
+            }
+        }
+    }
+    
+    private func moveCurrentObstacle(touch: UITouch) {
+        currentObstacle!.shape.position = touch.location(in: self)
+    }
+    
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            self.touchPaletteItems(touch: touch)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        guard currentObstacle != nil else {
+            return
+        }
+        print("ready for moving")
+        for touch in touches {
+            self.moveCurrentObstacle(touch: touch)
+        }
+        
+        drawObstacles()
+    }
+
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        print("touch ended")
+        
         let touch = touches.first
         let touchLocation = touch!.location(in: self)
         // Check if the location of the touch is within the button's bounds
         if buttonBackToHomepage.contains(touchLocation) {
             print("LevelDeisgner: back to homepage tapped!")
+            self.removeFromParent()
             self.returnHomeHandler!()
         }
         
-        if currentObstacle == nil {
-            for obstacle in obstacles {
-                if obstacle.shape.contains(touchLocation) {
-                    addCurrentObstacle(obstacle)
-                }
+        if currentObstacle != nil {
+            if let addNewObstacle = self.addNewObstacleHandler {
+                addNewObstacle(currentObstacle!.copy())
+                removeCurrentObstacle()
             }
         }
+        
+        drawObstacles()
     }
+
     
     private func addCurrentObstacle(_ selectedObstacle: Obstacle) {
         guard currentObstacle == nil else {
             return
         }
-        
-        currentObstacle = selectedObstacle
+        print("ready to assign current obstacle")
+        currentObstacle = selectedObstacle.copy()
+        currentObstacle!.shape.zPosition = Constants.currentObstacleZPosition
         addChild(currentObstacle!.shape)
+        print("done assigning current obstacle")
     }
     
     private func removeCurrentObstacle() {
         guard currentObstacle != nil else {
             return
         }
-        
+        print("ready to remove current obstacle")
         currentObstacle!.shape.removeFromParent()
         currentObstacle = nil
+        print("done removing current obstacle")
+    }
+    
+    private func drawObstacles() {
+        print("in drawObstacles()")
+        guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
+            print("error: currentObstacles = nil")
+            return
+        }
+        print("currentObstacles has \(currentObstacles) elements")
+        
+        for child in self.children {
+            if child.name == "1" {
+                child.removeFromParent()
+            }
+        }
+        
+        for index in 0 ..< currentObstacles.count {
+            print("obstacle \(index): \(currentObstacles[index].shape.name) at \(currentObstacles[index].shape.position)")
+            let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
+            shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
+                                   height: shape.size.height * Constants.levelScreenRatio))
+            shape.name = "1"
+            
+            shape.zPosition = zPositionCounter
+            zPositionCounter += 1
+            self.addChild(shape)
+        }
+        
+        print("done with drawObstacles()")
     }
 
 }

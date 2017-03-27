@@ -125,6 +125,8 @@ class Constants {
     static let screenBorderSizeRatio: CGFloat = levelScreenRatio + screenBorderMarginRatio * 2
     static let screenCenterPositionRatio: CGFloat = screenBorderOriginRatio + levelScreenRatio * 0.5 + screenBorderMarginRatio
     
+    static let currentObstacleZPosition: CGFloat = CGFloat.greatestFiniteMagnitude
+    
 }
 
 enum LevelDifficultyLevel: Int {
