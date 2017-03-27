@@ -148,7 +148,7 @@ class LevelSelectScene: SKScene {
 
     private func onLevelBoxPressed(level: Int) -> (() -> Void) {
         return {
-            print("select level \(level)")
+            self.navigationDelegate?.navigateToPlayScene(isSingleMode: true)
         }
     }
 }
