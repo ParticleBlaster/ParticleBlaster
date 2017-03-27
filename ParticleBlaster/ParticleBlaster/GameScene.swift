@@ -23,7 +23,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var joystickPlate: JoystickPlate!
     var joystick: Joystick!
     var fireButton: FireButton!
-    var updatePlayerPositionHandler: ((TimeInterval) -> ())?
     var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
     var endJoystickMoveHandler: (() -> ())?
     var playerVelocityUpdateHandler: (() -> ())?

@@ -95,7 +95,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         scene.fireButton = self.fireButton
         
         // Logic handlers assignment
-        scene.updatePlayerPositionHandler = self.movePlayerHandler
         scene.playerVelocityUpdateHandler = self.updatePlayerVelocityHandler
         scene.rotateJoystickAndPlayerHandler = self.moveJoystickAndRotatePlayerHandler
         scene.endJoystickMoveHandler = self.endJoystickMoveHandler
@@ -104,7 +103,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        self.initialiseFakeObstacles()
+        //self.initialiseFakeObstacles()
         self.prepareObstacles()
         
         self.preparePlayer()
@@ -165,6 +164,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster | PhysicsCategory.Map
         self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map
+        self.player.shape.physicsBody?.mass = 0
+        
     }
     
     /* End of setup related methods */
@@ -194,19 +195,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         return false
     }
     
-    private func movePlayerHandler(elapsedTime: TimeInterval) {
-        let currPos = self.player.shape.position
-        let offset = CGVector(dx: self.flyingVelocity * self.unitOffset.dx * CGFloat(elapsedTime),
-                              dy: self.flyingVelocity * self.unitOffset.dy * CGFloat(elapsedTime))
-        let finalPos = CGPoint(x: currPos.x + offset.dx, y: currPos.y + offset.dy)
-        
-        // Check boundary constraint
-        if isPositionInBoundary(finalPos) {
-            self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
-        }
-
-    }
-    
     // New logic for updating the player's velocity
     private func updatePlayerVelocityHandler() {
         let direction = self.unitOffset
@@ -214,12 +202,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.player.updateVelocity(newVelocity: newVelocity)
     }
     
-    private func isPositionInBoundary(_ position: CGPoint) -> Bool {
-        return (position.x + Constants.playerRadius) < view.bounds.maxX &&
-               (position.x - Constants.playerRadius) > view.bounds.minX &&
-               (position.y + Constants.playerRadius) < view.bounds.maxY &&
-               (position.y - Constants.playerRadius) > view.bounds.minY
-    }
+//    private func isPositionInBoundary(_ position: CGPoint) -> Bool {
+//        return (position.x + Constants.playerRadius) < view.bounds.maxX &&
+//               (position.x - Constants.playerRadius) > view.bounds.minX &&
+//               (position.y + Constants.playerRadius) < view.bounds.maxY &&
+//               (position.y - Constants.playerRadius) > view.bounds.minY
+//    }
     
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
         self.isFlying = true
@@ -240,6 +228,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     private func endJoystickMoveHandler() {
         self.flyingVelocity = CGFloat(0)
+        self.player.shape.removeAllActions()
         if self.isFlying {
             self.isFlying = false
             self.joystick.releaseJoystick()
