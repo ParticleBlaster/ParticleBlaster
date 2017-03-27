@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0CA20E3D1E86A8AC00F07F14 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */; };
+		0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */; };
 		0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */; };
 		0CCDB6031E75254300DEF8CC /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6021E75254300DEF8CC /* Actions.sks */; };
 		0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6041E75254300DEF8CC /* GameScene.swift */; };
@@ -35,6 +37,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
+		0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		0CCDB5FB1E75254300DEF8CC /* ParticleBlaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleBlaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CCDB6021E75254300DEF8CC /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
@@ -78,6 +82,7 @@
 		0CC56B301E8374A8003A39F7 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
+				0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */,
 				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
 				0EB2CD521E82A3C400237FA9 /* Obstacle.swift */,
@@ -119,9 +124,10 @@
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
-				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
+				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
+				0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
@@ -230,11 +236,13 @@
 				6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */,
 				0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */,
+				0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */,
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,
 				0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */,
 				0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */,
 				0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */,
 				6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */,
+				0CA20E3D1E86A8AC00F07F14 /* MapObject.swift in Sources */,
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
 				6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */,

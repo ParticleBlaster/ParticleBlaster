@@ -28,6 +28,7 @@ class Constants {
     static var playerCenterY: CGFloat!
     static let playerWidth: CGFloat = CGFloat(50)
     static let playerHeight: CGFloat = CGFloat(50)
+    static let playerRadius: CGFloat = CGFloat(22)
     
     static var obstacle1CenterX: CGFloat!
     static var obstacle1CenterY: CGFloat!
@@ -37,6 +38,7 @@ class Constants {
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
     
+    static let defaultBulletRadius: CGFloat = CGFloat(16)
     static let defaultBulletWidth: CGFloat = CGFloat(8)
     static let defaultBulletHeight: CGFloat = CGFloat(64)
     
@@ -76,4 +78,9 @@ class Constants {
     
     static let obstacleImpulseValue: CGFloat = CGFloat(1500)
     static let obstacleForceValue: CGFloat = CGFloat(50)
+    
+    enum gameMode {
+        case single
+        case multi
+    }
 }

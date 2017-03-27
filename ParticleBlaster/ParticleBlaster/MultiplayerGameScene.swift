@@ -1,42 +1,35 @@
 //
-//  GameScene.swift
+//  MultiplayerGameScene.swift
 //  ParticleBlaster
 //
-//  Created by Bohan Huang on 12/3/17.
+//  Created by Bohan Huang on 23/3/17.
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
 import SpriteKit
 import GameplayKit
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
-    private var monstersDestroyed = 0
-    private let monstersDestroyRequirement = 10
-
+class MultiplayerGameScene: SKScene, SKPhysicsContactDelegate {
     private var plateAllowedRange: SKShapeNode!
     private var plateTouchEndRange: SKShapeNode!
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
     var viewController: UIViewController!
-    var player: Player!
+    var player1: Player!
     var joystickPlate: JoystickPlate!
     var joystick: Joystick!
     var fireButton: FireButton!
     var updatePlayerPositionHandler: ((TimeInterval) -> ())?
     var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
     var endJoystickMoveHandler: (() -> ())?
-    
-    var obstacleHitHandler: (() -> ())?
-    var obstacleMoveHandler: (() -> ())?
-    var obstacleVelocityUpdateHandler: (() -> ())?
     var fireHandler: (() -> ())?
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
-        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
-        addChild(player.shape)
+        player1.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+        player1.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
+        addChild(player1.shape)
         
         joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
@@ -183,10 +176,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             if let playerPositionHandler = self.updatePlayerPositionHandler {
                 playerPositionHandler(elapsedTime)
             }
-            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
-                obstacleVelocityHandler()
-            }
-
+            
             self.prevTime = currentTime
         }
     }
