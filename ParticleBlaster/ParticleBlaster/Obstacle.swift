@@ -25,7 +25,19 @@ class Obstacle : GameObject {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: "obs")
     }
+
+    init(image: String, userSetInitialPosition: CGPoint) {
+        self.initialPosition = userSetInitialPosition
+        super.init(imageName: image)
+    }
     
+    init(obstacle: Obstacle) {
+        self.initialPosition = obstacle.initialPosition
+        super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
+                   timeToLive: obstacle.timeToLive,
+                   isStatic: obstacle.isStatic)
+    }
+
     func hitByBullet() {
         self.timeToLive -= 1
         let remainingLifePercentage = CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
@@ -38,5 +50,10 @@ class Obstacle : GameObject {
         } else {
             return false
         }
+    }
+    
+    func copy() -> Obstacle {
+        let copy = Obstacle(obstacle: self)
+        return copy
     }
 }

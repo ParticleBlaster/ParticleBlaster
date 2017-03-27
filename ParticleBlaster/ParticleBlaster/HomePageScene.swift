@@ -9,10 +9,12 @@
 import SpriteKit
 import GameplayKit
 
-class HomePageScene: SKScene, SKPhysicsContactDelegate {
+class HomePageScene: SKScene {
     
     private let background = SKSpriteNode(imageNamed: "homepage")
     private let buttonGameStart = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 200, height: 60), cornerRadius: 10)
+    var viewController: UIViewController?
+    var zPositionCounter: CGFloat = 0
 //        SKSpriteNode(color: SKColor.clear, size: CGSize(width: 200, height: 80))
     
     
@@ -20,7 +22,8 @@ class HomePageScene: SKScene, SKPhysicsContactDelegate {
         
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.size = size
-        background.zPosition = 0
+        background.zPosition = zPositionCounter
+        zPositionCounter += 1
         addChild(background)
         
         // Create a simple red rectangle that's 100x44
@@ -29,22 +32,25 @@ class HomePageScene: SKScene, SKPhysicsContactDelegate {
         buttonGameStart.fillColor = SKColor.clear
         buttonGameStart.strokeColor = SKColor.white
         buttonGameStart.lineWidth = 5
-        buttonGameStart.zPosition = 1
+        buttonGameStart.zPosition = zPositionCounter
+        zPositionCounter += 1
         
         let titleText = SKLabelNode(text: "Tri Adventure")
-        titleText.fontSize = 120
-        titleText.fontName = Constants.TITLE_FONT
+        titleText.fontSize = Constants.fontSizeLargeX
+        titleText.fontName = Constants.titleFont
         titleText.position = CGPoint(x: size.width * 0.5, y: size.height * 0.85)
         titleText.fontColor = SKColor.white
-        titleText.zPosition = 1
+        titleText.zPosition = zPositionCounter
+        zPositionCounter += 1
         addChild(titleText)
         
         let buttonText = SKLabelNode(text: "Start Game")
-        buttonText.fontSize = 40
-        buttonText.fontName = Constants.TITLE_FONT
+        buttonText.fontSize = Constants.fontSizeLarge
+        buttonText.fontName = Constants.titleFont
         buttonText.position = CGPoint(x: buttonGameStart.frame.size.width * 0.5, y: buttonGameStart.frame.size.height * 0.25)
         buttonText.fontColor = SKColor.white
-        buttonText.zPosition = 2
+        buttonText.zPosition = zPositionCounter
+        zPositionCounter += 1
         
         buttonGameStart.addChild(buttonText)
         
@@ -63,15 +69,16 @@ class HomePageScene: SKScene, SKPhysicsContactDelegate {
         // Check if the location of the touch is within the button's bounds
         if buttonGameStart.contains(touchLocation) {
             print("game start tapped!")
-            
-//            let reveal = SKTransition.crossFade(withDuration: 0.5)
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let gameScene = GameScene(size: self.size)
-            gameScene.scaleMode = .resizeFill
-            
-//            self.removeFromParent()
-            self.view?.presentScene(gameScene, transition: reveal)
-            
+            self.viewController?.performSegue(withIdentifier: "homeToSingleGame", sender: self)
+//            
+////            let reveal = SKTransition.crossFade(withDuration: 0.5)
+//            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
+//            let gameScene = GameScene(size: self.size)
+//            gameScene.scaleMode = .resizeFill
+//            
+////            self.removeFromParent()
+//            self.view?.presentScene(gameScene, transition: reveal)
+//            
         }
         
     }
