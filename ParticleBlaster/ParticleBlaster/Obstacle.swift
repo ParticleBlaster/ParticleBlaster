@@ -25,7 +25,7 @@ class Obstacle : GameObject {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: "obs")
     }
-    
+
     init(image: String, userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
@@ -37,15 +37,11 @@ class Obstacle : GameObject {
                    timeToLive: obstacle.timeToLive,
                    isStatic: obstacle.isStatic)
     }
-    
-    func hitByMissile() {
-        // 看着好伤心，应该是 +=1 才对啊
+
+    func hitByBullet() {
         self.timeToLive -= 1
-        // end of 好伤心
         let remainingLifePercentage = CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
         self.shape.size = CGSize(width: Constants.obstacleWidth * remainingLifePercentage, height: Constants.obstacleHeight * remainingLifePercentage)
-        //self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
-        //self.shape.size = CGSize(width: Constants.obstacleWidth / 2, height: Constants.obstacleHeight / 2)
     }
     
     func checkDestroyed() -> Bool {

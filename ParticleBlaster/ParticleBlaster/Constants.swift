@@ -10,7 +10,7 @@ import SpriteKit
 
 class Constants {
     static let backgroundColor = SKColor.white
-    
+        
     // Game Scene Constants
     static var joystickPlateWidth: CGFloat!
     static var joystickPlateHeight: CGFloat!
@@ -27,6 +27,7 @@ class Constants {
     static var playerCenterY: CGFloat!
     static let playerWidth: CGFloat = CGFloat(50)
     static let playerHeight: CGFloat = CGFloat(50)
+    static let playerRadius: CGFloat = CGFloat(22)
     
     static var obstacle1CenterX: CGFloat!
     static var obstacle1CenterY: CGFloat!
@@ -36,6 +37,7 @@ class Constants {
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
     
+    static let defaultBulletRadius: CGFloat = CGFloat(16)
     static let defaultBulletWidth: CGFloat = CGFloat(8)
     static let defaultBulletHeight: CGFloat = CGFloat(64)
     
@@ -76,6 +78,11 @@ class Constants {
     static let obstacleImpulseValue: CGFloat = CGFloat(1500)
     static let obstacleForceValue: CGFloat = CGFloat(50)
     
+    enum gameMode {
+        case single
+        case multi
+    }
+
     // Homepage Constants
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
     
@@ -129,6 +136,42 @@ class Constants {
     
     static let currentObstacleZPosition: CGFloat = CGFloat.greatestFiniteMagnitude
     
+    static let TITLE_FONT = "FinalFrontierOldStyle"
+    static let normalFont = "FinalFrontierOldStyle"
+    static let normalFontSize: CGFloat = 40.0
+
+    // archived key
+    static let settingFileName = "settingFileName"
+    static let settingSoundKey = "settingSoundKey"
+    static let settingMusicKey = "settingMusicKey"
+
+    static let labelGameTitle = "Tri Adventure"
+    static let labelPlay = "PLAY"
+    static let labelDesign = "DESIGN"
+    
+    // asset filenames
+    static let homepageBackgroundFilename = "homepage"
+    static let settingBackgroundFilename = "setting-background"
+    static let soundButtonFilename = "sound-btn"
+    static let soundButtonDisabledFilename = "sound-btn-disabled"
+    static let musicButtonFilename = "music-btn"
+    static let musicButtonDisabledFilename = "music-btn-disabled"
+    static let backButtonFilename = "back-btn"
+    static let backButtonDisabledFilename = "back-btn-disabled"
+    static let backgroundButtonLargeFilename = "background-btn-large"
+    static let backgroundButtonFilename = "background-btn"
+    static let upwardButtonFilename = "upward-btn"
+    static let upwardButtonDisabledFilename = "upward-btn-disabled"
+    static let downwardButtonFilename = "downward-btn"
+    static let downwardButtonDisabledFilename = "downward-btn-disabled"
+    static let lockButtonFilename = "lock-btn"
+
+    // sizes
+    static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
+    static let textButtonDefaultSize = CGSize(width: 215, height: 100)
+    static let screenPadding = CGSize(width: 50, height: 50)
+    static let buttonVerticalMargin: CGFloat = 30
+    static let buttonHorizontalMargin: CGFloat = 30
 }
 
 enum LevelDifficultyLevel: Int {
