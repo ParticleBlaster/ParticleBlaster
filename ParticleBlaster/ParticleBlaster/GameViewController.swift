@@ -103,7 +103,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        //self.initialiseFakeObstacles()
+        self.initialiseFakeObstacles()
         self.prepareObstacles()
         
         self.preparePlayer()
@@ -152,6 +152,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Monster
         obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Player | PhysicsCategory.Map
         obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Map
+        obs.shape.physicsBody?.mass = Constants.obstacleMass
     }
     
     
@@ -239,9 +240,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func updateObstacleVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
-            let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
+            //let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
             // Note: change here from using velocity to using applyForce
-            obs.updateVelocity(newVelocity: newVelocity)
+            //obs.updateVelocity(newVelocity: newVelocity)
+            
+            let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
+            obs.pushedByForce(force: appliedForce)
         }
     }
     

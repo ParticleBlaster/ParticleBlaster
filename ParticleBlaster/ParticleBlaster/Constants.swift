@@ -76,7 +76,11 @@ class Constants {
     static let playerTimeToLive: Int = 1
     
     static let obstacleImpulseValue: CGFloat = CGFloat(1500)
-    static let obstacleForceValue: CGFloat = CGFloat(50)
+    static let obstacleForceValue: CGFloat = CGFloat(1000)
+    static let playerForceValue: CGFloat = CGFloat(50)
+    
+    static let obstacleMass: CGFloat = CGFloat(20)
+    static let playerMass: CGFloat = CGFloat(10)
     
     enum gameMode {
         case single

@@ -47,4 +47,8 @@ class GameObject {
         self.shape.physicsBody?.velocity = newVelocity
     }
     
+    public func pushedByForce(force: CGVector) {
+        self.shape.physicsBody?.applyForce(force)
+    }
+    
 }
