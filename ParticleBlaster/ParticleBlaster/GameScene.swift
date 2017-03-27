@@ -26,6 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var updatePlayerPositionHandler: ((TimeInterval) -> ())?
     var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
     var endJoystickMoveHandler: (() -> ())?
+    var playerVelocityUpdateHandler: (() -> ())?
     
     var obstacleHitHandler: (() -> ())?
     var obstacleMoveHandler: (() -> ())?
@@ -175,13 +176,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        
+        // TODO: if not using the concept of elapsed time then delete self.prevTime
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {
             // new logic goes here
-            let elapsedTime = currentTime - self.prevTime!
-            if let playerPositionHandler = self.updatePlayerPositionHandler {
-                playerPositionHandler(elapsedTime)
+            if let playerVelocityHandler = self.playerVelocityUpdateHandler {
+                playerVelocityHandler()
             }
             if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
                 obstacleVelocityHandler()

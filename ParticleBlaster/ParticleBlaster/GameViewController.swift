@@ -26,7 +26,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Initialised physical property related supporting attributes
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
-    private var unitOffset: CGVector = CGVector(dx: 0, dy: 1)
+    private var unitOffset: CGVector = CGVector(dx: 0, dy: 0)
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
     
@@ -96,6 +96,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // Logic handlers assignment
         scene.updatePlayerPositionHandler = self.movePlayerHandler
+        scene.playerVelocityUpdateHandler = self.updatePlayerVelocityHandler
         scene.rotateJoystickAndPlayerHandler = self.moveJoystickAndRotatePlayerHandler
         scene.endJoystickMoveHandler = self.endJoystickMoveHandler
         scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
@@ -203,6 +204,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         if isPositionInBoundary(finalPos) {
             self.player.shape.run(SKAction.move(to: finalPos, duration: elapsedTime))
         }
+
+    }
+    
+    // New logic for updating the player's velocity
+    private func updatePlayerVelocityHandler() {
+        let direction = self.unitOffset
+        let newVelocity = CGVector(dx: direction.dx * self.flyingVelocity, dy: direction.dy * self.flyingVelocity)
+        self.player.updateVelocity(newVelocity: newVelocity)
     }
     
     private func isPositionInBoundary(_ position: CGPoint) -> Bool {
@@ -236,10 +245,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             self.joystick.releaseJoystick()
             self.flyingVelocity = CGFloat(0)
         }
-    }
-    
-    private func moveObstacleHandler(elapsedTime: TimeInterval) {
-        
     }
     
     private func updateObstacleVelocityHandler() {
