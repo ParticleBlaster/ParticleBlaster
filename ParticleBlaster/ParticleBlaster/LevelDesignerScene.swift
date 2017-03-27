@@ -238,7 +238,7 @@ class LevelDesignerScene: SKScene {
             levelScreen.addChild(shape)
         }
         
-        print("done with drawObstacles()")
+//        print("done with drawObstacles()")
     }
     
     private func translateFromSelfToLevelScreen(withPosition: CGPoint) -> CGPoint {
