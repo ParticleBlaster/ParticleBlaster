@@ -120,9 +120,9 @@ class Constants {
     
     // Font Constants
     static let titleFont = "FinalFrontierOldStyle"
-    static let fontSizeSmall: CGFloat = 10
-    static let fontSizeMedium: CGFloat = 20
-    static let fontSizeLarge: CGFloat = 40
+    static let fontSizeSmall: CGFloat = 20
+    static let fontSizeMedium: CGFloat = 40
+    static let fontSizeLarge: CGFloat = 80
     static let fontSizeLargeX: CGFloat = 120
     
     // Level Designer Constants

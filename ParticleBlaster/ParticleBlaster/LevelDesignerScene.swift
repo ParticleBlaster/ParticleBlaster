@@ -6,29 +6,34 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import SpriteKit
 
 class LevelDesignerScene: SKScene {
     
     private let background = SKSpriteNode(imageNamed: "homepage")
-    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
+    private let buttonSave = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
     private let levelScreen = SKSpriteNode(imageNamed: "solar-system")
     var paletteItems = [Obstacle]()
     var currentObstacle: Obstacle?
     var viewController: LevelDesignerViewController?
     var zPositionCounter: CGFloat = 0
     let paletteItemInteval: CGFloat = 80
+    
     var returnHomeHandler: (() -> ())?
     var addNewObstacleHandler: ((Obstacle) -> ())?
     var removeObstacleHandler: ((Int) -> (Obstacle))?
     var updateObstacleHandler: ((Int, Obstacle) -> ())?
+    
+    var textInput = UITextField()
     
     
     override func didMove(to view: SKView) {
         
         var startX = size.width * 0.3
         let startY = size.width * 0.125
+        
+        // Create a background
         
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.alpha = 0.2
@@ -39,10 +44,10 @@ class LevelDesignerScene: SKScene {
         
         // Create a back button
         
-        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.03)
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.05)
         buttonBackToHomepage.fillColor = SKColor.clear
         buttonBackToHomepage.strokeColor = SKColor.white
-        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+        buttonBackToHomepage.lineWidth = Constants.strokeMedium
         buttonBackToHomepage.zPosition = zPositionCounter
         zPositionCounter += 1
         
@@ -57,6 +62,47 @@ class LevelDesignerScene: SKScene {
         buttonBackToHomepage.addChild(buttonText)
 
         addChild(buttonBackToHomepage)
+        
+        // Create a back button
+        
+        buttonSave.position = CGPoint(x: size.width * 0.03, y: size.height * 0.15)
+        buttonSave.fillColor = SKColor.clear
+        buttonSave.strokeColor = SKColor.white
+        buttonSave.lineWidth = Constants.strokeMedium
+        buttonSave.zPosition = zPositionCounter
+        zPositionCounter += 1
+        
+        let saveText = SKLabelNode(text: "Save")
+        saveText.fontSize = Constants.fontSizeMedium
+        saveText.fontName = Constants.titleFont
+        saveText.position = CGPoint(x: buttonSave.frame.size.width * 0.5, y: buttonSave.frame.size.height * 0.25)
+        buttonText.fontColor = SKColor.white
+        buttonText.zPosition = zPositionCounter
+        zPositionCounter += 1
+        
+        buttonSave.addChild(saveText)
+        
+        addChild(buttonSave)
+        
+        // Create a level name text input
+        
+        textInput.frame = CGRect(origin: CGPoint(x: size.width * 0.03, y: size.height * 0.05 - Constants.screenBorderMarginRatio * 2 * size.height),
+                                 size: CGSize(width: 190 + Constants.screenBorderMarginRatio * size.width,
+                                              height: 60 + Constants.screenBorderMarginRatio * size.height))
+        textInput.font = UIFont(name: Constants.titleFont, size: Constants.fontSizeMedium)
+        textInput.textColor = UIColor.white
+        textInput.layer.cornerRadius = 10
+        textInput.layer.borderColor = SKColor.white.cgColor
+        textInput.layer.borderWidth = Constants.strokeMedium
+        textInput.layer.backgroundColor = UIColor.clear.cgColor
+        textInput.attributedPlaceholder = NSAttributedString(string: "Level Name",
+                                                             attributes:[NSForegroundColorAttributeName: UIColor.white])
+        textInput.textAlignment = .center
+//        textInput.contentVerticalAlignment = UIControlContentVerticalAlignment.center
+//        textInput.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
+
+        self.view!.addSubview(textInput)
+        
         
         // Create a screen shot
         
@@ -172,6 +218,10 @@ class LevelDesignerScene: SKScene {
             print("LevelDeisgner: back to homepage tapped!")
             self.removeFromParent()
             self.returnHomeHandler!()
+        }
+        
+        if buttonSave.contains(touchLocation) {
+            print("button save pressed: level name = \(textInput.text)")
         }
         
         if currentObstacle != nil {
