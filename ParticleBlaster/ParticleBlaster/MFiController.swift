@@ -12,11 +12,9 @@ import GameController
 class MFiController: NSObject {
     var mainController: GCController?
     var direction = CGVector(dx: 0, dy: 0)
-    var position = CGPoint(x: 0, y: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
     var shootHandler: (() -> ())?
-    var gameViewController: GameViewController?
     
     
     func setupConnectionNotificationCenter() {
@@ -98,9 +96,6 @@ class MFiController: NSObject {
                 if (gamepad.leftThumbstick.right.isPressed) {
                     message = "Left Stick %f \(gamepad.leftThumbstick.xAxis.value)"
                 }
-                //                position = CGPoint(x: gamepad.leftThumbstick.xAxis.value, y: gamepad.leftThumbstick.yAxis.value)
-                self.position = CGPoint(x: CGFloat(gamepad.leftThumbstick.xAxis.value),
-                                        y: CGFloat(gamepad.leftThumbstick.yAxis.value))
                 self.direction = CGVector(dx: CGFloat(gamepad.leftThumbstick.xAxis.value),
                                           dy: CGFloat(gamepad.leftThumbstick.yAxis.value))
                 
@@ -114,6 +109,7 @@ class MFiController: NSObject {
     }
     
     @objc func controllerWasConnected(_ notification: Notification) {
+        print("in controllerWasConnected")
         let controller: GCController = notification.object as! GCController
         let status = "MFi Controller: \(controller.vendorName) is connected"
         print(status)
@@ -124,6 +120,7 @@ class MFiController: NSObject {
     }
     
     @objc func controllerWasDisconnected(_ notification: Notification) {
+        print("in controllerWasDisconnected")
         let controller: GCController = notification.object as! GCController
         let status = "MFi Controller: \(controller.vendorName) is disconnected"
         print(status)

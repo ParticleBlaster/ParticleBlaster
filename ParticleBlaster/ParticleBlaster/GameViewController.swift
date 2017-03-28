@@ -42,9 +42,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        
+        setupMFiController()
         setupMap()
         setupGameScene()
-        setupMFiController()
     }
     
     override var shouldAutorotate: Bool {
@@ -91,23 +92,22 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.mfi = MFiController()
         self.mfi.moveHandler = moveMFIJoystickAndRotatePlayerHandler
         self.mfi.shootHandler = shootHandler
-        self.mfi.gameViewController = self
         self.mfi.setupConnectionNotificationCenter()
 //        setupConnectionNotificationCenter()
         
         print("finish mfi config")
     }
     
-//    private func setupConnectionNotificationCenter() {
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(self.mfi.controllerWasConnected(_ :)),
-//                                               name: NSNotification.Name.GCControllerDidConnect,
-//                                               object: nil)
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(self.mfi.controllerWasDisconnected(_ :)),
-//                                               name: NSNotification.Name.GCControllerDidDisconnect,
-//                                               object: nil)
-//    }
+    private func setupConnectionNotificationCenter() {
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.mfi.controllerWasConnected(_ :)),
+                                               name: NSNotification.Name.GCControllerDidConnect,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(self.mfi.controllerWasDisconnected(_ :)),
+                                               name: NSNotification.Name.GCControllerDidDisconnect,
+                                               object: nil)
+    }
     
     private func setupGameScene() {
         self.scene = GameScene(size: view.bounds.size)
@@ -255,7 +255,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.player.updateRotation(newAngle: rotationAngle)
     }
     
-    private func moveMFIJoystickAndRotatePlayerHandler(direction: CGVector) {
+    private func moveMFIJoystickAndRotatePlayerHandler(_ directionPercent: CGVector) {
+        let direction = normalizeJoystickDirection(directionPercent)
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
         self.unitOffset = direction.normalized()
         let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
@@ -268,6 +269,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
         self.joystick.updatePosition(newLoation: newJoystickPosition)
         self.player.updateRotation(newAngle: rotationAngle)
+    }
+    
+    private func normalizeJoystickDirection(_ direction: CGVector) -> CGVector{
+        let dx = direction.dx * Constants.joystickWidth / 2
+        let dy = direction.dy * Constants.joystickHeight / 2
+        return CGVector(dx: dx, dy: dy)
     }
     
     private func endJoystickMoveHandler() {

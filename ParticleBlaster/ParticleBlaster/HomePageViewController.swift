@@ -10,56 +10,22 @@ import UIKit
 import SpriteKit
 
 class HomePageViewController: UIViewController {
-
-//    override func viewDidLoad() {
-////        super.viewDidLoad()
-////        
-////        let backgroundImageView = UIImageView(image: Constants.backgroundImage)
-////        let backgroundView = UIView()
-////        backgroundView.frame = CGRect(origin: CGPoint(x: 0, y: 0), size: view.bounds.size)
-////        backgroundView.addSubview(backgroundImageView)
-////        
-////        let gameTitle = UILabel(frame: CGRect(x: 200, y: 100, width: 500, height: 100))
-////        gameTitle.text = "Tri Adventure"
-////        gameTitle.font = UIFont(name: Constants.TITLE_FONT, size: 120)
-////        
-////        setupButtons()
-//        setupBGM()
-//    }
-//    
-//    func setupBGM() {
-//        let path = Bundle.main.path(forResource: "background-music-aac.caf", ofType:nil)!
-//        let url = URL(fileURLWithPath: path)
-//        
-//        do {
-//            let backgroundMusic = try AVAudioPlayer(contentsOf: url)
-//            backgroundMusic.play()
-//        } catch {
-//            print("BGM unable to load")
-//        }
-//    }
-//
-//    override func didReceiveMemoryWarning() {
-//        super.didReceiveMemoryWarning()
-//        // Dispose of any resources that can be recreated.
-//    }
-//    
-//
-//    /*
-//    // MARK: - Navigation
-//
-//    // In a storyboard-based application, you will often want to do a little preparation before navigation
-//    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-//        // Get the new view controller using segue.destinationViewController.
-//        // Pass the selected object to the new view controller.
-//    }
-//    */
-
+//    var mfi: MFiController!
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
         startHomePageView()
+//        setupMFiController()
+        
     }
+    
+//    private func setupMFiController() {
+//        self.mfi = MFiController()
+//        self.mfi.setupConnectionNotificationCenter()
+//        
+//        print("homapage: finish mfi config")
+//    }
     
     func startHomePageView() {
         let scene = HomePageScene(size: view.bounds.size)
