@@ -8,18 +8,30 @@
 
 import Foundation
 import UIKit
+import SpriteKit
 
-class Controller {
+class PlayerController {
     var player = Player(image: "Spaceship")
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
+    var scene: GameScene!
     
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 0)
     
     init() {
+    }
+    
+    func setScene(_ scene: GameScene) {
+        self.scene = scene
+    }
+    
+    func updatePlayerVelocityHandler() {
+        let direction = self.unitOffset
+        let newVelocity = CGVector(dx: direction.dx * self.flyingVelocity, dy: direction.dy * self.flyingVelocity)
+        self.player.updateVelocity(newVelocity: newVelocity)
     }
     
     func endJoystickMoveHandler() {
@@ -30,12 +42,6 @@ class Controller {
             self.joystick.releaseJoystick()
             self.flyingVelocity = CGFloat(0)
         }
-    }
-    
-    func updatePlayerVelocityHandler() {
-        let direction = self.unitOffset
-        let newVelocity = CGVector(dx: direction.dx * self.flyingVelocity, dy: direction.dy * self.flyingVelocity)
-        self.player.updateVelocity(newVelocity: newVelocity)
     }
     
     func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
@@ -53,5 +59,22 @@ class Controller {
         let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
         self.joystick.updatePosition(newLoation: newJoystickPosition)
         self.player.updateRotation(newAngle: rotationAngle)
+    }
+    
+    func shootHandler() {
+        let bullet = Bullet()
+        bullet.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
+        bullet.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
+        bullet.shape.physicsBody?.isDynamic = true
+        bullet.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
+        bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
+        bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
+        bullet.shape.physicsBody?.usesPreciseCollisionDetection = true
+        
+        let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
+        bullet.updateVelocity(newVelocity: bulletVelocity)
+        let currFiringAngle = self.player.shape.zRotation
+        let currFiringPosition = self.player.shape.position
+        self.scene!.addBullet(bullet: bullet, directionAngle: currFiringAngle, position: currFiringPosition)
     }
 }
