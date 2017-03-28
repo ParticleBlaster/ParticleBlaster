@@ -83,10 +83,27 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    func displayScoreAnimation(displayScore: Int) {
-        
+    func displayScoreAnimation(displayScore: Int, scoreSceneCenter: CGPoint) {
+        let score = "+" + String(displayScore)
+        let label = SKLabelNode(fontNamed: Constants.destroyObstacleScoreFont)
+        label.text = score
+        label.fontSize = Constants.destroyObstacleScoreFontSize
+        label.fontColor = SKColor.orange
+        label.position = scoreSceneCenter
+        label.alpha = 0
+        addChild(label)
+        // animation for moving the label upwards by Constants.offset, and change alpha to 1
+        // then moving it upwards also by offset, change alpha to 0; remove label from scene
+        let fadeInAction = SKAction.fadeIn(withDuration: Constants.destroyObstacleScoreFadeTime)
+        let fadeOutAction = SKAction.fadeOut(withDuration: Constants.destroyObstacleScoreFadeTime)
+        let moveAction = SKAction.move(by: Constants.destroyObstacleScoreOffset, duration: Constants.destroyObstacleScoreFadeTime)
+        let labelAction = SKAction.sequence([SKAction.group([fadeInAction, moveAction]), SKAction.group([fadeOutAction, moveAction])])
+        label.run(labelAction, completion: {
+            label.removeFromParent()
+        })
     }
     
+    // Possible implementation: displays a sequence of skspritenode showing the explosion
     func displayBulletHitAnimation() {
         
     }

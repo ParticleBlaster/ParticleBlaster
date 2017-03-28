@@ -103,7 +103,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        //self.initialiseFakeObstacles()
+        self.initialiseFakeObstacles()
         self.prepareObstacles()
         
         self.preparePlayer()
@@ -152,6 +152,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
         obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
         obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+        obs.shape.physicsBody?.mass = Constants.obstacleMass
     }
     
     
@@ -232,9 +233,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func updateObstacleVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
-            let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
+            //let newVelocity = CGVector(dx: direction.dx * Constants.obstacleVelocity, dy: direction.dy * Constants.obstacleVelocity)
             // Note: change here from using velocity to using applyForce
-            obs.updateVelocity(newVelocity: newVelocity)
+            //obs.updateVelocity(newVelocity: newVelocity)
+            
+            let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
+            obs.pushedByForce(force: appliedForce)
         }
     }
     
@@ -303,12 +307,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         // obstacle's physics body shape should be modified to the current size
         obstacleGotHit.hitByBullet()
         if obstacleGotHit.checkDestroyed() {
+            let obstacleCenter = obstacle.position
+            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
             self.scene.removeElement(node: obstacle)
             let obsDestroyedTime = DispatchTime.now()
             let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.startTime.uptimeNanoseconds) / 1_000_000_000
             let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
             self.currLevelObtainedScore += scoreForThisObs
-            self.scene.displayScoreAnimation(displayScore: scoreForThisObs)
+            self.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
             print (self.currLevelObtainedScore)
         }
     }
@@ -333,6 +339,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         if self.player.checkDead() {
             print ("You are dead!")
             self.scene.removeElement(node: player)
+            // Losing condition met!
         }
     }
 
