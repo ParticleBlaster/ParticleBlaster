@@ -14,6 +14,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
+    var skView: SKView!
 
     // Initialise game objects
     var player = Player(image: "Spaceship")
@@ -22,6 +23,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var fireButton = FireButton(image: "fire")
     var obstaclePool = [Obstacle]()
     var map: MapObject!
+    
+    var mfi: MFiController!
     
     // Initialised physical property related supporting attributes
     private var xDestination: CGFloat = CGFloat(0)
@@ -41,6 +44,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         setupMap()
         setupGameScene()
+        setupMFiController()
     }
     
     override var shouldAutorotate: Bool {
@@ -83,6 +87,28 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.map = MapObject(view: self.view)
     }
     
+    private func setupMFiController() {
+        self.mfi = MFiController()
+        self.mfi.moveHandler = moveMFIJoystickAndRotatePlayerHandler
+        self.mfi.shootHandler = shootHandler
+        self.mfi.gameViewController = self
+        self.mfi.setupConnectionNotificationCenter()
+//        setupConnectionNotificationCenter()
+        
+        print("finish mfi config")
+    }
+    
+//    private func setupConnectionNotificationCenter() {
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.mfi.controllerWasConnected(_ :)),
+//                                               name: NSNotification.Name.GCControllerDidConnect,
+//                                               object: nil)
+//        NotificationCenter.default.addObserver(self,
+//                                               selector: #selector(self.mfi.controllerWasDisconnected(_ :)),
+//                                               name: NSNotification.Name.GCControllerDidDisconnect,
+//                                               object: nil)
+//    }
+    
     private func setupGameScene() {
         self.scene = GameScene(size: view.bounds.size)
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
@@ -111,7 +137,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.prepareMap()
         
         // Link game scene to view
-        let skView = view as! SKView
+        skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
@@ -215,6 +241,21 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
         self.isFlying = true
         let direction = CGVector(dx: touchLocation.x - Constants.joystickPlateCenterX, dy: touchLocation.y - Constants.joystickPlateCenterY)
+        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
+        self.unitOffset = direction.normalized()
+        let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
+        var radius = Constants.joystickPlateWidth / 2
+        self.flyingVelocity = length >= radius ? Constants.playerVelocity : Constants.playerVelocity * (length / radius)
+        if length < radius {
+            radius = length
+        }
+        
+        let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
+        self.joystick.updatePosition(newLoation: newJoystickPosition)
+        self.player.updateRotation(newAngle: rotationAngle)
+    }
+    
+    private func moveMFIJoystickAndRotatePlayerHandler(direction: CGVector) {
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
         self.unitOffset = direction.normalized()
         let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
