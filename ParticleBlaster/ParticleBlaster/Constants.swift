@@ -82,6 +82,12 @@ class Constants {
     static let obstacleMass: CGFloat = CGFloat(20)
     static let playerMass: CGFloat = CGFloat(10)
     
+    static let destroyObstacleScoreFont = "Papyrus"
+    static let destroyObstacleScoreFontSize = CGFloat(25)
+    static let destroyObstacleScoreOffset = CGVector(dx: 0, dy: 5)
+    static let destroyObstacleScoreFadeTime = 0.5
+    //static let destroyObstacleScore
+    
     enum gameMode {
         case single
         case multi

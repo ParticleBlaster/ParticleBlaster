@@ -314,12 +314,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         // obstacle's physics body shape should be modified to the current size
         obstacleGotHit.hitByBullet()
         if obstacleGotHit.checkDestroyed() {
+            let obstacleCenter = obstacle.position
+            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
             self.scene.removeElement(node: obstacle)
             let obsDestroyedTime = DispatchTime.now()
             let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.startTime.uptimeNanoseconds) / 1_000_000_000
             let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
             self.currLevelObtainedScore += scoreForThisObs
-            self.scene.displayScoreAnimation(displayScore: scoreForThisObs)
+            self.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
             print (self.currLevelObtainedScore)
         }
     }
@@ -344,6 +346,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         if self.player.checkDead() {
             print ("You are dead!")
             self.scene.removeElement(node: player)
+            // Losing condition met!
         }
     }
 
