@@ -18,7 +18,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
-    var viewController: UIViewController!
+    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    
+    var viewController: GameViewController!
     var player: Player!
     var joystickPlate: JoystickPlate!
     var joystick: Joystick!
@@ -66,13 +68,29 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //physicsWorld.contactDelegate = self
         if let controller = self.viewController {
             //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
-            physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
         
-        // Play and loop the background music
-        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+        // Set up back to homepage button
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.92)
+        buttonBackToHomepage.fillColor = SKColor.clear
+        buttonBackToHomepage.strokeColor = SKColor.black
+        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+//        buttonBackToHomepage.zPosition = zPositionCounter
+//        zPositionCounter += 1
+        
+        let buttonText = SKLabelNode(text: "Back to Home")
+        buttonText.fontSize = Constants.fontSizeSmall
+        buttonText.fontName = Constants.titleFont
+        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+        buttonText.fontColor = SKColor.black
+//        buttonText.zPosition = zPositionCounter
+//        zPositionCounter += 1
+        
+        buttonBackToHomepage.addChild(buttonText)
+        
+        addChild(buttonBackToHomepage)
+
     }
     
     func random() -> CGFloat {
@@ -156,7 +174,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        
         for touch in touches {
             if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
                 if let endHandler = self.endJoystickMoveHandler {
@@ -169,6 +186,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 if let shootHandler = self.fireHandler {
                     shootHandler()
                 }
+            } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
+                self.viewController?.dismiss(animated: true, completion: nil)
             }
         }
     }

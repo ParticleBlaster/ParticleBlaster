@@ -98,8 +98,6 @@ class LevelDesignerScene: SKScene {
         textInput.attributedPlaceholder = NSAttributedString(string: "Level Name",
                                                              attributes:[NSForegroundColorAttributeName: UIColor.white])
         textInput.textAlignment = .center
-//        textInput.contentVerticalAlignment = UIControlContentVerticalAlignment.center
-//        textInput.contentHorizontalAlignment = UIControlContentHorizontalAlignment.center
 
         self.view!.addSubview(textInput)
         
@@ -232,12 +230,14 @@ class LevelDesignerScene: SKScene {
                     removeCurrentObstacle()
                 }
             } else {
-                let scale = SKAction.scale(to: 0.1, duration: 0.5)
-                let fade = SKAction.fadeOut(withDuration: 0.5)
-                let sequence = SKAction.sequence([scale, fade])
-                
-                currentObstacle!.shape.run(sequence)
                 removeCurrentObstacle()
+//                let scale = SKAction.scale(to: 0.1, duration: 0.5)
+//                let fade = SKAction.fadeOut(withDuration: 0.5)
+//                let sequence = SKAction.sequence([scale, fade])
+//                
+//                currentObstacle!.shape.run(sequence, completion: {
+//                    self.removeCurrentObstacle()
+//                })
             }
         }
         
@@ -287,8 +287,6 @@ class LevelDesignerScene: SKScene {
             zPositionCounter += 1
             levelScreen.addChild(shape)
         }
-        
-//        print("done with drawObstacles()")
     }
     
     private func translateFromSelfToLevelScreen(withPosition: CGPoint) -> CGPoint {
