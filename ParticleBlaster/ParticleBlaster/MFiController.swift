@@ -12,6 +12,7 @@ import GameController
 class MFiController: NSObject {
     var mainController: GCController?
     var direction = CGVector(dx: 0, dy: 0)
+    var position = CGPoint(x: 0, y: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
     var shootHandler: (() -> ())?
