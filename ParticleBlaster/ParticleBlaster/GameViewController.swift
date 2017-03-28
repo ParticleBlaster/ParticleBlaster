@@ -149,9 +149,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
         obs.shape.physicsBody = SKPhysicsBody(rectangleOf: obs.shape.size)
         obs.shape.physicsBody?.isDynamic = true
-        obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Monster
-        obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Player | PhysicsCategory.Map
-        obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Projectile | PhysicsCategory.Monster | PhysicsCategory.Map
+        obs.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+        obs.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
     }
     
     
@@ -162,7 +162,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.player.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.playerRadius)
         self.player.shape.physicsBody?.isDynamic = true
         self.player.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
-        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster | PhysicsCategory.Map
+        self.player.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Map
         self.player.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map
         self.player.shape.physicsBody?.mass = 0
         
@@ -201,13 +201,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         let newVelocity = CGVector(dx: direction.dx * self.flyingVelocity, dy: direction.dy * self.flyingVelocity)
         self.player.updateVelocity(newVelocity: newVelocity)
     }
-    
-//    private func isPositionInBoundary(_ position: CGPoint) -> Bool {
-//        return (position.x + Constants.playerRadius) < view.bounds.maxX &&
-//               (position.x - Constants.playerRadius) > view.bounds.minX &&
-//               (position.y + Constants.playerRadius) < view.bounds.maxY &&
-//               (position.y - Constants.playerRadius) > view.bounds.minY
-//    }
     
     private func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
         self.isFlying = true
@@ -251,9 +244,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         bullet.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
         bullet.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
         bullet.shape.physicsBody?.isDynamic = true
-        bullet.shape.physicsBody?.categoryBitMask = PhysicsCategory.Projectile
-        bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Monster
-        bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Monster
+        bullet.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
+        bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
+        bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
         bullet.shape.physicsBody?.usesPreciseCollisionDetection = true
         
         let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
@@ -278,19 +271,19 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             secondBody = contact.bodyA
         }
         
-        if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Projectile != 0)) {
+        if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 bullet = secondBody.node as? SKSpriteNode {
                 self.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
             }
-        } else if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Monster != 0)) {
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Obstacle != 0)) {
             if let obs1 = firstBody.node as? SKSpriteNode, let
                 obs2 = secondBody.node as? SKSpriteNode {
                 self.obstaclesDidCollideWithEachOther(obs1: obs1, obs2: obs2)
             }
-        } else if ((firstBody.categoryBitMask & PhysicsCategory.Monster != 0) &&
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 currPlayer = secondBody.node as? SKSpriteNode {
