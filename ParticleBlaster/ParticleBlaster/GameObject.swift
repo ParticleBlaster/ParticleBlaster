@@ -9,11 +9,11 @@
 import UIKit
 import SpriteKit
 
-class GameObject {
+class GameObject: NSObject {
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool
-
+    
     init(shape: SKSpriteNode, timeToLive: Int, isStatic: Bool) {
         self.timeToLive = timeToLive
         self.shape = shape
@@ -23,6 +23,7 @@ class GameObject {
     init(imageName: String) {
         self.shape = SKSpriteNode(imageNamed: imageName)
         self.shape.name = imageName
+        // FIX: should this part be inside Player and other game object class itselt?
         if imageName == "player" || imageName == "Spaceship" {
             self.timeToLive = Constants.playerTimeToLive
         } else {
@@ -46,5 +47,4 @@ class GameObject {
     public func updateVelocity(newVelocity: CGVector) {
         self.shape.physicsBody?.velocity = newVelocity
     }
-    
 }

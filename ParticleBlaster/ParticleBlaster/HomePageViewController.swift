@@ -40,11 +40,6 @@ class HomePageViewController: UIViewController {
         }
     }
 
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
-    }
-    
     override var prefersStatusBarHidden: Bool {
         return true
     }
@@ -57,9 +52,12 @@ extension HomePageViewController: NavigationDelegate {
         self.present(vc, animated: true, completion: nil)
     }
     func navigateToDesignScene() {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
-        self.present(vc, animated: true, completion: nil)
+        let skView = view as! SKView
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let scene = LevelDesignerScene(size: skView.frame.size)
+        scene.scaleMode = .resizeFill
+        scene.navigationDelegate = self
+        skView.presentScene(scene, transition: reveal)
     }
     func navigateToLevelSelectScene(isSingleMode: Bool) {
         let skView = view as! SKView

@@ -8,17 +8,16 @@
 
 import SpriteKit
 
-class Obstacle : GameObject {
+class Obstacle : GameObject, NSCoding {
     var initialPosition: CGPoint
-    
-    init(image: String) {
+    // for support storage purpose
+    var imageName: String?
+
+    // TODO: refactor to merge all these init methods into one (except the last one)
+    init(image: String = "obs") {
+        self.imageName = image
         self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
         super.init(imageName: image)
-    }
-    
-    init() {
-        self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
-        super.init(imageName: "obs")
     }
     
     init(userSetInitialPosition: CGPoint) {
@@ -52,8 +51,23 @@ class Obstacle : GameObject {
         }
     }
     
-    func copy() -> Obstacle {
+    override func copy() -> Any {
         let copy = Obstacle(obstacle: self)
+        copy.shape.zPosition = self.shape.zPosition
         return copy
     }
+
+    required convenience init?(coder decoder: NSCoder) {
+        guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String,
+            let position = decoder.decodeObject(forKey: Constants.initialPositionKey) as? CGPoint else {
+                return nil
+        }
+        self.init(image: imageName, userSetInitialPosition: position)
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
+        aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
+    }
+
 }

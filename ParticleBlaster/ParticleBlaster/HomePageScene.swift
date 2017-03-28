@@ -27,9 +27,9 @@ class HomePageScene: SKScene {
         background.zPosition = 0
         addChild(background)
         
-        let titleText = SKLabelNode(text: "Tri Adventure")
-        titleText.fontSize = 150
-        titleText.fontName = Constants.TITLE_FONT
+        let titleText = SKLabelNode(text: Constants.labelGameTitle)
+        titleText.fontSize = Constants.fontSizeHuge
+        titleText.fontName = Constants.titleFont
         titleText.position = CGPoint(x: 0, y: size.height / 2 - Constants.screenPadding.height - titleText.frame.size.height)
         titleText.fontColor = SKColor.white
         titleText.zPosition = 1

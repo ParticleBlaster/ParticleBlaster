@@ -11,20 +11,25 @@ import SpriteKit
 
 class LevelDesignerScene: SKScene {
     
-    private let background = SKSpriteNode(imageNamed: "homepage")
+    private let background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
     private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
     private let levelScreen = SKSpriteNode(imageNamed: "solar-system")
     var paletteItems = [Obstacle]()
     var currentObstacle: Obstacle?
-    var viewController: LevelDesignerViewController?
     var zPositionCounter: CGFloat = 0
     let paletteItemInteval: CGFloat = 80
-    var returnHomeHandler: (() -> ())?
-    var addNewObstacleHandler: ((Obstacle) -> ())?
-    var removeObstacleHandler: ((Int) -> (Obstacle))?
-    var updateObstacleHandler: ((Int, Obstacle) -> ())?
-    
-    
+    var navigationDelegate: NavigationDelegate?
+    var gameLevel: GameLevel
+
+    init(size: CGSize, gameLevel: GameLevel = GameLevel()) {
+        self.gameLevel = gameLevel
+        super.init(size: size)
+    }
+
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
     override func didMove(to view: SKView) {
         
         var startX = size.width * 0.3
@@ -102,7 +107,7 @@ class LevelDesignerScene: SKScene {
         drawObstacles()
     }
     
-    private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
+    private func isTouchInside(touch: UITouch, frame: CGRect) -> Bool {
         return frame.contains(touch.location(in: self))
     }
     
@@ -112,44 +117,40 @@ class LevelDesignerScene: SKScene {
                 return
             }
             
-            if checkTouchRange(touch: touch, frame: item.shape.frame) {
-                addCurrentObstacle(item)
+            if isTouchInside(touch: touch, frame: item.shape.frame) {
+                assignCurrentObstacle(item)
                 return
             }
         }
     }
     
     private func touchSceenItems(touch: UITouch) {
-        guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
-            return
-        }
-        
-        for item in currentObstacles {
+        for (index, item) in gameLevel.obstacles.enumerated() {
             guard currentObstacle == nil else {
                 return
             }
             
-            if checkTouchRange(touch: touch, frame: item.shape.frame) {
+            if isTouchInside(touch: touch, frame: item.shape.frame) {
                 item.shape.position = translateFromLevelScreenToSelf(withPosition: item.shape.position)
-                addCurrentObstacle(item)
                 item.shape.removeFromParent()
+                gameLevel.removeObstacle(at: index)
+                assignCurrentObstacle(item)
                 return
             }
         }
     }
 
-    
     private func moveCurrentObstacle(touch: UITouch) {
         currentObstacle!.shape.position = touch.location(in: self)
     }
-    
+
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             self.touchPaletteItems(touch: touch)
             self.touchSceenItems(touch: touch)
         }
     }
-    
+
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard currentObstacle != nil else {
             return
@@ -170,24 +171,19 @@ class LevelDesignerScene: SKScene {
         // Check if the location of the touch is within the button's bounds
         if buttonBackToHomepage.contains(touchLocation) {
             print("LevelDeisgner: back to homepage tapped!")
-            self.removeFromParent()
-            self.returnHomeHandler!()
+            navigationDelegate?.navigateToHomePage()
         }
         
         if currentObstacle != nil {
             
-            if checkTouchRange(touch: touch!, frame: levelScreen.frame) {
-                if let addNewObstacle = self.addNewObstacleHandler {
-                    addNewObstacle(currentObstacle!.copy())
-                    removeCurrentObstacle()
-                }
-            } else {
-                let scale = SKAction.scale(to: 0.1, duration: 0.5)
-                let fade = SKAction.fadeOut(withDuration: 0.5)
-                let sequence = SKAction.sequence([scale, fade])
-                
-                currentObstacle!.shape.run(sequence)
+            if isTouchInside(touch: touch!, frame: levelScreen.frame) {
+                gameLevel.addObstacle(currentObstacle!.copy() as! Obstacle)
                 removeCurrentObstacle()
+            } else {
+                let scale = SKAction.scale(to: 0.1, duration: 0.2)
+                currentObstacle!.shape.run(scale) {
+                    self.removeCurrentObstacle()
+                }
             }
         }
         
@@ -195,17 +191,17 @@ class LevelDesignerScene: SKScene {
     }
 
     
-    private func addCurrentObstacle(_ selectedObstacle: Obstacle) {
+    private func assignCurrentObstacle(_ selectedObstacle: Obstacle) {
         guard currentObstacle == nil else {
             return
         }
         print("ready to assign current obstacle")
-        currentObstacle = selectedObstacle.copy()
+        currentObstacle = selectedObstacle.copy() as? Obstacle
         currentObstacle!.shape.zPosition = Constants.currentObstacleZPosition
         addChild(currentObstacle!.shape)
         print("done assigning current obstacle")
     }
-    
+
     private func removeCurrentObstacle() {
         guard currentObstacle != nil else {
             return
@@ -216,29 +212,19 @@ class LevelDesignerScene: SKScene {
         print("done removing current obstacle")
     }
     
+    // TODO: redesign this to optimize the code and we just need to call this method once at the begining
     private func drawObstacles() {
-        print("in drawObstacles()")
-        guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
-            print("error: currentObstacles = nil")
-            return
-        }
-        print("currentObstacles has \(currentObstacles) elements")
-        
         levelScreen.removeAllChildren()
         
-        for index in 0 ..< currentObstacles.count {
-            print("obstacle \(index): \(currentObstacles[index].shape.name) at \(currentObstacles[index].shape.position)")
-            let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
+        for obstacle in gameLevel.obstacles {
+            let shape = obstacle.shape.copy() as! SKSpriteNode
             shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
                                    height: shape.size.height * Constants.levelScreenRatio))
             shape.position = translateFromSelfToLevelScreen(withPosition: shape.position)
-            
             shape.zPosition = zPositionCounter
             zPositionCounter += 1
             levelScreen.addChild(shape)
         }
-        
-        print("done with drawObstacles()")
     }
     
     private func translateFromSelfToLevelScreen(withPosition: CGPoint) -> CGPoint {
