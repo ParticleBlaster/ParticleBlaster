@@ -21,13 +21,10 @@ class PlayerController {
     private var isFlying: Bool = false
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 0)
     
-    init() {
+    init(gameViewController: GameViewController) {
+        self.scene = gameViewController.scene
     }
-    
-    func setScene(_ scene: GameScene) {
-        self.scene = scene
-    }
-    
+
     func updatePlayerVelocityHandler() {
         let direction = self.unitOffset
         let newVelocity = CGVector(dx: direction.dx * self.flyingVelocity, dy: direction.dy * self.flyingVelocity)
@@ -63,18 +60,15 @@ class PlayerController {
     
     func shootHandler() {
         let bullet = Bullet()
-        bullet.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
-        bullet.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
-        bullet.shape.physicsBody?.isDynamic = true
-        bullet.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
-        bullet.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
-        bullet.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
-        bullet.shape.physicsBody?.usesPreciseCollisionDetection = true
-        
         let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
-        bullet.updateVelocity(newVelocity: bulletVelocity)
         let currFiringAngle = self.player.shape.zRotation
         let currFiringPosition = self.player.shape.position
-        self.scene!.addBullet(bullet: bullet, directionAngle: currFiringAngle, position: currFiringPosition)
+        
+        bullet.updateVelocity(newVelocity: bulletVelocity)
+        bullet.shape.position = currFiringPosition
+        bullet.shape.zRotation = currFiringAngle
+        bullet.shape.zPosition = -1
+        
+        self.scene.addChild(bullet.shape)
     }
 }
