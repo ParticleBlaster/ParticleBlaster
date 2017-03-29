@@ -6,23 +6,22 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
+import SpriteKit
 
-protocol GameScene {
-    var viewController: UIViewController! { get set }
+class GameScene: SKScene, SKPhysicsContactDelegate {
+    var viewController: UIViewController!
+    var players: [Player] = [Player]()
+    var joystickPlates: [JoystickPlate] = [JoystickPlate]()
+    var joystick: [Joystick] = [Joystick]()
+    var fireButton: [FireButton] = [FireButton]()
     
-    var players: [Player] { get set }
-    var joystickPlates: [JoystickPlate] { get set }
-    var joystick: [Joystick] { get set }
-    var fireButton: [FireButton] { get set }
+    var rotateJoystickAndPlayerHandler: [((CGPoint) -> ())] = [((CGPoint) -> ())]()
+    var endJoystickMoveHandler: [(() -> ())] = [(() -> ())]()
+    var playerVelocityUpdateHandlers: [(() -> ())] = [(() -> ())]()
     
-    var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())? { get set }
-    var endJoystickMoveHandler: (() -> ())? { get set }
-    var playerVelocityUpdateHandler: (() -> ())? { get set }
-    
-    var obstacleHitHandler: (() -> ())? { get set }
-    var obstacleMoveHandler: (() -> ())? { get set }
-    var obstacleVelocityUpdateHandler: (() -> ())? { get set }
-    var fireHandler: (() -> ())? { get set }
+    var obstacleHitHandler: (() -> ())?
+    var obstacleMoveHandler: (() -> ())?
+    var obstacleVelocityUpdateHandler: (() -> ())?
+    var fireHandler: (() -> ())?
 }
