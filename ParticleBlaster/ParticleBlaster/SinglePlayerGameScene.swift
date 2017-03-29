@@ -9,7 +9,7 @@
 import SpriteKit
 import GameplayKit
 
-class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
+class SinglePlayerGameScene: GameScene {
     private var monstersDestroyed = 0
     private let monstersDestroyRequirement = 10
 
@@ -18,43 +18,27 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
-    var viewController: UIViewController!
-    
-    var players: [Player] = [Player]()
-    var joystickPlates: [JoystickPlate] = [JoystickPlate]()
-    var joysticks: [Joystick] = [Joystick]()
-    var fireButtons: [FireButton] = [FireButton]()
-    
-    var rotateJoystickAndPlayerHandler: ((CGPoint) -> ())?
-    var endJoystickMoveHandler: (() -> ())?
-    var playerVelocityUpdateHandler: (() -> ())?
-    
-    var obstacleHitHandler: (() -> ())?
-    var obstacleMoveHandler: (() -> ())?
-    var obstacleVelocityUpdateHandler: (() -> ())?
-    var fireHandler: (() -> ())?
-    
     var player: Player {
         get {
-            return players.first!
+            return self.players.first!
         }
     }
     
     var joystickPlate: JoystickPlate {
         get {
-            return joystickPlates.first!
+            return self.joystickPlates.first!
         }
     }
 
     var joystick: Joystick {
         get {
-            return joysticks.first!
+            return self.joysticks.first!
         }
     }
     
     var fireButton: FireButton {
         get {
-            return fireButtons.first!
+            return self.fireButtons.first!
         }
     }
     
@@ -109,26 +93,7 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
         return random() * (max - min) + min
     }
     
-    func displayScoreAnimation(displayScore: Int, scoreSceneCenter: CGPoint) {
-        let score = "+" + String(displayScore)
-        let label = SKLabelNode(fontNamed: Constants.destroyObstacleScoreFont)
-        label.text = score
-        label.fontSize = Constants.destroyObstacleScoreFontSize
-        label.fontColor = SKColor.orange
-        label.position = scoreSceneCenter
-        label.alpha = 0
-        addChild(label)
-        // animation for moving the label upwards by Constants.offset, and change alpha to 1
-        // then moving it upwards also by offset, change alpha to 0; remove label from scene
-        let fadeInAction = SKAction.fadeIn(withDuration: Constants.destroyObstacleScoreFadeTime)
-        let fadeOutAction = SKAction.fadeOut(withDuration: Constants.destroyObstacleScoreFadeTime)
-        let moveAction = SKAction.move(by: Constants.destroyObstacleScoreOffset, duration: Constants.destroyObstacleScoreFadeTime)
-        let labelAction = SKAction.sequence([SKAction.group([fadeInAction, moveAction]), SKAction.group([fadeOutAction, moveAction])])
-        label.run(labelAction, completion: {
-            label.removeFromParent()
-        })
-    }
-    
+        
     // Possible implementation: displays a sequence of skspritenode showing the explosion
     func displayBulletHitAnimation() {
         
@@ -138,20 +103,7 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
         
     }
     
-    func removeElement(node: SKSpriteNode) {
-        node.removeFromParent()
-    }
     
-    func addSingleObstacle(newObstacle: Obstacle) {
-        // obstacle's size has been set previously
-        // TODO: think about whether to put the position and size setting for spritenodes
-        newObstacle.shape.position = newObstacle.initialPosition
-        addChild(newObstacle.shape)
-    }
-    
-    func addBoundary(boundary: SKShapeNode) {
-        addChild(boundary)
-    }
     
     func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
         bullet.shape.position = position
@@ -174,12 +126,12 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
     private func checkJoystickOp(touch: UITouch) {
         if self.checkTouchRange(touch: touch, frame: plateTouchEndRange.frame) {
             if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
-                if let rotateHandler = self.rotateJoystickAndPlayerHandler {
+                if let rotateHandler = self.rotateJoystickAndPlayerHandlers.first {
                     let location = touch.location(in: self)
                     rotateHandler(location)
                 }
             } else {
-                if let endHandler = self.endJoystickMoveHandler {
+                if let endHandler = self.endJoystickMoveHandlers.first {
                     endHandler()
                 }
             }
@@ -202,14 +154,14 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
         
         for touch in touches {
             if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
-                if let endHandler = self.endJoystickMoveHandler {
+                if let endHandler = self.endJoystickMoveHandlers.first {
                     endHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: fireButton.shape.frame) {
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton.shape.alpha = 0.8
-                if let shootHandler = self.fireHandler {
+                if let shootHandler = self.fireHandlers.first {
                     shootHandler()
                 }
             }
@@ -224,7 +176,7 @@ class SinglePlayerGameScene: SKScene, GameScene, SKPhysicsContactDelegate {
             self.prevTime = currentTime
         } else {
             // new logic goes here
-            if let playerVelocityHandler = self.playerVelocityUpdateHandler {
+            if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
                 playerVelocityHandler()
             }
             if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
