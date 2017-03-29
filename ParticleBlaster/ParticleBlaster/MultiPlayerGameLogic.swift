@@ -35,8 +35,12 @@ class MultiplayerGameLogic: GameLogic {
     init(gameViewController: GameViewController) {
         self.gameViewController = gameViewController
         
-        self.numberOfPlayers = 1
-        self.playerControllers = [PlayerController(gameViewController: self.gameViewController)]
+        self.numberOfPlayers = 2
+        self.playerControllers = [PlayerController]()
+        let player1 = PlayerController(gameViewController: self.gameViewController)
+        let player2 = PlayerController(gameViewController: self.gameViewController)
+        self.playerControllers.append(player1)
+        self.playerControllers.append(player2)
         self.obstaclePool = [Obstacle]()
         self.winningCondition = false
         self.losingCondition = false
