@@ -22,32 +22,35 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
      */
-    var obstaclePool = [Obstacle]()
-    var map: MapObject!
+    // var obstaclePool = [Obstacle]()
+    // var map: MapObject!
     
     // Initialised physical property related supporting attributes
+    /*
     private var xDestination: CGFloat = CGFloat(0)
     private var yDestination: CGFloat = CGFloat(0)
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 0)
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
-    
+    */
     // Initialised score related supporting attributes
-    private var startTime: DispatchTime!
-    private var currLevelObtainedScore: Int = 0
+    var startTime: DispatchTime!
+    var currLevelObtainedScore: Int = 0
 
     
     // Game logic
-    var gameLogic = PlayerController()
+    var gameLogic: GameLogic!
+    // var gameLogic = PlayerController(gameViewController: self)
     
     /* Start of UIViewController related methods */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        setupMap()
+        self.scene = GameScene(size: view.bounds.size)
+        Constants.initializeJoystickInfo(viewSize: view.bounds.size)
+        self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
         setupGameScene()
-        self.gameLogic.setScene(self.scene)
     }
     
     override var shouldAutorotate: Bool {
@@ -86,37 +89,38 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     /* Start of setup related methods */
     
+    /*
     private func setupMap() {
         self.map = MapObject(view: self.view)
     }
+     */
     
     private func setupGameScene() {
-        self.scene = GameScene(size: view.bounds.size)
-        Constants.initializeJoystickInfo(viewSize: view.bounds.size)
+        let playerController = (self.gameLogic as! SinglePlayerGameLogic).playerController
         
         // Initialise game scene sttributes assignment
         scene.viewController = self
-        scene.player = self.gameLogic.player
-        scene.joystick = self.gameLogic.joystick
-        scene.joystickPlate = self.gameLogic.joystickPlate
-        scene.fireButton = self.gameLogic.fireButton
+        scene.player = playerController.player
+        scene.joystick = playerController.joystick
+        scene.joystickPlate = playerController.joystickPlate
+        scene.fireButton = playerController.fireButton
         
         // Logic handlers assignment
-        scene.playerVelocityUpdateHandler = self.gameLogic.updatePlayerVelocityHandler
-        scene.rotateJoystickAndPlayerHandler = self.gameLogic.moveJoystickAndRotatePlayerHandler
-        scene.endJoystickMoveHandler = self.gameLogic.endJoystickMoveHandler
-        scene.fireHandler = self.gameLogic.shootHandler
-        scene.obstacleVelocityUpdateHandler = self.updateObstacleVelocityHandler
+        scene.playerVelocityUpdateHandler = playerController.updatePlayerVelocityHandler
+        scene.rotateJoystickAndPlayerHandler = playerController.moveJoystickAndRotatePlayerHandler
+        scene.endJoystickMoveHandler = playerController.endJoystickMoveHandler
+        scene.fireHandler = playerController.shootHandler
+        scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
         
         
         // TODO: Remove prepareObstacles() method after the Level class is implemented
         
-        self.initialiseFakeObstacles()
-        self.prepareObstacles()
+        // self.initialiseFakeObstacles()
+        // self.prepareObstacles()
         
         // self.preparePlayer()
 
-        self.prepareMap()
+        // self.prepareMap()
         
         // Link game scene to view
         let skView = view as! SKView
@@ -128,30 +132,24 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.startTime = DispatchTime.now()
     }
     
+    /*
     private func prepareMap() {
         for boundary in self.map.boundaries {
             scene.addBoundary(boundary: boundary)
         }
     }
+ */
 
     // Logic for preparing the obstacle according to selected level information
-    private func initialiseFakeObstacles() {
-        // TODO: Remove manual assignment of obstacle information after the Level class is created
-        let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
-        let obs2 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle2CenterX, y: Constants.obstacle2CenterY))
-        self.prepareObstaclePhysicsProperty(obs: obs1)
-        self.prepareObstaclePhysicsProperty(obs: obs2)
-        
-        self.obstaclePool.append(obs1)
-        self.obstaclePool.append(obs2)
-    }
     
+    /*
     private func prepareObstacles() {
         for obs in self.obstaclePool {
             self.prepareObstaclePhysicsProperty(obs: obs)
             scene.addSingleObstacle(newObstacle: obs)
         }
     }
+
     
     private func prepareObstaclePhysicsProperty(obs: Obstacle) {
         obs.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
@@ -162,6 +160,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         obs.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
         obs.shape.physicsBody?.mass = Constants.obstacleMass
     }
+  */
     
     /*
     private func preparePlayer() {
@@ -180,6 +179,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     /* End of setup related methods */
     
     /* Start of game logic related methods */
+    /*
     private func isGameObjectOutOfBound(object: GameObject, position: CGPoint) -> Bool {
         let leftLimit = position.x - object.shape.size.width / 2
         if leftLimit >= view.bounds.width {
@@ -203,7 +203,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         return false
     }
-    
+    */
     // New logic for updating the player's velocity
     /*
     private func updatePlayerVelocityHandler() {
@@ -261,6 +261,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
         */
     
+    /*
     private func updateObstacleVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.gameLogic.player.shape.position.x - obs.shape.position.x, dy: self.gameLogic.player.shape.position.y - obs.shape.position.y).normalized()
@@ -272,7 +273,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             obs.pushedByForce(force: appliedForce)
         }
     }
-    
+    */
     // Contact delegate method
     func didBegin(_ contact: SKPhysicsContact) {
         
@@ -291,27 +292,28 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 bullet = secondBody.node as? SKSpriteNode {
-                self.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
+                self.gameLogic.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Obstacle != 0)) {
             if let obs1 = firstBody.node as? SKSpriteNode, let
                 obs2 = secondBody.node as? SKSpriteNode {
-                self.obstaclesDidCollideWithEachOther(obs1: obs1, obs2: obs2)
+                self.gameLogic.obstaclesDidCollideWithEachOther(obs1: obs1, obs2: obs2)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 currPlayer = secondBody.node as? SKSpriteNode {
-                self.obstacleDidCollideWithPlayer(obs: obs, player: currPlayer)
+                self.gameLogic.obstacleDidCollideWithPlayer(obs: obs, player: currPlayer)
             }
         } else if ((secondBody.categoryBitMask & PhysicsCategory.Map != 0)) {
             if let object = firstBody.node as? SKSpriteNode {
-                self.objectDidCollideWithMap(object: object)
+                self.gameLogic.objectDidCollideWithMap(object: object)
             }
         }
     }
     
+    /*
     private func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         print ("Hit!")
         self.scene.removeElement(node: bullet)
@@ -330,22 +332,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             print (self.currLevelObtainedScore)
         }
     }
+    */
     
     // For now impulse does not seem to show great visual effects
-    private func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-        let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
-        let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
-        
-        let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
-        let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
-
-        obs1.physicsBody?.applyImpulse(impulse1)
-        obs2.physicsBody?.applyImpulse(impulse2)
-        
-        // print ("Impulse triggered!")
-        //self.scene.displayObstacleImpulseAnimation()
-    }
     
+    
+    /*
     private func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
         self.gameLogic.player.hitByObstacle()
         if self.gameLogic.player.checkDead() {
@@ -354,12 +346,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             // Losing condition met!
         }
     }
-
+ 
     private func objectDidCollideWithMap(object: SKSpriteNode) {
         // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
         object.removeAllActions()
     }
-    
+    */
     /* End of game logic related methods */
 }
 
