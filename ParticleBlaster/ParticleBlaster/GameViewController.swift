@@ -14,22 +14,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
+    
+    // Initialise game logic for controlling game objects
+    var gameLogic: GameLogic!
 
     // Initialised score related supporting attributes
     var startTime: DispatchTime!
     var currLevelObtainedScore: Int = 0
-
-    
-    // Game logic
-    var gameLogic: GameLogic!
-    // var gameLogic = PlayerController(gameViewController: self)
     
     /* Start of UIViewController related methods */
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.scene = GameScene(size: view.bounds.size)
+        self.scene = SinglePlayerGameScene(size: view.bounds.size)
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
         setupGameScene()
@@ -49,7 +47,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        // Release any cached data, images, etc that aren't in use.
     }
     
     override var prefersStatusBarHidden: Bool {
@@ -59,20 +56,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     /* End of UIViewController related methods */
     
     private func setupGameScene() {
-        let playerController = (self.gameLogic as! SinglePlayerGameLogic).playerController
-        
-        // Initialise game scene sttributes assignment
         scene.viewController = self
-        scene.player = playerController.player
-        scene.joystick = playerController.joystick
-        scene.joystickPlate = playerController.joystickPlate
-        scene.fireButton = playerController.fireButton
         
-        // Logic handlers assignment
-        scene.playerVelocityUpdateHandler = playerController.updatePlayerVelocityHandler
-        scene.rotateJoystickAndPlayerHandler = playerController.moveJoystickAndRotatePlayerHandler
-        scene.endJoystickMoveHandler = playerController.endJoystickMoveHandler
-        scene.fireHandler = playerController.shootHandler
+        for i in 0..<self.gameLogic.playerControllers.count {
+            let playerController = self.gameLogic.playerControllers[i]
+            self.scene.players.append(playerController.player)
+            self.scene.joysticks.append(playerController.joystick)
+            scene.joystickPlates.append(playerController.joystickPlate)
+            scene.fireButtons.append(playerController.fireButton)
+            scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
+            scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
+            scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
+            scene.fireHandlers.append(playerController.shootHandler)
+        }
+
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
         
         // Link game scene to view
