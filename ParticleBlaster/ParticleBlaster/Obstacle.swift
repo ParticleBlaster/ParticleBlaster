@@ -14,21 +14,25 @@ class Obstacle : GameObject {
     init(image: String) {
         self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
         super.init(imageName: image)
+        setupPhysicsProperty()
     }
     
     init() {
         self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
         super.init(imageName: "obs")
+        setupPhysicsProperty()
     }
     
     init(userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: "obs")
+        setupPhysicsProperty()
     }
 
     init(image: String, userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
+        setupPhysicsProperty()
     }
     
     init(obstacle: Obstacle) {
@@ -36,6 +40,7 @@ class Obstacle : GameObject {
         super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
                    timeToLive: obstacle.timeToLive,
                    isStatic: obstacle.isStatic)
+        setupPhysicsProperty()
     }
 
     func hitByBullet() {
