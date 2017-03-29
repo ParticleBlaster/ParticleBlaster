@@ -11,6 +11,7 @@
 		0CA20E3D1E86A8AC00F07F14 /* MapObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */; };
 		0CB3FD4E1E8AE8A000FF4FB3 /* GameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */; };
 		0CB3FD521E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */; };
+		0CB3FD541E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CB3FD531E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift */; };
 		0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */; };
 		0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */; };
 		0CCDB6051E75254300DEF8CC /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6041E75254300DEF8CC /* GameScene.swift */; };
@@ -54,6 +55,7 @@
 		0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapObject.swift; sourceTree = "<group>"; };
 		0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLogic.swift; sourceTree = "<group>"; };
 		0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SinglePlayerGameLogic.swift; sourceTree = "<group>"; };
+		0CB3FD531E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiPlayerGameLogic.swift; sourceTree = "<group>"; };
 		0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MultiplayerGameScene.swift; sourceTree = "<group>"; };
 		0CCDB5FB1E75254300DEF8CC /* ParticleBlaster.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ParticleBlaster.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -105,6 +107,19 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0CB3FD571E8BC1B700FF4FB3 /* GamePlay */ = {
+			isa = PBXGroup;
+			children = (
+				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
+				0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */,
+				0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */,
+				0CB3FD531E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift */,
+				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
+				0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */,
+			);
+			name = GamePlay;
+			sourceTree = "<group>";
+		};
 		0CC56B301E8374A8003A39F7 /* GameObjects */ = {
 			isa = PBXGroup;
 			children = (
@@ -117,6 +132,7 @@
 				0EB2CD561E82CD5E00237FA9 /* FireButton.swift */,
 				0E02E5D01E81615700E7AB51 /* Joystick.swift */,
 				0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */,
+				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */,
 			);
 			name = GameObjects;
@@ -141,6 +157,7 @@
 		0CCDB5FD1E75254300DEF8CC /* ParticleBlaster */ = {
 			isa = PBXGroup;
 			children = (
+				0CB3FD571E8BC1B700FF4FB3 /* GamePlay */,
 				0CC56B301E8374A8003A39F7 /* GameObjects */,
 				0CCDB6161E752B5A00DEF8CC /* Sounds */,
 				6A0318571E76FF7E000FAE05 /* Fonts */,
@@ -154,14 +171,8 @@
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
-				0CCDB6041E75254300DEF8CC /* GameScene.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
-				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
-				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
-				0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */,
-				0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */,
 				0C082C7C1E895BE800DF97BE /* PlayerController.swift */,
-				0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
 				6A2AC2661E87744100BE3A41 /* LevelDesignerViewController.swift */,
 				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
@@ -323,6 +334,7 @@
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,
 				6A638EFD1E87A6710000EB16 /* LevelDesignerScene.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
+				0CB3FD541E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift in Sources */,
 				E1E205821E830C5C0018DD13 /* GameSettingScene.swift in Sources */,
 				E1E2057C1E82F9980018DD13 /* FIleUtils.swift in Sources */,
 				E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */,
