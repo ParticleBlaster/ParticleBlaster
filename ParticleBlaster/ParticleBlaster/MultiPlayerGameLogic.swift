@@ -7,7 +7,6 @@
 //
 
 import Foundation
-import Foundation
 import UIKit
 import SpriteKit
 
@@ -20,15 +19,27 @@ class MultiplayerGameLogic: GameLogic {
     var losingCondition: Bool
     var map: MapObject
     
-    var playerController: PlayerController {
+    var playerController1: PlayerController {
         get {
             return playerControllers[0]
         }
     }
     
-    var player: Player {
+    var playerController2: PlayerController {
         get {
-            return self.playerController.player
+            return playerControllers[1]
+        }
+    }
+    
+    var player1: Player {
+        get {
+            return self.playerController1.player
+        }
+    }
+    
+    var player2: Player {
+        get {
+            return self.playerController2.player
         }
     }
     
@@ -38,7 +49,9 @@ class MultiplayerGameLogic: GameLogic {
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
         let player1 = PlayerController(gameViewController: self.gameViewController)
+        player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         let player2 = PlayerController(gameViewController: self.gameViewController)
+        player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
         self.obstaclePool = [Obstacle]()
@@ -52,55 +65,21 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func updateWinningCondition() {
-        
     }
     
     func updateObstacleVelocityHandler() {
-        for obs in self.obstaclePool {
-            let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
-            let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
-            obs.pushedByForce(force: appliedForce)
-        }
     }
     
     func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        self.gameViewController.scene.removeElement(node: bullet)
-        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
-        obstacleGotHit.hitByBullet()
-        if obstacleGotHit.checkDestroyed() {
-            let obstacleCenter = obstacle.position
-            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
-            self.gameViewController.scene.removeElement(node: obstacle)
-            let obsDestroyedTime = DispatchTime.now()
-            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
-            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
-            self.gameViewController.currLevelObtainedScore += scoreForThisObs
-            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
-        }
     }
     
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
-        self.player.hitByObstacle()
-        if self.player.checkDead() {
-            print ("You are dead!")
-            self.losingCondition = true
-            // self.gameViewController.scene.removeElement(node: player)
-        }
     }
     
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-        let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
-        let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
-        
-        let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
-        let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
-        
-        obs1.physicsBody?.applyImpulse(impulse1)
-        obs2.physicsBody?.applyImpulse(impulse2)
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
-        // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
         object.removeAllActions()
     }
     
@@ -128,5 +107,5 @@ class MultiplayerGameLogic: GameLogic {
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
     }
-    
+
 }
