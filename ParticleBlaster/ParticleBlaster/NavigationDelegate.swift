@@ -11,4 +11,5 @@ protocol NavigationDelegate {
     func navigateToDesignScene()
     func navigateToLevelSelectScene(isSingleMode: Bool)
     func navigateToHomePage()
+    func navigateToLeaderBoard()
 }

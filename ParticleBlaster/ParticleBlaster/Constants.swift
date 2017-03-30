@@ -25,6 +25,7 @@ enum LevelDifficultyLevel: Int {
 }
 
 class Constants {
+    static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
         
     // Game Scene Constants
@@ -186,6 +187,8 @@ class Constants {
     static let downwardButtonFilename = "downward-btn"
     static let downwardButtonDisabledFilename = "downward-btn-disabled"
     static let lockButtonFilename = "lock-btn"
+    static let rankButtonFilename = "rank-btn"
+    static let rankButtonDisabledFilename = "rank-btn-disabled"
 
     // sizes
     static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
@@ -193,4 +196,8 @@ class Constants {
     static let screenPadding = CGSize(width: 50, height: 50)
     static let buttonVerticalMargin: CGFloat = 30
     static let buttonHorizontalMargin: CGFloat = 30
+
+    // Sound
+    static let buttonPressedSoundFilename = "button-pressed.mp3"
+    static let backgroundSoundFilename = "background-music-aac"
 }

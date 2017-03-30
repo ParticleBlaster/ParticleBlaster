@@ -8,24 +8,84 @@
 
 import UIKit
 import SpriteKit
+import GameKit
 
 class HomePageViewController: UIViewController {
+    // Stored scenes
+    var homePageScene: HomePageScene?
+    
+    // Check if the user has Game Center enabled
+    var gcEnabled: Bool = false {
+        didSet {
+            guard oldValue != gcEnabled else {
+                return
+            }
+            self.onGCEnableChange()
+        }
+    }
+    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        startHomePageView()
+
+        setupView()
+        setupSound()
+        navigateToHomePage()
+
+        // Call the GC authentication controller
+        authenticateLocalPlayer()
     }
     
-    func startHomePageView() {
-        let scene = HomePageScene(size: view.bounds.size)
+    // MARK: - AUTHENTICATE LOCAL PLAYER
+    private func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+        
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // Show login if player is not logged in
+                self.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // Player is already authenticated & logged in, load game center
+                self.gcEnabled = true
+                
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+                    if error != nil {
+                        print(error ?? "")
+                    } else {
+                        self.gcDefaultLeaderBoard = leaderboardIdentifer!
+                        print(self.gcDefaultLeaderBoard)
+                    }
+                })
+                
+            } else {
+                // Game center is not enabled on the users device
+                self.gcEnabled = false
+                print("Local player could not be authenticated!")
+                print(error ?? "")
+            }
+        }
+    }
+
+    func onGCEnableChange() {
+        let skView = view as! SKView
+        guard let scene = skView.scene as? HomePageScene else {
+            return
+        }
+        scene.onGCEnableChange(isEnabled: gcEnabled)
+    }
+
+    func setupSound() {
+        if GameSetting.getInstance().isMusicEnabled {
+            AudioUtils.playBackgroundMusic()
+        }
+    }
+
+    func setupView() {
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
-        scene.scaleMode = .resizeFill
-        scene.navigationDelegate = self
-        skView.presentScene(scene)
     }
     
     override var shouldAutorotate: Bool {
@@ -42,6 +102,13 @@ class HomePageViewController: UIViewController {
 
     override var prefersStatusBarHidden: Bool {
         return true
+    }
+}
+
+extension HomePageViewController: GKGameCenterControllerDelegate {
+    // Delegate to dismiss the GC controller
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
 }
 
@@ -69,8 +136,18 @@ extension HomePageViewController: NavigationDelegate {
     func navigateToHomePage() {
         let skView = view as! SKView
         let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = HomePageScene(size: skView.frame.size)
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
+        if homePageScene == nil {
+            homePageScene = HomePageScene(size: skView.frame.size)
+            homePageScene?.navigationDelegate = self
+        }
+        skView.presentScene(homePageScene!, transition: reveal)
+    }
+
+    func navigateToLeaderBoard() {
+        let gcVC = GKGameCenterViewController()
+        gcVC.gameCenterDelegate = self
+        gcVC.viewState = .leaderboards
+        gcVC.leaderboardIdentifier = Constants.levelLeaderboardID
+        present(gcVC, animated: true, completion: nil)
     }
 }

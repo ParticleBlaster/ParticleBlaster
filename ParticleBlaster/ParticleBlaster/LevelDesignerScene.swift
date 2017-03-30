@@ -172,6 +172,7 @@ class LevelDesignerScene: SKScene {
         if buttonBackToHomepage.contains(touchLocation) {
             print("LevelDeisgner: back to homepage tapped!")
             navigationDelegate?.navigateToHomePage()
+            return
         }
         
         if currentObstacle != nil {
