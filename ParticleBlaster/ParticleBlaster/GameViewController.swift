@@ -12,6 +12,8 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
+    var gameMode = Constants.gameMode.single
+    
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     
@@ -27,9 +29,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.scene = SinglePlayerGameScene(size: view.bounds.size)
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
-        self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
+        MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
+        
+        if gameMode == Constants.gameMode.single {
+            self.scene = SinglePlayerGameScene(size: view.bounds.size)
+            self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
+        } else {
+            self.gameLogic = MultiplayerGameLogic(gameViewController: self)
+            self.scene = MultiplayerGameScene(size: view.bounds.size)
+        }
+
         setupGameScene()
     }
     
