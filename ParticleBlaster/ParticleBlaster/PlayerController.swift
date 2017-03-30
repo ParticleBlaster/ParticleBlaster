@@ -16,6 +16,8 @@ class PlayerController {
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
     var scene: GameScene!
+    var joystickPlateCenterX: CGFloat?
+    var joystickPlateCenterY: CGFloat?
     
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
@@ -43,7 +45,7 @@ class PlayerController {
     
     func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
         self.isFlying = true
-        let direction = CGVector(dx: touchLocation.x - Constants.joystickPlateCenterX, dy: touchLocation.y - Constants.joystickPlateCenterY)
+        let direction = CGVector(dx: touchLocation.x - joystickPlateCenterX!, dy: touchLocation.y - joystickPlateCenterY!)
         let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
         self.unitOffset = direction.normalized()
         let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
@@ -53,7 +55,7 @@ class PlayerController {
             radius = length
         }
         
-        let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
+        let newJoystickPosition = CGPoint(x: joystickPlateCenterX! + self.unitOffset.dx * radius, y: joystickPlateCenterY! + self.unitOffset.dy * radius)
         self.joystick.updatePosition(newLoation: newJoystickPosition)
         self.player.updateRotation(newAngle: rotationAngle)
     }
@@ -70,5 +72,10 @@ class PlayerController {
         bullet.shape.zPosition = -1
         
         self.scene.addChild(bullet.shape)
+    }
+    
+    func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {
+        self.joystickPlateCenterX = x
+        self.joystickPlateCenterY = y
     }
 }
