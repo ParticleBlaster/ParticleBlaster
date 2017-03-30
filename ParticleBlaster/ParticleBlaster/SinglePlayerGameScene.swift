@@ -56,6 +56,7 @@ class SinglePlayerGameScene: GameScene {
         // Note: position is given as center position already
         joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         joystick.shape.alpha = 0.8
+        joystick.updateJoystickPlateCenterPosition(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y)
         addChild(joystick.shape)
         joystick.shape.zPosition = 2
         

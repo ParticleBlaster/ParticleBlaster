@@ -35,7 +35,9 @@ class SinglePlayerGameLogic: GameLogic {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 1
-        self.playerControllers = [PlayerController(gameViewController: self.gameViewController)]
+        let player = PlayerController(gameViewController: self.gameViewController)
+        player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        self.playerControllers = [player]
         self.obstaclePool = [Obstacle]()
         self.winningCondition = false
         self.losingCondition = false
