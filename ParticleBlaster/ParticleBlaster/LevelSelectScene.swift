@@ -39,15 +39,17 @@ class LevelSelectScene: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
-        preButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.upwardButtonFilename,
-                                 disabledImageNamed: Constants.upwardButtonDisabledFilename)
-        nextButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.downwardButtonFilename,
-                                 disabledImageNamed: Constants.downwardButtonDisabledFilename)
-        backButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                imageNamed: Constants.backButtonFilename,
-                                disabledImageNamed: Constants.backButtonDisabledFilename)
+        preButton = IconButton(imageNamed: Constants.upwardButtonFilename,
+                               disabledImageNamed: Constants.upwardButtonDisabledFilename,
+                               size: Constants.iconButtonDefaultSize)
+        
+        nextButton = IconButton(imageNamed: Constants.downwardButtonFilename,
+                                disabledImageNamed: Constants.downwardButtonDisabledFilename,
+                                size: Constants.iconButtonDefaultSize)
+        
+        backButton = IconButton(imageNamed: Constants.backButtonFilename,
+                                disabledImageNamed: Constants.backButtonDisabledFilename,
+                                size: Constants.iconButtonDefaultSize)
         background.position = .zero
         background.zPosition = 0
         backButton.zPosition = 1
@@ -85,8 +87,8 @@ class LevelSelectScene: SKScene {
                 button.onPressHandler = self.onLevelBoxPressed(level: index)
                 levelBox = button
             } else {
-                let button = IconButton(size: levelBoxSize, imageNamed: Constants.lockButtonFilename, disabledImageNamed: nil)
-                button.isEnable = false
+                let button = IconButton(imageNamed: Constants.lockButtonFilename, disabledImageNamed: nil, size: levelBoxSize)
+                button.isEnabled = false
                 levelBox = button
             }
             levelBox.zPosition = 1
@@ -119,10 +121,10 @@ class LevelSelectScene: SKScene {
 
     private func updatePaginationButtons() {
         if currentPage == 0 {
-            preButton.isEnable = false
+            preButton.isEnabled = false
             preButton.isPositive = false
         } else {
-            preButton.isEnable = true
+            preButton.isEnabled = true
             preButton.isPositive = true
         }
         var maxPageNumber = levelList.count / (numRows * numCols)
@@ -130,10 +132,10 @@ class LevelSelectScene: SKScene {
             maxPageNumber += 1
         }
         if currentPage == maxPageNumber - 1 {
-            nextButton.isEnable = false
+            nextButton.isEnabled = false
             nextButton.isPositive = false
         } else {
-            nextButton.isEnable = true
+            nextButton.isEnabled = true
             nextButton.isPositive = true
         }
     }

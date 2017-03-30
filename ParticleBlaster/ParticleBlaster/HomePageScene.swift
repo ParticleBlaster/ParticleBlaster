@@ -13,11 +13,14 @@ class HomePageScene: SKScene {
     private var designButton: TextButton!
     private var soundButton: IconButton!
     private var musicButton: IconButton!
+    private var rankButton: IconButton!
     private var gameSetting: GameSetting!
     
     var navigationDelegate: NavigationDelegate?
     
-    override func didMove(to view: SKView) {
+    override init(size: CGSize) {
+        super.init(size: size)
+
         anchorPoint = CGPoint(x: 0.5, y: 0.5)
         gameSetting = GameSetting.getInstance()
         
@@ -47,30 +50,45 @@ class HomePageScene: SKScene {
         designButton.onPressHandler = self.designButtonPressed
         addChild(designButton)
         
-        soundButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.soundButtonFilename,
+        soundButton = IconButton(imageNamed: Constants.soundButtonFilename,
                                  disabledImageNamed: Constants.soundButtonDisabledFilename,
+                                 size: Constants.iconButtonDefaultSize,
                                  isPositive: gameSetting.isSoundEnabled)
-        musicButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.musicButtonFilename,
+        musicButton = IconButton(imageNamed: Constants.musicButtonFilename,
                                  disabledImageNamed: Constants.musicButtonDisabledFilename,
+                                 size: Constants.iconButtonDefaultSize,
                                  isPositive: gameSetting.isMusicEnabled)
+        rankButton = IconButton(imageNamed: Constants.rankButtonFilename,
+                                disabledImageNamed: Constants.rankButtonDisabledFilename,
+                                size: Constants.iconButtonDefaultSize,
+                                isPositive: false,
+                                isEnabled: false)
         soundButton.zPosition = 1
-        soundButton.position = CGPoint(x: -soundButton.size.width / 2 - Constants.buttonVerticalMargin / 2,
+        soundButton.position = CGPoint(x: 0,
                                        y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - soundButton.size.height / 2);
         soundButton.onPressHandler = self.soundButtonPressed
         addChild(soundButton)
         
         musicButton.zPosition = 1
-        musicButton.position = CGPoint(x: musicButton.size.width / 2 + Constants.buttonVerticalMargin / 2,
+        musicButton.position = CGPoint(x: soundButton.position.x + soundButton.size.width / 2 + Constants.buttonHorizontalMargin + musicButton.size.width / 2,
                                        y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - musicButton.size.height / 2);
         musicButton.onPressHandler = self.musicButtonPressed
         addChild(musicButton)
-        
-        // Play and loop the background music
-        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+
+        rankButton.zPosition = 1
+        rankButton.position = CGPoint(x: soundButton.position.x - soundButton.size.width / 2 - Constants.buttonHorizontalMargin - rankButton.size.width / 2,
+                                      y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - musicButton.size.height / 2);
+        rankButton.onPressHandler = self.rankButtonPressed
+        addChild(rankButton)
+    }
+    
+    required init?(coder aDecoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+
+    func onGCEnableChange(isEnabled: Bool) {
+        rankButton.isPositive = isEnabled
+        rankButton.isEnabled = isEnabled
     }
     
     private func playButtonPressed() {
@@ -84,10 +102,19 @@ class HomePageScene: SKScene {
     func musicButtonPressed() {
         gameSetting.toggleMusic()
         musicButton.isPositive = gameSetting.isMusicEnabled
+        if gameSetting.isMusicEnabled {
+            AudioUtils.playBackgroundMusic()
+        } else {
+            AudioUtils.pauseBackgroundMusic()
+        }
     }
     
     func soundButtonPressed() {
         gameSetting.toggleSound()
         soundButton.isPositive = gameSetting.isSoundEnabled
+    }
+
+    func rankButtonPressed() {
+        navigationDelegate?.navigateToLeaderBoard()
     }
 }
