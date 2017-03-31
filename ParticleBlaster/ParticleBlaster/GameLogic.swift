@@ -23,4 +23,5 @@ protocol GameLogic {
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode)
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode)
     func objectDidCollideWithMap(object: SKSpriteNode)
+    func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode)
 }
