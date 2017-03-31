@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
-    var gameMode = Constants.gameMode.single
+    var gameMode = Constants.gameMode.multi
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
@@ -36,8 +36,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
         } else {
-            self.gameLogic = MultiplayerGameLogic(gameViewController: self)
             self.scene = MultiplayerGameScene(size: view.bounds.size)
+            self.gameLogic = MultiplayerGameLogic(gameViewController: self)
         }
 
         setupGameScene()
@@ -130,7 +130,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Bullet != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
-            self.gameLogic
+            if let bullet = firstBody.node as? SKSpriteNode, let player = secondBody.node as? SKSpriteNode {
+                self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
+            }
         }
     }
 }
