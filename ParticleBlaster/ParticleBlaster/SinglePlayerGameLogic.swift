@@ -101,6 +101,10 @@ class SinglePlayerGameLogic: GameLogic {
         object.removeAllActions()
     }
     
+    func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
+        
+    }
+    
     private func prepareObstacles() {
         for obs in self.obstaclePool {
             self.gameViewController.scene.addSingleObstacle(newObstacle: obs)

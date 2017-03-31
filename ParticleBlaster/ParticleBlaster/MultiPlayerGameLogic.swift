@@ -74,9 +74,14 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
+        
     }
     
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
+    }
+    
+    func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
+        
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
