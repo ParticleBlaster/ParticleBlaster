@@ -175,8 +175,9 @@ class LevelDesignerScene: SKScene {
             
             if checkTouchRange(touch: touch, frame: item.shape.frame) {
                 item.shape.position = translateFromLevelScreenToSelf(withPosition: item.shape.position)
-                addCurrentObstacle(item)
+                
                 item.shape.removeFromParent()
+                addCurrentObstacle(item)
                 return
             }
         }
@@ -283,8 +284,8 @@ class LevelDesignerScene: SKScene {
                                    height: shape.size.height * Constants.levelScreenRatio))
             shape.position = translateFromSelfToLevelScreen(withPosition: shape.position)
             
-            shape.zPosition = zPositionCounter
-            zPositionCounter += 1
+//            shape.zPosition = zPositionCounter
+//            zPositionCounter += 1
             levelScreen.addChild(shape)
         }
     }
