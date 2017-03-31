@@ -11,10 +11,12 @@ import SpriteKit
 class Player : GameObject {
     init(image: String) {
         super.init(imageName: image)
+        setupPhysicsProperty()
     }
     
     init() {
         super.init(imageName: "Spaceship")
+        setupPhysicsProperty()
     }
     
     func updateRotation(newAngle: CGFloat) {
@@ -33,4 +35,13 @@ class Player : GameObject {
         }
     }
     
+    private func setupPhysicsProperty() {
+        self.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+        self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
+        self.shape.physicsBody?.isDynamic = true
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Map
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map
+        self.shape.physicsBody?.mass = 0
+    }
 }

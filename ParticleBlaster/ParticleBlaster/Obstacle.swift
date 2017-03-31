@@ -14,21 +14,25 @@ class Obstacle : GameObject {
     init(image: String) {
         self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
         super.init(imageName: image)
+        setupPhysicsProperty()
     }
     
     init() {
         self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
         super.init(imageName: "obs")
+        setupPhysicsProperty()
     }
     
     init(userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: "obs")
+        setupPhysicsProperty()
     }
 
     init(image: String, userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
+        setupPhysicsProperty()
     }
     
     init(obstacle: Obstacle) {
@@ -36,6 +40,7 @@ class Obstacle : GameObject {
         super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
                    timeToLive: obstacle.timeToLive,
                    isStatic: obstacle.isStatic)
+        setupPhysicsProperty()
     }
 
     func hitByBullet() {
@@ -55,5 +60,14 @@ class Obstacle : GameObject {
     func copy() -> Obstacle {
         let copy = Obstacle(obstacle: self)
         return copy
+    }
+    
+    private func setupPhysicsProperty() {
+        self.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
+        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        self.shape.physicsBody?.isDynamic = true
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
     }
 }

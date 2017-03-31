@@ -63,7 +63,7 @@ class Constants {
     }
     
     // Game Static Constants
-    static let playerVelocity: CGFloat = CGFloat(500)
+    static let playerVelocity: CGFloat = CGFloat(300)
     static let obstacleVelocity: CGFloat = CGFloat(100)
     static let bulletVelocity: CGFloat = CGFloat(1000)
     
@@ -76,7 +76,17 @@ class Constants {
     static let playerTimeToLive: Int = 1
     
     static let obstacleImpulseValue: CGFloat = CGFloat(1500)
-    static let obstacleForceValue: CGFloat = CGFloat(50)
+    static let obstacleForceValue: CGFloat = CGFloat(10)
+    static let playerForceValue: CGFloat = CGFloat(50)
+    
+    static let obstacleMass: CGFloat = CGFloat(20)
+    static let playerMass: CGFloat = CGFloat(10)
+    
+    static let destroyObstacleScoreFont = "Papyrus"
+    static let destroyObstacleScoreFontSize = CGFloat(25)
+    static let destroyObstacleScoreOffset = CGVector(dx: 0, dy: 5)
+    static let destroyObstacleScoreFadeTime = 0.5
+    //static let destroyObstacleScore
     
     enum gameMode {
         case single
