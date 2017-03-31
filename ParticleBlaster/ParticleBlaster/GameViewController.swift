@@ -110,7 +110,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
                 bullet = secondBody.node as? SKSpriteNode {
-                self.gameLogic.bulletObstacleDidCollide(bullet: bullet, obstacle: obs)
+                self.gameLogic.bulletDidCollideWithObstacle(bullet: bullet, obstacle: obs)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Obstacle != 0)) {
