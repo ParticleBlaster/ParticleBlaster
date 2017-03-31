@@ -70,7 +70,7 @@ class MultiplayerGameLogic: GameLogic {
     func updateObstacleVelocityHandler() {
     }
     
-    func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
+    func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
     }
     
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {

@@ -60,7 +60,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
-    func bulletObstacleDidCollide(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
+    func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         self.gameViewController.scene.removeElement(node: bullet)
         let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
         obstacleGotHit.hitByBullet()
