@@ -128,6 +128,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             if let object = firstBody.node as? SKSpriteNode {
                 self.gameLogic.objectDidCollideWithMap(object: object)
             }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Bullet != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
+            self.gameLogic
         }
     }
 }
