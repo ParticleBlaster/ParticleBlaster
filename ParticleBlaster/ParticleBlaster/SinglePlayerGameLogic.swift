@@ -73,6 +73,7 @@ class SinglePlayerGameLogic: GameLogic {
             let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
             self.gameViewController.currLevelObtainedScore += scoreForThisObs
             self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
+            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
         }
     }
     

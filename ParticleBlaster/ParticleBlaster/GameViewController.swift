@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
-    var gameMode = Constants.gameMode.multi
+    var gameMode = Constants.gameMode.single
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
@@ -78,6 +78,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
             scene.fireHandlers.append(playerController.shootHandler)
+            scene.launchMissileHandlers.append(playerController.updateMissileVelocityHandler)
         }
 
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler

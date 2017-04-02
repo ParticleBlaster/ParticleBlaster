@@ -9,16 +9,13 @@
 import SpriteKit
 
 class Bullet : GameObject {
-    var mothership: Player
     
-    init(image: String, mothership: Player) {
-        self.mothership = mothership
+    init(image: String) {
         super.init(imageName: image)
         setupPhysicsProperty()
     }
     
-    init(mothership: Player) {
-        self.mothership = mothership
+    init() {
         super.init(imageName: "bullet-blue")
         setupPhysicsProperty()
     }

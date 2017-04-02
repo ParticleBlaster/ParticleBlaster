@@ -31,6 +31,7 @@
 		0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5CE1E8140EE00E7AB51 /* Player.swift */; };
 		0E02E5D11E81615700E7AB51 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D01E81615700E7AB51 /* Joystick.swift */; };
 		0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */; };
+		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
 		0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */; };
 		0EB2CD571E82CD5E00237FA9 /* FireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD561E82CD5E00237FA9 /* FireButton.swift */; };
@@ -80,6 +81,7 @@
 		0E02E5CE1E8140EE00E7AB51 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0E02E5D01E81615700E7AB51 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickPlate.swift; sourceTree = "<group>"; };
+		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGVectorExtensions.swift; sourceTree = "<group>"; };
 		0EB2CD561E82CD5E00237FA9 /* FireButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireButton.swift; sourceTree = "<group>"; };
@@ -138,6 +140,7 @@
 				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				6A638EFE1E87A8530000EB16 /* GameLevel.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
+				0E8EE74F1E918EA7003F041A /* Missile.swift */,
 				0EB2CD521E82A3C400237FA9 /* Obstacle.swift */,
 				0E02E5CE1E8140EE00E7AB51 /* Player.swift */,
 				0EB2CD561E82CD5E00237FA9 /* FireButton.swift */,
@@ -358,6 +361,7 @@
 				6A2AC2671E87744100BE3A41 /* LevelDesignerViewController.swift in Sources */,
 				0CCDB6271E757C7E00DEF8CC /* PhysicsCategory.swift in Sources */,
 				0EB2CD591E82D8BE00237FA9 /* Bullet.swift in Sources */,
+				0E8EE7501E918EA7003F041A /* Missile.swift in Sources */,
 				E1A4FE3D1E84684D0096D277 /* LevelSelectScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -183,6 +183,9 @@ class SinglePlayerGameScene: GameScene {
             if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
                 obstacleVelocityHandler()
             }
+            if let missileVelocityHandler = self.launchMissileHandlers.first {
+                missileVelocityHandler()
+            }
 
             self.prevTime = currentTime
         }

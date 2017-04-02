@@ -93,7 +93,6 @@ class MultiplayerGameLogic: GameLogic {
             let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bullet)})[0]
             bulletMothershipController.removeBullet(bulletNode: bullet)
         }
-        
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {

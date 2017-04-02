@@ -3,7 +3,7 @@
 //  ParticleBlaster
 //
 //  Created by Richard Jiang on 22/03/17.
-//  Copyright © 2017年 ParticleBlaster. All rights reserved.
+//  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
 import UIKit
@@ -15,5 +15,10 @@ extension CGVector {
     
     func normalized() -> CGVector {
         return CGVector(dx: self.dx / length(), dy: self.dy / length())
+    }
+    
+    // Define right as the orthonormal direction
+    func orthonormalVector() -> CGVector {
+        return CGVector(dx: self.dy, dy: -self.dx).normalized()
     }
 }
