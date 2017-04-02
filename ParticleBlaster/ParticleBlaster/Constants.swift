@@ -63,7 +63,7 @@ class Constants {
     }
     
     // Game Static Constants
-    static let playerVelocity: CGFloat = CGFloat(300)
+    static let playerVelocity: CGFloat = CGFloat(400)
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
     
@@ -75,8 +75,8 @@ class Constants {
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
     
-    static let obstacleImpulseValue: CGFloat = CGFloat(1500)
-    static let obstacleForceValue: CGFloat = CGFloat(1500)
+    static let obstacleImpulseValue: CGFloat = CGFloat(50)
+    static let obstacleForceValue: CGFloat = CGFloat(50)
     static let playerForceValue: CGFloat = CGFloat(50)
     
     static let obstacleMass: CGFloat = CGFloat(20)

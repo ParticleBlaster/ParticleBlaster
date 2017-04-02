@@ -73,8 +73,10 @@ class MultiplayerGameLogic: GameLogic {
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
     }
     
+    // Obstacle in this case will not be moving, but the player will be hurt
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
-        
+        let collidedPlayer = self.playerControllers.filter({$0.player.shape == player})[0]
+        collidedPlayer.player.hitByObstacle()
     }
     
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {

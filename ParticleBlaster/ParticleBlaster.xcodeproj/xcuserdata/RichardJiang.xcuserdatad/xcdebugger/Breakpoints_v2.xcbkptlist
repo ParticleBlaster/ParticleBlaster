@@ -14,9 +14,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "278"
-            endingLineNumber = "278"
-            landmarkName = "didBegin(_:)"
-            landmarkType = "7">
+            endingLineNumber = "278">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -30,9 +28,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "221"
-            endingLineNumber = "221"
-            landmarkName = "moveJoystickAndRotatePlayerHandler(touchLocation:)"
-            landmarkType = "7">
+            endingLineNumber = "221">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -46,9 +42,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "305"
-            endingLineNumber = "305"
-            landmarkName = "bulletObstacleDidCollide(bullet:obstacle:)"
-            landmarkType = "7">
+            endingLineNumber = "305">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -62,9 +56,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "306"
-            endingLineNumber = "306"
-            landmarkName = "bulletObstacleDidCollide(bullet:obstacle:)"
-            landmarkType = "7">
+            endingLineNumber = "306">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -78,9 +70,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "273"
-            endingLineNumber = "273"
-            landmarkName = "didBegin(_:)"
-            landmarkType = "7">
+            endingLineNumber = "273">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -94,9 +84,7 @@
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "354"
-            endingLineNumber = "354"
-            landmarkName = "GameViewController"
-            landmarkType = "4">
+            endingLineNumber = "354">
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>
