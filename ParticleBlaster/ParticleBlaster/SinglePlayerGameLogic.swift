@@ -76,6 +76,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
+    // TODO: can implement a bounce-off effect if the player hits the obs but not dead yet
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
         self.player.hitByObstacle()
         if self.player.checkDead() {

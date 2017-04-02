@@ -15,6 +15,7 @@ class PlayerController {
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
+    var bulletPool = [Bullet]()
     var scene: GameScene!
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
@@ -61,7 +62,7 @@ class PlayerController {
     }
     
     func shootHandler() {
-        let bullet = Bullet()
+        let bullet = Bullet(mothership: self.player)
         let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
         let currFiringAngle = self.player.shape.zRotation
         let currFiringPosition = self.player.shape.position
@@ -71,6 +72,7 @@ class PlayerController {
         bullet.shape.zRotation = currFiringAngle
         bullet.shape.zPosition = -1
         
+        self.bulletPool.append(bullet)
         self.scene.addChild(bullet.shape)
     }
     
@@ -82,5 +84,9 @@ class PlayerController {
     func playerIsDead() {
         self.player.shape.removeFromParent()
         
+    }
+    
+    func removeBullet(bulletNode: SKSpriteNode) {
+        self.bulletPool = self.bulletPool.filter({$0.shape != bulletNode})
     }
 }

@@ -86,11 +86,29 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
-        self.playerGotHit(player: player)
+        if !self.bulletCollideWithItsMothership(bulletNode: bullet, playerNode: player) {
+            self.gameViewController.scene.removeElement(node: bullet)
+            self.playerGotHit(player: player)
+            
+            let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bullet)})[0]
+            bulletMothershipController.removeBullet(bulletNode: bullet)
+        }
+        
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
         object.removeAllActions()
+    }
+    
+    private func bulletCollideWithItsMothership(bulletNode: SKSpriteNode, playerNode: SKSpriteNode) -> Bool {
+        let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bulletNode)})[0]
+        return bulletMothershipController.player.shape == playerNode
+    }
+    
+    private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {
+        let bulletMothership = self.playerControllers.filter({$0.bulletPool.map({$0.shape}).contains(bulletNode)})[0]
+        let bullet = bulletMothership.bulletPool.filter({$0.shape == bulletNode})[0]
+        return bullet
     }
     
     private func prepareObstacles() {
