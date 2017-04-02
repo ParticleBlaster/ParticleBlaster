@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
-    var gameMode = Constants.gameMode.single
+    var gameMode = Constants.gameMode.multi
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!

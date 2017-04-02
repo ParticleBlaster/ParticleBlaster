@@ -43,6 +43,7 @@ class MultiplayerGameLogic: GameLogic {
         }
     }
     
+    // TODO: possible improvement: remaining life percentage band/strap
     init(gameViewController: GameViewController) {
         self.gameViewController = gameViewController
         
@@ -67,23 +68,25 @@ class MultiplayerGameLogic: GameLogic {
     func updateWinningCondition() {
     }
     
+    // Shouldn't be implementing this
     func updateObstacleVelocityHandler() {
     }
     
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
+        self.gameViewController.scene.removeElement(node: bullet)
     }
     
     // Obstacle in this case will not be moving, but the player will be hurt
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
-        let collidedPlayer = self.playerControllers.filter({$0.player.shape == player})[0]
-        collidedPlayer.player.hitByObstacle()
+        self.playerGotHit(player: player)
     }
     
+    // Shouldn't be implementing this
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
     }
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
-        
+        self.playerGotHit(player: player)
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
@@ -104,8 +107,8 @@ class MultiplayerGameLogic: GameLogic {
     
     private func initialiseFakeObstacles() {
         // TODO: Remove manual assignment of obstacle information after the Level class is created
-        let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
-        let obs2 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle2CenterX, y: Constants.obstacle2CenterY))
+        let obs1 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs1Center, isStatic: true)
+        let obs2 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs2Center, isStatic: true)
         
         self.obstaclePool.append(obs1)
         self.obstaclePool.append(obs2)
@@ -113,6 +116,15 @@ class MultiplayerGameLogic: GameLogic {
     
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
+    }
+    
+    private func playerGotHit(player: SKSpriteNode) {
+        let collidedPlayerController = self.playerControllers.filter({$0.player.shape == player})[0]
+        collidedPlayerController.player.hitByObstacle()
+        if collidedPlayerController.player.checkDead() {
+            print ("game over!")
+            // TODO: finish the logic for presenting who wins and who loses
+        }
     }
 
 }

@@ -28,6 +28,12 @@ class Obstacle : GameObject {
         super.init(imageName: "obs")
         setupPhysicsProperty()
     }
+    
+    init(userSetInitialPosition: CGPoint, isStatic: Bool) {
+        self.initialPosition = userSetInitialPosition
+        super.init(imageName: "obs", isStatic: isStatic)
+        setupPhysicsProperty()
+    }
 
     init(image: String, userSetInitialPosition: CGPoint) {
         self.initialPosition = userSetInitialPosition
@@ -63,11 +69,19 @@ class Obstacle : GameObject {
     }
     
     private func setupPhysicsProperty() {
-        self.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
+        let remainingLifePercentage = CGFloat(Float(self.timeToLive) / Float(Constants.defaultTimeToLive))
+        let computedWidth = Constants.obstacleWidth * remainingLifePercentage
+        let computedHeight = Constants.obstacleHeight * remainingLifePercentage
+        self.shape.size = CGSize(width: computedWidth, height: computedHeight)
         self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
-        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+        if self.isStatic {
+            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
+        } else {
+            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+        }
+        
     }
 }

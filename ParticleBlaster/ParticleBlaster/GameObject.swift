@@ -13,7 +13,7 @@ class GameObject {
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool
-
+    
     init(shape: SKSpriteNode, timeToLive: Int, isStatic: Bool) {
         self.timeToLive = timeToLive
         self.shape = shape
@@ -28,13 +28,24 @@ class GameObject {
         } else {
             self.timeToLive = Constants.defaultTimeToLive // by default set to 10 times of hit
         }
-        self.isStatic = false // by default the object should be moving
+        self.isStatic = false
     }
 
     init(imageName: String, timeToLive: Int, isStatic: Bool) {
         let shapeNode = SKSpriteNode(imageNamed: imageName)
         self.shape = shapeNode
         self.timeToLive = timeToLive
+        self.isStatic = isStatic
+    }
+    
+    init(imageName: String, isStatic: Bool) {
+        self.shape = SKSpriteNode(imageNamed: imageName)
+        self.shape.name = imageName
+        if imageName == "player" || imageName == "Spaceship" {
+            self.timeToLive = Constants.playerTimeToLive
+        } else {
+            self.timeToLive = Constants.defaultTimeToLive // by default set to 10 times of hit
+        }
         self.isStatic = isStatic
     }
     

@@ -41,7 +41,7 @@ class Player : GameObject {
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Map
-        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map | PhysicsCategory.Obstacle
         self.shape.physicsBody?.mass = 0
     }
 }

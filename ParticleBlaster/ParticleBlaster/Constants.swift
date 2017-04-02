@@ -23,6 +23,7 @@ class Constants {
     static var fireButtonWidth: CGFloat!
     static var fireButtonHeight: CGFloat!
     
+    // TODO: consider changing all CGPointX and CGPointY to be CGPoint
     static var playerCenterX: CGFloat!
     static var playerCenterY: CGFloat!
     static let playerWidth: CGFloat = CGFloat(50)
@@ -33,6 +34,9 @@ class Constants {
     static var obstacle1CenterY: CGFloat!
     static var obstacle2CenterX: CGFloat!
     static var obstacle2CenterY: CGFloat!
+    
+    static var defaultMultiObs1Center: CGPoint!
+    static var defaultMultiObs2Center: CGPoint!
     
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
@@ -60,6 +64,9 @@ class Constants {
         self.obstacle1CenterY = viewSize.height * 0.8
         self.obstacle2CenterX = viewSize.width * 0.9
         self.obstacle2CenterY = viewSize.height * 0.2
+        
+        self.defaultMultiObs1Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.8)
+        self.defaultMultiObs2Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.2)
     }
     
     // Game Static Constants

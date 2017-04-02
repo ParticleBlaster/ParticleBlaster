@@ -25,7 +25,7 @@ class Bullet : GameObject {
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
-        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
         self.shape.physicsBody?.usesPreciseCollisionDetection = true
     }

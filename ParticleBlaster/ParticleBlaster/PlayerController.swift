@@ -78,4 +78,9 @@ class PlayerController {
         self.joystickPlateCenterX = x
         self.joystickPlateCenterY = y
     }
+    
+    func playerIsDead() {
+        self.player.shape.removeFromParent()
+        
+    }
 }
