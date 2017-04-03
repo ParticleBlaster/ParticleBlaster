@@ -39,7 +39,7 @@ class MFiController: NSObject {
             print("1234567")
             
             let controller: GCController = notification.object as! GCController
-            let status = "MFi Controller: \(controller.vendorName) is connected"
+            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
             print(status)
             
             self.mainController = controller
@@ -52,7 +52,7 @@ class MFiController: NSObject {
             print("3456789")
             
             let controller: GCController = notification.object as! GCController
-            let status = "MFi Controller: \(controller.vendorName) is disconnected"
+            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
             print(status)
             
             self.mainController = nil
@@ -111,7 +111,7 @@ class MFiController: NSObject {
     @objc func controllerWasConnected(_ notification: Notification) {
         print("in controllerWasConnected")
         let controller: GCController = notification.object as! GCController
-        let status = "MFi Controller: \(controller.vendorName) is connected"
+        let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
         print(status)
         
         mainController = controller
@@ -122,7 +122,7 @@ class MFiController: NSObject {
     @objc func controllerWasDisconnected(_ notification: Notification) {
         print("in controllerWasDisconnected")
         let controller: GCController = notification.object as! GCController
-        let status = "MFi Controller: \(controller.vendorName) is disconnected"
+        let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
         print(status)
         
         mainController = nil

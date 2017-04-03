@@ -220,7 +220,7 @@ class LevelDesignerScene: SKScene {
         }
         
         if buttonSave.contains(touchLocation) {
-            print("button save pressed: level name = \(textInput.text)")
+            print("button save pressed: level name = \(String(describing: textInput.text))")
         }
         
         if currentObstacle != nil {
@@ -278,7 +278,7 @@ class LevelDesignerScene: SKScene {
         levelScreen.removeAllChildren()
         
         for index in 0 ..< currentObstacles.count {
-            print("obstacle \(index): \(currentObstacles[index].shape.name) at \(currentObstacles[index].shape.position)")
+            print("obstacle \(index): \(String(describing: currentObstacles[index].shape.name)) at \(currentObstacles[index].shape.position)")
             let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
             shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
                                    height: shape.size.height * Constants.levelScreenRatio))
