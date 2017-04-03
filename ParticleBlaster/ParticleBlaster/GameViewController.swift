@@ -17,7 +17,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     var skView: SKView!
-    var mfis = [MFiController]()
 
     // Initialise game logic for controlling game objects
     var gameLogic: GameLogic!
@@ -26,16 +25,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var startTime: DispatchTime!
     var currLevelObtainedScore: Int = 0
 
-    var nextMFiConnect: Int {
-        for index in 0 ..< mfis.count {
-            if mfis[index].isConnected == false {
-                return index
-            }
-        }
-        
-        return -1
-    }
-    
     /* Start of UIViewController related methods */
 
     override func viewDidLoad() {
@@ -89,25 +78,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
      */
 
     /* Start of setup related methods */
-
-    private func setupMFiController(_ playerController: PlayerController) {
-        let mfi = MFiController()
-        mfi.viewController = self
-        mfi.moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
-        mfi.shootHandler = playerController.shootHandler
-//        mfi.setupConnectionNotificationCenter()
+    
+    private func configMFiController(index: Int, playerController: PlayerController) {
+        Constants.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
+        Constants.mfis[index].shootHandler = playerController.shootHandler
         
-        self.mfis.append(mfi)
         print("finish mfi config")
-        print("\(mfis.count) added")
     }
     
-    func startNextMFiConnectionNotificationCenter() {
-        guard nextMFiConnect >= 0 else {
-            return
-        }
-        mfis[nextMFiConnect].setupConnectionNotificationCenter()
-    }
 
     private func setupGameScene() {
         scene.viewController = self
@@ -124,10 +102,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.fireHandlers.append(playerController.shootHandler)
             
             // Set up MFi controller for each playerController
-            setupMFiController(playerController)
+            configMFiController(index: i, playerController: playerController)
         }
         
-        startNextMFiConnectionNotificationCenter()
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
 
         // Link game scene to view

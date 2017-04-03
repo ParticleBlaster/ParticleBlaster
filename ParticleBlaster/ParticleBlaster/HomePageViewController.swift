@@ -11,92 +11,92 @@ import SpriteKit
 import GameKit
 
 class HomePageViewController: UIViewController {
-//    var mfi: MFiController!
+    
+    // Stored scenes
+    var homePageScene: HomePageScene?
+    // Check the default leaderboardID
+    var gcDefaultLeaderBoard = String()
+    // Check if the user has Game Center enabled
+    var gcEnabled: Bool = false {
+        didSet {
+            guard oldValue != gcEnabled else {
+                return
+            }
+            self.onGCEnableChange()
+        }
+    }
 
+    override func viewDidLoad() {
+        super.viewDidLoad()
 
-//    private func setupMFiController() {
-//        self.mfi = MFiController()
-//        self.mfi.setupConnectionNotificationCenter()
-//
-//        print("homapage: finish mfi config")
-//    }
+        setupView()
+        setupSound()
+        navigateToHomePage()
 
-
-     // Stored scenes
-     var homePageScene: HomePageScene?
-
-     // Check if the user has Game Center enabled
-     var gcEnabled: Bool = false {
-         didSet {
-             guard oldValue != gcEnabled else {
-                 return
-             }
-             self.onGCEnableChange()
-         }
+        // Call the GC authentication controller
+        authenticateLocalPlayer()
+        
+        setupMFiControllers()
+        Constants.startNextMFiConnectionNotificationCenter()
      }
-     var gcDefaultLeaderBoard = String() // Check the default leaderboardID
-
-     override func viewDidLoad() {
-         super.viewDidLoad()
-
-         setupView()
-         setupSound()
-         navigateToHomePage()
-
-         // Call the GC authentication controller
-         authenticateLocalPlayer()
-     }
-
-     // MARK: - AUTHENTICATE LOCAL PLAYER
-     private func authenticateLocalPlayer() {
-         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-
-         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
-             if((ViewController) != nil) {
-                 // Show login if player is not logged in
-                 self.present(ViewController!, animated: true, completion: nil)
-             } else if (localPlayer.isAuthenticated) {
-                 // Player is already authenticated & logged in, load game center
-                 self.gcEnabled = true
-
-                 // Get the default leaderboard ID
-                 localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
-                     if error != nil {
-                         print(error ?? "")
-                     } else {
-                         self.gcDefaultLeaderBoard = leaderboardIdentifer!
-                         print(self.gcDefaultLeaderBoard)
-                     }
-                 })
-
-             } else {
-                 // Game center is not enabled on the users device
-                 self.gcEnabled = false
-                 print("Local player could not be authenticated!")
-                 print(error ?? "")
-             }
-         }
-     }
-
-     func onGCEnableChange() {
-         let skView = view as! SKView
-         guard let scene = skView.scene as? HomePageScene else {
-             return
-         }
-         scene.onGCEnableChange(isEnabled: gcEnabled)
-     }
-
-     func setupSound() {
-         if GameSetting.getInstance().isMusicEnabled {
-             AudioUtils.playBackgroundMusic()
-         }
-     }
-
+    
+    private func setupMFiControllers() {
+        for _ in 0 ..< Constants.maxMFi {
+            let mfi = MFiController()
+            Constants.mfis.append(mfi)
+            print("\(Constants.mfis.count) added")
+        }
+    }
+    
+    func onGCEnableChange() {
+        let skView = view as! SKView
+        guard let scene = skView.scene as? HomePageScene else {
+            return
+        }
+        scene.onGCEnableChange(isEnabled: gcEnabled)
+    }
+    
+    func setupSound() {
+        if GameSetting.getInstance().isMusicEnabled {
+            AudioUtils.playBackgroundMusic()
+        }
+    }
+    
     func setupView() {
         let skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
+    }
+
+     // MARK: - AUTHENTICATE LOCAL PLAYER
+    private func authenticateLocalPlayer() {
+        let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
+
+        localPlayer.authenticateHandler = {(ViewController, error) -> Void in
+            if((ViewController) != nil) {
+                // Show login if player is not logged in
+                self.present(ViewController!, animated: true, completion: nil)
+            } else if (localPlayer.isAuthenticated) {
+                // Player is already authenticated & logged in, load game center
+                self.gcEnabled = true
+
+                // Get the default leaderboard ID
+                localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
+                    if error != nil {
+                         print(error ?? "")
+                    } else {
+                        self.gcDefaultLeaderBoard = leaderboardIdentifer!
+                        print(self.gcDefaultLeaderBoard)
+                    }
+                })
+            } else {
+                // Game center is not enabled on the users device
+                self.gcEnabled = false
+                print("Local player could not be authenticated!")
+                print(error ?? "")
+            }
+        }
     }
 
 //    override func viewDidLoad() {

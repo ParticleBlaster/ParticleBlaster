@@ -11,7 +11,7 @@ import GameController
 
 class MFiController: NSObject {
     var mainController: GCController?
-    var viewController: GameViewController?
+//    var viewController: GameViewController?
     var direction = CGVector(dx: 0, dy: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
@@ -49,7 +49,7 @@ class MFiController: NSObject {
 //            
 //            self.mainController = controller
 //            self.isConnected = true
-//            self.viewController?.startNextMFiConnectionNotificationCenter()
+//            Constants.startNextMFiConnectionNotificationCenter()
 //            self.reactToInput()
 //        }
 //        
@@ -126,7 +126,7 @@ class MFiController: NSObject {
         
         mainController = controller
         isConnected = true
-        viewController?.startNextMFiConnectionNotificationCenter()
+        Constants.startNextMFiConnectionNotificationCenter()
         reactToInput()
     }
     
