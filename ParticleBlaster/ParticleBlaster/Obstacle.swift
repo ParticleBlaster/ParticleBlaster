@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Obstacle : GameObject, NSCoding {
+class Obstacle : GameObject {
     var initialPosition: CGPoint
     // for support storage purpose
     var imageName: String?
@@ -38,13 +38,31 @@ class Obstacle : GameObject, NSCoding {
         super.init(imageName: image)
         setupPhysicsProperty()
     }
-
+    
+    init(image: String, userSetInitialPosition: CGPoint, isPhysicsBody: Bool) {
+        self.initialPosition = userSetInitialPosition
+        super.init(imageName: image)
+        if isPhysicsBody {
+            setupPhysicsProperty()
+        }
+    }
+    
     init(obstacle: Obstacle) {
         self.initialPosition = obstacle.initialPosition
         super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
                    timeToLive: obstacle.timeToLive,
                    isStatic: obstacle.isStatic)
         setupPhysicsProperty()
+    }
+    
+    init(obstacle: Obstacle, isPhysicsBody: Bool) {
+        self.initialPosition = obstacle.initialPosition
+        super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
+                   timeToLive: obstacle.timeToLive,
+                   isStatic: obstacle.isStatic)
+        if isPhysicsBody {
+            setupPhysicsProperty()
+        }
     }
 
     func hitByBullet() {
@@ -61,12 +79,21 @@ class Obstacle : GameObject, NSCoding {
         }
     }
 
-    override func copy() -> Any {
+//    override func copy() -> Any {
+//        let copy = Obstacle(obstacle: self)
+//        copy.shape.zPosition = self.shape.zPosition
+//        return copy
+//    }
+    
+    func copy() -> Obstacle {
         let copy = Obstacle(obstacle: self)
-        copy.shape.zPosition = self.shape.zPosition
         return copy
     }
-
+    
+    func copyWithoutPhysicsBody() -> Obstacle {
+        let copy = Obstacle(obstacle: self, isPhysicsBody: false)
+        return copy
+    }
 
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
@@ -78,17 +105,17 @@ class Obstacle : GameObject, NSCoding {
     }
 
 
-     required convenience init?(coder decoder: NSCoder) {
-         guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String,
-             let position = decoder.decodeObject(forKey: Constants.initialPositionKey) as? CGPoint else {
-                 return nil
-         }
-         self.init(image: imageName, userSetInitialPosition: position)
-     }
-    
-     func encode(with aCoder: NSCoder) {
-         aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
-         aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
-     }
+//     required convenience init?(coder decoder: NSCoder) {
+//         guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String,
+//             let position = decoder.decodeObject(forKey: Constants.initialPositionKey) as? CGPoint else {
+//                 return nil
+//         }
+//         self.init(image: imageName, userSetInitialPosition: position)
+//     }
+//    
+//     func encode(with aCoder: NSCoder) {
+//         aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
+//         aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
+//     }
 
 }

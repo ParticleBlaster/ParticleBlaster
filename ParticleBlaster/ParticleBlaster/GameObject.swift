@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class GameObject: NSObject {
+class GameObject {
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool

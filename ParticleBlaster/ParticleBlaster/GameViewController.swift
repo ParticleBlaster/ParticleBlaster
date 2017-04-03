@@ -17,7 +17,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     var skView: SKView!
-//    var mfi: MFiController!
+    var mfis = [MFiController]()
 
     // Initialise game logic for controlling game objects
     var gameLogic: GameLogic!
@@ -26,12 +26,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     var startTime: DispatchTime!
     var currLevelObtainedScore: Int = 0
 
+    var nextMFiConnect: Int {
+        for index in 0 ..< mfis.count {
+            if mfis[index].isConnected == false {
+                return index
+            }
+        }
+        
+        return -1
+    }
+    
     /* Start of UIViewController related methods */
 
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        setupMFiController()
 
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
@@ -82,26 +90,24 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     /* Start of setup related methods */
 
-    private func setupMFiController() {
-//        self.mfi = MFiController()
-////        self.mfi.moveHandler = moveMFIJoystickAndRotatePlayerHandler
-//        self.mfi.shootHandler = gameLogic.playerControllers[0].shootHandler
-//        self.mfi.setupConnectionNotificationCenter()
-////        setupConnectionNotificationCenter()
-//
-//        print("finish mfi config")
+    private func setupMFiController(_ playerController: PlayerController) {
+        let mfi = MFiController()
+        mfi.viewController = self
+        mfi.moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
+        mfi.shootHandler = playerController.shootHandler
+//        mfi.setupConnectionNotificationCenter()
+        
+        self.mfis.append(mfi)
+        print("finish mfi config")
+        print("\(mfis.count) added")
     }
-
-    // private func setupConnectionNotificationCenter() {
-    //     NotificationCenter.default.addObserver(self,
-    //                                            selector: #selector(self.mfi.controllerWasConnected(_ :)),
-    //                                            name: NSNotification.Name.GCControllerDidConnect,
-    //                                            object: nil)
-    //     NotificationCenter.default.addObserver(self,
-    //                                            selector: #selector(self.mfi.controllerWasDisconnected(_ :)),
-    //                                            name: NSNotification.Name.GCControllerDidDisconnect,
-    //                                            object: nil)
-    // }
+    
+    func startNextMFiConnectionNotificationCenter() {
+        guard nextMFiConnect >= 0 else {
+            return
+        }
+        mfis[nextMFiConnect].setupConnectionNotificationCenter()
+    }
 
     private func setupGameScene() {
         scene.viewController = self
@@ -116,8 +122,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
             scene.fireHandlers.append(playerController.shootHandler)
+            
+            // Set up MFi controller for each playerController
+            setupMFiController(playerController)
         }
-
+        
+        startNextMFiConnectionNotificationCenter()
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
 
         // Link game scene to view

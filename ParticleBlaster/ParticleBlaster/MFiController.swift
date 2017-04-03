@@ -11,6 +11,7 @@ import GameController
 
 class MFiController: NSObject {
     var mainController: GCController?
+    var viewController: GameViewController?
     var direction = CGVector(dx: 0, dy: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
@@ -25,39 +26,44 @@ class MFiController: NSObject {
 //            return
 //        }
         
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(controllerWasConnected),
-//                                               name: NSNotification.Name.GCControllerDidConnect,
-//                                               object: nil)
-//        NotificationCenter.default.addObserver(self,
-//                                               selector: #selector(controllerWasDisconnected),
-//                                               name: NSNotification.Name.GCControllerDidDisconnect,
-//                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(controllerWasConnected),
+                                               name: NSNotification.Name.GCControllerDidConnect,
+                                               object: nil)
+        NotificationCenter.default.addObserver(self,
+                                               selector: #selector(controllerWasDisconnected),
+                                               name: NSNotification.Name.GCControllerDidDisconnect,
+                                               object: nil)
         
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { (_ notification :Notification) in
-            
-            print("1234567")
-            
-            let controller: GCController = notification.object as! GCController
-            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
-            print(status)
-            
-            self.mainController = controller
-            self.isConnected = true
-            self.reactToInput()
-        }
-        
-        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { (_ notification :Notification) in
-            
-            print("3456789")
-            
-            let controller: GCController = notification.object as! GCController
-            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
-            print(status)
-            
-            self.mainController = nil
-            self.isConnected = false
-        }
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { (_ notification :Notification) in
+//            
+//            guard self.isConnected == false else {
+//                return
+//            }
+//            
+//            print("1234567")
+//            
+//            let controller: GCController = notification.object as! GCController
+//            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
+//            print(status)
+//            
+//            self.mainController = controller
+//            self.isConnected = true
+//            self.viewController?.startNextMFiConnectionNotificationCenter()
+//            self.reactToInput()
+//        }
+//        
+//        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { (_ notification :Notification) in
+//            
+//            print("3456789")
+//            
+//            let controller: GCController = notification.object as! GCController
+//            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
+//            print(status)
+//            
+//            self.mainController = nil
+//            self.isConnected = false
+//        }
         
         print("done setupConnectionNotificationCenter")
     }
@@ -109,6 +115,10 @@ class MFiController: NSObject {
     }
     
     @objc func controllerWasConnected(_ notification: Notification) {
+        guard self.isConnected == false else {
+            return
+        }
+        
         print("in controllerWasConnected")
         let controller: GCController = notification.object as! GCController
         let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
@@ -116,10 +126,12 @@ class MFiController: NSObject {
         
         mainController = controller
         isConnected = true
+        viewController?.startNextMFiConnectionNotificationCenter()
         reactToInput()
     }
     
     @objc func controllerWasDisconnected(_ notification: Notification) {
+        
         print("in controllerWasDisconnected")
         let controller: GCController = notification.object as! GCController
         let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"

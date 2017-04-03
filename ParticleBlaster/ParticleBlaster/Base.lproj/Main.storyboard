@@ -46,5 +46,23 @@
             </objects>
             <point key="canvasLocation" x="27" y="-411"/>
         </scene>
+        <!--Level Designer View Controller-->
+        <scene sceneID="sED-Wy-N0X">
+            <objects>
+                <viewController storyboardIdentifier="LevelDesignerViewController" id="brz-VU-Wtk" customClass="LevelDesignerViewController" customModule="ParticleBlaster" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="TMs-9W-t5d"/>
+                        <viewControllerLayoutGuide type="bottom" id="0Fb-nQ-eIx"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="zjw-0c-SRA" customClass="SKView">
+                        <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    </view>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="V8D-iC-ntf" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="533" y="597"/>
+        </scene>
     </scenes>
 </document>

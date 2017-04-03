@@ -20,6 +20,8 @@ class MultiplayerGameScene: GameScene {
     
     private var prevTime: TimeInterval?
     
+    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    
     var player1: Player {
         get {
             return self.players[0]
@@ -203,6 +205,26 @@ class MultiplayerGameScene: GameScene {
         plateTouchEndRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 200)
         plateTouchEndRange2.position = CGPoint(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         
+        // Set up back to homepage button
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        buttonBackToHomepage.fillColor = SKColor.clear
+        buttonBackToHomepage.strokeColor = SKColor.black
+        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+        //        buttonBackToHomepage.zPosition = zPositionCounter
+        //        zPositionCounter += 1
+        
+        let buttonText = SKLabelNode(text: "Back to Home")
+        buttonText.fontSize = Constants.fontSizeSmall
+        buttonText.fontName = Constants.titleFont
+        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+        buttonText.fontColor = SKColor.black
+        //        buttonText.zPosition = zPositionCounter
+        //        zPositionCounter += 1
+        
+        buttonBackToHomepage.addChild(buttonText)
+        
+        addChild(buttonBackToHomepage)
+        
         // Set up the physics world to have no gravity
         physicsWorld.gravity = CGVector.zero
         // Set the scene as the delegate to be notified when two physics bodies collide.
@@ -210,10 +232,10 @@ class MultiplayerGameScene: GameScene {
             physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
         
-        // Play and loop the background music
-        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
+//        // Play and loop the background music
+//        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
+//        backgroundMusic.autoplayLooped = true
+//        addChild(backgroundMusic)
     }
     
     func random() -> CGFloat {
@@ -315,6 +337,8 @@ class MultiplayerGameScene: GameScene {
                 if let shootHandler = self.fireHandler2 {
                     shootHandler()
                 }
+            } else if self.isTouchInRange(touch: touch, frame: buttonBackToHomepage.frame) {
+                self.viewController?.dismiss(animated: true, completion: nil)
             }
         }
     }
