@@ -135,6 +135,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
             }
         }
+        
+        if self.gameLogic.winningCondition {
+            // present GameWinScene
+        } else if self.gameLogic.losingCondition {
+            // present GameLoseScene
+        }
     }
 }
 
