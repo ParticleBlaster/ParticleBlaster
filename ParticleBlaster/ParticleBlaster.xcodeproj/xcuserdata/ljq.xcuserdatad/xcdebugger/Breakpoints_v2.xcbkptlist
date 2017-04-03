@@ -65,38 +65,6 @@
             endingLineNumber = "229"
             landmarkName = "touchesEnded(_:with:)"
             landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.LevelDesignerScene.touchesEnded (Swift.Set&lt;__ObjC.UITouch&gt;, with : Swift.Optional&lt;__ObjC.UIEvent&gt;) -&gt; ()"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/LevelDesignerScene.swift"
-                  timestampString = "512897323.29033"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "2371">
-               </Location>
-               <Location
-                  shouldBeEnabled = "Yes"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.LevelDesignerScene.touchesEnded (Swift.Set&lt;__ObjC.UITouch&gt;, with : Swift.Optional&lt;__ObjC.UIEvent&gt;) -&gt; ()"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/LevelDesignerScene.swift"
-                  timestampString = "512897323.292973"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "229"
-                  endingLineNumber = "229"
-                  offsetFromSymbolStart = "2450">
-               </Location>
-            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -143,7 +111,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "171"
             endingLineNumber = "171"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "touchPaletteItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -159,7 +127,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "167"
             endingLineNumber = "167"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "isTouchInside(touch:frame:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -175,7 +143,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "168"
             endingLineNumber = "168"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "isTouchInside(touch:frame:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -191,7 +159,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "172"
             endingLineNumber = "172"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "touchPaletteItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -207,7 +175,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "173"
             endingLineNumber = "173"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "touchPaletteItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -223,7 +191,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "176"
             endingLineNumber = "176"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "touchPaletteItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -239,7 +207,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "177"
             endingLineNumber = "177"
-            landmarkName = "touchSceenItems(touch:)"
+            landmarkName = "touchPaletteItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -77,7 +77,7 @@ class SinglePlayerGameScene: GameScene {
         //physicsWorld.contactDelegate = self
         if let controller = self.viewController {
             //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
-            physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
         
         // Play and loop the background music
