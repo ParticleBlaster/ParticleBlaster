@@ -66,6 +66,7 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func updateWinningCondition() {
+        self.winningCondition = player1.checkDead() || player2.checkDead()
     }
     
     // Shouldn't be implementing this
