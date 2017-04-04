@@ -66,11 +66,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     /* End of UIViewController related methods */
 
-    /* TODO: Implement game mode indicator for single player mode and multiplayer mode
-    func setGameMode(_ mode: Constants.gameMode) {
-        self.mode = mode
+    func setGameMode(_ gameMode: Constants.gameMode) {
+        self.gameMode = gameMode
     }
-     */
 
     /* TODO: Implement Level object for loading initial status of players and obstacles
     func loadLevel(_ level: Level) {
