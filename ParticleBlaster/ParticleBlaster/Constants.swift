@@ -188,8 +188,7 @@ class Constants {
     static let obstaclesKey = "obstaclesKey"
 
     static let labelGameTitle = "Tri Adventure"
-    static let labelSinglePlayer = "SINGLE PLAYER"
-    static let labelMultiPlayers = "DOUBLE PLAYERS"
+    static let labelPlay = "PLAY"
     static let labelDesign = "DESIGN"
     
     // asset filenames

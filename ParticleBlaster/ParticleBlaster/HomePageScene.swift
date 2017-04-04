@@ -9,8 +9,7 @@ import SpriteKit
 
 class HomePageScene: SKScene {
     private var background: SKSpriteNode!
-    private var singlePlayerButton: TextButton!
-    private var multiPlayerButton: TextButton!
+    private var playButton: TextButton!
     private var designButton: TextButton!
     private var soundButton: IconButton!
     private var musicButton: IconButton!
@@ -39,20 +38,14 @@ class HomePageScene: SKScene {
         titleText.zPosition = 1
         addChild(titleText)
         
-        singlePlayerButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelSinglePlayer)
-        singlePlayerButton.position = CGPoint(x: 0, y: singlePlayerButton.size.height)
-        singlePlayerButton.zPosition = 1
-        singlePlayerButton.onPressHandler = self.singlePlayerButtonPressed
-        addChild(singlePlayerButton)
-        
-        multiPlayerButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelMultiPlayers)
-        multiPlayerButton.position = CGPoint(x: 0, y: singlePlayerButton.size.height / 2  - multiPlayerButton.size.height / 2 - Constants.buttonVerticalMargin)
-        multiPlayerButton.zPosition = 1
-        multiPlayerButton.onPressHandler = self.multiPlayerButtonPressed
-        addChild(multiPlayerButton)
+        playButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelPlay)
+        playButton.position = CGPoint(x: 0, y: playButton.size.height)
+        playButton.zPosition = 1
+        playButton.onPressHandler = self.playButtonPressed
+        addChild(playButton)
         
         designButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelDesign)
-        designButton.position = CGPoint(x: 0, y: singlePlayerButton.size.height / 2 - multiPlayerButton.size.height - designButton.size.height / 2 - Constants.buttonVerticalMargin * 2)
+        designButton.position = CGPoint(x: 0, y: playButton.size.height / 2  - designButton.size.height / 2 - Constants.buttonVerticalMargin)
         designButton.zPosition = 1
         designButton.onPressHandler = self.designButtonPressed
         addChild(designButton)
@@ -70,19 +63,21 @@ class HomePageScene: SKScene {
                                 size: Constants.iconButtonDefaultSize,
                                 isPositive: false,
                                 isEnabled: false)
-        let settingsYposition = singlePlayerButton.size.height / 2 - multiPlayerButton.size.height - designButton.size.height - 3 * Constants.buttonVerticalMargin - soundButton.size.height / 2
         soundButton.zPosition = 1
-        soundButton.position = CGPoint(x: 0, y: settingsYposition);
+        soundButton.position = CGPoint(x: 0,
+                                       y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - soundButton.size.height / 2);
         soundButton.onPressHandler = self.soundButtonPressed
         addChild(soundButton)
         
         musicButton.zPosition = 1
-        musicButton.position = CGPoint(x: soundButton.position.x + soundButton.size.width / 2 + Constants.buttonHorizontalMargin + musicButton.size.width / 2, y: settingsYposition);
+        musicButton.position = CGPoint(x: soundButton.position.x + soundButton.size.width / 2 + Constants.buttonHorizontalMargin + musicButton.size.width / 2,
+                                       y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - musicButton.size.height / 2);
         musicButton.onPressHandler = self.musicButtonPressed
         addChild(musicButton)
 
         rankButton.zPosition = 1
-        rankButton.position = CGPoint(x: soundButton.position.x - soundButton.size.width / 2 - Constants.buttonHorizontalMargin - rankButton.size.width / 2, y: settingsYposition);
+        rankButton.position = CGPoint(x: soundButton.position.x - soundButton.size.width / 2 - Constants.buttonHorizontalMargin - rankButton.size.width / 2,
+                                      y: playButton.size.height / 2  - designButton.size.height - 2 * Constants.buttonVerticalMargin - musicButton.size.height / 2);
         rankButton.onPressHandler = self.rankButtonPressed
         addChild(rankButton)
     }
@@ -96,12 +91,8 @@ class HomePageScene: SKScene {
         rankButton.isEnabled = isEnabled
     }
     
-    private func singlePlayerButtonPressed() {
+    private func playButtonPressed() {
         navigationDelegate?.navigateToLevelSelectScene(isSingleMode: true)
-    }
-    
-    private func multiPlayerButtonPressed() {
-        navigationDelegate?.navigateToLevelSelectScene(isSingleMode: false)
     }
     
     private func designButtonPressed() {
