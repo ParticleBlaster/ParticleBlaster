@@ -44,6 +44,7 @@ class TextButton: SKNode {
         let scaleAction = SKAction.scale(to: 1.1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction)
+        AudioUtils.pressButton(on: self)
     }
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {

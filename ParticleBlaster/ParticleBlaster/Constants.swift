@@ -8,7 +8,24 @@
 
 import SpriteKit
 
+struct PhysicsCategory {
+    static let None      : UInt32 = 0
+    static let All       : UInt32 = UInt32.max
+    static let Obstacle   : UInt32 = 0x1 << 0       // 1
+    static let Bullet: UInt32 = 0x1 << 1       // 2
+    static let Player    : UInt32 = 0x1 << 2       // 3
+    static let Map       : UInt32 = 0x1 << 3       // 4
+}
+
+enum LevelDifficultyLevel: Int {
+    case UNDEFINED = 0
+    case EASY = 1
+    case INTERMEDIATE = 2
+    case HARD = 3
+}
+
 class Constants {
+    static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
         
     // Game Scene Constants
@@ -144,6 +161,7 @@ class Constants {
     static let fontSizeMedium: CGFloat = 20
     static let fontSizeLarge: CGFloat = 40
     static let fontSizeLargeX: CGFloat = 120
+    static let fontSizeHuge: CGFloat = 150
     
     // Level Designer Constants
     static let levelScreenRatio: CGFloat = 0.7
@@ -156,14 +174,18 @@ class Constants {
     
     static let currentObstacleZPosition: CGFloat = CGFloat.greatestFiniteMagnitude
     
-    static let TITLE_FONT = "FinalFrontierOldStyle"
     static let normalFont = "FinalFrontierOldStyle"
     static let normalFontSize: CGFloat = 40.0
 
     // archived key
+    static let levelPrefix = "gameLevel_"
     static let settingFileName = "settingFileName"
     static let settingSoundKey = "settingSoundKey"
     static let settingMusicKey = "settingMusicKey"
+    static let imageNameKey = "imageNameKey"
+    static let initialPositionKey = "initialPositionKey"
+    static let levelNameKey = "levelNameKey"
+    static let obstaclesKey = "obstaclesKey"
 
     static let labelGameTitle = "Tri Adventure"
     static let labelPlay = "PLAY"
@@ -185,6 +207,8 @@ class Constants {
     static let downwardButtonFilename = "downward-btn"
     static let downwardButtonDisabledFilename = "downward-btn-disabled"
     static let lockButtonFilename = "lock-btn"
+    static let rankButtonFilename = "rank-btn"
+    static let rankButtonDisabledFilename = "rank-btn-disabled"
 
     // sizes
     static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
@@ -192,11 +216,8 @@ class Constants {
     static let screenPadding = CGSize(width: 50, height: 50)
     static let buttonVerticalMargin: CGFloat = 30
     static let buttonHorizontalMargin: CGFloat = 30
-}
 
-enum LevelDifficultyLevel: Int {
-    case UNDEFINED = 0
-    case EASY = 1
-    case INTERMEDIATE = 2
-    case HARD = 3
+    // Sound
+    static let buttonPressedSoundFilename = "button-pressed.mp3"
+    static let backgroundSoundFilename = "background-music-aac"
 }

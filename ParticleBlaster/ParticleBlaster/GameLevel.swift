@@ -8,7 +8,7 @@
 
 import Foundation
 
-class GameLevel {
+class GameLevel: NSObject, NSCoding {
     var name: String
     var highestScore: Int
     var difficulty: LevelDifficultyLevel
@@ -16,7 +16,7 @@ class GameLevel {
 //    var players = [Player]()
 
     
-    init() {
+    override init() {
         self.name = ""
         self.highestScore = 0
         self.difficulty = LevelDifficultyLevel.UNDEFINED
@@ -32,4 +32,28 @@ class GameLevel {
         return obstacles.count
     }
 
+    func addObstacle(_ obs: Obstacle) {
+        obstacles.append(obs)
+    }
+
+    func removeObstacle(at index: Int) {
+        guard 0 <= index && index < obstacles.count else {
+            return
+        }
+        obstacles.remove(at: index)
+    }
+
+    required convenience init?(coder decoder: NSCoder) {
+        guard let levelName = decoder.decodeObject(forKey: Constants.levelNameKey) as? String,
+            let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle] else {
+                return nil
+        }
+        self.init(levelName)
+        self.obstacles = obstacles
+    }
+    
+    func encode(with aCoder: NSCoder) {
+        aCoder.encode(name, forKey: Constants.levelNameKey)
+        aCoder.encode(obstacles, forKey: Constants.obstaclesKey)
+    }
 }
