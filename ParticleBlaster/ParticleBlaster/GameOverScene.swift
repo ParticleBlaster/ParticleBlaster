@@ -12,10 +12,12 @@ import SpriteKit
 class GameOverScene: SKScene {
     
     var buttonHomePage: SKShapeNode
+    var viewController: GameViewController!
     
-    init(size: CGSize, won:Bool) {
+    init(size: CGSize, won:Bool, viewController: GameViewController) {
         
         buttonHomePage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 400, height: 60), cornerRadius: 10)
+        self.viewController = viewController
         super.init(size: size)
         
         // Set the background color
@@ -56,10 +58,7 @@ class GameOverScene: SKScene {
         if buttonHomePage.contains(touchLocation) {
             print("back to manu tapped!")
 
-            let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-            let homePageScene = HomePageScene(size: self.size)
-            homePageScene.scaleMode = .resizeFill
-            self.view?.presentScene(homePageScene, transition: reveal)
+            self.viewController?.dismiss(animated: true, completion: nil)
         }
         
     }
