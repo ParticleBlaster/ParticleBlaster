@@ -47,19 +47,6 @@ class GameOverScene: SKScene {
         
         buttonHomePage.addChild(buttonText)
         addChild(buttonHomePage)
-
-//        // Run a sequence of two actions
-//        run(SKAction.sequence([
-//            // Wait for 3 seconds
-//            SKAction.wait(forDuration: 3.0),
-//            // Transitie to a new scene
-//            SKAction.run() {
-//                let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
-//                let scene = GameScene(size: size)
-//                self.view?.presentScene(scene, transition:reveal)
-//            }
-//        ]))
-        
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -68,13 +55,11 @@ class GameOverScene: SKScene {
         // Check if the location of the touch is within the button's bounds
         if buttonHomePage.contains(touchLocation) {
             print("back to manu tapped!")
-            
-//            let reveal = SKTransition.crossFade(withDuration: 0.5)
+
             let reveal = SKTransition.flipHorizontal(withDuration: 0.5)
             let homePageScene = HomePageScene(size: self.size)
             homePageScene.scaleMode = .resizeFill
             self.view?.presentScene(homePageScene, transition: reveal)
-            
         }
         
     }
