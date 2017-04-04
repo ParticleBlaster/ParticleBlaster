@@ -18,6 +18,8 @@ class SinglePlayerGameScene: GameScene {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
+    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    
     var player: Player {
         get {
             return self.players.first!
@@ -71,13 +73,33 @@ class SinglePlayerGameScene: GameScene {
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         
+        // Set up back to homepage button
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.92)
+        buttonBackToHomepage.fillColor = SKColor.clear
+        buttonBackToHomepage.strokeColor = SKColor.black
+        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+        //        buttonBackToHomepage.zPosition = zPositionCounter
+        //        zPositionCounter += 1
+        
+        let buttonText = SKLabelNode(text: "Back to Home")
+        buttonText.fontSize = Constants.fontSizeSmall
+        buttonText.fontName = Constants.titleFont
+        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+        buttonText.fontColor = SKColor.black
+        //        buttonText.zPosition = zPositionCounter
+        //        zPositionCounter += 1
+        
+        buttonBackToHomepage.addChild(buttonText)
+        
+        addChild(buttonBackToHomepage)
+        
         // Set up the physics world to have no gravity
         physicsWorld.gravity = CGVector.zero
         // Set the scene as the delegate to be notified when two physics bodies collide.
         //physicsWorld.contactDelegate = self
         if let controller = self.viewController {
             //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
-            physicsWorld.contactDelegate = controller as? SKPhysicsContactDelegate
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
         
         // Play and loop the background music
@@ -165,6 +187,8 @@ class SinglePlayerGameScene: GameScene {
                 if let shootHandler = self.fireHandlers.first {
                     shootHandler()
                 }
+            } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
+                self.viewController?.dismiss(animated: true, completion: nil)
             }
         }
     }

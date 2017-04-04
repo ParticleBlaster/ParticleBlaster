@@ -124,14 +124,14 @@ class Constants {
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
     
     // Star Wars Theme Obstacles
-    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition)
-    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition)
-    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition)
-    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition)
-    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition)
-    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition)
-    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition)
-    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition)
+    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
     
     static let starwarsObstacles = [starwarsBB8,
                                     starwarsBountyHunter,
@@ -157,9 +157,9 @@ class Constants {
     
     // Font Constants
     static let titleFont = "FinalFrontierOldStyle"
-    static let fontSizeSmall: CGFloat = 10
-    static let fontSizeMedium: CGFloat = 20
-    static let fontSizeLarge: CGFloat = 40
+    static let fontSizeSmall: CGFloat = 20
+    static let fontSizeMedium: CGFloat = 40
+    static let fontSizeLarge: CGFloat = 80
     static let fontSizeLargeX: CGFloat = 120
     static let fontSizeHuge: CGFloat = 150
     
@@ -220,4 +220,24 @@ class Constants {
     // Sound
     static let buttonPressedSoundFilename = "button-pressed.mp3"
     static let backgroundSoundFilename = "background-music-aac"
+    
+    // MFi Controller
+    static var mfis = [MFiController]()
+    static let maxMFi = 2
+    
+    static var nextMFiConnect: Int {
+        for index in 0 ..< mfis.count {
+            if mfis[index].isConnected == false {
+                return index
+            }
+        }
+        return -1
+    }
+    
+    static func startNextMFiConnectionNotificationCenter() {
+        guard Constants.nextMFiConnect >= 0 else {
+            return
+        }
+        Constants.mfis[Constants.nextMFiConnect].setupConnectionNotificationCenter()
+    }
 }

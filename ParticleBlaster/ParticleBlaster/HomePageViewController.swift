@@ -11,9 +11,11 @@ import SpriteKit
 import GameKit
 
 class HomePageViewController: UIViewController {
+    
     // Stored scenes
     var homePageScene: HomePageScene?
-    
+    // Check the default leaderboardID
+    var gcDefaultLeaderBoard = String()
     // Check if the user has Game Center enabled
     var gcEnabled: Bool = false {
         didSet {
@@ -23,7 +25,6 @@ class HomePageViewController: UIViewController {
             self.onGCEnableChange()
         }
     }
-    var gcDefaultLeaderBoard = String() // Check the default leaderboardID
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -34,12 +35,44 @@ class HomePageViewController: UIViewController {
 
         // Call the GC authentication controller
         authenticateLocalPlayer()
+        
+        setupMFiControllers()
+        Constants.startNextMFiConnectionNotificationCenter()
+     }
+    
+    private func setupMFiControllers() {
+        for _ in 0 ..< Constants.maxMFi {
+            let mfi = MFiController()
+            Constants.mfis.append(mfi)
+            print("\(Constants.mfis.count) added")
+        }
     }
     
-    // MARK: - AUTHENTICATE LOCAL PLAYER
+    func onGCEnableChange() {
+        let skView = view as! SKView
+        guard let scene = skView.scene as? HomePageScene else {
+            return
+        }
+        scene.onGCEnableChange(isEnabled: gcEnabled)
+    }
+    
+    func setupSound() {
+        if GameSetting.getInstance().isMusicEnabled {
+            AudioUtils.playBackgroundMusic()
+        }
+    }
+    
+    func setupView() {
+        let skView = view as! SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.ignoresSiblingOrder = true
+    }
+
+     // MARK: - AUTHENTICATE LOCAL PLAYER
     private func authenticateLocalPlayer() {
         let localPlayer: GKLocalPlayer = GKLocalPlayer.localPlayer()
-        
+
         localPlayer.authenticateHandler = {(ViewController, error) -> Void in
             if((ViewController) != nil) {
                 // Show login if player is not logged in
@@ -47,17 +80,16 @@ class HomePageViewController: UIViewController {
             } else if (localPlayer.isAuthenticated) {
                 // Player is already authenticated & logged in, load game center
                 self.gcEnabled = true
-                
+
                 // Get the default leaderboard ID
                 localPlayer.loadDefaultLeaderboardIdentifier(completionHandler: { (leaderboardIdentifer, error) in
                     if error != nil {
-                        print(error ?? "")
+                         print(error ?? "")
                     } else {
                         self.gcDefaultLeaderBoard = leaderboardIdentifer!
                         print(self.gcDefaultLeaderBoard)
                     }
                 })
-                
             } else {
                 // Game center is not enabled on the users device
                 self.gcEnabled = false
@@ -67,31 +99,29 @@ class HomePageViewController: UIViewController {
         }
     }
 
-    func onGCEnableChange() {
-        let skView = view as! SKView
-        guard let scene = skView.scene as? HomePageScene else {
-            return
-        }
-        scene.onGCEnableChange(isEnabled: gcEnabled)
-    }
+//    override func viewDidLoad() {
+//        super.viewDidLoad()
+//        
+//        startHomePageView()
+//        //        setupMFiController()
+//        
+//    }
+//        
+//    func startHomePageView() {
+//        let scene = HomePageScene(size: view.bounds.size)
+//        let skView = view as! SKView
+//        skView.showsFPS = true
+//        skView.showsNodeCount = true
+//        skView.ignoresSiblingOrder = true
+//        scene.scaleMode = .resizeFill
+//        scene.viewController = self
+//        skView.presentScene(scene)
+//    }
 
-    func setupSound() {
-        if GameSetting.getInstance().isMusicEnabled {
-            AudioUtils.playBackgroundMusic()
-        }
-    }
-
-    func setupView() {
-        let skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.ignoresSiblingOrder = true
-    }
-    
     override var shouldAutorotate: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -119,13 +149,18 @@ extension HomePageViewController: NavigationDelegate {
         self.present(vc, animated: true, completion: nil)
     }
     func navigateToDesignScene() {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = LevelDesignerScene(size: skView.frame.size)
-        scene.scaleMode = .resizeFill
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
+        self.present(vc, animated: true, completion: nil)
     }
+//    func navigateToDesignScene() {
+//        let skView = view as! SKView
+//        let reveal = SKTransition.crossFade(withDuration: 0.5)
+//        let scene = LevelDesignerScene(size: skView.frame.size)
+//        scene.scaleMode = .resizeFill
+//        scene.navigationDelegate = self
+//        skView.presentScene(scene, transition: reveal)
+//    }
     func navigateToLevelSelectScene(isSingleMode: Bool) {
         let skView = view as! SKView
         let reveal = SKTransition.crossFade(withDuration: 0.5)

@@ -43,6 +43,8 @@
 		6A638EFD1E87A6710000EB16 /* LevelDesignerScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */; };
 		6A638EFF1E87A8530000EB16 /* GameLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A638EFE1E87A8530000EB16 /* GameLevel.swift */; };
 		6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A638F001E87C4E50000EB16 /* Assets.xcassets */; };
+		6A638F401E8A84830000EB16 /* MFiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A638F3F1E8A84830000EB16 /* MFiController.swift */; };
+		6A7705781E92A0F600EFC4DF /* LevelDesignerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */; };
 		E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE381E83FE2F0096D277 /* TextButton.swift */; };
 		E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */; };
 		E1A4FE3D1E84684D0096D277 /* LevelSelectScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */; };
@@ -95,6 +97,8 @@
 		6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelDesignerScene.swift; sourceTree = "<group>"; };
 		6A638EFE1E87A8530000EB16 /* GameLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		6A638F001E87C4E50000EB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		6A638F3F1E8A84830000EB16 /* MFiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFiController.swift; sourceTree = "<group>"; };
+		6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelDesignerViewController.swift; sourceTree = "<group>"; };
 		E1A4FE381E83FE2F0096D277 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDelegate.swift; sourceTree = "<group>"; };
 		E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectScene.swift; sourceTree = "<group>"; };
@@ -123,13 +127,12 @@
 		0CB3FD571E8BC1B700FF4FB3 /* GamePlay */ = {
 			isa = PBXGroup;
 			children = (
-				0CCDB6261E757C7E00DEF8CC /* PhysicsCategory.swift */,
 				0C082C7C1E895BE800DF97BE /* PlayerController.swift */,
 				0C0732E81E8D024C00E5BE3D /* SinglePlayerViewParams.swift */,
 				0CB3FD581E8BEE3600FF4FB3 /* MultiplayerViewParams.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
-				0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */,
 				0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */,
+				0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */,
 				0CB3FD531E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift */,
 				0C0732E61E8C07D600E5BE3D /* GameScene.swift */,
 				0CCDB6041E75254300DEF8CC /* SinglePlayerGameScene.swift */,
@@ -161,7 +164,6 @@
 			children = (
 				0CCDB5FD1E75254300DEF8CC /* ParticleBlaster */,
 				0CCDB5FC1E75254300DEF8CC /* Products */,
-				E1B242811E8D612F001E6034 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -183,15 +185,18 @@
 				E1E205771E82F8E00018DD13 /* Models */,
 				E1E205801E830C420018DD13 /* Scenes */,
 				E1E2057D1E82FF1B0018DD13 /* Widgets */,
+				6A638F411E8A84900000EB16 /* MFi */,
 				E1E2057A1E82F9590018DD13 /* Utils */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
-				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
+				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
+				6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */,
+				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
@@ -218,12 +223,12 @@
 			name = Fonts;
 			sourceTree = "<group>";
 		};
-		E1B242811E8D612F001E6034 /* Frameworks */ = {
+		6A638F411E8A84900000EB16 /* MFi */ = {
 			isa = PBXGroup;
 			children = (
-				E1B242841E8D899A001E6034 /* GameKit.framework */,
+				6A638F3F1E8A84830000EB16 /* MFiController.swift */,
 			);
-			name = Frameworks;
+			name = MFi;
 			sourceTree = "<group>";
 		};
 		E1E205771E82F8E00018DD13 /* Models */ = {
@@ -259,7 +264,6 @@
 			children = (
 				E1E205811E830C5C0018DD13 /* GameSettingScene.swift */,
 				E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */,
-				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -296,7 +300,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MRZ7YD72EV;
+						DevelopmentTeam = QQW7QECAY7;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -364,6 +368,7 @@
 				E1F02CDF1E8E596A00240A7B /* AudioUtils.swift in Sources */,
 				0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */,
 				6A638EFF1E87A8530000EB16 /* GameLevel.swift in Sources */,
+				6A638F401E8A84830000EB16 /* MFiController.swift in Sources */,
 				6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */,
 				0C082C7D1E895BE800DF97BE /* PlayerController.swift in Sources */,
 				0CA20E3D1E86A8AC00F07F14 /* MapObject.swift in Sources */,
@@ -371,6 +376,7 @@
 				6A638EFD1E87A6710000EB16 /* LevelDesignerScene.swift in Sources */,
 				E1B242871E8D999B001E6034 /* GameCenterUtils.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
+				6A7705781E92A0F600EFC4DF /* LevelDesignerViewController.swift in Sources */,
 				0CB3FD591E8BEE3600FF4FB3 /* MultiplayerViewParams.swift in Sources */,
 				0CB3FD541E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift in Sources */,
 				E1E205821E830C5C0018DD13 /* GameSettingScene.swift in Sources */,
@@ -507,7 +513,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
@@ -521,7 +527,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;

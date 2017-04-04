@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
-    var viewController: UIViewController!
+    var viewController: GameViewController!
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
     var joysticks: [Joystick] = [Joystick]()

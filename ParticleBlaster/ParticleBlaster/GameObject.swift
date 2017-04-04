@@ -9,17 +9,17 @@
 import UIKit
 import SpriteKit
 
-class GameObject: NSObject {
+class GameObject {
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool
-    
+
     init(shape: SKSpriteNode, timeToLive: Int, isStatic: Bool) {
         self.timeToLive = timeToLive
         self.shape = shape
         self.isStatic = isStatic
     }
-    
+
     init(imageName: String) {
         self.shape = SKSpriteNode(imageNamed: imageName)
         self.shape.name = imageName
@@ -38,7 +38,7 @@ class GameObject: NSObject {
         self.timeToLive = timeToLive
         self.isStatic = isStatic
     }
-    
+
     init(imageName: String, isStatic: Bool) {
         self.shape = SKSpriteNode(imageNamed: imageName)
         self.shape.name = imageName
@@ -53,7 +53,7 @@ class GameObject: NSObject {
     public func updatePosition(newLoation: CGPoint) {
         self.shape.position = newLoation
     }
-    
+
     public func updateVelocity(newVelocity: CGVector) {
         self.shape.physicsBody?.velocity = newVelocity
     }

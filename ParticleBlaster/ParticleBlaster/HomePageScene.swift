@@ -16,6 +16,8 @@ class HomePageScene: SKScene {
     private var rankButton: IconButton!
     private var gameSetting: GameSetting!
     
+    var viewController: UIViewController?
+    
     var navigationDelegate: NavigationDelegate?
     
     override init(size: CGSize) {

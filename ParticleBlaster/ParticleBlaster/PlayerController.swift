@@ -72,6 +72,27 @@ class PlayerController {
         self.player.updateRotation(newAngle: rotationAngle)
     }
     
+    func moveMFIJoystickAndRotatePlayerHandler(_ directionPercent: CGVector) {
+        let direction = directionPercent.normalizeJoystickDirection()
+        let length = direction.length()
+        self.unitOffset = direction.normalized()
+        let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
+        var radius = Constants.joystickPlateWidth / 2
+        self.flyingVelocity = length >= radius ? Constants.playerVelocity : Constants.playerVelocity * (length / radius)
+        if length < radius {
+            radius = length
+        }
+
+//        let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
+//        self.joystick.updatePosition(newLoation: newJoystickPosition)
+//        self.player.updateRotation(newAngle: rotationAngle)
+        let newJoystickPosition = CGPoint(x: joystickPlateCenterX! + self.unitOffset.dx * radius, y: joystickPlateCenterY! + self.unitOffset.dy * radius)
+        self.joystick.updatePosition(newLoation: newJoystickPosition)
+        self.player.updateRotation(newAngle: rotationAngle)
+    }
+
+
+    
     func shootHandler() {
         let bullet = Bullet()
         let bulletVelocity = CGVector(dx: self.unitOffset.dx * Constants.bulletVelocity, dy: self.unitOffset.dy * Constants.bulletVelocity)
