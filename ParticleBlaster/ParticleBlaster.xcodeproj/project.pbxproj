@@ -44,7 +44,8 @@
 		6A638EFF1E87A8530000EB16 /* GameLevel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A638EFE1E87A8530000EB16 /* GameLevel.swift */; };
 		6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6A638F001E87C4E50000EB16 /* Assets.xcassets */; };
 		6A638F401E8A84830000EB16 /* MFiController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A638F3F1E8A84830000EB16 /* MFiController.swift */; };
-		6A7705781E92A0F600EFC4DF /* LevelDesignerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */; };
+		E11D1ED11E95772500E4B6CE /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11D1ED01E95772500E4B6CE /* GameData.swift */; };
+		E166507E1E97878F0016BA69 /* Boundary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166507D1E97878F0016BA69 /* Boundary.swift */; };
 		E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE381E83FE2F0096D277 /* TextButton.swift */; };
 		E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */; };
 		E1A4FE3D1E84684D0096D277 /* LevelSelectScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */; };
@@ -98,7 +99,8 @@
 		6A638EFE1E87A8530000EB16 /* GameLevel.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameLevel.swift; sourceTree = "<group>"; };
 		6A638F001E87C4E50000EB16 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6A638F3F1E8A84830000EB16 /* MFiController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MFiController.swift; sourceTree = "<group>"; };
-		6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelDesignerViewController.swift; sourceTree = "<group>"; };
+		E11D1ED01E95772500E4B6CE /* GameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
+		E166507D1E97878F0016BA69 /* Boundary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boundary.swift; sourceTree = "<group>"; };
 		E1A4FE381E83FE2F0096D277 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
 		E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NavigationDelegate.swift; sourceTree = "<group>"; };
 		E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = LevelSelectScene.swift; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 				0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */,
 				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
 				0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */,
+				E166507D1E97878F0016BA69 /* Boundary.swift */,
 			);
 			name = GameObjects;
 			sourceTree = "<group>";
@@ -194,9 +197,6 @@
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
-				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
-				6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */,
-				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
@@ -236,6 +236,7 @@
 			children = (
 				E1E205781E82F91F0018DD13 /* GameSetting.swift */,
 				6A638EFE1E87A8530000EB16 /* GameLevel.swift */,
+				E11D1ED01E95772500E4B6CE /* GameData.swift */,
 			);
 			name = Models;
 			sourceTree = "<group>";
@@ -262,8 +263,10 @@
 		E1E205801E830C420018DD13 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
+				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 				E1E205811E830C5C0018DD13 /* GameSettingScene.swift */,
 				E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */,
+				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -357,6 +360,7 @@
 				0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */,
 				E1E2057F1E82FF710018DD13 /* IconButton.swift in Sources */,
 				E1E205791E82F91F0018DD13 /* GameSetting.swift in Sources */,
+				E166507E1E97878F0016BA69 /* Boundary.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* SinglePlayerGameScene.swift in Sources */,
 				0CB3FD521E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift in Sources */,
 				0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */,
@@ -375,8 +379,8 @@
 				0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */,
 				6A638EFD1E87A6710000EB16 /* LevelDesignerScene.swift in Sources */,
 				E1B242871E8D999B001E6034 /* GameCenterUtils.swift in Sources */,
+				E11D1ED11E95772500E4B6CE /* GameData.swift in Sources */,
 				0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */,
-				6A7705781E92A0F600EFC4DF /* LevelDesignerViewController.swift in Sources */,
 				0CB3FD591E8BEE3600FF4FB3 /* MultiplayerViewParams.swift in Sources */,
 				0CB3FD541E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift in Sources */,
 				E1E205821E830C5C0018DD13 /* GameSettingScene.swift in Sources */,

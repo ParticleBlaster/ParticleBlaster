@@ -62,5 +62,4 @@ class GameSetting: NSObject, NSCoding {
         let musicEnabled = aDecoder.decodeBool(forKey: Constants.settingMusicKey)
         self.init(musicEnabled: musicEnabled, soundEnabled: soundEnabled)
     }
-
 }

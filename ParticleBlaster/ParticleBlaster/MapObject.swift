@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 
+// TODO: consider to replace this by Boundary class
 class MapObject {
     var boundaries: [SKShapeNode]
     

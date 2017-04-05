@@ -7,27 +7,23 @@
 //
 
 import Foundation
+import CoreGraphics
 
 class GameLevel: NSObject, NSCoding {
-    var name: String
-    var highestScore: Int
-    var difficulty: LevelDifficultyLevel
+    // index of the level in level list (index from 0)
+    var id: Int = 0
+    var highestScore: Int = 0
     var obstacles = [Obstacle]()
-//    var players = [Player]()
+    var gameMode: GameMode
+    var playerPositions: [CGPoint] = []
+    var simpleObstacles = [SimpleObstacle]()
+    
+    init(id: Int = 0, gameMode: GameMode = .single) {
+        self.gameMode = gameMode
+        self.id = 0
+        self.highestScore = 0
+    }
 
-    
-    override init() {
-        self.name = ""
-        self.highestScore = 0
-        self.difficulty = LevelDifficultyLevel.UNDEFINED
-    }
-    
-    init(_ name: String) {
-        self.name = name
-        self.highestScore = 0
-        self.difficulty = LevelDifficultyLevel.UNDEFINED
-    }
-    
     var obstacleCount: Int {
         return obstacles.count
     }
@@ -44,16 +40,22 @@ class GameLevel: NSObject, NSCoding {
     }
 
     required convenience init?(coder decoder: NSCoder) {
-        guard let levelName = decoder.decodeObject(forKey: Constants.levelNameKey) as? String,
-            let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle] else {
+        guard let simpleObstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [SimpleObstacle],
+            let playerPositions = decoder.decodeObject(forKey: Constants.playerPositionsKey) as? [CGPoint] else {
                 return nil
         }
-        self.init(levelName)
-        self.obstacles = obstacles
+        let id = decoder.decodeInteger(forKey: Constants.gameIdKey)
+        let gameMode = GameMode(rawValue: decoder.decodeInteger(forKey: Constants.gameModekey)) ?? .single
+        self.init(id: id, gameMode: gameMode)
+        self.obstacles = simpleObstacles.map { return Obstacle(image: $0.imageName, userSetInitialPosition: $0.position, isPhysicsBody: false) }
+        self.playerPositions = playerPositions
     }
     
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(name, forKey: Constants.levelNameKey)
-        aCoder.encode(obstacles, forKey: Constants.obstaclesKey)
+        aCoder.encode(id, forKey: Constants.gameIdKey)
+        simpleObstacles = obstacles.map { return SimpleObstacle(obstacle: $0) }
+        aCoder.encode(simpleObstacles, forKey: Constants.obstaclesKey)
+        aCoder.encode(gameMode.rawValue, forKey: Constants.gameModekey)
+        aCoder.encode(playerPositions, forKey: Constants.playerPositionsKey)
     }
 }

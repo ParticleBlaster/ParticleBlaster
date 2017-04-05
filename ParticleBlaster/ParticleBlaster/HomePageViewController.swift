@@ -49,8 +49,7 @@ class HomePageViewController: UIViewController {
     }
     
     func onGCEnableChange() {
-        let skView = view as! SKView
-        guard let scene = skView.scene as? HomePageScene else {
+        guard let scene = homePageScene else {
             return
         }
         scene.onGCEnableChange(isEnabled: gcEnabled)
@@ -143,28 +142,28 @@ extension HomePageViewController: GKGameCenterControllerDelegate {
 }
 
 extension HomePageViewController: NavigationDelegate {
-    func navigateToPlayScene(isSingleMode: Bool = true) {
+    func navigateToPlayScene(gameLevel: GameLevel) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: GameViewController = storyboard.instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
         self.present(vc, animated: true, completion: nil)
     }
-    func navigateToDesignScene() {
-        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
-        self.present(vc, animated: true, completion: nil)
-    }
-//    func navigateToDesignScene() {
-//        let skView = view as! SKView
-//        let reveal = SKTransition.crossFade(withDuration: 0.5)
-//        let scene = LevelDesignerScene(size: skView.frame.size)
-//        scene.scaleMode = .resizeFill
-//        scene.navigationDelegate = self
-//        skView.presentScene(scene, transition: reveal)
+//    func navigateToDesignScene(gameMode: GameMode) {
+//        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+//        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
+//        self.present(vc, animated: true, completion: nil)
 //    }
-    func navigateToLevelSelectScene(isSingleMode: Bool) {
+    func navigateToDesignScene(gameLevel: GameLevel) {
         let skView = view as! SKView
         let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = LevelSelectScene(size: skView.frame.size)
+        let scene = LevelDesignerScene(size: skView.frame.size, gameLevel: gameLevel)
+        scene.scaleMode = .resizeFill
+        scene.navigationDelegate = self
+        skView.presentScene(scene, transition: reveal)
+    }
+    func navigateToLevelSelectScene(gameMode: GameMode) {
+        let skView = view as! SKView
+        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let scene = LevelSelectScene(size: skView.frame.size, gameMode: gameMode)
         scene.navigationDelegate = self
         skView.presentScene(scene, transition: reveal)
     }

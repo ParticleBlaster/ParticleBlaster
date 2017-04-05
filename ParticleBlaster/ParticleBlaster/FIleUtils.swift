@@ -22,25 +22,49 @@ class FileUtils {
         return NSKeyedArchiver.archiveRootObject(setting, toFile: fileUrl.path)
     }
 
-    static func loadLevelNameList() -> [String] {
-        return []
+    static func loadGameData() -> GameData? {
+        let fileUrl = DocumentsDirectory.appendingPathComponent(Constants.gameDataFilename)
+        return NSKeyedUnarchiver.unarchiveObject(withFile: fileUrl.path) as? GameData
     }
 
-    static func saveLevelNameList(levelNameList: [String]) -> Bool {
-        return false
+    static func saveGameData() -> Bool {
+        let gameData = GameData.getInstance()
+        let fileUrl = DocumentsDirectory.appendingPathComponent(Constants.gameDataFilename)
+        return NSKeyedArchiver.archiveRootObject(gameData, toFile: fileUrl.path)
     }
 
-    static func getLevelUrl(named levelName: String) -> URL {
-        return DocumentsDirectory.appendingPathComponent(Constants.levelPrefix + levelName)
+    static func getLevelUrl(id: Int, gameMode: GameMode = .single) -> URL {
+        return DocumentsDirectory.appendingPathComponent("\(Constants.levelPrefix)_\(gameMode.rawValue)_\(id)")
     }
     
-    static func loadGameLevel(named levelName: String) -> GameLevel? {
-        let fileUrl = getLevelUrl(named: levelName)
+    static func loadGameLevel(id: Int, gameMode: GameMode = .single) -> GameLevel? {
+        let fileUrl = getLevelUrl(id: id, gameMode: gameMode)
         return NSKeyedUnarchiver.unarchiveObject(withFile: fileUrl.path) as? GameLevel
     }
 
     static func saveGameLevel(_ gameLevel: GameLevel) -> Bool {
-        let fileUrl = getLevelUrl(named: gameLevel.name)
+        let fileUrl = getLevelUrl(id: gameLevel.id, gameMode: gameLevel.gameMode)
         return NSKeyedArchiver.archiveRootObject(gameLevel, toFile: fileUrl.path)
+    }
+
+    static func savePreloadGameLevels() {
+        // Detect is the first launch of user
+        let launchedBefore = UserDefaults.standard.bool(forKey: Constants.launchedBeforeKey)
+        guard !launchedBefore else {
+            return
+        }
+        UserDefaults.standard.set(true, forKey: Constants.launchedBeforeKey)
+        // TODO: continue working on this method
+    }
+
+    static func copyFile(fromPath: String, toPath: String) -> Bool {
+        let fileManager = FileManager.default
+        do {
+            try fileManager.copyItem(atPath: fromPath, toPath: toPath)
+            return true
+        }
+        catch {
+            return false
+        }
     }
 }

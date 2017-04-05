@@ -102,10 +102,6 @@ class SinglePlayerGameScene: GameScene {
             physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
         
-        // Play and loop the background music
-        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
     }
     
     func random() -> CGFloat {
