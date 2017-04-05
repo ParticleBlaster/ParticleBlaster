@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
-    var gameMode = Constants.gameMode.single
+    var gameMode = Constants.gameMode.multi
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
@@ -83,7 +83,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         print("finish mfi config")
     }
-    
 
     private func setupGameScene() {
         scene.viewController = self
@@ -115,22 +114,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
         self.startTime = DispatchTime.now()
     }
-    
-//    private func moveMFIJoystickAndRotatePlayerHandler(_ directionPercent: CGVector) {
-//        let direction = normalizeJoystickDirection(directionPercent)
-//        let length = sqrt(direction.dx * direction.dx + direction.dy * direction.dy)
-//        self.unitOffset = direction.normalized()
-//        let rotationAngle = atan2(self.unitOffset.dy, self.unitOffset.dx) - CGFloat.pi / 2
-//        var radius = Constants.joystickPlateWidth / 2
-//        self.flyingVelocity = length >= radius ? Constants.playerVelocity : Constants.playerVelocity * (length / radius)
-//        if length < radius {
-//            radius = length
-//        }
-//        
-//        let newJoystickPosition = CGPoint(x: Constants.joystickPlateCenterX + self.unitOffset.dx * radius, y: Constants.joystickPlateCenterY + self.unitOffset.dy * radius)
-//        self.joystick.updatePosition(newLoation: newJoystickPosition)
-//        self.player.updateRotation(newAngle: rotationAngle)
-//    }
 
     // Contact delegate method
     func didBegin(_ contact: SKPhysicsContact) {
