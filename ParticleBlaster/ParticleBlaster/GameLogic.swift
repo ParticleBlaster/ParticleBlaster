@@ -18,6 +18,7 @@ protocol GameLogic {
     var winningCondition: Bool { get set }
     var losingCondition: Bool { get set }
     
+    func getObstacleList() -> [Obstacle]
     func updateObstacleVelocityHandler()
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode)
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode)

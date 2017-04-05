@@ -21,6 +21,8 @@ class PlayerController {
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
     
+    var obtainObstacleListHandler: (() -> ([Obstacle]))!
+    
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
     private var unitOffset: CGVector = CGVector(dx: 0, dy: 0)
@@ -37,12 +39,13 @@ class PlayerController {
     
     func updateMissileVelocityHandler() {
         for missile in self.missilePool {
-            let currPosition = missile.shape.position
-            let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
-            let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
-            missile.updateVelocity(newVelocity: newVelocity)
+            if missile.isReady {
+                let currPosition = missile.shape.position
+                let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
+                let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
+                missile.updateVelocity(newVelocity: newVelocity)
+            }
         }
-        
     }
     
     func endJoystickMoveHandler() {
@@ -87,27 +90,37 @@ class PlayerController {
         self.scene.addChild(bullet.shape)
     }
     
-    func launchMissile(taregtObstacle: Obstacle) {
+    func launchMissileHandler() {
         // Note: currently it will choose the first obstacle in the list
-        let missile = Missile(targetObs: taregtObstacle)
-        let currFiringAngle = self.player.shape.zRotation
-        let currFiringPosition = self.player.shape.position
+        if let getObsListHandler = self.obtainObstacleListHandler {
+            let obstacleList = getObsListHandler()
+            // Current logic: always get the first obs available, otherwise don't launch
+            if obstacleList.count > 0 {
+                let targetObstacle = obstacleList[0]
+                
+                let missile = Missile(targetObs: targetObstacle)
+                let currFiringAngle = self.player.shape.zRotation
+                let currFiringPosition = self.player.shape.position
+                
+                missile.shape.position = currFiringPosition
+                missile.shape.zRotation = currFiringAngle
+                missile.shape.zPosition = -1
+                
+                self.missilePool.append(missile)
+                self.scene.addChild(missile.shape)
+                let preparationDirection = self.unitOffset.orthonormalVector()
+                let preparationOffset = CGVector(dx: preparationDirection.dx * Constants.missileLaunchOffset, dy: preparationDirection.dy * Constants.missileLaunchOffset)
+                
+                let missileFadeInAction = SKAction.fadeIn(withDuration: Constants.missileLaunchTime)
+                let missileLaunchAction = SKAction.move(by: preparationOffset, duration: Constants.missileLaunchTime)
+                let missileAction = SKAction.group([missileFadeInAction, missileLaunchAction])
+                missile.shape.run(missileAction, completion: {
+                    missile.isReadyToFly()
+                })
+            }
+            
+        }
         
-        missile.shape.position = currFiringPosition
-        missile.shape.zRotation = currFiringAngle
-        missile.shape.zPosition = -1
-        
-        self.missilePool.append(missile)
-        self.scene.addChild(missile.shape)
-        let preparationDirection = self.unitOffset.orthonormalVector()
-        let preparationOffset = CGVector(dx: preparationDirection.dx * Constants.missileLaunchOffset, dy: preparationDirection.dy * Constants.missileLaunchOffset)
-        
-        let missileFadeInAction = SKAction.fadeIn(withDuration: Constants.missileLaunchTime)
-        let missileLaunchAction = SKAction.move(by: preparationOffset, duration: Constants.missileLaunchTime)
-        let missileAction = SKAction.group([missileFadeInAction, missileLaunchAction])
-        missile.shape.run(missileAction, completion: {
-            missile.isReadyToFly()
-        })
     }
     
     func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {

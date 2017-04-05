@@ -36,12 +36,15 @@ class SinglePlayerGameLogic: GameLogic {
         
         self.numberOfPlayers = 1
         let player = PlayerController(gameViewController: self.gameViewController)
+        
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]
         self.obstaclePool = [Obstacle]()
         self.winningCondition = false
         self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
+        
+        player.obtainObstacleListHandler = self.getObstacleList
         
         initialiseFakeObstacles()
         prepareObstacles()
@@ -59,6 +62,21 @@ class SinglePlayerGameLogic: GameLogic {
             obs.pushedByForce(force: appliedForce)
         }
     }
+    
+    func getObstacleList() -> [Obstacle] {
+        return self.obstaclePool
+    }
+    
+//    func launchMissileHandler() {
+//        if self.obstaclePool.count > 0 {
+//            let targetObs = self.obstaclePool[0]
+//            self.playerController.launchMissile(taregtObstacle: targetObs)
+//        } // otherwise nothing will be done
+//    }
+//    
+//    func updateMissileVelocityHandler() {
+//        self.playerController.updateMissileVelocity()
+//    }
     
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         self.gameViewController.scene.removeElement(node: bullet)

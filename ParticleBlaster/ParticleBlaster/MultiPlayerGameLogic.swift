@@ -49,16 +49,22 @@ class MultiplayerGameLogic: GameLogic {
         
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
+        
         let player1 = PlayerController(gameViewController: self.gameViewController)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         let player2 = PlayerController(gameViewController: self.gameViewController)
         player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
+        
         self.obstaclePool = [Obstacle]()
         self.winningCondition = false
         self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
+        
+        player1.obtainObstacleListHandler = self.getObstacleList
+        player2.obtainObstacleListHandler = self.getObstacleList
+        
         
         initialiseFakeObstacles()
         prepareObstacles()
@@ -70,6 +76,10 @@ class MultiplayerGameLogic: GameLogic {
     
     // Shouldn't be implementing this
     func updateObstacleVelocityHandler() {
+    }
+    
+    func getObstacleList() -> [Obstacle] {
+        return self.obstaclePool
     }
     
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {

@@ -78,7 +78,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
             scene.fireHandlers.append(playerController.shootHandler)
-            scene.launchMissileHandlers.append(playerController.updateMissileVelocityHandler)
+            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
+            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
         }
 
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
