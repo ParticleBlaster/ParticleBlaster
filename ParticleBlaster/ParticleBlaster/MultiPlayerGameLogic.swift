@@ -146,7 +146,6 @@ class MultiplayerGameLogic: GameLogic {
         if collidedPlayerController.player.checkDead() {
             print ("game over!")
             updateWinningCondition()
-            // TODO: finish the logic for presenting who wins and who loses
         }
     }
 }

@@ -12,7 +12,7 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
-    var gameMode = Constants.gameMode.multi
+    var gameMode = Constants.gameMode.single
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
@@ -30,6 +30,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
+        resetVariables()
+        
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
 
@@ -66,6 +68,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     /* End of UIViewController related methods */
 
+    // TODO: implement the method for replay
+    func resetVariables() {
+    }
+    
     func setGameMode(_ gameMode: Constants.gameMode) {
         self.gameMode = gameMode
     }

@@ -54,7 +54,7 @@ class GameOverScene: SKScene {
     }
     
     private func replayButtonPressed() {
-        self.viewController.dismiss(animated: true, completion: nil)
+        self.viewController.viewDidLoad()
     }
     
     private func homepageButtonPressed() {
