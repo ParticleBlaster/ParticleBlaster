@@ -11,27 +11,30 @@ import SpriteKit
 import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
-    
+
     var gameMode = Constants.gameMode.single
     
     // Initialise game scene for displaying game objects
     var scene: GameScene!
-    
+    var skView: SKView!
+
     // Initialise game logic for controlling game objects
     var gameLogic: GameLogic!
 
     // Initialised score related supporting attributes
     var startTime: DispatchTime!
     var currLevelObtainedScore: Int = 0
-    
+
     /* Start of UIViewController related methods */
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
+
+        resetVariables()
         
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
-        
+
         if gameMode == Constants.gameMode.single {
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
@@ -42,11 +45,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         setupGameScene()
     }
-    
+
     override var shouldAutorotate: Bool {
         return true
     }
-    
+
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {
             return .allButUpsideDown
@@ -54,20 +57,42 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             return .all
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
     }
-    
+
     override var prefersStatusBarHidden: Bool {
         return true
     }
-    
+
     /* End of UIViewController related methods */
+
+    // TODO: implement the method for replay
+    func resetVariables() {
+    }
     
+    func setGameMode(_ gameMode: Constants.gameMode) {
+        self.gameMode = gameMode
+    }
+
+    /* TODO: Implement Level object for loading initial status of players and obstacles
+    func loadLevel(_ level: Level) {
+    }
+     */
+
+    /* Start of setup related methods */
+    
+    private func configMFiController(index: Int, playerController: PlayerController) {
+        Constants.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
+        Constants.mfis[index].shootHandler = playerController.shootHandler
+        
+        print("finish mfi config")
+    }
+
     private func setupGameScene() {
         scene.viewController = self
-        
+
         for i in 0..<self.gameLogic.playerControllers.count {
             let playerController = self.gameLogic.playerControllers[i]
             self.scene.players.append(playerController.player)
@@ -80,12 +105,15 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.fireHandlers.append(playerController.shootHandler)
             scene.launchMissileHandlers.append(playerController.launchMissileHandler)
             scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+            
+            // Set up MFi controller for each playerController
+            configMFiController(index: i, playerController: playerController)
         }
-
-        scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
         
+        scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
+
         // Link game scene to view
-        let skView = view as! SKView
+        skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
@@ -96,7 +124,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // Contact delegate method
     func didBegin(_ contact: SKPhysicsContact) {
-        
+
         // Arranges two colliding bodies so they are sorted by their category bit masks
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
@@ -107,7 +135,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-        
+
         if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
@@ -136,34 +164,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
             }
         }
-    }
-}
-
-extension GameViewController: NavigationDelegate {
-    func navigateToHomePage() {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = HomePageScene(size: skView.frame.size)
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
-    }
-
-    func navigateToDesignScene() {
-        // TODO: implement this
-    }
-
-    func navigateToPlayScene() {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = GameScene(size: skView.frame.size)
-        skView.presentScene(scene, transition: reveal)
-    }
-
-    func navigateToLevelSelectScene(isSingleMode: Bool = true) {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = LevelSelectScene(size: skView.frame.size)
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
+        
+        if self.gameLogic.winningCondition {
+            // present GameWinScene
+            let skView = view as! SKView
+            let gameOverScene = GameOverScene(size: view.bounds.size, won: true, viewController: self)
+            skView.presentScene(gameOverScene)
+        } else if self.gameLogic.losingCondition {
+            // present GameLoseScene
+            let skView = view as! SKView
+            let gameOverScene = GameOverScene(size: view.bounds.size, won: false, viewController: self)
+            skView.presentScene(gameOverScene)
+        }
     }
 }

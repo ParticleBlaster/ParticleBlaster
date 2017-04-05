@@ -52,7 +52,11 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func updateWinningCondition() {
-        
+        self.winningCondition = self.obstaclePool.isEmpty
+    }
+    
+    func updateLosingCondition() {
+        self.losingCondition = self.player.checkDead()
     }
 
     func updateObstacleVelocityHandler() {

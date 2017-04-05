@@ -52,8 +52,12 @@ class MultiplayerGameLogic: GameLogic {
         
         let player1 = PlayerController(gameViewController: self.gameViewController)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
+        // TODO: Refactor
+        player1.player.timeToLive = 10
         let player2 = PlayerController(gameViewController: self.gameViewController)
         player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
+        // TODO: Refactor
+        player2.player.timeToLive = 10
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
         
@@ -72,6 +76,7 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func updateWinningCondition() {
+        self.winningCondition = player1.checkDead() || player2.checkDead()
     }
     
     // Shouldn't be implementing this
@@ -150,8 +155,7 @@ class MultiplayerGameLogic: GameLogic {
         collidedPlayerController.player.hitByObstacle()
         if collidedPlayerController.player.checkDead() {
             print ("game over!")
-            // TODO: finish the logic for presenting who wins and who loses
+            updateWinningCondition()
         }
     }
-
 }

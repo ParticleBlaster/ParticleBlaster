@@ -16,9 +16,15 @@ extension CGVector {
     func normalized() -> CGVector {
         return CGVector(dx: self.dx / length(), dy: self.dy / length())
     }
-    
+
     // Define right as the orthonormal direction
     func orthonormalVector() -> CGVector {
         return CGVector(dx: self.dy, dy: -self.dx).normalized()
+    }
+
+    func normalizeJoystickDirection() -> CGVector{
+        let dx = self.dx * Constants.joystickWidth / 2
+        let dy = self.dy * Constants.joystickHeight / 2
+        return CGVector(dx: dx, dy: dy)
     }
 }

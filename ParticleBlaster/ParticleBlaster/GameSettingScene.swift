@@ -21,17 +21,17 @@ class GameSettingScene: SKScene, SKPhysicsContactDelegate {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
 
         background = SKSpriteNode(imageNamed: Constants.settingBackgroundFilename)
-        soundButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.soundButtonFilename,
+        soundButton = IconButton(imageNamed: Constants.soundButtonFilename,
                                  disabledImageNamed: Constants.soundButtonDisabledFilename,
+                                 size: Constants.iconButtonDefaultSize,
                                  isPositive: gameSetting.isSoundEnabled)
-        musicButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.musicButtonFilename,
+        musicButton = IconButton(imageNamed: Constants.musicButtonFilename,
                                  disabledImageNamed: Constants.musicButtonDisabledFilename,
+                                 size: Constants.iconButtonDefaultSize,
                                  isPositive: gameSetting.isMusicEnabled)
-        backButton = IconButton(size: Constants.iconButtonDefaultSize,
-                                 imageNamed: Constants.backButtonFilename,
-                                 disabledImageNamed: Constants.backButtonDisabledFilename)
+        backButton = IconButton(imageNamed: Constants.backButtonFilename,
+                                disabledImageNamed: Constants.backButtonDisabledFilename,
+                                size: Constants.iconButtonDefaultSize)
         background.position = .zero
         background.zPosition = 0
         musicButton.position = CGPoint(x: -70, y: 0)

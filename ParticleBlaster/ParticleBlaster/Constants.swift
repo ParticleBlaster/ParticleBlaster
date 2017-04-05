@@ -8,7 +8,24 @@
 
 import SpriteKit
 
+struct PhysicsCategory {
+    static let None      : UInt32 = 0
+    static let All       : UInt32 = UInt32.max
+    static let Obstacle   : UInt32 = 0x1 << 0       // 1
+    static let Bullet: UInt32 = 0x1 << 1       // 2
+    static let Player    : UInt32 = 0x1 << 2       // 3
+    static let Map       : UInt32 = 0x1 << 3       // 4
+}
+
+enum LevelDifficultyLevel: Int {
+    case UNDEFINED = 0
+    case EASY = 1
+    case INTERMEDIATE = 2
+    case HARD = 3
+}
+
 class Constants {
+    static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
         
     // Game Scene Constants
@@ -107,14 +124,14 @@ class Constants {
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
     
     // Star Wars Theme Obstacles
-    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition)
-    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition)
-    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition)
-    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition)
-    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition)
-    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition)
-    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition)
-    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition)
+    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
     
     static let starwarsObstacles = [starwarsBB8,
                                     starwarsBountyHunter,
@@ -140,10 +157,11 @@ class Constants {
     
     // Font Constants
     static let titleFont = "FinalFrontierOldStyle"
-    static let fontSizeSmall: CGFloat = 10
-    static let fontSizeMedium: CGFloat = 20
-    static let fontSizeLarge: CGFloat = 40
+    static let fontSizeSmall: CGFloat = 20
+    static let fontSizeMedium: CGFloat = 40
+    static let fontSizeLarge: CGFloat = 80
     static let fontSizeLargeX: CGFloat = 120
+    static let fontSizeHuge: CGFloat = 150
     
     // Level Designer Constants
     static let levelScreenRatio: CGFloat = 0.7
@@ -156,14 +174,18 @@ class Constants {
     
     static let currentObstacleZPosition: CGFloat = CGFloat.greatestFiniteMagnitude
     
-    static let TITLE_FONT = "FinalFrontierOldStyle"
     static let normalFont = "FinalFrontierOldStyle"
     static let normalFontSize: CGFloat = 40.0
 
     // archived key
+    static let levelPrefix = "gameLevel_"
     static let settingFileName = "settingFileName"
     static let settingSoundKey = "settingSoundKey"
     static let settingMusicKey = "settingMusicKey"
+    static let imageNameKey = "imageNameKey"
+    static let initialPositionKey = "initialPositionKey"
+    static let levelNameKey = "levelNameKey"
+    static let obstaclesKey = "obstaclesKey"
 
     static let labelGameTitle = "Tri Adventure"
     static let labelPlay = "PLAY"
@@ -185,6 +207,8 @@ class Constants {
     static let downwardButtonFilename = "downward-btn"
     static let downwardButtonDisabledFilename = "downward-btn-disabled"
     static let lockButtonFilename = "lock-btn"
+    static let rankButtonFilename = "rank-btn"
+    static let rankButtonDisabledFilename = "rank-btn-disabled"
 
     // sizes
     static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
@@ -192,11 +216,28 @@ class Constants {
     static let screenPadding = CGSize(width: 50, height: 50)
     static let buttonVerticalMargin: CGFloat = 30
     static let buttonHorizontalMargin: CGFloat = 30
-}
 
-enum LevelDifficultyLevel: Int {
-    case UNDEFINED = 0
-    case EASY = 1
-    case INTERMEDIATE = 2
-    case HARD = 3
+    // Sound
+    static let buttonPressedSoundFilename = "button-pressed.mp3"
+    static let backgroundSoundFilename = "background-music-aac"
+    
+    // MFi Controller
+    static var mfis = [MFiController]()
+    static let maxMFi = 2
+    
+    static var nextMFiConnect: Int {
+        for index in 0 ..< mfis.count {
+            if mfis[index].isConnected == false {
+                return index
+            }
+        }
+        return -1
+    }
+    
+    static func startNextMFiConnectionNotificationCenter() {
+        guard Constants.nextMFiConnect >= 0 else {
+            return
+        }
+        Constants.mfis[Constants.nextMFiConnect].setupConnectionNotificationCenter()
+    }
 }
