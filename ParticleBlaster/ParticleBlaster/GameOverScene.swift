@@ -10,18 +10,24 @@ import Foundation
 import SpriteKit
 
 class GameOverScene: SKScene {
-    
-    var buttonHomePage: SKShapeNode
+    var background: SKSpriteNode!
+    var buttonHomePage: TextButton!
+    var buttonReplay: TextButton!
     var viewController: GameViewController!
     
     init(size: CGSize, won:Bool, viewController: GameViewController) {
-        
-        buttonHomePage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 400, height: 60), cornerRadius: 10)
+        self.background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
+        self.buttonHomePage = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: "Homepage")
+        self.buttonReplay = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: "Replay")
         self.viewController = viewController
         super.init(size: size)
         
-        // Set the background color
-        backgroundColor = Constants.backgroundColor
+        // Set the background image
+        anchorPoint = CGPoint(x: 0.5, y: 0.5)
+        background.position = .zero
+        background.size = size
+        background.zPosition = 0
+        addChild(background)
         
         // Set the message to either “You Won” or “You Lose” based on the won parameter
         let message = won ? "You Won!" : "You Lose :["
@@ -29,40 +35,32 @@ class GameOverScene: SKScene {
         // Choose font and set parameters for displaying laber of text
         let label = SKLabelNode(fontNamed: "Chalkduster")
         label.text = message
-        label.fontSize = 40
-        label.fontColor = SKColor.black
-        label.position = CGPoint(x: size.width/2, y: size.height/2)
+        label.fontName = Constants.titleFont
+        label.fontSize = Constants.fontSizeHuge
+        label.fontColor = SKColor.white
+        label.position = CGPoint(x: 0, y: size.height * 0.2)
+        label.zPosition = 1
         addChild(label)
         
-        buttonHomePage.position = CGPoint(x: frame.midX - buttonHomePage.frame.midX, y: size.height * 0.3)
-        buttonHomePage.fillColor = SKColor.clear
-        buttonHomePage.strokeColor = SKColor.black
-        buttonHomePage.lineWidth = 5
+        buttonReplay.position = CGPoint(x: 0, y: size.height * 0)
+        buttonReplay.onPressHandler = self.replayButtonPressed
+        buttonReplay.zPosition = 1
+        addChild(buttonReplay)
+        
+        buttonHomePage.position = CGPoint(x: 0, y: size.height * -0.2)
+        buttonHomePage.onPressHandler = self.homepageButtonPressed
         buttonHomePage.zPosition = 1
-        
-        let buttonText = SKLabelNode(text: "Back to home page")
-        buttonText.position = CGPoint(x: buttonHomePage.frame.size.width * 0.5, y: buttonHomePage.frame.size.height * 0.25)
-        buttonText.fontSize = 40
-        buttonText.fontName = Constants.titleFont
-        buttonText.fontColor = SKColor.black
-        buttonText.zPosition = 2
-        
-        buttonHomePage.addChild(buttonText)
         addChild(buttonHomePage)
     }
     
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touch = touches.first
-        let touchLocation = touch!.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if buttonHomePage.contains(touchLocation) {
-            print("back to manu tapped!")
-
-            self.viewController?.dismiss(animated: true, completion: nil)
-        }
-        
+    private func replayButtonPressed() {
+        self.viewController.dismiss(animated: true, completion: nil)
     }
-
+    
+    private func homepageButtonPressed() {
+        self.viewController.dismiss(animated: true, completion: nil)
+    }
+    
     required init(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
