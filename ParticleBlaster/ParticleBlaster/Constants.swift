@@ -91,8 +91,8 @@ class Constants {
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
     static let missileVelocity: CGFloat = CGFloat(450)
-    static let missileLaunchOffset: CGFloat = CGFloat(15)
-    static let missileLaunchTime = 1.5
+    static let missileLaunchOffset: CGFloat = CGFloat(30)
+    static let missileLaunchTime = 0.8
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500

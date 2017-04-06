@@ -42,8 +42,10 @@ class PlayerController {
             if missile.isReady {
                 let currPosition = missile.shape.position
                 let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
+                let rotationAngle = atan2(direction.dy, direction.dx) - CGFloat.pi / 2
                 let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
                 missile.updateVelocity(newVelocity: newVelocity)
+                missile.updateRotation(newAngle: rotationAngle)
             }
         }
     }
