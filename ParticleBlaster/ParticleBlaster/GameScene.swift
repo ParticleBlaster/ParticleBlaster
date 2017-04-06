@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController!
-    var gameLevel: GameLevel!
+    var gameLevel: GameLevel?
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
     var joysticks: [Joystick] = [Joystick]()
@@ -55,7 +55,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func loadGameLevel() {
         backgroundColor = Constants.backgroundColor
         
-        if let backgroundImageName = gameLevel.backgroundImageName {
+        guard gameLevel != nil else {
+            return
+        }
+        
+        if let backgroundImageName = gameLevel!.backgroundImageName {
             let background = SKSpriteNode(imageNamed: backgroundImageName)
             background.position = CGPoint(x: frame.midX, y: frame.midY)
             background.size = size
@@ -63,7 +67,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(background)
         }
         
-        for obstacle in gameLevel.obstacles {
+        for obstacle in gameLevel!.obstacles {
             obstacle.shape.zPosition = 1
             addChild(obstacle.shape)
         }

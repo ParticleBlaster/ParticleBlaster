@@ -11,20 +11,15 @@ import GameController
 
 class MFiController: NSObject {
     var mainController: GCController?
-//    var viewController: GameViewController?
     var direction = CGVector(dx: 0, dy: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
     var shootHandler: (() -> ())?
+    var inputTimestamp: DispatchTime = DispatchTime.now()
     
     
     func setupConnectionNotificationCenter() {
         print("start setupConnectionNotificationCenter")
-        
-//        guard gameViewController != nil else {
-//            print("game view controller not yet setup")
-//            return
-//        }
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controllerWasConnected),
@@ -76,16 +71,17 @@ class MFiController: NSObject {
         profile.valueChangedHandler = ({
             (gamepad: GCExtendedGamepad, element: GCControllerElement) in
             
+                
             var message: String = ""
             
             
             // A button
-            if (gamepad.buttonA == element && gamepad.buttonA.isPressed) {
+            if (gamepad.buttonA == element && gamepad.buttonA.isPressed && self.inputTimestamp.getTimeInSecond(to: DispatchTime.now()) > Constants.debouncingInteval) {
                 message = "A Button"
-                
                 if let shoot = self.shootHandler {
                     shoot()
                 }
+                self.inputTimestamp = DispatchTime.now()
             }
             
             

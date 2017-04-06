@@ -206,4 +206,7 @@ class Constants {
     // Sound
     static let buttonPressedSoundFilename = "button-pressed.mp3"
     static let backgroundSoundFilename = "background-music-aac"
+    
+    // MFi Controller 
+    static let debouncingInteval: Float = 0.005
 }
