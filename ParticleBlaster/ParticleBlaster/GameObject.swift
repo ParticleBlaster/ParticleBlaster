@@ -61,4 +61,8 @@ class GameObject {
     public func pushedByForce(force: CGVector) {
         self.shape.physicsBody?.applyForce(force)
     }
+    
+    public func pushedByForceWithPoint(force: CGVector, point: CGPoint) {
+        self.shape.physicsBody?.applyForce(force, at: point)
+    }
 }

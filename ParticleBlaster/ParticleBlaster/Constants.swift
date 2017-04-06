@@ -90,9 +90,13 @@ class Constants {
     static let playerVelocity: CGFloat = CGFloat(400)
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
-    static let missileVelocity: CGFloat = CGFloat(450)
+    static let missileVelocity: CGFloat = CGFloat(350)
+    static let missileInitialForceValue: CGFloat = CGFloat(20)
+    static let missileConstantForceValue: CGFloat = CGFloat(2)
     static let missileLaunchOffset: CGFloat = CGFloat(30)
-    static let missileLaunchTime = 0.8
+    static let missileLaunchTime = 0.5
+    static let missileInitialAccelerationTime = 0.2
+    static let shieldRadius: CGFloat = CGFloat(120)
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500
@@ -110,7 +114,7 @@ class Constants {
     static let playerMass: CGFloat = CGFloat(10)
     
     static let destroyObstacleScoreFont = "Papyrus"
-    static let destroyObstacleScoreFontSize = CGFloat(30)
+    static let destroyObstacleScoreFontSize = CGFloat(40)
     static let destroyObstacleScoreOffset = CGVector(dx: 0, dy: 5)
     static let destroyObstacleScoreFadeTime = 0.5
     //static let destroyObstacleScore
