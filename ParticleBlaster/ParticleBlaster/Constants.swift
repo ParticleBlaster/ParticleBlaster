@@ -11,10 +11,11 @@ import SpriteKit
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
-    static let Obstacle   : UInt32 = 0x1 << 0       // 1
-    static let Bullet: UInt32 = 0x1 << 1       // 2
+    static let Obstacle  : UInt32 = 0x1 << 0       // 1
+    static let Bullet    : UInt32 = 0x1 << 1       // 2
     static let Player    : UInt32 = 0x1 << 2       // 3
     static let Map       : UInt32 = 0x1 << 3       // 4
+    static let Grenade   : UInt32 = 0x1 << 4       // 5
 }
 
 enum LevelDifficultyLevel: Int {
@@ -58,10 +59,6 @@ class Constants {
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
     
-    static let defaultBulletRadius: CGFloat = CGFloat(16)
-    static let defaultBulletWidth: CGFloat = CGFloat(8)
-    static let defaultBulletHeight: CGFloat = CGFloat(64)
-    
     static func initializeJoystickInfo(viewSize: CGSize) {
         self.joystickPlateWidth = viewSize.width / 8
         self.joystickPlateHeight = viewSize.width / 8
@@ -90,6 +87,7 @@ class Constants {
     static let playerVelocity: CGFloat = CGFloat(400)
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
+    
     static let missileVelocity: CGFloat = CGFloat(350)
     static let missileInitialForceValue: CGFloat = CGFloat(20)
     static let missileConstantForceValue: CGFloat = CGFloat(2)
@@ -97,6 +95,13 @@ class Constants {
     static let missileLaunchTime = 0.5
     static let missileInitialAccelerationTime = 0.2
     static let shieldRadius: CGFloat = CGFloat(120)
+    
+    static let defaultBulletRadius: CGFloat = CGFloat(16)
+    static let defaultBulletWidth: CGFloat = CGFloat(8)
+    static let defaultBulletHeight: CGFloat = CGFloat(64)
+    
+    static let grenadeRadius: CGFloat = CGFloat(30)
+    static let grenadeExplodeSizeExpansionValue: Int = 5
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500

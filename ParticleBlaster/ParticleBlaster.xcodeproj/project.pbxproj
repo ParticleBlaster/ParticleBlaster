@@ -31,6 +31,7 @@
 		0E02E5D11E81615700E7AB51 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D01E81615700E7AB51 /* Joystick.swift */; };
 		0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */; };
 		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
+		0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC85711E964EEE00CF48A2 /* Grenade.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
 		0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */; };
 		0EB2CD571E82CD5E00237FA9 /* FireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD561E82CD5E00237FA9 /* FireButton.swift */; };
@@ -85,6 +86,7 @@
 		0E02E5D01E81615700E7AB51 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickPlate.swift; sourceTree = "<group>"; };
 		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
+		0EAC85711E964EEE00CF48A2 /* Grenade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grenade.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGVectorExtensions.swift; sourceTree = "<group>"; };
 		0EB2CD561E82CD5E00237FA9 /* FireButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireButton.swift; sourceTree = "<group>"; };
@@ -147,6 +149,7 @@
 				0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */,
 				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
+				0EAC85711E964EEE00CF48A2 /* Grenade.swift */,
 				0E8EE74F1E918EA7003F041A /* Missile.swift */,
 				0EB2CD521E82A3C400237FA9 /* Obstacle.swift */,
 				0E02E5CE1E8140EE00E7AB51 /* Player.swift */,
@@ -350,6 +353,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */,
 				0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */,
 				0CCDB6231E752F8700DEF8CC /* IsoscelesTriangle.swift in Sources */,
 				6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */,

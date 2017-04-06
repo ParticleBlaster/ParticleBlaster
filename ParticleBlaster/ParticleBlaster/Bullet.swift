@@ -22,7 +22,7 @@ class Bullet : GameObject {
     
     
     private func setupPhysicsProperty() {
-        self.shape.size = CGSize(width: Constants.defaultBulletRadius, height: Constants.defaultBulletRadius)
+        self.shape.size = CGSize(width: Constants.defaultBulletRadius * 2, height: Constants.defaultBulletRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
