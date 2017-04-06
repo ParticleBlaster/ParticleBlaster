@@ -18,8 +18,6 @@ class SinglePlayerGameScene: GameScene {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
-    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
-    
     var player: Player {
         get {
             return self.players.first!
@@ -46,9 +44,21 @@ class SinglePlayerGameScene: GameScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
+        loadGameLevel()
+        
         player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
         player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
         addChild(player.shape)
+        
+        // Set up virtual joystick
+        setupVirtualJoystick()
+        // Set up back to homepage button
+        setupBackButton()
+        // Set up physics world
+        setupPhysicsWorld()
+    }
+    
+    private func setupVirtualJoystick() {
         
         joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
@@ -72,40 +82,6 @@ class SinglePlayerGameScene: GameScene {
         plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        
-        // Set up back to homepage button
-        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.92)
-        buttonBackToHomepage.fillColor = SKColor.clear
-        buttonBackToHomepage.strokeColor = SKColor.black
-        buttonBackToHomepage.lineWidth = Constants.strokeSmall
-        //        buttonBackToHomepage.zPosition = zPositionCounter
-        //        zPositionCounter += 1
-        
-        let buttonText = SKLabelNode(text: "Back to Home")
-        buttonText.fontSize = Constants.fontSizeSmall
-        buttonText.fontName = Constants.titleFont
-        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
-        buttonText.fontColor = SKColor.black
-        //        buttonText.zPosition = zPositionCounter
-        //        zPositionCounter += 1
-        
-        buttonBackToHomepage.addChild(buttonText)
-        
-        addChild(buttonBackToHomepage)
-        
-        // Set up the physics world to have no gravity
-        physicsWorld.gravity = CGVector.zero
-        // Set the scene as the delegate to be notified when two physics bodies collide.
-        //physicsWorld.contactDelegate = self
-        if let controller = self.viewController {
-            //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
-            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
-        }
-        
-        // Play and loop the background music
-        let backgroundMusic = SKAudioNode(fileNamed: "background-music-aac.caf")
-        backgroundMusic.autoplayLooped = true
-        addChild(backgroundMusic)
     }
     
     func random() -> CGFloat {
@@ -181,14 +157,14 @@ class SinglePlayerGameScene: GameScene {
                     endHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: fireButton.shape.frame) {
-                // Play the sound of shooting
-                run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton.shape.alpha = 0.8
                 if let shootHandler = self.fireHandlers.first {
                     shootHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
+                self.removeAllChildren()
+                self.removeFromParent()
             }
         }
     }

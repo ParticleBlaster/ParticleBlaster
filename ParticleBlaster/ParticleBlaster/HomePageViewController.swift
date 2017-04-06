@@ -37,14 +37,14 @@ class HomePageViewController: UIViewController {
         authenticateLocalPlayer()
         
         setupMFiControllers()
-        Constants.startNextMFiConnectionNotificationCenter()
+        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
      }
     
     private func setupMFiControllers() {
-        for _ in 0 ..< Constants.maxMFi {
+        for _ in 0 ..< MFiControllerConfig.maxMFi {
             let mfi = MFiController()
-            Constants.mfis.append(mfi)
-            print("\(Constants.mfis.count) added")
+            MFiControllerConfig.mfis.append(mfi)
+            print("\(MFiControllerConfig.mfis.count) added")
         }
     }
     

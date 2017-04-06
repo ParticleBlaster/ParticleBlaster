@@ -26,6 +26,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleMoveHandler: (() -> ())?
     var obstacleVelocityUpdateHandler: (() -> ())?
     
+    let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    
     func removeElement(node: SKSpriteNode) {
         node.removeFromParent()
     }
@@ -75,4 +77,30 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func addBoundary(boundary: SKShapeNode) {
         addChild(boundary)
     }
+    
+    func setupBackButton() {
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        buttonBackToHomepage.fillColor = SKColor.clear
+        buttonBackToHomepage.strokeColor = SKColor.black
+        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+        
+        let buttonText = SKLabelNode(text: "Back")
+        buttonText.fontSize = Constants.fontSizeSmall
+        buttonText.fontName = Constants.titleFont
+        buttonText.fontColor = UIColor.lightGray
+        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+        
+        buttonBackToHomepage.addChild(buttonText)
+        addChild(buttonBackToHomepage)
+    }
+    
+    func setupPhysicsWorld() {
+        // Set up the physics world to have no gravity
+        physicsWorld.gravity = CGVector.zero
+        // Set the scene as the delegate to be notified when two physics bodies collide.
+        if let controller = self.viewController {
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
+        }
+    }
+
 }

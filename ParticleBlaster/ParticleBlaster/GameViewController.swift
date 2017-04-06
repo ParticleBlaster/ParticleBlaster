@@ -84,8 +84,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     /* Start of setup related methods */
     
     private func configMFiController(index: Int, playerController: PlayerController) {
-        Constants.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
-        Constants.mfis[index].shootHandler = playerController.shootHandler
+        MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
+        MFiControllerConfig.mfis[index].shootHandler = playerController.shootHandler
         
         print("finish mfi config")
     }

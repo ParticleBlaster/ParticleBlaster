@@ -93,6 +93,7 @@ class PlayerController {
         bullet.shape.zPosition = -1
         
         self.scene.addChild(bullet.shape)
+        self.scene.run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
     }
     
     func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {

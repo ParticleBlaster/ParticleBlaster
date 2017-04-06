@@ -226,9 +226,6 @@ class LevelDesignerScene: SKScene {
             let item = currentObstacles[index].copyWithoutPhysicsBody()
             item.shape.position = translateFromActualLevelToSelf(withPosition: item.shape.position)
             if checkTouchRange(touch: touch, frame: item.shape.frame) {
-//                item.shape.position = translateFromLevelScreenToSelf(withPosition: item.shape.position)
-//                item.shape.removeFromParent()
-                
                 if let removeObstacle = self.removeObstacleHandler {
                     addCurrentObstacle(removeObstacle(index))
                     currentObstacle!.shape.position = item.shape.position

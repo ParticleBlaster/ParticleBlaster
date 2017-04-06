@@ -82,6 +82,7 @@ class MFiController: NSObject {
             // A button
             if (gamepad.buttonA == element && gamepad.buttonA.isPressed) {
                 message = "A Button"
+                
                 if let shoot = self.shootHandler {
                     shoot()
                 }
@@ -126,7 +127,7 @@ class MFiController: NSObject {
         
         mainController = controller
         isConnected = true
-        Constants.startNextMFiConnectionNotificationCenter()
+        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
         reactToInput()
     }
     
