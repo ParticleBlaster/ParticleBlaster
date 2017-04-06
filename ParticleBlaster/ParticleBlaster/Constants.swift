@@ -28,7 +28,9 @@ enum LevelDifficultyLevel: Int {
 class Constants {
     static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
-        
+    
+    static var viewCentralPoint: CGPoint!
+    
     // Game Scene Constants
     static var joystickPlateWidth: CGFloat!
     static var joystickPlateHeight: CGFloat!
@@ -81,6 +83,8 @@ class Constants {
         
         self.defaultMultiObs1Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.8)
         self.defaultMultiObs2Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.2)
+        
+        self.viewCentralPoint = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.5)
     }
     
     // Game Static Constants

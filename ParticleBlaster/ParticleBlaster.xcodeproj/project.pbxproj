@@ -31,6 +31,8 @@
 		0E02E5D11E81615700E7AB51 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D01E81615700E7AB51 /* Joystick.swift */; };
 		0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */; };
 		0E1AA4791E96B1B9007B55B6 /* SpriteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */; };
+		0E1AA47C1E96C27D007B55B6 /* missile.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47A1E96C27D007B55B6 /* missile.mp3 */; };
+		0E1AA47D1E96C27D007B55B6 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */; };
 		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
 		0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC85711E964EEE00CF48A2 /* Grenade.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
@@ -87,6 +89,8 @@
 		0E02E5D01E81615700E7AB51 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickPlate.swift; sourceTree = "<group>"; };
 		0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteUtils.swift; sourceTree = "<group>"; };
+		0E1AA47A1E96C27D007B55B6 /* missile.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = missile.mp3; sourceTree = "<group>"; };
+		0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
 		0EAC85711E964EEE00CF48A2 /* Grenade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grenade.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
@@ -213,6 +217,8 @@
 		0CCDB6161E752B5A00DEF8CC /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				0E1AA47A1E96C27D007B55B6 /* missile.mp3 */,
+				0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */,
 				0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */,
 				0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */,
 				E1F02CE01E8E5A3700240A7B /* button-pressed.mp3 */,
@@ -342,10 +348,12 @@
 				6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */,
 				0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */,
 				E1F02CE11E8E5A3700240A7B /* button-pressed.mp3 in Resources */,
+				0E1AA47D1E96C27D007B55B6 /* explosion.mp3 in Resources */,
 				0CCDB60A1E75254300DEF8CC /* Main.storyboard in Resources */,
 				0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */,
 				6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */,
 				0CCDB60F1E75254300DEF8CC /* LaunchScreen.storyboard in Resources */,
+				0E1AA47C1E96C27D007B55B6 /* missile.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -187,12 +187,16 @@ class SinglePlayerGameScene: GameScene {
 //                if let shootHandler = self.fireHandlers.first {
 //                    shootHandler()
 //                }
-                if let launchMissileHandler = self.launchMissileHandlers.first {
-                    launchMissileHandler()
+//                if let launchMissileHandler = self.launchMissileHandlers.first {
+//                    launchMissileHandler()
+//                }
+                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
+                    currThrowGrenadeHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
             }
+            // TODO: implement here for more weapon firing options
         }
     }
     

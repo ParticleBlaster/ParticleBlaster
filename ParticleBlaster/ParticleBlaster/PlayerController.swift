@@ -19,7 +19,7 @@ class PlayerController {
     var scene: GameScene!
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
-    var grenadeNodeList = [SKSpriteNode]()
+    var grenadeAnimationList = [SKTexture]()
     
     var obtainObstacleListHandler: (() -> ([Obstacle]))!
     
@@ -29,7 +29,7 @@ class PlayerController {
     
     init(gameViewController: GameViewController) {
         self.scene = gameViewController.scene
-        self.grenadeNodeList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
+        self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
 
     func updatePlayerVelocityHandler() {
@@ -108,7 +108,20 @@ class PlayerController {
     }
 
     func throwGrenadeHandler() {
-        //let explosionList
+        let grenadeNode = SKSpriteNode(imageNamed: "bullet-red")
+        grenadeNode.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
+        grenadeNode.position = Constants.viewCentralPoint
+        
+        self.scene.addChild(grenadeNode)
+        
+        let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
+        //let completeAnimation = SKAction.sequence([SKAction.wait(forDuration: 1), explosionAnimation])
+        //grenadeNode.run(completeAnimation)
+        grenadeNode.run(SKAction.wait(forDuration: 1), completion: {
+            //grenadeNode.alpha = 0
+            grenadeNode.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
+            grenadeNode.run(explosionAnimation)
+        })
     }
     
     func shootHandler() {
