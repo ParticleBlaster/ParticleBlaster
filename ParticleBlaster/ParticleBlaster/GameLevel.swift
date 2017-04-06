@@ -13,7 +13,8 @@ class GameLevel: NSObject, NSCoding {
     var highestScore: Int
     var difficulty: LevelDifficultyLevel
     var obstacles = [Obstacle]()
-//    var players = [Player]()
+    var players = [Player]()
+    var backgroundImageName: String?
 
     
     override init() {

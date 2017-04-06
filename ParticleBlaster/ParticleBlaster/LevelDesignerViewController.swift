@@ -33,11 +33,16 @@ class LevelDesignerViewController: UIViewController {
         scene.returnHomeHandler = self.returnHome
         scene.addNewObstacleHandler = self.addNewObstacle
         scene.removeObstacleHandler = self.removeObstacle
-        scene.updateObstacleHandler = self.updateObstacle
+        scene.addNewPlayerHandler = self.addNewPlayer
+        scene.removePlayerHandler = self.removePlayer
+        scene.updateBackgroundImageNameHandler = self.updateBackgroundImage
+        scene.saveGameLevelHandler = self.saveGameLevel
+        scene.previewHandler = self.navigateToPreviewScene
         
         skView.presentScene(scene)
     }
     
+    // For obstacles
     private func addNewObstacle(_ newObstacle: Obstacle) {
         print("in LevelDesignerViewController addNewObstacle")
         currentLevel.obstacles.append(newObstacle)
@@ -48,8 +53,22 @@ class LevelDesignerViewController: UIViewController {
         return currentLevel.obstacles.remove(at: tag)
     }
     
-    private func updateObstacle(tag: Int, newObstacle: Obstacle) {
-        currentLevel.obstacles[tag] = newObstacle
+    // For players
+    private func addNewPlayer(_ newPlayer: Player) {
+        currentLevel.players.append(newPlayer)
+    }
+    
+    private func removePlayer(_ tag: Int) -> Player {
+        return currentLevel.players.remove(at: tag)
+    }
+    
+    // For background
+    private func updateBackgroundImage(_ newBackGroundImageName: String) {
+        currentLevel.backgroundImageName = newBackGroundImageName
+    }
+    
+    private func saveGameLevel() -> Bool {
+        return FileUtils.saveGameLevel(currentLevel)
     }
     
     override var shouldAutorotate: Bool {
@@ -77,5 +96,14 @@ class LevelDesignerViewController: UIViewController {
         self.skView.presentScene(nil)
         self.dismiss(animated: true, completion: nil)
     }
+    
+    func navigateToPreviewScene() {
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: GameViewController = storyboard.instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
+        vc.gameMode = GameMode.multi
+        vc.gameLevel = currentLevel
+        self.present(vc, animated: true, completion: nil)
+    }
+
 
 }

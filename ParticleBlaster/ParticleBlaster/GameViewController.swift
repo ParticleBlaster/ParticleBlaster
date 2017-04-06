@@ -12,7 +12,11 @@ import GameplayKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
-    var gameMode = Constants.gameMode.multi
+//    var gameMode = Constants.gameMode.multi
+    
+    // Waiting for prepareForSegue
+    var gameMode: GameMode!
+    var gameLevel: GameLevel!
 
     // Initialise game scene for displaying game objects
     var scene: GameScene!
@@ -33,7 +37,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
 
-        if gameMode == Constants.gameMode.single {
+        if gameMode == GameMode.single {
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
         } else {
@@ -89,6 +93,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     private func setupGameScene() {
         scene.viewController = self
+        scene.gameLevel = self.gameLevel
 
         for i in 0..<self.gameLogic.playerControllers.count {
             let playerController = self.gameLogic.playerControllers[i]

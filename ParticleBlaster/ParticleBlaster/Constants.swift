@@ -15,6 +15,12 @@ enum LevelDifficultyLevel: Int {
     case HARD = 3
 }
 
+enum GameMode {
+    case single
+    case multi
+}
+
+
 class Constants {
     static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
@@ -96,13 +102,12 @@ class Constants {
     static let destroyObstacleScoreFadeTime = 0.5
     //static let destroyObstacleScore
     
-    enum gameMode {
-        case single
-        case multi
-    }
-
     // Homepage Constants
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
+    
+    // Theme Constants
+    static let themeList = ["starwars", "startrek", "doctorwho"]
+    
     
     // Star Wars Theme Obstacles
     static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition, isPhysicsBody: false)

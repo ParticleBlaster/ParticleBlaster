@@ -10,47 +10,55 @@ import SpriteKit
 
 class LevelDesignerScene: SKScene {
     
+    var currentLevelBackgroundImageName: String = "solar-system"
     private let background = SKSpriteNode(imageNamed: "homepage")
     private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
     private let buttonSave = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
-    private let levelScreen = SKSpriteNode(imageNamed: "solar-system")
+    private let buttonPreview = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
+    private let buttonTheme = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
+    private let levelScreen = SKSpriteNode()
     var paletteItems = [Obstacle]()
     var currentObstacle: Obstacle?
     var viewController: LevelDesignerViewController?
     var zPositionCounter: CGFloat = 0
     let paletteItemInteval: CGFloat = 80
-    
+    var themeSelected: String = ""
+
     var returnHomeHandler: (() -> ())?
     var addNewObstacleHandler: ((Obstacle) -> ())?
     var removeObstacleHandler: ((Int) -> (Obstacle))?
-    var updateObstacleHandler: ((Int, Obstacle) -> ())?
-    
+    var addNewPlayerHandler: ((Player) -> ())?
+    var removePlayerHandler: ((Int) -> (Player))?
+    var updateBackgroundImageNameHandler: ((String) -> ())?
+    var saveGameLevelHandler: (() -> (Bool))?
+    var previewHandler: (() -> ())?
+
     var textInput = UITextField()
-    
-    
+
+
     override func didMove(to view: SKView) {
-        
+
         var startX = size.width * 0.3
         let startY = size.width * 0.125
-        
+
         // Create a background
-        
+
         background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.alpha = 0.2
         background.size = size
         addChild(background)
         background.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         // Create a back button
-        
+
         buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.05)
         buttonBackToHomepage.fillColor = SKColor.clear
         buttonBackToHomepage.strokeColor = SKColor.white
         buttonBackToHomepage.lineWidth = Constants.strokeMedium
         buttonBackToHomepage.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         let buttonText = SKLabelNode(text: "Back to Home")
         buttonText.fontSize = Constants.fontSizeMedium
         buttonText.fontName = Constants.titleFont
@@ -58,20 +66,20 @@ class LevelDesignerScene: SKScene {
         buttonText.fontColor = SKColor.white
         buttonText.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         buttonBackToHomepage.addChild(buttonText)
-        
+
         addChild(buttonBackToHomepage)
-        
+
         // Create a back button
-        
+
         buttonSave.position = CGPoint(x: size.width * 0.03, y: size.height * 0.15)
         buttonSave.fillColor = SKColor.clear
         buttonSave.strokeColor = SKColor.white
         buttonSave.lineWidth = Constants.strokeMedium
         buttonSave.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         let saveText = SKLabelNode(text: "Save")
         saveText.fontSize = Constants.fontSizeMedium
         saveText.fontName = Constants.titleFont
@@ -79,13 +87,56 @@ class LevelDesignerScene: SKScene {
         buttonText.fontColor = SKColor.white
         buttonText.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         buttonSave.addChild(saveText)
-        
+
         addChild(buttonSave)
-        
+
+        // Create a Preview button
+
+        buttonPreview.position = CGPoint(x: size.width * 0.03, y: size.height * 0.25)
+        buttonPreview.fillColor = SKColor.clear
+        buttonPreview.strokeColor = SKColor.white
+        buttonPreview.lineWidth = Constants.strokeMedium
+        buttonPreview.zPosition = zPositionCounter
+        zPositionCounter += 1
+
+        let previewText = SKLabelNode(text: "Preview")
+        previewText.fontSize = Constants.fontSizeMedium
+        previewText.fontName = Constants.titleFont
+        previewText.position = CGPoint(x: buttonPreview.frame.size.width * 0.5, y: buttonPreview.frame.size.height * 0.25)
+        previewText.fontColor = SKColor.white
+        previewText.zPosition = zPositionCounter
+        zPositionCounter += 1
+
+        buttonPreview.addChild(previewText)
+
+        addChild(buttonPreview)
+
+        // Create a theme section
+
+        buttonTheme.position = CGPoint(x: size.width * 0.03, y: size.height * 0.5)
+        buttonTheme.fillColor = SKColor.clear
+        buttonTheme.strokeColor = SKColor.white
+        buttonTheme.lineWidth = Constants.strokeMedium
+        buttonTheme.zPosition = zPositionCounter
+        zPositionCounter += 1
+
+        let themeText = SKLabelNode(text: themeSelected)
+        themeText.fontSize = Constants.fontSizeMedium
+        themeText.fontName = Constants.titleFont
+        themeText.position = CGPoint(x: buttonTheme.frame.size.width * 0.5, y: buttonTheme.frame.size.height * 0.25)
+        themeText.fontColor = SKColor.white
+        themeText.zPosition = zPositionCounter
+        zPositionCounter += 1
+
+        buttonTheme.addChild(themeText)
+
+        addChild(buttonTheme)
+
+
         // Create a level name text input
-        
+
         textInput.frame = CGRect(origin: CGPoint(x: size.width * 0.03, y: size.height * 0.05 - Constants.screenBorderMarginRatio * 2 * size.height),
                                  size: CGSize(width: 190 + Constants.screenBorderMarginRatio * size.width,
                                               height: 60 + Constants.screenBorderMarginRatio * size.height))
@@ -98,12 +149,12 @@ class LevelDesignerScene: SKScene {
         textInput.attributedPlaceholder = NSAttributedString(string: "Level Name",
                                                              attributes:[NSForegroundColorAttributeName: UIColor.white])
         textInput.textAlignment = .center
-        
+
         self.view!.addSubview(textInput)
-        
-        
+
+
         // Create a screen shot
-        
+
         let levelScreenBorder = SKShapeNode(rect: CGRect(origin: CGPoint(x: size.width * Constants.screenBorderOriginRatio,
                                                                          y: size.height * Constants.screenBorderOriginRatio),
                                                          size: CGSize(width: size.width * Constants.screenBorderSizeRatio,
@@ -114,20 +165,23 @@ class LevelDesignerScene: SKScene {
         levelScreenBorder.lineWidth = Constants.strokeMedium
         levelScreenBorder.zPosition = zPositionCounter
         zPositionCounter += 1
-        
-        
+
+        levelScreen.texture = SKTexture(imageNamed: currentLevelBackgroundImageName)
+        if let updateBackground = updateBackgroundImageNameHandler {
+            updateBackground(currentLevelBackgroundImageName)
+        }
         levelScreen.size = CGSize(width: size.width * Constants.levelScreenRatio,
                                   height: size.height * Constants.levelScreenRatio)
         levelScreen.position = CGPoint(x: size.width * Constants.screenCenterPositionRatio,
                                        y: size.height * Constants.screenCenterPositionRatio)
-        
+
         levelScreen.alpha = 1
         levelScreen.zPosition = zPositionCounter
         zPositionCounter += 1
-        
+
         levelScreenBorder.addChild(levelScreen)
         addChild(levelScreenBorder)
-        
+
         // Create obstacle pallete
         
         paletteItems = Constants.starwarsObstacles
@@ -169,9 +223,9 @@ class LevelDesignerScene: SKScene {
         }
         
         for index in 0 ..< currentObstacles.count {
-//            guard currentObstacle == nil else {
-//                return
-//            }
+            //            guard currentObstacle == nil else {
+            //                return
+            //            }
             let item = currentObstacles[index]
             if checkTouchRange(touch: touch, frame: item.shape.frame) {
                 item.shape.position = translateFromLevelScreenToSelf(withPosition: item.shape.position)
@@ -225,22 +279,24 @@ class LevelDesignerScene: SKScene {
             print("button save pressed: level name = \(String(describing: textInput.text))")
         }
         
+        if buttonPreview.contains(touchLocation) {
+            print("button preview pressed")
+            if let preview = self.previewHandler {
+                preview()
+            }
+        }
+
         if currentObstacle != nil {
             
             if checkTouchRange(touch: touch!, frame: levelScreen.frame) {
                 if let addNewObstacle = self.addNewObstacleHandler {
-                    addNewObstacle(currentObstacle!.copyWithoutPhysicsBody())
+                    let obstacle = currentObstacle!.copyWithoutPhysicsBody()
+                    obstacle.shape.position = translateFromSelfToActualLevel(withPosition: obstacle.shape.position)
+                    addNewObstacle(obstacle)
                     removeCurrentObstacle()
                 }
             } else {
                 removeCurrentObstacle()
-                //                let scale = SKAction.scale(to: 0.1, duration: 0.5)
-                //                let fade = SKAction.fadeOut(withDuration: 0.5)
-                //                let sequence = SKAction.sequence([scale, fade])
-                //
-                //                currentObstacle!.shape.run(sequence, completion: {
-                //                    self.removeCurrentObstacle()
-                //                })
             }
         }
         
@@ -284,6 +340,7 @@ class LevelDesignerScene: SKScene {
             let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
             shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
                                    height: shape.size.height * Constants.levelScreenRatio))
+            shape.position = translateFromActualLevelToSelf(withPosition: shape.position)
             shape.position = translateFromSelfToLevelScreen(withPosition: shape.position)
             
             //            shape.zPosition = zPositionCounter
@@ -304,4 +361,15 @@ class LevelDesignerScene: SKScene {
         return CGPoint(x: x, y: y)
     }
     
+    private func translateFromActualLevelToSelf(withPosition: CGPoint) -> CGPoint {
+        let x = withPosition.x * Constants.levelScreenRatio + Constants.screenMin * size.width
+        let y = withPosition.y * Constants.levelScreenRatio + Constants.screenMin * size.height
+        return CGPoint(x: x, y: y)
+    }
+
+    private func translateFromSelfToActualLevel(withPosition: CGPoint) -> CGPoint {
+        let x = (withPosition.x - Constants.screenMin * size.width) / Constants.levelScreenRatio
+        let y = (withPosition.y - Constants.screenMin * size.height) / Constants.levelScreenRatio
+        return CGPoint(x: x, y: y)
+    }
 }
