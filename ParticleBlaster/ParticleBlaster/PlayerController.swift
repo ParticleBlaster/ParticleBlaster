@@ -30,7 +30,6 @@ class PlayerController {
     init(gameViewController: GameViewController) {
         self.scene = gameViewController.scene
         self.grenadeNodeList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
-        print ("haha")
     }
 
     func updatePlayerVelocityHandler() {
