@@ -30,6 +30,7 @@
 		0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5CE1E8140EE00E7AB51 /* Player.swift */; };
 		0E02E5D11E81615700E7AB51 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D01E81615700E7AB51 /* Joystick.swift */; };
 		0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */; };
+		0E1AA4791E96B1B9007B55B6 /* SpriteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */; };
 		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
 		0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC85711E964EEE00CF48A2 /* Grenade.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
@@ -85,6 +86,7 @@
 		0E02E5CE1E8140EE00E7AB51 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0E02E5D01E81615700E7AB51 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickPlate.swift; sourceTree = "<group>"; };
+		0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteUtils.swift; sourceTree = "<group>"; };
 		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
 		0EAC85711E964EEE00CF48A2 /* Grenade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grenade.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
@@ -247,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				E1E2057B1E82F9980018DD13 /* FIleUtils.swift */,
+				0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */,
 				E1B242861E8D999B001E6034 /* GameCenterUtils.swift */,
 				E1F02CDE1E8E596A00240A7B /* AudioUtils.swift */,
 			);
@@ -362,6 +365,7 @@
 				E1E2057F1E82FF710018DD13 /* IconButton.swift in Sources */,
 				E1E205791E82F91F0018DD13 /* GameSetting.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* SinglePlayerGameScene.swift in Sources */,
+				0E1AA4791E96B1B9007B55B6 /* SpriteUtils.swift in Sources */,
 				0CB3FD521E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift in Sources */,
 				0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */,
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,

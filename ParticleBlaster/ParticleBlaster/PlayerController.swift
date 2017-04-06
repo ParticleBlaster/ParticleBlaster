@@ -6,7 +6,6 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SpriteKit
 
@@ -20,6 +19,7 @@ class PlayerController {
     var scene: GameScene!
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
+    var grenadeNodeList = [SKSpriteNode]()
     
     var obtainObstacleListHandler: (() -> ([Obstacle]))!
     
@@ -29,6 +29,8 @@ class PlayerController {
     
     init(gameViewController: GameViewController) {
         self.scene = gameViewController.scene
+        self.grenadeNodeList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
+        print ("haha")
     }
 
     func updatePlayerVelocityHandler() {
@@ -106,7 +108,9 @@ class PlayerController {
         self.player.updateRotation(newAngle: rotationAngle)
     }
 
-
+    func throwGrenadeHandler() {
+        //let explosionList
+    }
     
     func shootHandler() {
         let bullet = Bullet()

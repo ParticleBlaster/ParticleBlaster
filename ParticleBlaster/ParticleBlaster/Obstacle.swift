@@ -128,16 +128,7 @@ class Obstacle : GameObject {
         self.shape.size = CGSize(width: computedWidth, height: computedHeight)
         
         self.shape.physicsBody = newPhysicsBody
-        
-//        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
-//        self.shape.physicsBody?.isDynamic = true
-//        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
-//        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
-//        if self.isStatic {
-//            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
-//        } else {
-//            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
-//        }
+
     }
 
     private func setupPhysicsProperty() {
