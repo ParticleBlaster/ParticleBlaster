@@ -38,7 +38,7 @@ class Obstacle : GameObject {
         super.init(imageName: image)
         setupPhysicsProperty()
     }
-    
+
     init(image: String, userSetInitialPosition: CGPoint, isPhysicsBody: Bool) {
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
@@ -46,15 +46,15 @@ class Obstacle : GameObject {
             setupPhysicsProperty()
         }
     }
-    
+
     init(obstacle: Obstacle) {
         self.initialPosition = obstacle.initialPosition
         super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
                    timeToLive: obstacle.timeToLive,
                    isStatic: obstacle.isStatic)
-        setupPhysicsProperty()
+        //setupPhysicsProperty()
     }
-    
+
     init(obstacle: Obstacle, isPhysicsBody: Bool) {
         self.initialPosition = obstacle.initialPosition
         super.init(shape: obstacle.shape.copy() as! SKSpriteNode,
@@ -62,6 +62,7 @@ class Obstacle : GameObject {
                    isStatic: obstacle.isStatic)
         if isPhysicsBody {
             setupPhysicsProperty()
+            //self.shape.physicsBody = resetPhysicsProperty(originalObstacle: obstacle)
         }
     }
 
@@ -84,24 +85,41 @@ class Obstacle : GameObject {
 //        copy.shape.zPosition = self.shape.zPosition
 //        return copy
 //    }
-    
+
     func copy() -> Obstacle {
         let copy = Obstacle(obstacle: self)
         return copy
     }
-    
+
     func copyWithoutPhysicsBody() -> Obstacle {
         let copy = Obstacle(obstacle: self, isPhysicsBody: false)
         return copy
     }
 
-    private func setupPhysicsProperty() {
-//        self.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
-//        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
-//        self.shape.physicsBody?.isDynamic = true
-//        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
-//        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
-//        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+    func copyWithPhysicsBody() -> Obstacle {
+        let currVelocity = self.shape.physicsBody?.velocity
+        let currSize = self.shape.size
+        let copy = Obstacle(obstacle: self)
+
+        copy.shape.size = currSize
+        copy.shape.physicsBody = SKPhysicsBody(rectangleOf: currSize)
+        copy.shape.physicsBody?.isDynamic = true
+        copy.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+        copy.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        copy.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+        copy.shape.physicsBody?.velocity = currVelocity!
+
+        return copy
+    }
+
+
+    func setupPhysicsProperty() {
+        self.shape.size = CGSize(width: Constants.obstacleWidth, height: Constants.obstacleHeight)
+        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        self.shape.physicsBody?.isDynamic = true
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
     }
 
 
@@ -112,7 +130,7 @@ class Obstacle : GameObject {
 //         }
 //         self.init(image: imageName, userSetInitialPosition: position)
 //     }
-//    
+//
 //     func encode(with aCoder: NSCoder) {
 //         aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
 //         aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
