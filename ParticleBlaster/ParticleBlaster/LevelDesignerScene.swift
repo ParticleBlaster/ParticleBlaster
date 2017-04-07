@@ -198,6 +198,15 @@ class LevelDesignerScene: SKScene {
         }
         
         drawObstacles()
+        
+        setupPhysicsWorld()
+    }
+    
+    private func setupPhysicsWorld() {
+        self.physicsWorld.gravity = CGVector.zero
+        if let controller = self.viewController {
+            self.physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
+        }
     }
     
     private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
@@ -217,7 +226,7 @@ class LevelDesignerScene: SKScene {
         }
     }
     
-    private func touchSceenItems(touch: UITouch) {
+    private func touchSceneItems(touch: UITouch) {
         guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
             return
         }
@@ -243,7 +252,7 @@ class LevelDesignerScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             self.touchPaletteItems(touch: touch)
-            self.touchSceenItems(touch: touch)
+            self.touchSceneItems(touch: touch)
         }
     }
     
@@ -256,7 +265,7 @@ class LevelDesignerScene: SKScene {
             self.moveCurrentObstacle(touch: touch)
         }
         
-        drawObstacles()
+        //drawObstacles()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -288,6 +297,8 @@ class LevelDesignerScene: SKScene {
                 if let addNewObstacle = self.addNewObstacleHandler {
                     let obstacle = currentObstacle!.copyWithoutPhysicsBody()
                     obstacle.shape.position = translateFromSelfToActualLevel(withPosition: obstacle.shape.position)
+                    
+                    //obstacle.setupPhysicsProperty()
                     addNewObstacle(obstacle)
                     removeCurrentObstacle()
                 }

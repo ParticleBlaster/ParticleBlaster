@@ -9,7 +9,7 @@
 import UIKit
 import SpriteKit
 
-class LevelDesignerViewController: UIViewController {
+class LevelDesignerViewController: UIViewController, SKPhysicsContactDelegate {
     var currentLevel: GameLevel = GameLevel()
     var loadedLevel: GameLevel?
     var skView: SKView!
@@ -45,6 +45,7 @@ class LevelDesignerViewController: UIViewController {
     // For obstacles
     private func addNewObstacle(_ newObstacle: Obstacle) {
         print("in LevelDesignerViewController addNewObstacle")
+        newObstacle.setupPhysicsProperty()
         currentLevel.obstacles.append(newObstacle)
         print("currentLevel has \(currentLevel.obstacles.count) obstacles")
     }
@@ -103,6 +104,11 @@ class LevelDesignerViewController: UIViewController {
         vc.gameMode = GameMode.multi
         vc.gameLevel = currentLevel
         self.present(vc, animated: true, completion: nil)
+    }
+    
+    func didBegin(_ contact: SKPhysicsContact) {
+        // Arranges two colliding bodies so they are sorted by their category bit masks
+        
     }
 
 
