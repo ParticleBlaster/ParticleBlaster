@@ -45,7 +45,7 @@ class LevelDesignerViewController: UIViewController, SKPhysicsContactDelegate {
     // For obstacles
     private func addNewObstacle(_ newObstacle: Obstacle) {
         print("in LevelDesignerViewController addNewObstacle")
-        newObstacle.setupPhysicsProperty()
+        newObstacle.setupPhysicsPropertyWithoutSize()
         currentLevel.obstacles.append(newObstacle)
         print("currentLevel has \(currentLevel.obstacles.count) obstacles")
     }

@@ -26,12 +26,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MultiplayerGameScene.swift"
-                  timestampString = "513195016.302245"
+                  timestampString = "513257692.89696"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "299"
                   endingLineNumber = "299"
-                  offsetFromSymbolStart = "404">
+                  offsetFromSymbolStart = "462">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -41,12 +41,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MultiplayerGameScene.swift"
-                  timestampString = "513195016.30563"
+                  timestampString = "513257692.898875"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "299"
                   endingLineNumber = "299"
-                  offsetFromSymbolStart = "468">
+                  offsetFromSymbolStart = "541">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -74,12 +74,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MultiplayerGameScene.swift"
-                  timestampString = "513195016.3138"
+                  timestampString = "513257692.936342"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "308"
                   endingLineNumber = "308"
-                  offsetFromSymbolStart = "1252">
+                  offsetFromSymbolStart = "1542">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -89,12 +89,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MultiplayerGameScene.swift"
-                  timestampString = "513195016.31679"
+                  timestampString = "513257692.938527"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "308"
                   endingLineNumber = "308"
-                  offsetFromSymbolStart = "1316">
+                  offsetFromSymbolStart = "1621">
                </Location>
             </Locations>
          </BreakpointContent>
@@ -128,6 +128,70 @@
             startingLineNumber = "297"
             endingLineNumber = "297"
             landmarkName = "touchesEnded(_:with:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/LevelDesignerScene.swift"
+            timestampString = "513257088.961984"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "244"
+            endingLineNumber = "244"
+            landmarkName = "touchScreenItems(touch:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.LevelDesignerScene.(touchScreenItems in _2D2EBF202D5269FA6880015591DDC702) (touch : __ObjC.UITouch) -&gt; ()"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/LevelDesignerScene.swift"
+                  timestampString = "513257692.963959"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "1079">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.LevelDesignerScene.(touchScreenItems in _2D2EBF202D5269FA6880015591DDC702) (touch : __ObjC.UITouch) -&gt; ()"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/LevelDesignerScene.swift"
+                  timestampString = "513257692.966718"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "244"
+                  endingLineNumber = "244"
+                  offsetFromSymbolStart = "1165">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/LevelDesignerScene.swift"
+            timestampString = "513257976.431121"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "246"
+            endingLineNumber = "246"
+            landmarkName = "touchScreenItems(touch:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>

@@ -190,14 +190,14 @@ class LevelDesignerScene: SKScene {
                                      height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: item.shape))
             item.shape.position = CGPoint(x: startX, y: startY)
             item.shape.alpha = 1
-            item.shape.zPosition = zPositionCounter
+            item.shape.zPosition = 5
 //            item.shape.physicsBody = SKPhysicsBody(rectangleOf: item.shape.size)
 //            item.shape.physicsBody?.isDynamic = true
 //            item.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
 //            item.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
 //            item.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
-
-            zPositionCounter += 1
+//            item.shape.zPosition = zPositionCounter
+//            zPositionCounter += 1
             
             addChild(item.shape)
             startX += paletteItemInteval
@@ -232,7 +232,7 @@ class LevelDesignerScene: SKScene {
         }
     }
     
-    private func touchSceneItems(touch: UITouch) {
+    private func touchScreenItems(touch: UITouch) {
         guard let currentObstacles = self.viewController?.currentLevel.obstacles else {
             return
         }
@@ -245,6 +245,7 @@ class LevelDesignerScene: SKScene {
                     addCurrentObstacle(removeObstacle(index))
                     currentObstacle!.shape.position = item.shape.position
                 }
+                drawObstacles()
                 return
             }
         }
@@ -258,7 +259,7 @@ class LevelDesignerScene: SKScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for touch in touches {
             self.touchPaletteItems(touch: touch)
-            self.touchSceneItems(touch: touch)
+            self.touchScreenItems(touch: touch)
         }
     }
     
@@ -270,8 +271,6 @@ class LevelDesignerScene: SKScene {
         for touch in touches {
             self.moveCurrentObstacle(touch: touch)
         }
-        
-        //drawObstacles()
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -307,13 +306,13 @@ class LevelDesignerScene: SKScene {
                     //obstacle.setupPhysicsProperty()
                     addNewObstacle(obstacle)
                     removeCurrentObstacle()
-                    
-                    drawObstacles()
                 }
             } else {
                 removeCurrentObstacle()
             }
+            
         }
+        drawObstacles()
     }
     
     
@@ -350,7 +349,7 @@ class LevelDesignerScene: SKScene {
         
         for index in 0 ..< currentObstacles.count {
             print("obstacle \(index): \(String(describing: currentObstacles[index].shape.name)) at \(currentObstacles[index].shape.position)")
-            let shape = currentObstacles[index].shape.copy() as! SKSpriteNode
+            let shape = currentObstacles[index].copy().shape
             shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
                                    height: shape.size.height * Constants.levelScreenRatio))
             shape.position = translateFromActualLevelToSelf(withPosition: shape.position)
@@ -358,6 +357,7 @@ class LevelDesignerScene: SKScene {
             
             //            shape.zPosition = zPositionCounter
             //            zPositionCounter += 1
+            shape.zPosition = 10
             levelScreen.addChild(shape)
         }
     }

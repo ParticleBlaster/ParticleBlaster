@@ -63,6 +63,8 @@ class Obstacle : GameObject {
         if isPhysicsBody {
             setupPhysicsProperty()
             //self.shape.physicsBody = resetPhysicsProperty(originalObstacle: obstacle)
+        } else {
+            self.shape.physicsBody = nil
         }
     }
 
@@ -121,6 +123,15 @@ class Obstacle : GameObject {
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
     }
+    
+    func setupPhysicsPropertyWithoutSize() {
+        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        self.shape.physicsBody?.isDynamic = true
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+    }
+
 
 
 //     required convenience init?(coder decoder: NSCoder) {
