@@ -191,6 +191,12 @@ class LevelDesignerScene: SKScene {
             item.shape.position = CGPoint(x: startX, y: startY)
             item.shape.alpha = 1
             item.shape.zPosition = zPositionCounter
+//            item.shape.physicsBody = SKPhysicsBody(rectangleOf: item.shape.size)
+//            item.shape.physicsBody?.isDynamic = true
+//            item.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
+//            item.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+//            item.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+
             zPositionCounter += 1
             
             addChild(item.shape)
@@ -290,13 +296,13 @@ class LevelDesignerScene: SKScene {
                     obstacle.shape.position = translateFromSelfToActualLevel(withPosition: obstacle.shape.position)
                     addNewObstacle(obstacle)
                     removeCurrentObstacle()
+                    
+                    drawObstacles()
                 }
             } else {
                 removeCurrentObstacle()
             }
         }
-        
-        drawObstacles()
     }
     
     

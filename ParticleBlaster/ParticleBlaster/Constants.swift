@@ -110,14 +110,23 @@ class Constants {
     
     
     // Star Wars Theme Obstacles
-    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
-    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+//    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    
+    static let starwarsBB8 = Obstacle(image: "starwars-bb8", userSetInitialPosition: defaultPosition)
+    static let starwarsBountyHunter = Obstacle(image: "starwars-bountyhunter", userSetInitialPosition: defaultPosition)
+    static let starwarsC3PO = Obstacle(image: "starwars-c3po", userSetInitialPosition: defaultPosition)
+    static let starwarsDarthVader = Obstacle(image: "starwars-darthvadar", userSetInitialPosition: defaultPosition)
+    static let starwarsPrincess = Obstacle(image: "starwars-princess", userSetInitialPosition: defaultPosition)
+    static let starwarsR2D2 = Obstacle(image: "starwars-r2d2", userSetInitialPosition: defaultPosition)
+    static let starwarsSith = Obstacle(image: "starwars-sith", userSetInitialPosition: defaultPosition)
+    static let starwarsThunderTrooper = Obstacle(image: "starwars-thundertrooper", userSetInitialPosition: defaultPosition)
     
     static let starwarsObstacles = [starwarsBB8,
                                     starwarsBountyHunter,
