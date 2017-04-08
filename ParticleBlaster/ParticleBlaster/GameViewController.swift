@@ -164,6 +164,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             if let bullet = firstBody.node as? SKSpriteNode, let player = secondBody.node as? SKSpriteNode {
                 self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
             }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Upgrade != 0)){
+            if let player = firstBody.node as? SKSpriteNode, let upgradePack = secondBody.node as? SKSpriteNode {
+                self.gameLogic.upgradePackDidCollideWithPlayer(upgrade: upgradePack, player: player)
+            }
         }
         
         if self.gameLogic.winningCondition {

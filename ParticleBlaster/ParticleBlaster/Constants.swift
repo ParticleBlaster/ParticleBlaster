@@ -16,6 +16,7 @@ struct PhysicsCategory {
     static let Player    : UInt32 = 0x1 << 2       // 3
     static let Map       : UInt32 = 0x1 << 3       // 4
     static let Grenade   : UInt32 = 0x1 << 4       // 5
+    static let Upgrade   : UInt32 = 0x1 << 5       // 6
 }
 
 enum LevelDifficultyLevel: Int {
@@ -23,6 +24,26 @@ enum LevelDifficultyLevel: Int {
     case EASY = 1
     case INTERMEDIATE = 2
     case HARD = 3
+}
+
+enum WeaponCategory: Int {
+    case Bullet = 0
+    case Grenade = 1
+    case Missile = 2
+    
+    static let defaultGrenadeNumber = 4
+    static let defaultMissileNumber = 2
+    
+    func getSpecialWeaponCounterNumber() -> Int {
+        switch self {
+        case .Grenade:
+            return 4
+        case .Missile:
+            return 2
+        default:
+            return 0
+        }
+    }
 }
 
 class Constants {
@@ -109,6 +130,13 @@ class Constants {
     static let grenadeRadius: CGFloat = CGFloat(30)
     static let grenadeExplodeSizeExpansionValue: Int = 5
     static let grenadeThrowingDistance: CGFloat = CGFloat(250)
+    
+    static let upgradePackRadius: CGFloat = CGFloat(50)
+    static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
+    //static let upgradePackMoveSpeed: CGFloat = CGFloat(5)
+    static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
+    static let upgradePackFadeTime = 0.5
+    static let upgradePackMoveTime = 5.0
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500

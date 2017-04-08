@@ -71,19 +71,11 @@ class SinglePlayerGameLogic: GameLogic {
         return self.obstaclePool
     }
     
-//    func launchMissileHandler() {
-//        if self.obstaclePool.count > 0 {
-//            let targetObs = self.obstaclePool[0]
-//            self.playerController.launchMissile(taregtObstacle: targetObs)
-//        } // otherwise nothing will be done
-//    }
-//    
-//    func updateMissileVelocityHandler() {
-//        self.playerController.updateMissileVelocity()
-//    }
-    
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        self.gameViewController.scene.removeElement(node: bullet)
+        //self.gameViewController.scene.removeElement(node: bullet)
+        
+        self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
+        
         let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
         obstacleGotHit.hitByBullet()
         if obstacleGotHit.checkDestroyed() {
@@ -96,6 +88,9 @@ class SinglePlayerGameLogic: GameLogic {
             self.gameViewController.currLevelObtainedScore += scoreForThisObs
             self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
             self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
+            
+            // Upgrade pack drops
+            self.dropUpgradePack(dropPosition: obstacleCenter)
         }
     }
     
@@ -127,6 +122,26 @@ class SinglePlayerGameLogic: GameLogic {
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
         
+    }
+    
+    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
+        
+    }
+    
+    private func dropUpgradePack(dropPosition: CGPoint) {
+        let upgradePack = UpgradePack()
+        upgradePack.shape.position = dropPosition
+        
+        let upgradePackFadeInAction = SKAction.fadeIn(withDuration: Constants.upgradePackFadeTime)
+        let upgradePackFadeOutAction = SKAction.fadeOut(withDuration: Constants.upgradePackFadeTime)
+        let upgradePackMoveAction = SKAction.move(by: Constants.upgradePackMoveOffset, duration: Constants.upgradePackMoveTime)
+        let upgradePackAction = SKAction.sequence([upgradePackFadeInAction, upgradePackMoveAction, upgradePackFadeOutAction])
+        
+        self.gameViewController.scene.addChild(upgradePack.shape)
+        
+        upgradePack.shape.run(upgradePackAction, completion: {
+            self.gameViewController.scene.removeElement(node: upgradePack.shape)
+        })
     }
     
     private func prepareObstacles() {

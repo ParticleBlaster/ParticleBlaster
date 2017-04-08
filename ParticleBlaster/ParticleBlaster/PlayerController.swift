@@ -27,6 +27,9 @@ class PlayerController {
     private var isFlying: Bool = false
     private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 0)
     
+    var selectedWeapon = WeaponCategory.Bullet
+    var specialWeaponCounter: Int = 0
+    
     private var currFiringPosition: CGPoint {
         get {
             return self.player.shape.position
@@ -43,6 +46,12 @@ class PlayerController {
         self.scene = gameViewController.scene
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
+    
+    func removeBulletAndMissileAfterCollision(weaponNode: SKSpriteNode) {
+        self.bulletPool = self.bulletPool.filter({$0.shape != weaponNode})
+        self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
+        self.scene.removeElement(node: weaponNode)
+    }
 
     func updatePlayerVelocityHandler() {
         let direction = self.playerUnitDirection
@@ -51,24 +60,26 @@ class PlayerController {
     }
     
     func updateMissileVelocityHandler() {
-        for missile in self.missilePool {
-            if missile.isReady {
-                let currPosition = missile.shape.position
-                let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
-                //let rotationAngle = atan2(direction.dy, direction.dx) - CGFloat.pi / 2
-                let nextAngle = direction.eulerRotation()
-                //let currAngle = missile.shape.zRotation
-                //let rotationAngle = nextAngle - currAngle
-                //let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
-                let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
-                missile.shape.run(rotateAction)
-                //missile.updateRotation(newAngle: rotationAngle)
-                //missile.updateVelocity(newVelocity: newVelocity)
-                
-                
-                let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
-                let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
-                missile.pushedByForceWithPoint(force: appliedForce, point: forceCenter)
+        if self.selectedWeapon == WeaponCategory.Missile {
+            for missile in self.missilePool {
+                if missile.isReady {
+                    let currPosition = missile.shape.position
+                    let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
+                    //let rotationAngle = atan2(direction.dy, direction.dx) - CGFloat.pi / 2
+                    let nextAngle = direction.eulerRotation()
+                    //let currAngle = missile.shape.zRotation
+                    //let rotationAngle = nextAngle - currAngle
+                    //let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
+                    let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
+                    missile.shape.run(rotateAction)
+                    //missile.updateRotation(newAngle: rotationAngle)
+                    //missile.updateVelocity(newVelocity: newVelocity)
+                    
+                    
+                    let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
+                    let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
+                    missile.pushedByForceWithPoint(force: appliedForce, point: forceCenter)
+                }
             }
         }
     }
@@ -118,30 +129,32 @@ class PlayerController {
         self.joystick.updatePosition(newLoation: newJoystickPosition)
         self.player.updateRotation(newAngle: rotationAngle)
     }
+    
+    func fireHandler() {
+        if self.selectedWeapon == WeaponCategory.Bullet {
+            shootHandler()
+        } else {
+            if self.specialWeaponCounter > 0 {
+                switch self.selectedWeapon {
+                case .Missile:
+                    launchMissileHandler()
+                case .Grenade:
+                    throwGrenadeHandler()
+                default:
+                    break
+                }
+            } else { // downgrade back to bullet
+                self.selectedWeapon = WeaponCategory.Bullet
+                self.specialWeaponCounter = 0
+            }
+        }
+    }
 
     func throwGrenadeHandler() {
-        /*
-        let grenadeNode = SKSpriteNode(imageNamed: "bullet-red")
-        grenadeNode.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
-        grenadeNode.position = Constants.viewCentralPoint
-        
-        self.scene.addChild(grenadeNode)
-        
-        let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
-        //let completeAnimation = SKAction.sequence([SKAction.wait(forDuration: 1), explosionAnimation])
-        //grenadeNode.run(completeAnimation)
-        grenadeNode.run(SKAction.wait(forDuration: 1), completion: {
-            //grenadeNode.alpha = 0
-            grenadeNode.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
-            grenadeNode.run(explosionAnimation)
-        })
- */
-        
         
         let grenade = Grenade()
         let grenadeDistance = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingDistance, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingDistance)
         
-        //grenade.updateVelocity(newVelocity: grenadeDistance)
         grenade.shape.position = self.currFiringPosition
         grenade.shape.zRotation = self.currFiringAngle
         grenade.shape.zPosition = -1
@@ -159,9 +172,6 @@ class PlayerController {
         })
         
         
-        //self.scene.addChild(grenade.shape)
-        
-        //SKAction.wait
     }
     
     func shootHandler() {
@@ -221,6 +231,12 @@ class PlayerController {
         
     }
     
+    func upgradeWeapon(newWeapon: WeaponCategory) {
+        self.selectedWeapon = newWeapon
+        self.specialWeaponCounter = newWeapon.getSpecialWeaponCounterNumber()
+        
+    }
+    
     func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {
         self.joystickPlateCenterX = x
         self.joystickPlateCenterY = y
@@ -229,9 +245,5 @@ class PlayerController {
     func playerIsDead() {
         self.player.shape.removeFromParent()
         
-    }
-    
-    func removeBullet(bulletNode: SKSpriteNode) {
-        self.bulletPool = self.bulletPool.filter({$0.shape != bulletNode})
     }
 }
