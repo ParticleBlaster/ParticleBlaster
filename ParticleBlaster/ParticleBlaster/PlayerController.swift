@@ -27,6 +27,18 @@ class PlayerController {
     private var isFlying: Bool = false
     private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 0)
     
+    private var currFiringPosition: CGPoint {
+        get {
+            return self.player.shape.position
+        }
+    }
+    
+    private var currFiringAngle: CGFloat {
+        get {
+            return self.player.shape.zRotation
+        }
+    }
+    
     init(gameViewController: GameViewController) {
         self.scene = gameViewController.scene
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
@@ -122,17 +134,28 @@ class PlayerController {
             grenadeNode.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
             grenadeNode.run(explosionAnimation)
         })
+        
+        
+        let grenade = Grenade()
+        let grenadeVelocity = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingVelocity, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingVelocity)
+        
+        grenade.updateVelocity(newVelocity: grenadeVelocity)
+        grenade.shape.position = self.currFiringPosition
+        grenade.shape.zRotation = self.currFiringAngle
+        grenade.shape.zPosition = -1
+        
+        //self.scene.addChild(grenade.shape)
+        
+        //SKAction.wait
     }
     
     func shootHandler() {
         let bullet = Bullet()
         let bulletVelocity = CGVector(dx: self.playerUnitDirection.dx * Constants.bulletVelocity, dy: self.playerUnitDirection.dy * Constants.bulletVelocity)
-        let currFiringAngle = self.player.shape.zRotation
-        let currFiringPosition = self.player.shape.position
         
         bullet.updateVelocity(newVelocity: bulletVelocity)
-        bullet.shape.position = currFiringPosition
-        bullet.shape.zRotation = currFiringAngle
+        bullet.shape.position = self.currFiringPosition
+        bullet.shape.zRotation = self.currFiringAngle
         bullet.shape.zPosition = -1
         
         self.bulletPool.append(bullet)
@@ -148,11 +171,9 @@ class PlayerController {
                 let targetObstacle = obstacleList[0]
                 
                 let missile = Missile(targetObs: targetObstacle)
-                let currFiringAngle = self.player.shape.zRotation
-                let currFiringPosition = self.player.shape.position
                 
-                missile.shape.position = currFiringPosition
-                missile.shape.zRotation = currFiringAngle
+                missile.shape.position = self.currFiringPosition
+                missile.shape.zRotation = self.currFiringAngle
                 missile.shape.zPosition = -1
                 
                 self.missilePool.append(missile)

@@ -104,6 +104,8 @@ class Constants {
     static let defaultBulletWidth: CGFloat = CGFloat(8)
     static let defaultBulletHeight: CGFloat = CGFloat(64)
     
+    static let grenadeThrowingVelocity: CGFloat = CGFloat(500)
+    static let grenadeThrowingTime: CGFloat = CGFloat(1.5)
     static let grenadeRadius: CGFloat = CGFloat(30)
     static let grenadeExplodeSizeExpansionValue: Int = 5
     
