@@ -89,7 +89,8 @@ class MultiplayerGameLogic: GameLogic {
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         //self.gameViewController.scene.removeElement(node: bullet)
         for playerController in self.playerControllers {
-            playerController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+            //playerController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+            playerController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         }
     }
     
@@ -108,8 +109,8 @@ class MultiplayerGameLogic: GameLogic {
             self.playerGotHit(player: player)
             
             let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bullet)})[0]
-            //bulletMothershipController.removeBullet(bulletNode: bullet)
-            bulletMothershipController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+//            bulletMothershipController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+            bulletMothershipController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         }
     }
     

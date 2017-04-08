@@ -16,6 +16,7 @@ class PlayerController {
     var fireButton = FireButton(image: "fire")
     var bulletPool = [Bullet]()
     var missilePool = [Missile]()
+    var grenadePool = [Grenade]()
     var scene: GameScene!
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
@@ -47,9 +48,19 @@ class PlayerController {
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
     
-    func removeBulletAndMissileAfterCollision(weaponNode: SKSpriteNode) {
-        self.bulletPool = self.bulletPool.filter({$0.shape != weaponNode})
-        self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
+    func removeWeaponAfterCollision(weaponNode: SKSpriteNode, weaponType: WeaponCategory) {
+        switch weaponType {
+        case .Bullet:
+            self.bulletPool = self.bulletPool.filter({$0.shape != weaponNode})
+            self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
+        case .Grenade:
+            self.grenadePool = self.grenadePool.filter({$0.shape != weaponNode})
+        case .Missile:
+            self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
+//        default:
+//            break
+        }
+        
         self.scene.removeElement(node: weaponNode)
     }
 
@@ -78,7 +89,7 @@ class PlayerController {
                     
                     let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
                     let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
-                    missile.pushedByForceWithPoint(force: appliedForce, point: forceCenter)
+                    missile.pushedByForceWithPoint(appliedForce: appliedForce, point: forceCenter)
                 }
             }
         }
@@ -130,12 +141,24 @@ class PlayerController {
         self.player.updateRotation(newAngle: rotationAngle)
     }
     
-//    func grenadeExplode() {
-//        genade.explode()
+    func grenadeExplode(grenadeNode: SKSpriteNode) {
+//        let grenade = self.grenadePool.filter({$0.shape == grenadeNode})[0]
+//        let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
+//        
+//        grenade.explode()
 //        grenade.shape.run(explosionAnimation, completion: {
-//            grenade.shape.removeFromParent()
+//            self.removeWeaponAfterCollision(weaponNode: grenadeNode, weaponType: WeaponCategory.Grenade)
 //        })
-//    }
+        
+        
+        if let grenade = self.grenadePool.filter({$0.shape == grenadeNode}).first {
+            grenade.explode()
+            let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
+            DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
+                self.removeWeaponAfterCollision(weaponNode: grenadeNode, weaponType: WeaponCategory.Grenade)
+            }
+        }
+    }
     
     func fireHandler() {
         if self.selectedWeapon == WeaponCategory.Bullet || self.specialWeaponCounter == 0 {
@@ -158,7 +181,6 @@ class PlayerController {
         
         let grenade = Grenade()
         let grenadeDistance = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingDistance, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingDistance)
-        let grenadeAnimationAction = self.grenadeAnimationList
         
         grenade.shape.position = self.currFiringPosition
         grenade.shape.zRotation = self.currFiringAngle
@@ -167,13 +189,17 @@ class PlayerController {
         self.scene.addChild(grenade.shape)
         
         let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
-        let explosionAnimation = SKAction.animate(with: grenadeAnimationAction, timePerFrame: 0.05)
+        
+        
+        self.grenadePool.append(grenade)
         
         grenade.shape.run(throwingAction, completion: {
-            grenade.explode()
-            grenade.shape.run(explosionAnimation, completion: {
-                grenade.shape.removeFromParent()
-            })
+//            grenade.explode()
+//            grenade.shape.run(explosionAnimation, completion: {
+//                grenade.shape.removeFromParent()
+//            })
+            
+            self.grenadeExplode(grenadeNode: grenade.shape)
         })
         
         

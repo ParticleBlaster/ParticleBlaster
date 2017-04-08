@@ -62,7 +62,7 @@ class SinglePlayerGameLogic: GameLogic {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
             let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
-            obs.pushedByForce(force: appliedForce)
+            obs.pushedByForce(appliedForce: appliedForce)
         }
     }
     
@@ -73,24 +73,26 @@ class SinglePlayerGameLogic: GameLogic {
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         //self.gameViewController.scene.removeElement(node: bullet)
         
-        self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
+        //self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
+        self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         
-        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
-        obstacleGotHit.hitByBullet()
-        if obstacleGotHit.checkDestroyed() {
-            let obstacleCenter = obstacle.position
-            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
-            self.gameViewController.scene.removeElement(node: obstacle)
-            let obsDestroyedTime = DispatchTime.now()
-            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
-            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
-            self.gameViewController.currLevelObtainedScore += scoreForThisObs
-            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
-            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
-            
-            // Upgrade pack drops
-            self.dropUpgradePack(dropPosition: obstacleCenter)
-        }
+//        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
+//        obstacleGotHit.hitByBullet()
+//        if obstacleGotHit.checkDestroyed() {
+//            let obstacleCenter = obstacle.position
+//            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
+//            self.gameViewController.scene.removeElement(node: obstacle)
+//            let obsDestroyedTime = DispatchTime.now()
+//            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
+//            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
+//            self.gameViewController.currLevelObtainedScore += scoreForThisObs
+//            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
+//            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
+//            
+//            // Upgrade pack drops
+//            self.dropUpgradePack(dropPosition: obstacleCenter)
+//        }
+        self.obstacleIsHit(obstacleNode: obstacle)
     }
     
     // TODO: can implement a bounce-off effect if the player hits the obs but not dead yet
@@ -137,7 +139,13 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+        self.playerControllers[0].grenadeExplode(grenadeNode: grenade)
+        let impulseDirection = CGVector(dx: obstacle.position.x - grenade.position.x, dy: obstacle.position.y - grenade.position.y).normalized()
+        let obstacleImpulse = CGVector(dx: impulseDirection.dx * Constants.obstacleHitByGrenadeImpulseValue, dy: impulseDirection.dy * Constants.obstacleHitByGrenadeImpulseValue)
         
+        obstacle.physicsBody?.applyImpulse(obstacleImpulse)
+        
+        self.obstacleIsHit(obstacleNode: obstacle)
     }
     
     private func dropUpgradePack(dropPosition: CGPoint) {
@@ -154,6 +162,25 @@ class SinglePlayerGameLogic: GameLogic {
         upgradePack.shape.run(upgradePackAction, completion: {
             self.gameViewController.scene.removeElement(node: upgradePack.shape)
         })
+    }
+    
+    private func obstacleIsHit(obstacleNode: SKSpriteNode) {
+        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacleNode})[0]
+        obstacleGotHit.hitByBullet()
+        if obstacleGotHit.checkDestroyed() {
+            let obstacleCenter = obstacleNode.position
+            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
+            self.gameViewController.scene.removeElement(node: obstacleNode)
+            let obsDestroyedTime = DispatchTime.now()
+            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
+            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
+            self.gameViewController.currLevelObtainedScore += scoreForThisObs
+            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
+            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacleNode})
+            
+            // Upgrade pack drops
+            self.dropUpgradePack(dropPosition: obstacleCenter)
+        }
     }
     
     private func prepareObstacles() {

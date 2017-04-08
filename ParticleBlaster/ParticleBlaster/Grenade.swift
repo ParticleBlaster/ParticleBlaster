@@ -11,15 +11,18 @@ import SpriteKit
 
 class Grenade : GameObject {
     var exploded: Bool = false
+    var grenadeAnimationList = [SKTexture]()
     
     init(image: String) {
         super.init(imageName: image)
         setupPhysicsProperty()
+        self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
     
     init() {
         super.init(imageName: "bullet-orange")
         setupPhysicsProperty()
+        self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
     
     private func setupPhysicsProperty() {
@@ -46,6 +49,11 @@ class Grenade : GameObject {
             self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
             //self.shape.position = currCenter
+            
+            let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
+            self.shape.run(explosionAnimation, completion: {
+                
+            })
             
         }
     }

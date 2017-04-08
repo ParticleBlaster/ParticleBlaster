@@ -111,7 +111,7 @@ class Obstacle : GameObject {
         let newPhysicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
         newPhysicsBody.isDynamic = true
         newPhysicsBody.categoryBitMask = PhysicsCategory.Obstacle
-        newPhysicsBody.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        newPhysicsBody.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade
         if self.isStatic {
             newPhysicsBody.collisionBitMask = PhysicsCategory.None
         } else {
@@ -131,7 +131,7 @@ class Obstacle : GameObject {
         self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
-        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade
         if self.isStatic {
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
         } else {
