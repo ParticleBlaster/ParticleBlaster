@@ -108,6 +108,7 @@ class Constants {
     static let grenadeThrowingTime: CGFloat = CGFloat(1.5)
     static let grenadeRadius: CGFloat = CGFloat(30)
     static let grenadeExplodeSizeExpansionValue: Int = 5
+    static let grenadeThrowingDistance: CGFloat = CGFloat(300)
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500

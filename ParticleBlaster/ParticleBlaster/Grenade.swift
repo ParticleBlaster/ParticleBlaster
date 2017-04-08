@@ -23,7 +23,7 @@ class Grenade : GameObject {
     }
     
     private func setupPhysicsProperty() {
-        self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
+        self.shape.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
@@ -37,7 +37,7 @@ class Grenade : GameObject {
             self.shape.physicsBody?.velocity = CGVector.zero
             let currCenter = self.shape.position
             self.shape = SKSpriteNode(imageNamed: "bullet-red") // TODO: should be named as explodedGrenade
-            self.shape.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
+            self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
             self.shape.position = currCenter
             
         }

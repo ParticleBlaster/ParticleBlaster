@@ -137,12 +137,20 @@ class PlayerController {
         
         
         let grenade = Grenade()
-        let grenadeVelocity = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingVelocity, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingVelocity)
+        let grenadeDistance = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingDistance, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingDistance)
         
-        grenade.updateVelocity(newVelocity: grenadeVelocity)
+        grenade.updateVelocity(newVelocity: grenadeDistance)
         grenade.shape.position = self.currFiringPosition
         grenade.shape.zRotation = self.currFiringAngle
         grenade.shape.zPosition = -1
+        
+        let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
+        
+        
+        grenade.shape.run(throwingAction, completion: {
+            grenade.explode()
+        })
+        
         
         //self.scene.addChild(grenade.shape)
         
