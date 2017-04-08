@@ -180,15 +180,15 @@ class SinglePlayerGameScene: GameScene {
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton.shape.alpha = 0.8
-                if let shootHandler = self.fireHandlers.first {
-                    shootHandler()
-                }
+//                if let shootHandler = self.fireHandlers.first {
+//                    shootHandler()
+//                }
 //                if let launchMissileHandler = self.launchMissileHandlers.first {
 //                    launchMissileHandler()
 //                }
-//                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
-//                    currThrowGrenadeHandler()
-//                }
+                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
+                    currThrowGrenadeHandler()
+                }
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
             }

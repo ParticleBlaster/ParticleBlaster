@@ -127,9 +127,10 @@ class Constants {
     
     static let grenadeThrowingVelocity: CGFloat = CGFloat(500)
     static let grenadeThrowingTime: CGFloat = CGFloat(0.8)
-    static let grenadeRadius: CGFloat = CGFloat(30)
+    static let grenadeRadius: CGFloat = CGFloat(15)
     static let grenadeExplodeSizeExpansionValue: Int = 5
     static let grenadeThrowingDistance: CGFloat = CGFloat(250)
+    static let grenadeExplosionAnimationTime = 0.8
     
     static let upgradePackRadius: CGFloat = CGFloat(10)
     static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
@@ -148,6 +149,7 @@ class Constants {
     
     static let obstacleImpulseValue: CGFloat = CGFloat(50)
     static let obstacleForceValue: CGFloat = CGFloat(50)
+    static let obstacleHitByGrenadeImpulseValue: CGFloat = CGFloat(10)
     static let playerForceValue: CGFloat = CGFloat(50)
     
     static let obstacleMass: CGFloat = CGFloat(20)
