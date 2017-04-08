@@ -15,8 +15,8 @@ protocol GameLogic {
     var playerControllers: [PlayerController] { get set }
     var obstaclePool: [Obstacle] { get set }
     var map: MapObject { get set }
-    var winningCondition: Bool { get set }
-    var losingCondition: Bool { get set }
+    var winningCondition: Bool { get }
+    var losingCondition: Bool { get }
     
     func getObstacleList() -> [Obstacle]
     func updateObstacleVelocityHandler()

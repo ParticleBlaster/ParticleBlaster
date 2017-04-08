@@ -85,12 +85,12 @@ class Constants {
     static func initializeJoystickInfo(viewSize: CGSize) {
         self.joystickPlateWidth = viewSize.width / 8
         self.joystickPlateHeight = viewSize.width / 8
-        self.joystickPlateCenterX = viewSize.width * 0.1
-        self.joystickPlateCenterY = viewSize.height * 0.1
+        self.joystickPlateCenterX = viewSize.width * 0.15
+        self.joystickPlateCenterY = viewSize.height * 0.17
         self.joystickWidth = self.joystickPlateWidth / 2
         self.joystickHeight = self.joystickPlateHeight / 2
-        self.fireButtonCenterX = viewSize.width * 0.9
-        self.fireButtonCenterY = viewSize.height * 0.1
+        self.fireButtonCenterX = viewSize.width * 0.85
+        self.fireButtonCenterY = viewSize.height * 0.17
         self.fireButtonWidth = self.joystickPlateWidth
         self.fireButtonHeight = self.joystickPlateHeight
         

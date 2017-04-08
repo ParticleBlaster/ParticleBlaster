@@ -14,9 +14,19 @@ class MultiplayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var winningCondition: Bool
-    var losingCondition: Bool
     var map: MapObject
+    
+    var winningCondition: Bool {
+        get {
+            return self.player1.checkDead() || self.player2.checkDead()
+        }
+    }
+    
+    var losingCondition: Bool {
+        get {
+            return self.player1.checkDead() || self.player2.checkDead()
+        }
+    }
     
     var playerController1: PlayerController {
         get {
@@ -61,8 +71,6 @@ class MultiplayerGameLogic: GameLogic {
         self.playerControllers.append(player2)
         
         self.obstaclePool = [Obstacle]()
-        self.winningCondition = false
-        self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
         
         player1.obtainObstacleListHandler = self.getObstacleList
@@ -72,10 +80,6 @@ class MultiplayerGameLogic: GameLogic {
         initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
-    }
-    
-    func updateWinningCondition() {
-        self.winningCondition = player1.checkDead() || player2.checkDead()
     }
     
     // Shouldn't be implementing this
@@ -167,7 +171,6 @@ class MultiplayerGameLogic: GameLogic {
         collidedPlayerController.player.hitByObstacle()
         if collidedPlayerController.player.checkDead() {
             print ("game over!")
-            updateWinningCondition()
         }
     }
 }
