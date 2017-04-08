@@ -126,6 +126,10 @@ class MultiplayerGameLogic: GameLogic {
         
     }
     
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+        
+    }
+    
     private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {
         let bulletMothership = self.playerControllers.filter({$0.bulletPool.map({$0.shape}).contains(bulletNode)})[0]
         let bullet = bulletMothership.bulletPool.filter({$0.shape == bulletNode})[0]

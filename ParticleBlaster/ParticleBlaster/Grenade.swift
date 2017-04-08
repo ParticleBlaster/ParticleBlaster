@@ -23,13 +23,14 @@ class Grenade : GameObject {
     }
     
     private func setupPhysicsProperty() {
-        self.shape.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
-        self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius)
+        let currGrenadeRadius = self.exploded ? (Constants.grenadeRadius * 4) : Constants.grenadeRadius
+        self.shape.size = CGSize(width: currGrenadeRadius * 2, height: currGrenadeRadius * 2)
+        self.shape.physicsBody = SKPhysicsBody(circleOfRadius: currGrenadeRadius)
         self.shape.physicsBody?.isDynamic = true
-        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
-        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Grenade
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
-        self.shape.physicsBody?.usesPreciseCollisionDetection = true
+        //self.shape.physicsBody?.usesPreciseCollisionDetection = true
     }
     
     func explode() {
@@ -39,6 +40,11 @@ class Grenade : GameObject {
             //let currCenter = self.shape.position
             //self.shape = SKSpriteNode(imageNamed: "bullet-red") // TODO: should be named as explodedGrenade
             self.shape.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
+            self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
+            self.shape.physicsBody?.isDynamic = false
+            self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Grenade
+            self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
+            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
             //self.shape.position = currCenter
             
         }

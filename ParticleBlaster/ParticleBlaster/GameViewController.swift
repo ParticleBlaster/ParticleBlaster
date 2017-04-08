@@ -105,9 +105,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 //            scene.fireHandlers.append(playerController.shootHandler)
 //            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
 //            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
-//            scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
+            scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
             
-            scene.fireHandlers.append(playerController.fireHandler)
+            //scene.fireHandlers.append(playerController.fireHandler)
             scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
             
             // Set up MFi controller for each playerController
@@ -168,9 +168,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
             }
         } else if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
-            (secondBody.categoryBitMask & PhysicsCategory.Upgrade != 0)){
+            (secondBody.categoryBitMask & PhysicsCategory.Upgrade != 0)) {
             if let player = firstBody.node as? SKSpriteNode, let upgradePack = secondBody.node as? SKSpriteNode {
                 self.gameLogic.upgradePackDidCollideWithPlayer(upgrade: upgradePack, player: player)
+            }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Grenade != 0)) {
+            if let obstacle = firstBody.node as? SKSpriteNode, let grenade = secondBody.node as? SKSpriteNode {
+                self.gameLogic.grenadeDidCollideWithObstacle(obstacle: obstacle, grenade: grenade)
             }
         }
         

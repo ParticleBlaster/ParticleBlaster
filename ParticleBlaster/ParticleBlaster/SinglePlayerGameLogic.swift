@@ -136,6 +136,10 @@ class SinglePlayerGameLogic: GameLogic {
         self.gameViewController.scene.removeElement(node: upgrade)
     }
     
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+        
+    }
+    
     private func dropUpgradePack(dropPosition: CGPoint) {
         let upgradePack = UpgradePack()
         upgradePack.shape.position = dropPosition

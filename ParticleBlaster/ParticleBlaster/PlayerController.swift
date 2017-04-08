@@ -130,24 +130,26 @@ class PlayerController {
         self.player.updateRotation(newAngle: rotationAngle)
     }
     
+//    func grenadeExplode() {
+//        genade.explode()
+//        grenade.shape.run(explosionAnimation, completion: {
+//            grenade.shape.removeFromParent()
+//        })
+//    }
+    
     func fireHandler() {
-        if self.selectedWeapon == WeaponCategory.Bullet {
+        if self.selectedWeapon == WeaponCategory.Bullet || self.specialWeaponCounter == 0 {
             shootHandler()
+            self.selectedWeapon = WeaponCategory.Bullet
         } else {
-            if self.specialWeaponCounter > 0 {
-                switch self.selectedWeapon {
-                case .Missile:
-                    launchMissileHandler()
-                case .Grenade:
-                    throwGrenadeHandler()
-                default:
-                    break
-                }
-            } else { // downgrade back to bullet
-                self.selectedWeapon = WeaponCategory.Bullet
-                self.specialWeaponCounter = 0
+            switch self.selectedWeapon {
+            case .Missile:
+                launchMissileHandler()
+            case .Grenade:
+                throwGrenadeHandler()
+            default:
+                break
             }
-            
             self.specialWeaponCounter -= 1
         }
     }
@@ -156,6 +158,7 @@ class PlayerController {
         
         let grenade = Grenade()
         let grenadeDistance = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingDistance, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingDistance)
+        let grenadeAnimationAction = self.grenadeAnimationList
         
         grenade.shape.position = self.currFiringPosition
         grenade.shape.zRotation = self.currFiringAngle
@@ -164,7 +167,7 @@ class PlayerController {
         self.scene.addChild(grenade.shape)
         
         let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
-        let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
+        let explosionAnimation = SKAction.animate(with: grenadeAnimationAction, timePerFrame: 0.05)
         
         grenade.shape.run(throwingAction, completion: {
             grenade.explode()
