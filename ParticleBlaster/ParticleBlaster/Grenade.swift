@@ -34,11 +34,12 @@ class Grenade : GameObject {
     
     func explode() {
         if !self.exploded {
-            self.shape.physicsBody?.velocity = CGVector.zero
-            let currCenter = self.shape.position
-            self.shape = SKSpriteNode(imageNamed: "bullet-red") // TODO: should be named as explodedGrenade
-            self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
-            self.shape.position = currCenter
+            self.exploded = true
+            //self.shape.physicsBody?.velocity = CGVector.zero
+            //let currCenter = self.shape.position
+            //self.shape = SKSpriteNode(imageNamed: "bullet-red") // TODO: should be named as explodedGrenade
+            self.shape.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
+            //self.shape.position = currCenter
             
         }
     }

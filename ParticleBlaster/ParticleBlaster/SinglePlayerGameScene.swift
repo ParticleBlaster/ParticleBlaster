@@ -122,10 +122,6 @@ class SinglePlayerGameScene: GameScene {
         
     }
     
-    func displayObstacleImpulseAnimation() {
-        
-    }
-    
     
     
     func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
@@ -211,9 +207,9 @@ class SinglePlayerGameScene: GameScene {
             if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
                 playerVelocityHandler()
             }
-            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
-                obstacleVelocityHandler()
-            }
+//            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+//                obstacleVelocityHandler()
+//            }
 //            if let missileVelocityHandler = self.updateMissileVelocityHandlers.first {
 //                missileVelocityHandler()
 //            }
