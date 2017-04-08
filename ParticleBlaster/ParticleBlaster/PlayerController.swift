@@ -76,16 +76,9 @@ class PlayerController {
                 if missile.isReady {
                     let currPosition = missile.shape.position
                     let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
-                    //let rotationAngle = atan2(direction.dy, direction.dx) - CGFloat.pi / 2
                     let nextAngle = direction.eulerRotation()
-                    //let currAngle = missile.shape.zRotation
-                    //let rotationAngle = nextAngle - currAngle
-                    //let newVelocity = CGVector(dx: direction.dx * Constants.missileVelocity, dy: direction.dy * Constants.missileVelocity)
                     let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
                     missile.shape.run(rotateAction)
-                    //missile.updateRotation(newAngle: rotationAngle)
-                    //missile.updateVelocity(newVelocity: newVelocity)
-                    
                     
                     let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
                     let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
@@ -217,12 +210,7 @@ class PlayerController {
         self.bulletPool.append(bullet)
         self.scene.addChild(bullet.shape)
     }
-    
-    func atFieldHandler() {
-        let atField = ATField()
-        atField.shape.position = self.player.shape.position
-    }
-    
+
     func launchMissileHandler() {
         // Note: currently it will choose the first obstacle in the list
         if let getObsListHandler = self.obtainObstacleListHandler {
@@ -248,14 +236,8 @@ class PlayerController {
                 
                 let missileReleaseAction = SKAction.group([missileFadeInAction, missileLaunchAction])
                 missile.shape.run(missileReleaseAction, completion: {
-                    //let currObsMissileOffset = CGVector(dx: targetObstacle.shape.position.x - missile.shape.position.x, dy: targetObstacle.shape.position.y - missile.shape.position.y).normalized()
-                    //let rotationAngle = currObsMissileOffset.eulerRotation() - missile.shape.zRotation
                     let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
                     let missileInitalAccelerationAction = SKAction.applyForce(initialForce, at: forceCenter, duration: Constants.missileInitialAccelerationTime)
-                        //SKAction.applyForce(initialForce, duration: Constants.missileInitialAccelerationTime)
-                    //SKAction.app
-                    //let missileInitialRotateAction = SKAction.rotate(byAngle: rotationAngle, duration: Constants.missileInitialAccelerationTime)
-                    //let missileFlyAction = SKAction.group([missileInitalAccelerationAction, missileInitialRotateAction])
                     let missileFlyAction = missileInitalAccelerationAction
                     missile.shape.run(missileFlyAction, completion: {
                         missile.isReadyToFly()
