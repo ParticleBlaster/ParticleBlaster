@@ -189,6 +189,11 @@ class PlayerController {
         self.scene.addChild(bullet.shape)
     }
     
+    func atFieldHandler() {
+        let atField = ATField()
+        atField.shape.position = self.player.shape.position
+    }
+    
     func launchMissileHandler() {
         // Note: currently it will choose the first obstacle in the list
         if let getObsListHandler = self.obtainObstacleListHandler {
@@ -238,7 +243,7 @@ class PlayerController {
         self.specialWeaponCounter = newWeapon.getSpecialWeaponCounterNumber()
         
     }
-    
+
     func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {
         self.joystickPlateCenterX = x
         self.joystickPlateCenterY = y
