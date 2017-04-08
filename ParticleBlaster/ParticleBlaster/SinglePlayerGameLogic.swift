@@ -14,9 +14,19 @@ class SinglePlayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var winningCondition: Bool
-    var losingCondition: Bool
     var map: MapObject
+    
+    var winningCondition: Bool {
+        get {
+            return self.obstaclePool.isEmpty
+        }
+    }
+    
+    var losingCondition: Bool {
+        get {
+            return self.player.checkDead()
+        }
+    }
     
     var playerController: PlayerController {
         get {
@@ -39,8 +49,6 @@ class SinglePlayerGameLogic: GameLogic {
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]
         self.obstaclePool = [Obstacle]()
-        self.winningCondition = false
-        self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
         
         player.obtainObstacleListHandler = self.getObstacleList
@@ -48,14 +56,6 @@ class SinglePlayerGameLogic: GameLogic {
         initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
-    }
-    
-    func updateWinningCondition() {
-        self.winningCondition = self.obstaclePool.isEmpty
-    }
-    
-    func updateLosingCondition() {
-        self.losingCondition = self.player.checkDead()
     }
 
     func updateObstacleVelocityHandler() {
@@ -98,8 +98,6 @@ class SinglePlayerGameLogic: GameLogic {
         self.player.hitByObstacle()
         if self.player.checkDead() {
             print ("You are dead!")
-            self.losingCondition = true
-            // self.gameViewController.scene.removeElement(node: player)
         }
     }
     
