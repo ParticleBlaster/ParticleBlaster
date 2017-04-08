@@ -14,7 +14,7 @@ class JoystickPlate : GameObject {
     }
     
     init() {
-        super.init(imageName: "top")
+        super.init(imageName: "plate")
     }
     
 }
