@@ -19,8 +19,6 @@
 		0CCDB5FF1E75254300DEF8CC /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */; };
 		0CCDB6051E75254300DEF8CC /* SinglePlayerGameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6041E75254300DEF8CC /* SinglePlayerGameScene.swift */; };
 		0CCDB6071E75254300DEF8CC /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6061E75254300DEF8CC /* GameViewController.swift */; };
-		0CCDB60A1E75254300DEF8CC /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6081E75254300DEF8CC /* Main.storyboard */; };
-		0CCDB60F1E75254300DEF8CC /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */; };
 		0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */; };
 		0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */; };
 		0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB61B1E752D2700DEF8CC /* Constants.swift */; };
@@ -74,8 +72,6 @@
 		0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		0CCDB6041E75254300DEF8CC /* SinglePlayerGameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SinglePlayerGameScene.swift; sourceTree = "<group>"; };
 		0CCDB6061E75254300DEF8CC /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
-		0CCDB6091E75254300DEF8CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		0CCDB60E1E75254300DEF8CC /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		0CCDB6101E75254300DEF8CC /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
@@ -190,7 +186,6 @@
 				E1E2057D1E82FF1B0018DD13 /* Widgets */,
 				6A638F411E8A84900000EB16 /* MFi */,
 				6A86547D1E96B8E000E74767 /* Extensions */,
-				6A86547E1E96B91D00E74767 /* Playground */,
 				E1E2057A1E82F9590018DD13 /* Utils */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
@@ -242,15 +237,6 @@
 				6A86547F1E96B95D00E74767 /* DispatchTimeExtensions.swift */,
 			);
 			name = Extensions;
-			sourceTree = "<group>";
-		};
-		6A86547E1E96B91D00E74767 /* Playground */ = {
-			isa = PBXGroup;
-			children = (
-				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
-				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
-			);
-			name = Playground;
 			sourceTree = "<group>";
 		};
 		E1E205771E82F8E00018DD13 /* Models */ = {
@@ -358,10 +344,8 @@
 				6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */,
 				0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */,
 				E1F02CE11E8E5A3700240A7B /* button-pressed.mp3 in Resources */,
-				0CCDB60A1E75254300DEF8CC /* Main.storyboard in Resources */,
 				0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */,
 				6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */,
-				0CCDB60F1E75254300DEF8CC /* LaunchScreen.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -419,25 +403,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
-
-/* Begin PBXVariantGroup section */
-		0CCDB6081E75254300DEF8CC /* Main.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0CCDB6091E75254300DEF8CC /* Base */,
-			);
-			name = Main.storyboard;
-			sourceTree = "<group>";
-		};
-		0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */ = {
-			isa = PBXVariantGroup;
-			children = (
-				0CCDB60E1E75254300DEF8CC /* Base */,
-			);
-			name = LaunchScreen.storyboard;
-			sourceTree = "<group>";
-		};
-/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0CCDB6111E75254300DEF8CC /* Debug */ = {
