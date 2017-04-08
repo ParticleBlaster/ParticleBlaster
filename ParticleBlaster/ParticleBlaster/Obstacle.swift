@@ -115,7 +115,7 @@ class Obstacle : GameObject {
         if self.isStatic {
             newPhysicsBody.collisionBitMask = PhysicsCategory.None
         } else {
-            newPhysicsBody.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+            newPhysicsBody.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map | PhysicsCategory.Grenade
         }
         newPhysicsBody.velocity = currFlyingVelocity!
         newPhysicsBody.angularVelocity = currAngularVelocity!
@@ -135,7 +135,7 @@ class Obstacle : GameObject {
         if self.isStatic {
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
         } else {
-            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map | PhysicsCategory.Grenade
         }
         
     }

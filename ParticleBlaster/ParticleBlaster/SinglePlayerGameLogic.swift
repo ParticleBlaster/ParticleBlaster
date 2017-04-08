@@ -76,22 +76,6 @@ class SinglePlayerGameLogic: GameLogic {
         //self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
         self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         
-//        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
-//        obstacleGotHit.hitByBullet()
-//        if obstacleGotHit.checkDestroyed() {
-//            let obstacleCenter = obstacle.position
-//            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
-//            self.gameViewController.scene.removeElement(node: obstacle)
-//            let obsDestroyedTime = DispatchTime.now()
-//            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
-//            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
-//            self.gameViewController.currLevelObtainedScore += scoreForThisObs
-//            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
-//            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
-//            
-//            // Upgrade pack drops
-//            self.dropUpgradePack(dropPosition: obstacleCenter)
-//        }
         self.obstacleIsHit(obstacleNode: obstacle)
     }
     
