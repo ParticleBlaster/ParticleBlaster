@@ -210,9 +210,9 @@ class SinglePlayerGameScene: GameScene {
 //            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
 //                obstacleVelocityHandler()
 //            }
-//            if let missileVelocityHandler = self.updateMissileVelocityHandlers.first {
-//                missileVelocityHandler()
-//            }
+            if let missileVelocityHandler = self.updateMissileVelocityHandlers.first {
+                missileVelocityHandler()
+            }
 
             self.prevTime = currentTime
         }

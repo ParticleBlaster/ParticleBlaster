@@ -102,10 +102,13 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
-            scene.fireHandlers.append(playerController.shootHandler)
-            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
+//            scene.fireHandlers.append(playerController.shootHandler)
+//            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
+//            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+//            scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
+            
+            scene.fireHandlers.append(playerController.fireHandler)
             scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
-            scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
             
             // Set up MFi controller for each playerController
             configMFiController(index: i, playerController: playerController)

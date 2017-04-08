@@ -25,7 +25,7 @@ class PlayerController {
     
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
-    private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 0)
+    private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 1)
     
     var selectedWeapon = WeaponCategory.Bullet
     var specialWeaponCounter: Int = 0
@@ -147,6 +147,8 @@ class PlayerController {
                 self.selectedWeapon = WeaponCategory.Bullet
                 self.specialWeaponCounter = 0
             }
+            
+            self.specialWeaponCounter -= 1
         }
     }
 

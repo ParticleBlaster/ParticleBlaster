@@ -6,7 +6,6 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SpriteKit
 
@@ -125,7 +124,16 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
-        
+        // 50% for grenade, 35% for shield, 15% for missile
+        let randomNumber = arc4random_uniform(101)
+        if randomNumber <= 50 {
+            self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Grenade)
+        } else if randomNumber <= 85 {
+            // Put the logic for shield here
+        } else {
+            self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Missile)
+        }
+        self.gameViewController.scene.removeElement(node: upgrade)
     }
     
     private func dropUpgradePack(dropPosition: CGPoint) {

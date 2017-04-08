@@ -131,11 +131,11 @@ class Constants {
     static let grenadeExplodeSizeExpansionValue: Int = 5
     static let grenadeThrowingDistance: CGFloat = CGFloat(250)
     
-    static let upgradePackRadius: CGFloat = CGFloat(50)
+    static let upgradePackRadius: CGFloat = CGFloat(10)
     static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
     //static let upgradePackMoveSpeed: CGFloat = CGFloat(5)
     static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
-    static let upgradePackFadeTime = 0.5
+    static let upgradePackFadeTime = 1.0
     static let upgradePackMoveTime = 5.0
     
     // Score Related Constants
