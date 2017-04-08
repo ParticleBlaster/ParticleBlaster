@@ -34,6 +34,7 @@ class Grenade : GameObject {
     
     func explode() {
         if !self.exploded {
+            self.exploded = true
             self.shape.physicsBody?.velocity = CGVector.zero
             let currCenter = self.shape.position
             self.shape = SKSpriteNode(imageNamed: "bullet-red") // TODO: should be named as explodedGrenade

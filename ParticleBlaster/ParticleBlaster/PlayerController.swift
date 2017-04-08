@@ -120,6 +120,7 @@ class PlayerController {
     }
 
     func throwGrenadeHandler() {
+        /*
         let grenadeNode = SKSpriteNode(imageNamed: "bullet-red")
         grenadeNode.size = CGSize(width: Constants.grenadeRadius, height: Constants.grenadeRadius)
         grenadeNode.position = Constants.viewCentralPoint
@@ -134,21 +135,27 @@ class PlayerController {
             grenadeNode.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
             grenadeNode.run(explosionAnimation)
         })
+ */
         
         
         let grenade = Grenade()
         let grenadeDistance = CGVector(dx: self.playerUnitDirection.dx * Constants.grenadeThrowingDistance, dy: self.playerUnitDirection.dy * Constants.grenadeThrowingDistance)
         
-        grenade.updateVelocity(newVelocity: grenadeDistance)
+        //grenade.updateVelocity(newVelocity: grenadeDistance)
         grenade.shape.position = self.currFiringPosition
         grenade.shape.zRotation = self.currFiringAngle
         grenade.shape.zPosition = -1
         
-        let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
+        self.scene.addChild(grenade.shape)
         
+        let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
+        let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
         
         grenade.shape.run(throwingAction, completion: {
             grenade.explode()
+            grenade.shape.run(explosionAnimation, completion: {
+                grenade.shape.removeFromParent()
+            })
         })
         
         
