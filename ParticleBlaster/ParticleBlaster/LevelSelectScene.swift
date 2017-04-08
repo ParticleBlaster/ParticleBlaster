@@ -108,12 +108,13 @@ class LevelSelectScene: SKScene {
         }
 
         // if multiple mode selector, allow user to add new level
-        if gameMode == .multiple {
+        // TODO: Change back to using if statement
+        // if gameMode == .multiple {
             let button = IconButton(imageNamed: Constants.addButtonFilename, disabledImageNamed: nil, size: levelBoxSize)
             button.onPressHandler = self.addButtonPressed
             button.position = pointFor(levelIndex: levelBoxList.count)
             levelBoxList.append(button)
-        }
+        // }
         currentPage = 0
     }
 
@@ -169,7 +170,7 @@ class LevelSelectScene: SKScene {
         maskLayer.zPosition = Constants.zPositionModal
         maskLayer.position = .zero
 
-        let levelScreen = SKSpriteNode(imageNamed: "solar-system")
+        let levelScreen = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
         levelScreen.size = CGSize(width: size.width * Constants.levelScreenPreviewRatio,
                                   height: size.height * Constants.levelScreenPreviewRatio)
         levelScreen.position = .zero
@@ -187,7 +188,7 @@ class LevelSelectScene: SKScene {
         }
         // add players to preview
         for (index, playerPosition) in gameLevel.playerPositions.enumerated() {
-            let player = Player(image: "player-\(index + 1)")
+            let player = Player(image: "\(Constants.playerFilenamePrefix)\(index + 1)")
             let shape = player.shape
             shape.physicsBody = nil
             shape.size = CGSize(width: shape.size.width * Constants.levelScreenPreviewRatio,
@@ -210,15 +211,16 @@ class LevelSelectScene: SKScene {
         playButton.zPosition = Constants.zPositionModal + 1
         cancelButton.onPressHandler = self.cancelButtonPressed
         playButton.onPressHandler = self.playButtonPressed(gameLevel: gameLevel)
-        if gameLevel.gameMode == .multiple {
+        // TODO: change back to distinguish between multiple and single mode
+//        if gameLevel.gameMode == .multiple {
             playButton.position = CGPoint(x: 0, y: -levelScreen.frame.size.height/2 - playButton.size.height/2)
-        } else {
-            playButton.position = CGPoint(x: playButton.size.width/2,
-                                          y: -levelScreen.frame.size.height/2 - playButton.size.height/2)
-        }
+//        } else {
+//            playButton.position = CGPoint(x: playButton.size.width/2,
+//                                          y: -levelScreen.frame.size.height/2 - playButton.size.height/2)
+//        }
         cancelButton.position = CGPoint(x: playButton.position.x - playButton.size.width/2 - cancelButton.size.width / 2,
                                         y: -levelScreen.frame.size.height/2 - cancelButton.size.height/2)
-        if gameLevel.gameMode == .multiple {
+//        if gameLevel.gameMode == .multiple {
             let editButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
                                         text: Constants.labelEdit,
                                         size: Constants.textButtonTransparentDefaultSize)
@@ -227,7 +229,7 @@ class LevelSelectScene: SKScene {
             editButton.position = CGPoint(x: playButton.position.x + playButton.size.width/2 + editButton.size.width / 2,
                                           y: -levelScreen.frame.size.height/2 - editButton.size.height/2)
             editButton.zPosition = Constants.zPositionModal + 1
-        }
+//        }
         modal.addChild(maskLayer)
         modal.addChild(levelScreen)
         addChild(modal)
@@ -262,7 +264,6 @@ class LevelSelectScene: SKScene {
     private func addButtonPressed() {
         let gameLevel = gameData.createLevel(gameMode: gameMode)
         self.navigationDelegate?.navigateToDesignScene(gameLevel: gameLevel)
-        
     }
 
     private func preButtonPressed() {
@@ -278,12 +279,7 @@ class LevelSelectScene: SKScene {
             guard let gameLevel = FileUtils.loadGameLevel(id: levelIndex, gameMode: self.gameMode) else {
                 return
             }
-            if self.gameMode == .single {
-                self.navigationDelegate?.navigateToPlayScene(gameLevel: gameLevel)
-            } else {
-                //self.navigationDelegate?.navigateToDesignScene(gameLevel: gameLevel)
-                self.previewGameLevel(for: gameLevel)
-            }
+            self.previewGameLevel(for: gameLevel)
         }
     }
 }

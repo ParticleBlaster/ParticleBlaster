@@ -162,11 +162,13 @@ class Constants {
     static let normalFontSize: CGFloat = 40.0
 
     // archived key
+    static let playerFilenamePrefix = "player-"
     static let levelPrefix = "gameLevel"
     static let gameDataFilename = "gameDataFilename"
     static let settingFileName = "settingFileName"
     static let settingSoundKey = "settingSoundKey"
     static let settingMusicKey = "settingMusicKey"
+    static let gameDataNumSingleModeLevelKey = "gameDataNumSingleModeLevelKey"
     static let gameDataNumMultiModeLevelKey = "gameDataNumMultiModeLevelKey"
     static let gameDataAchievedSingleModeLevelKey = "gameDataAchievedSingleModeLevelKey" 
     static let imageNameKey = "imageNameKey"
@@ -187,6 +189,7 @@ class Constants {
     static let labelMultiplePlayers = "2 PLAYERS"
     
     // asset filenames
+    static let gameplayBackgroundFilename = "solar-system"
     static let homepageBackgroundFilename = "homepage"
     static let settingBackgroundFilename = "setting-background"
     static let soundButtonFilename = "sound-btn"

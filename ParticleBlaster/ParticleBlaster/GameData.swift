@@ -10,15 +10,30 @@ import Foundation
 
 class GameData: NSObject, NSCoding {
     static var instance: GameData? = nil
-    var numSingleModeLevel: Int = 20
+//    var numSingleModeLevel: Int = 20
+//    var numMultiModeLevel: Int = 0
+//    var achievedSingleModeLevel: Int = -1
+    var numSingleModeLevel: Int = 0
     var numMultiModeLevel: Int = 0
-    var achievedSingleModeLevel: Int = -1
+    var achievedSingleModeLevel: Int = 1000
+    
 
     static func getInstance() -> GameData {
         if instance == nil {
             instance = FileUtils.loadGameData() ?? GameData()
         }
         return instance!
+    }
+
+    func finishGameLevel(_ level: GameLevel) {
+        guard level.gameMode == .single else {
+            return
+        }
+        guard level.id > achievedSingleModeLevel else {
+            return
+        }
+        achievedSingleModeLevel = level.id
+        let _ = FileUtils.saveGameData()
     }
 
     func saveLevel(_ level: GameLevel) -> Bool {
@@ -39,16 +54,17 @@ class GameData: NSObject, NSCoding {
     }
     
     // MARK: NSCoding
+    // TODO: Do not save numSingleModeLevel when change back to support level design for multiple mode
     func encode(with aCoder: NSCoder) {
+        aCoder.encode(numSingleModeLevel, forKey: Constants.gameDataNumSingleModeLevelKey)
         aCoder.encode(numMultiModeLevel, forKey: Constants.gameDataNumMultiModeLevelKey)
         aCoder.encode(achievedSingleModeLevel, forKey: Constants.gameDataAchievedSingleModeLevelKey)
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
-        let numMultiModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataNumMultiModeLevelKey)
-        let achievedSingleModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataAchievedSingleModeLevelKey)
         self.init()
-        self.numMultiModeLevel = numMultiModeLevel
-        self.achievedSingleModeLevel = achievedSingleModeLevel
+        self.numSingleModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataNumSingleModeLevelKey)
+        self.numMultiModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataNumMultiModeLevelKey)
+        self.achievedSingleModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataAchievedSingleModeLevelKey)
     }
 }

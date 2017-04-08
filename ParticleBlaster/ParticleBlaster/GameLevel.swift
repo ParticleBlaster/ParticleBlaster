@@ -20,7 +20,7 @@ class GameLevel: NSObject, NSCoding {
     
     init(id: Int = 0, gameMode: GameMode = .single) {
         self.gameMode = gameMode
-        self.id = 0
+        self.id = id
         self.highestScore = 0
     }
 

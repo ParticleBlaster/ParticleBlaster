@@ -62,7 +62,6 @@ class GameSettingScene: SKScene, SKPhysicsContactDelegate {
     }
 
     func backButtonPressed() {
-        print("go back!")
     }
 }
 

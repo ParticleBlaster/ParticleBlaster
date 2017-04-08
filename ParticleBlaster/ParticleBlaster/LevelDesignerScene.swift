@@ -13,10 +13,11 @@ class LevelDesignerScene: SKScene {
     var navigationDelegate: NavigationDelegate?
 
     private let normalZPosition: CGFloat = 1
-    private let background = SKSpriteNode(imageNamed: "homepage")
+    private let background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
     private var backButton: IconButton!
     private var saveButton: TextButton!
-    private let levelScreen = SKSpriteNode(imageNamed: "solar-system")
+    private var playButton: TextButton!
+    private let levelScreen = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
     private var players: [Player] = []
     
     var paletteItems = [Obstacle]()
@@ -56,12 +57,24 @@ class LevelDesignerScene: SKScene {
         addChild(backButton)
     
         // create a save button
-        saveButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.labelSave)
+        saveButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+                                text: Constants.labelSave,
+                                size: Constants.textButtonTransparentDefaultSize)
         saveButton.zPosition = normalZPosition
-        saveButton.position = CGPoint(x: Constants.screenPaddingThinner.width + saveButton.size.width / 2,
+        saveButton.position = CGPoint(x: Constants.screenPadding.width + saveButton.size.width / 2,
                                       y: self.size.height - Constants.screenPaddingThinner.height - saveButton.size.height / 2)
         saveButton.onPressHandler = onSaveButtonPressed
         addChild(saveButton)
+
+        // create play button
+        playButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+                                text: Constants.labelPlay,
+                                size: Constants.textButtonTransparentDefaultSize)
+        playButton.zPosition = normalZPosition
+        playButton.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
+                                      y: saveButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2)
+        playButton.onPressHandler = onPlayButtonPressed
+        addChild(playButton)
 
         // Create a screen shot
         let levelScreenBorder = SKShapeNode(rect: CGRect(origin: CGPoint(x: size.width * Constants.screenBorderOriginRatio,
@@ -167,8 +180,6 @@ class LevelDesignerScene: SKScene {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        print("touch ended")
-        
         let touch = touches.first!
         
         if let obstacle = currentObject as? Obstacle {
@@ -195,8 +206,6 @@ class LevelDesignerScene: SKScene {
         guard currentObject == nil else {
             return
         }
-        print("ready to assign current obstacle")
-        
         let obstacle = selectedObstacle.copy() as! Obstacle
         obstacle.shape.zPosition = normalZPosition + 1
         obstacle.shape.position = position
@@ -204,21 +213,18 @@ class LevelDesignerScene: SKScene {
                                      height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: obstacle.shape))
         addChild(obstacle.shape)
         currentObject = obstacle
-        print("done assigning current obstacle")
     }
     
     private func removecurrentObject(withAnimation: Bool) {
         guard currentObject != nil else {
             return
         }
-        print("ready to remove current obstacle")
         if withAnimation {
             removeWithAnimation(currentObject!.shape)
         } else {
             currentObject!.shape.removeFromParent()
         }
         currentObject = nil
-        print("done removing current obstacle")
     }
     
     private func drawInitialObstacles() {
@@ -244,7 +250,7 @@ class LevelDesignerScene: SKScene {
     }
 
     private func preparePlayers() {
-        let player1 = Player(image: "player-1")
+        let player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
         player1.shape.scale(to: CGSize(width: player1.shape.size.width * Constants.levelScreenRatio,
                                        height: player1.shape.size.width * Constants.levelScreenRatio))
         player1.setupPhysicsProperty()
@@ -257,7 +263,7 @@ class LevelDesignerScene: SKScene {
         players.append(player1)
 
         if gameLevel.gameMode == .multiple {
-            let player2 = Player(image: "player-2")
+            let player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
             player2.shape.scale(to: CGSize(width: player2.shape.size.width * Constants.levelScreenRatio,
                                            height: player2.shape.size.width * Constants.levelScreenRatio))
             player2.setupPhysicsProperty()
@@ -277,12 +283,8 @@ class LevelDesignerScene: SKScene {
         }
     }
 
-    private func onBackButtonPressed() {
-        self.navigationDelegate?.navigateToLevelSelectScene(gameMode: gameLevel.gameMode)
-    }
-
-    private func onSaveButtonPressed() {
-        // translate to ratio position
+    /// Convert the current designing level to standard format game level
+    private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
         for player in players {
             level.playerPositions.append(levelScreenPositionToRatioPosition(player.shape.position))
@@ -292,8 +294,21 @@ class LevelDesignerScene: SKScene {
             obstacleClone.initialPosition = levelScreenPositionToRatioPosition(obstacle.shape.position)
             level.addObstacle(obstacleClone)
         }
-        let success = GameData.getInstance().saveLevel(level)
-        print("------save \(success)--------")
+        return level
+    }
+    
+    private func onBackButtonPressed() {
+        self.navigationDelegate?.navigateToLevelSelectScene(gameMode: gameLevel.gameMode)
+    }
+
+    private func onSaveButtonPressed() {
+        let level = convertToStandardLevel()
+        let _ = GameData.getInstance().saveLevel(level)
+    }
+
+    private func onPlayButtonPressed() {
+        let level = convertToStandardLevel()
+        self.navigationDelegate?.navigateToPlayScene(gameLevel: level)
     }
 
     private func levelScreenPositionToRatioPosition(_ position: CGPoint) -> CGPoint {
