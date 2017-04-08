@@ -34,6 +34,8 @@
 		0EB2CD591E82D8BE00237FA9 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD581E82D8BE00237FA9 /* Bullet.swift */; };
 		6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */; };
 		6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0318591E76FFF5000FAE05 /* HomePageScene.swift */; };
+		6A0EDFDE1E98EC380037CB70 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A0EDFDA1E98EC380037CB70 /* LaunchScreen.storyboard */; };
+		6A0EDFDF1E98EC380037CB70 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6A0EDFDC1E98EC380037CB70 /* Main.storyboard */; };
 		6A2AC26A1E87745F00BE3A41 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */; };
 		6A5D43C61E7ACD8A003C8AFA /* GameObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */; };
 		6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */; };
@@ -88,6 +90,8 @@
 		0EB2CD581E82D8BE00237FA9 /* Bullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
 		6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = StarTrekFont.ttf; sourceTree = "<group>"; };
 		6A0318591E76FFF5000FAE05 /* HomePageScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageScene.swift; sourceTree = "<group>"; };
+		6A0EDFDB1E98EC380037CB70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		6A0EDFDD1E98EC380037CB70 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
 		6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameObject.swift; sourceTree = "<group>"; };
 		6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickInput.swift; sourceTree = "<group>"; };
@@ -198,6 +202,8 @@
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				6A7705751E9293F800EFC4DF /* PhysicsCategory.swift */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
+				6A0EDFDA1E98EC380037CB70 /* LaunchScreen.storyboard */,
+				6A0EDFDC1E98EC380037CB70 /* Main.storyboard */,
 			);
 			path = ParticleBlaster;
 			sourceTree = "<group>";
@@ -341,9 +347,11 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6A0EDFDF1E98EC380037CB70 /* Main.storyboard in Resources */,
 				6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */,
 				0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */,
 				E1F02CE11E8E5A3700240A7B /* button-pressed.mp3 in Resources */,
+				6A0EDFDE1E98EC380037CB70 /* LaunchScreen.storyboard in Resources */,
 				0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */,
 				6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */,
 			);
@@ -403,6 +411,25 @@
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXVariantGroup section */
+		6A0EDFDA1E98EC380037CB70 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A0EDFDB1E98EC380037CB70 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		6A0EDFDC1E98EC380037CB70 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6A0EDFDD1E98EC380037CB70 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
 
 /* Begin XCBuildConfiguration section */
 		0CCDB6111E75254300DEF8CC /* Debug */ = {

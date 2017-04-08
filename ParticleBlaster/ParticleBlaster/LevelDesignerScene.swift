@@ -10,7 +10,7 @@ import SpriteKit
 
 class LevelDesignerScene: SKScene {
     
-    var currentLevelBackgroundImageName: String = "solar-system"
+    var currentLevelBackgroundImageName: String = "deathstar"
     private let background = SKSpriteNode(imageNamed: "homepage")
     private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
     private let buttonSave = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 190, height: 60), cornerRadius: 10)
@@ -184,10 +184,14 @@ class LevelDesignerScene: SKScene {
 
         // Create obstacle pallete
         
-        paletteItems = Constants.starwarsObstacles
+//        paletteItems = Constants.starwarsObstacles
+        paletteItems = Constants.startrekObstacles
         for item in paletteItems {
-            item.shape.size = CGSize(width: Constants.levelObstacleStandardWidth,
-                                     height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: item.shape))
+//            item.shape.size = CGSize(width: Constants.levelObstacleStandardWidth,
+//                                     height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: item.shape))
+            item.shape.size = CGSize(width: Constants.getWidthWithSameRatio(withHeight: Constants.levelObstacleStandardHeight, forShape: item.shape),
+                                     height: Constants.levelObstacleStandardHeight)
+
             item.shape.position = CGPoint(x: startX, y: startY)
             item.shape.alpha = 1
             item.shape.zPosition = 5
