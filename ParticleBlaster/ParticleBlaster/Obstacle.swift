@@ -15,7 +15,7 @@ class Obstacle : GameObject {
     
     private var remainingLifePercentage: CGFloat {
         get {
-            return CGFloat(Float(self.timeToLive) / Float(Constants.defaultTimeToLive))
+            return CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
         }
     }
 
@@ -79,24 +79,20 @@ class Obstacle : GameObject {
 
     func hitByBullet() {
         self.timeToLive -= 1
-        self.shape.size = CGSize(width: Constants.obstacleWidth * self.remainingLifePercentage, height: Constants.obstacleHeight * self.remainingLifePercentage)
-        //self.setupPhysicsProperty()
+        let currentPersentage = 1.0 - (1.0 - self.remainingLifePercentage) * 0.33
+        print("curr ttl \(timeToLive)")
+        print("curr perc \(currentPersentage)")
+        self.shape.size = CGSize(width: Constants.obstacleWidth * currentPersentage, height: Constants.obstacleHeight * currentPersentage)
         self.resetPhysicsBodySize()
     }
 
     func checkDestroyed() -> Bool {
-        if self.timeToLive == 0 {
+        if self.timeToLive <= 0 {
             return true
         } else {
             return false
         }
     }
-
-//    override func copy() -> Any {
-//        let copy = Obstacle(obstacle: self)
-//        copy.shape.zPosition = self.shape.zPosition
-//        return copy
-//    }
     
     func copy() -> Obstacle {
         let copy = Obstacle(obstacle: self)
@@ -122,10 +118,6 @@ class Obstacle : GameObject {
         }
         newPhysicsBody.velocity = currFlyingVelocity!
         newPhysicsBody.angularVelocity = currAngularVelocity!
-        
-        let computedWidth = Constants.obstacleWidth * self.remainingLifePercentage
-        let computedHeight = Constants.obstacleHeight * self.remainingLifePercentage
-        self.shape.size = CGSize(width: computedWidth, height: computedHeight)
         
         self.shape.physicsBody = newPhysicsBody
 
@@ -159,17 +151,4 @@ class Obstacle : GameObject {
         aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
         aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
     }
-
-//     required convenience init?(coder decoder: NSCoder) {
-//         guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String,
-//             let position = decoder.decodeObject(forKey: Constants.initialPositionKey) as? CGPoint else {
-//                 return nil
-//         }
-//         self.init(image: imageName, userSetInitialPosition: position)
-//     }
-//    
-//     func encode(with aCoder: NSCoder) {
-//         aCoder.encode(imageName ?? "obs", forKey: Constants.imageNameKey)
-//         aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
-//     }
 }
