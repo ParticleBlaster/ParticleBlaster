@@ -207,7 +207,6 @@
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
 				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
-				6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */,
 				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
