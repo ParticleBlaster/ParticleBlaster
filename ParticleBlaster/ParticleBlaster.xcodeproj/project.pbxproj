@@ -33,6 +33,7 @@
 		0E1AA47C1E96C27D007B55B6 /* missile.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47A1E96C27D007B55B6 /* missile.mp3 */; };
 		0E1AA47D1E96C27D007B55B6 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */; };
 		0E8962141E98D6B7005598D7 /* UpgradePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8962131E98D6B7005598D7 /* UpgradePack.swift */; };
+		0E8962161E99DDBF005598D7 /* Weapon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8962151E99DDBF005598D7 /* Weapon.swift */; };
 		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
 		0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC85711E964EEE00CF48A2 /* Grenade.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
@@ -92,6 +93,7 @@
 		0E1AA47A1E96C27D007B55B6 /* missile.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = missile.mp3; sourceTree = "<group>"; };
 		0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		0E8962131E98D6B7005598D7 /* UpgradePack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradePack.swift; sourceTree = "<group>"; };
+		0E8962151E99DDBF005598D7 /* Weapon.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Weapon.swift; sourceTree = "<group>"; };
 		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
 		0EAC85711E964EEE00CF48A2 /* Grenade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grenade.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
@@ -157,6 +159,7 @@
 				0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */,
 				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
 				0E8962131E98D6B7005598D7 /* UpgradePack.swift */,
+				0E8962151E99DDBF005598D7 /* Weapon.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
 				0EAC85711E964EEE00CF48A2 /* Grenade.swift */,
 				0E8EE74F1E918EA7003F041A /* Missile.swift */,
@@ -277,10 +280,8 @@
 		E1E205801E830C420018DD13 /* Scenes */ = {
 			isa = PBXGroup;
 			children = (
-				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
 				E1E205811E830C5C0018DD13 /* GameSettingScene.swift */,
 				E1A4FE3C1E84684D0096D277 /* LevelSelectScene.swift */,
-				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
 			);
 			name = Scenes;
 			sourceTree = "<group>";
@@ -404,6 +405,7 @@
 				0C0732E71E8C07D600E5BE3D /* GameScene.swift in Sources */,
 				E1E2057C1E82F9980018DD13 /* FIleUtils.swift in Sources */,
 				E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */,
+				0E8962161E99DDBF005598D7 /* Weapon.swift in Sources */,
 				0E8962141E98D6B7005598D7 /* UpgradePack.swift in Sources */,
 				E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */,
 				6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */,

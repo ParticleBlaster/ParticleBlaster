@@ -94,7 +94,8 @@ class MultiplayerGameLogic: GameLogic {
         //self.gameViewController.scene.removeElement(node: bullet)
         for playerController in self.playerControllers {
             //playerController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
-            playerController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+            //playerController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+            playerController.removeWeaponAfterCollision(weaponNode: bullet)
         }
     }
     
@@ -112,9 +113,9 @@ class MultiplayerGameLogic: GameLogic {
             self.gameViewController.scene.removeElement(node: bullet)
             self.playerGotHit(player: player)
             
-            let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bullet)})[0]
+            let bulletMothershipController = self.playerControllers.filter({$0.weaponPool.map({ele in ele.shape}).contains(bullet)})[0]
 //            bulletMothershipController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
-            bulletMothershipController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+            bulletMothershipController.removeWeaponAfterCollision(weaponNode: bullet)
         }
     }
     
@@ -123,7 +124,7 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     private func bulletCollideWithItsMothership(bulletNode: SKSpriteNode, playerNode: SKSpriteNode) -> Bool {
-        let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bulletNode)})[0]
+        let bulletMothershipController = self.playerControllers.filter({$0.weaponPool.map({ele in ele.shape}).contains(bulletNode)})[0]
         return bulletMothershipController.player.shape == playerNode
     }
     
@@ -136,8 +137,8 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {
-        let bulletMothership = self.playerControllers.filter({$0.bulletPool.map({$0.shape}).contains(bulletNode)})[0]
-        let bullet = bulletMothership.bulletPool.filter({$0.shape == bulletNode})[0]
+        let bulletMothership = self.playerControllers.filter({$0.weaponPool.map({$0.shape}).contains(bulletNode)})[0]
+        let bullet = bulletMothership.weaponPool.filter({$0.shape == bulletNode})[0] as! Bullet
         return bullet
     }
     

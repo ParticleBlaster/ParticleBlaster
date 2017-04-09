@@ -9,20 +9,33 @@
 import UIKit
 import SpriteKit
 
-class Grenade : GameObject {
+class Grenade : Weapon {
     var exploded: Bool = false
-    var grenadeAnimationList = [SKTexture]()
+    private var grenadeAnimationList = [SKTexture]()
     
-    init(image: String) {
-        super.init(imageName: image)
-        setupPhysicsProperty()
+    // Standard initialisor for Game Play
+    init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat) {
+        super.init(shootLocation: shootLocation, shootDirection: shootDirection, rotation: rotation, weaponType: WeaponCategory.Grenade)
+        self.setupPhysicsProperty()
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
+        
+        //        self.shootLocation = shootLocation
+        //        self.shootDirection = shootDirection.normalized()
+        //        self.rotation = rotation
     }
     
-    init() {
-        super.init(imageName: "bullet-orange")
-        setupPhysicsProperty()
-        self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
+    override func launch() {
+        let grenadeDistance = CGVector(dx: self.shootDirection.dx * Constants.grenadeThrowingDistance, dy: self.shootDirection.dy * Constants.grenadeThrowingDistance)
+        
+        self.shape.position = self.shootLocation
+        self.shape.zRotation = self.rotation
+        self.shape.zPosition = Constants.defaultWeaponZPosition
+        
+        let throwingAction = SKAction.move(by: grenadeDistance, duration: TimeInterval(Constants.grenadeThrowingTime))
+        
+        self.shape.run(throwingAction, completion: {
+            self.explode()
+        })
     }
     
     private func setupPhysicsProperty() {
@@ -43,18 +56,17 @@ class Grenade : GameObject {
         if !self.exploded {
             self.exploded = true
             self.shape.size = CGSize(width: Constants.grenadeRadius * 4, height: Constants.grenadeRadius * 4)
+            self.shape.zPosition = Constants.grenadeExplosionAnimationZPosition
             //self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
             self.shape.physicsBody?.isDynamic = false
             self.shape.physicsBody?.velocity = CGVector.zero
             self.shape.physicsBody?.categoryBitMask = PhysicsCategory.None
-            self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.None //| PhysicsCategory.Player
+            self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.None
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
             //self.shape.position = currCenter
             
             let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
-            self.shape.run(explosionAnimation, completion: {
-                
-            })
+            self.shape.run(explosionAnimation)
             
         }
     }

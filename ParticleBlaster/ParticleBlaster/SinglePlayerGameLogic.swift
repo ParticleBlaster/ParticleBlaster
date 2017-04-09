@@ -71,10 +71,8 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        //self.gameViewController.scene.removeElement(node: bullet)
-        
-        //self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
-        self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+        //self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+        self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet)
         
         self.obstacleIsHit(obstacleNode: obstacle)
     }
