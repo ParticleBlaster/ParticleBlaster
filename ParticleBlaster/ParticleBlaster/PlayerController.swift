@@ -48,6 +48,9 @@ class PlayerController {
     }
     
     func removeWeaponAfterCollision(weaponNode: SKSpriteNode) {
+        weaponNode.physicsBody?.collisionBitMask = PhysicsCategory.None
+        weaponNode.physicsBody?.contactTestBitMask = PhysicsCategory.None
+        weaponNode.physicsBody?.categoryBitMask = PhysicsCategory.None
         self.weaponPool = self.weaponPool.filter({$0.shape != weaponNode})
         self.scene.removeElement(node: weaponNode)
     }
@@ -172,8 +175,10 @@ class PlayerController {
 //            self.specialWeaponCounter -= 1
 //        }
         
-        
+        self.selectedWeapon = nil
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
+        
+        self.selectedWeaponType = WeaponCategory.Bullet
         
         switch self.selectedWeaponType {
         case .Bullet:
@@ -199,11 +204,14 @@ class PlayerController {
         guard let weaponToUse = self.selectedWeapon else {
             return
         }
-        weaponToUse.launch()
+        
+        
         self.specialWeaponCounter -= 1
         self.scene.addChild(weaponToUse.shape)
         self.weaponPool.append(weaponToUse)
-        
+        //self.weaponPoolTest.append(weaponToUse.shape)
+        weaponToUse.launch()
+        //self.weaponPool.append(weaponToUse)
     }
 
     /*

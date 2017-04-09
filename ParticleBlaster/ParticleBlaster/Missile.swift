@@ -33,6 +33,10 @@ class Missile : Weapon {
     }
     
     override func launch() {
+        self.shape.position = self.shootLocation
+        self.shape.zRotation = self.rotation
+        self.shape.zPosition = Constants.defaultWeaponZPosition
+        
         let preparationDirection = self.shootDirection.orthonormalVector()
         let preparationOffset = CGVector(dx: preparationDirection.dx * Constants.missileLaunchOffset, dy: preparationDirection.dy * Constants.missileLaunchOffset)
         

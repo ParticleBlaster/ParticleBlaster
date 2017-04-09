@@ -98,6 +98,16 @@ class MultiplayerGameScene: GameScene {
         }
     }
     
+    var weaponVelocityUpdateHandler1: (() -> ())? {
+        get {
+            if self.updateWeaponVelocityHandlers.count > 0 {
+                return updateWeaponVelocityHandlers[0]
+            } else {
+                return nil
+            }
+        }
+    }
+    
     var fireHandler1: (() -> ())? {
         get {
             if self.fireHandlers.count > 0 {
@@ -132,6 +142,16 @@ class MultiplayerGameScene: GameScene {
         get {
             if self.playerVelocityUpdateHandlers.count > 1 {
                 return playerVelocityUpdateHandlers[1]
+            } else {
+                return nil
+            }
+        }
+    }
+    
+    var weaponVelocityUpdateHandler2: (() -> ())? {
+        get {
+            if self.updateWeaponVelocityHandlers.count > 1 {
+                return updateWeaponVelocityHandlers[1]
             } else {
                 return nil
             }
@@ -416,8 +436,16 @@ class MultiplayerGameScene: GameScene {
                 playerPositionHandler1()
             }
             
+            if let weaponVelocityHandler1 = self.weaponVelocityUpdateHandler1 {
+                weaponVelocityHandler1()
+            }
+            
             if let playerPositionHandler2 = self.playerVelocityUpdateHandler2 {
                 playerPositionHandler2()
+            }
+            
+            if let weaponVelocityHandler2 = self.weaponVelocityUpdateHandler1 {
+                weaponVelocityHandler2()
             }
             
             self.prevTime = currentTime

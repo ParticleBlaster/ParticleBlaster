@@ -115,6 +115,7 @@ class SinglePlayerGameLogic: GameLogic {
         } else {
             self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Missile)
         }
+        
         self.gameViewController.scene.removeElement(node: upgrade)
     }
     
