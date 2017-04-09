@@ -246,6 +246,7 @@ class PlayerController {
         
         self.bulletPool.append(bullet)
         self.scene.addChild(bullet.shape)
+        self.scene.run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
     }
 
     func launchMissileHandler() {

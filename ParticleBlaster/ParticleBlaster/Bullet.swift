@@ -19,6 +19,12 @@ class Bullet : Weapon {
 //        self.shootDirection = shootDirection.normalized()
 //        self.rotation = rotation
     }
+
+    
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.defaultBulletRadius * 2, height: Constants.defaultBulletRadius * 2)

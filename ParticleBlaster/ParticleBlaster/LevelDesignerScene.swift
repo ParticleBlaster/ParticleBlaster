@@ -120,12 +120,15 @@ class LevelDesignerScene: SKScene {
         return frame.contains(touch.location(in: area))
     }
 
-    private func isValidPlayerPosition(_ position: CGPoint, for player: Player) -> Bool {
+    private func validatePlayerPosition(_ position: CGPoint, for player: Player) -> CGPoint {
         let node = player.shape
-        return position.x - node.frame.size.width / 2 >= -levelScreen.frame.size.width / 2
-            && position.x + node.frame.size.width / 2 <= levelScreen.frame.size.width / 2
-            && position.y - node.frame.size.height / 2 >= -levelScreen.frame.size.height / 2
-            && position.y + node.frame.size.height / 2 <= levelScreen.frame.size.height / 2
+        var x = position.x
+        var y = position.y
+        x = max(x, -levelScreen.frame.size.width / 2 + node.frame.size.width / 2)
+        x = min(x, levelScreen.frame.size.width / 2 - node.frame.size.width / 2)
+        y = max(y, -levelScreen.frame.size.height / 2 + node.frame.size.height / 2)
+        y = min(y, levelScreen.frame.size.height / 2 - node.frame.size.height / 2)
+        return CGPoint(x: x, y: y)
     }
     
     private func touchPaletteItems(touch: UITouch) {
@@ -168,12 +171,8 @@ class LevelDesignerScene: SKScene {
             return
         }
         if let player = currentObject as? Player {
-            if !isValidPlayerPosition(touch.location(in: levelScreen), for: player) {
-                // if player is moving outside the levelScreen, then stop moving it
-                currentObject = nil
-                return
-            }
-            currentObject!.shape.position = touch.location(in: levelScreen)
+            let validatedPosition = validatePlayerPosition(touch.location(in: levelScreen), for: player)
+            currentObject!.shape.position = validatedPosition
             return
         }
         currentObject!.shape.position = touch.location(in: self)

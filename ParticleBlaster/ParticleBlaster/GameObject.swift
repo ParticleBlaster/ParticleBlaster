@@ -9,11 +9,19 @@
 import UIKit
 import SpriteKit
 
-class GameObject: NSObject {
+class GameObject: NSObject, NSCoding {
+    // For position of the shape, it is archived as ratio position, and need to convert to absolute value when display
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool
 
+    override init() {
+        shape = SKSpriteNode()
+        timeToLive = 0
+        isStatic = true
+        super.init()
+    }
+    
     init(shape: SKSpriteNode, timeToLive: Int, isStatic: Bool) {
         self.timeToLive = timeToLive
         self.shape = shape
@@ -68,5 +76,12 @@ class GameObject: NSObject {
     
     public func pushedByImpulse(appliedImpulse: CGVector) {
         self.shape.physicsBody?.applyImpulse(appliedImpulse)
+    }
+
+    required convenience init?(coder decoder: NSCoder) {
+        self.init()
+    }
+    
+    func encode(with aCoder: NSCoder) {
     }
 }

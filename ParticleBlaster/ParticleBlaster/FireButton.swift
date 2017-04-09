@@ -13,8 +13,11 @@ class FireButton : GameObject {
         super.init(imageName: image)
     }
     
-    init() {
+    override init() {
         super.init(imageName: "fire")
     }
     
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
 }

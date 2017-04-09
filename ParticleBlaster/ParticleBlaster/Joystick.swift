@@ -18,10 +18,14 @@ class Joystick : GameObject {
         super.init(imageName: image)
     }
     
-    init() {
+    override init() {
         self.joystickPlateCenterX = nil
         self.joystickPlateCenterY = nil
         super.init(imageName: "top")
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     func releaseJoystick() {

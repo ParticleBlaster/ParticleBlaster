@@ -51,6 +51,10 @@ class Missile : Weapon {
         })
     }
     
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     func isReadyToFly() {
         self.isReady = true
     }

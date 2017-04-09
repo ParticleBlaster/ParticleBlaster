@@ -11,7 +11,7 @@ import SpriteKit
 class Obstacle : GameObject {
     var initialPosition: CGPoint
     // for support storage purpose
-    var imageName: String?
+    var imageName: String = "obs"
     
     private var remainingLifePercentage: CGFloat {
         get {
@@ -27,32 +27,13 @@ class Obstacle : GameObject {
         setupShape()
     }
 
-    init() {
-        self.initialPosition = CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
-        super.init(imageName: "obs")
+    init(userSetInitialPosition: CGPoint?, isStatic: Bool = false) {
+        self.initialPosition = userSetInitialPosition ?? CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY)
+        super.init(imageName: imageName, isStatic: isStatic)
         setupShape()
     }
 
-    init(userSetInitialPosition: CGPoint) {
-        self.initialPosition = userSetInitialPosition
-        super.init(imageName: "obs")
-        setupShape()
-    }
-    
-    init(userSetInitialPosition: CGPoint, isStatic: Bool) {
-        self.initialPosition = userSetInitialPosition
-        super.init(imageName: "obs", isStatic: isStatic)
-        setupShape()
-    }
-
-    init(image: String, userSetInitialPosition: CGPoint) {
-        self.imageName = image
-        self.initialPosition = userSetInitialPosition
-        super.init(imageName: image)
-        setupShape()
-    }
-    
-    init(image: String, userSetInitialPosition: CGPoint, isPhysicsBody: Bool) {
+    init(image: String, userSetInitialPosition: CGPoint, isPhysicsBody: Bool = true) {
         self.imageName = image
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
@@ -131,32 +112,17 @@ class Obstacle : GameObject {
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map | PhysicsCategory.Grenade
         }
     }
-}
-
-// A simple class to help storing using NSCoding, as Obstacle class can not conform to NSCoding
-class SimpleObstacle: NSObject, NSCoding {
-    var imageName: String
-    var position: CGPoint
-
-    init(imageName: String?, position: CGPoint) {
-        self.imageName = imageName ?? "obs"
-        self.position = position
-    }
-
-    convenience init(obstacle: Obstacle) {
-        self.init(imageName: obstacle.imageName, position: obstacle.initialPosition)
-    }
 
     required convenience init?(coder decoder: NSCoder) {
         guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String else {
             return nil
         }
-        let position = decoder.decodeCGPoint(forKey: Constants.initialPositionKey)
-        self.init(imageName: imageName, position: position)
+        let initialPosition = decoder.decodeCGPoint(forKey: Constants.initialPositionKey)
+        self.init(image: imageName, userSetInitialPosition: initialPosition, isPhysicsBody: false)
     }
     
-    func encode(with aCoder: NSCoder) {
+    override func encode(with aCoder: NSCoder) {
         aCoder.encode(imageName, forKey: Constants.imageNameKey)
-        aCoder.encode(position, forKey: Constants.initialPositionKey)
+        aCoder.encode(initialPosition, forKey: Constants.initialPositionKey)
     }
 }

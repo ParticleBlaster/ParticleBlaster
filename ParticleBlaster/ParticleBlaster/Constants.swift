@@ -89,8 +89,8 @@ class Constants {
         self.joystickHeight = self.joystickPlateHeight / 2
         self.fireButtonCenterX = viewSize.width * 0.85
         self.fireButtonCenterY = viewSize.height * 0.17
-        self.fireButtonWidth = self.joystickPlateWidth
-        self.fireButtonHeight = self.joystickPlateHeight
+        self.fireButtonWidth = self.joystickWidth * 1.5
+        self.fireButtonHeight = self.joystickHeight * 1.5
         
         self.playerCenterX = viewSize.width * 0.1
         self.playerCenterY = viewSize.height * 0.5
@@ -120,8 +120,8 @@ class Constants {
     static let shieldRadius: CGFloat = CGFloat(120)
     
     static let defaultBulletRadius: CGFloat = CGFloat(16)
-    static let defaultBulletWidth: CGFloat = CGFloat(8)
-    static let defaultBulletHeight: CGFloat = CGFloat(64)
+    static let defaultBulletWidth: CGFloat = CGFloat(12)
+    static let defaultBulletHeight: CGFloat = CGFloat(42)
     
     static let grenadeThrowingVelocity: CGFloat = CGFloat(500)
     static let grenadeThrowingTime: CGFloat = CGFloat(0.8)
@@ -273,22 +273,5 @@ class Constants {
     static let backgroundSoundFilename = "background-music-aac"
     
     // MFi Controller
-    static var mfis = [MFiController]()
-    static let maxMFi = 2
-    
-    static var nextMFiConnect: Int {
-        for index in 0 ..< mfis.count {
-            if mfis[index].isConnected == false {
-                return index
-            }
-        }
-        return -1
-    }
-    
-    static func startNextMFiConnectionNotificationCenter() {
-        guard Constants.nextMFiConnect >= 0 else {
-            return
-        }
-        Constants.mfis[Constants.nextMFiConnect].setupConnectionNotificationCenter()
-    }
+    static let debouncingInteval: Float = 0.005
 }

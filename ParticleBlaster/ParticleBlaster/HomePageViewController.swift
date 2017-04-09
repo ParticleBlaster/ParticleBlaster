@@ -11,7 +11,7 @@ import SpriteKit
 import GameKit
 
 class HomePageViewController: UIViewController {
-    
+
     // Stored scenes
     var homePageScene: HomePageScene?
     // Check the default leaderboardID
@@ -37,14 +37,14 @@ class HomePageViewController: UIViewController {
         authenticateLocalPlayer()
         
         setupMFiControllers()
-        Constants.startNextMFiConnectionNotificationCenter()
+        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
      }
     
     private func setupMFiControllers() {
-        for _ in 0 ..< Constants.maxMFi {
+        for _ in 0 ..< MFiControllerConfig.maxMFi {
             let mfi = MFiController()
-            Constants.mfis.append(mfi)
-            print("\(Constants.mfis.count) added")
+            MFiControllerConfig.mfis.append(mfi)
+            print("\(MFiControllerConfig.mfis.count) added")
         }
     }
     
@@ -145,6 +145,8 @@ extension HomePageViewController: NavigationDelegate {
     func navigateToPlayScene(gameLevel: GameLevel) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: GameViewController = storyboard.instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
+//        vc.gameMode = GameMode.multiple
+        vc.gameLevel = gameLevel
         self.present(vc, animated: true, completion: nil)
     }
 //    func navigateToDesignScene(gameMode: GameMode) {

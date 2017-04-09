@@ -23,12 +23,6 @@ class Weapon : GameObject {
         setupPhysicsProperty()
     }
     
-    init() {
-        self.weaponType = WeaponCategory.Bullet
-        super.init(imageName: "bullet-blue")
-        setupPhysicsProperty()
-    }
-    
     init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat, weaponType: WeaponCategory) {
         self.weaponType = weaponType
         switch weaponType {
@@ -46,6 +40,10 @@ class Weapon : GameObject {
         self.shootDirection = shootDirection.normalized()
         self.rotation = rotation
         
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupPhysicsProperty() {
