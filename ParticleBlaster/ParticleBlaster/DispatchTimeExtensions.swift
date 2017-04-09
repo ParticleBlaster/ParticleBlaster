@@ -10,6 +10,10 @@ import Foundation
 
 extension DispatchTime {
     func getTimeInSecond(to: DispatchTime) -> Float{
-        return abs(Float(to.uptimeNanoseconds - self.uptimeNanoseconds) / 1_000_000_000)
+        if to.uptimeNanoseconds < self.uptimeNanoseconds {
+            return Float(self.uptimeNanoseconds - to.uptimeNanoseconds) / 1_000_000_000
+        } else {
+            return Float(to.uptimeNanoseconds - self.uptimeNanoseconds) / 1_000_000_000
+        }
     }
 }
