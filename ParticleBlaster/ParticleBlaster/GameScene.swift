@@ -68,11 +68,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             background.size = size
             background.zPosition = -100
             addChild(background)
+            print("the background is set with: \(backgroundImageName)")
         }
         
         for obstacle in gameLevel!.obstacles {
             obstacle.shape.zPosition = 1
             addChild(obstacle.shape)
+            print("obs: \(String(describing: obstacle.imageName)) is added")
         }
     }
     

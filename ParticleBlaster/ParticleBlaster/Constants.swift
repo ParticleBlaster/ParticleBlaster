@@ -170,10 +170,36 @@ class Constants {
                                             "starwars-r2d2",
                                             "starwars-sith",
                                             "starwars-thundertrooper"]
+    
+    // Star Trek Theme Obstacles
+    static let startrekRed1 = Obstacle(image: "startrek-red-1", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekRed2 = Obstacle(image: "startrek-red-2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekBlue1 = Obstacle(image: "startrek-blue-1", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekBlue2 = Obstacle(image: "startrek-blue-2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekYellow1 = Obstacle(image: "startrek-yellow-1", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekYellow2 = Obstacle(image: "startrek-yellow-2", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekLLAP = Obstacle(image: "startrek-llap", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekSpock = Obstacle(image: "startrek-spock", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    static let startrekLogo = Obstacle(image: "startrek-logo", userSetInitialPosition: defaultPosition, isPhysicsBody: false)
+    
+    static let startrekObstacles = [startrekRed1,
+                                    startrekRed2,
+                                    startrekBlue1,
+                                    startrekBlue2,
+                                    startrekYellow1,
+                                    startrekYellow2,
+                                    startrekLLAP,
+                                    startrekSpock,
+                                    startrekLogo]
+    
     static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)
     static let levelObstacleStandardWidth: CGFloat = 50
+    static let levelObstacleStandardHeight: CGFloat = 110
     static func getHeightWithSameRatio(withWidth: CGFloat, forShape: SKSpriteNode) -> CGFloat {
         return forShape.size.height / forShape.size.width * withWidth
+    }
+    static func getWidthWithSameRatio(withHeight: CGFloat, forShape: SKSpriteNode) -> CGFloat {
+        return forShape.size.width / forShape.size.height * withHeight
     }
     
     // Border Constants

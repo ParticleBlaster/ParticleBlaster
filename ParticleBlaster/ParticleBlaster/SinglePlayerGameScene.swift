@@ -43,7 +43,7 @@ class SinglePlayerGameScene: GameScene {
     }
     
     override func didMove(to view: SKView) {
-        backgroundColor = Constants.backgroundColor
+//        backgroundColor = Constants.backgroundColor
         loadGameLevel()
         
         player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)

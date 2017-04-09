@@ -149,19 +149,19 @@ extension HomePageViewController: NavigationDelegate {
         vc.gameLevel = gameLevel
         self.present(vc, animated: true, completion: nil)
     }
-//    func navigateToDesignScene(gameMode: GameMode) {
-//        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
-//        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
-//        self.present(vc, animated: true, completion: nil)
-//    }
     func navigateToDesignScene(gameLevel: GameLevel) {
-        let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
-        let scene = LevelDesignerScene(size: skView.frame.size, gameLevel: gameLevel)
-        scene.scaleMode = .resizeFill
-        scene.navigationDelegate = self
-        skView.presentScene(scene, transition: reveal)
+        let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+        let vc: LevelDesignerViewController = storyboard.instantiateViewController(withIdentifier: "LevelDesignerViewController") as! LevelDesignerViewController
+        self.present(vc, animated: true, completion: nil)
     }
+//    func navigateToDesignScene(gameLevel: GameLevel) {
+//        let skView = view as! SKView
+//        let reveal = SKTransition.crossFade(withDuration: 0.5)
+//        let scene = LevelDesignerScene(size: skView.frame.size, gameLevel: gameLevel)
+//        scene.scaleMode = .resizeFill
+//        scene.navigationDelegate = self
+//        skView.presentScene(scene, transition: reveal)
+//    }
     func navigateToLevelSelectScene(gameMode: GameMode) {
         let skView = view as! SKView
         let reveal = SKTransition.crossFade(withDuration: 0.5)
