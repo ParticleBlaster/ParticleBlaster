@@ -15,13 +15,16 @@ protocol GameLogic {
     var playerControllers: [PlayerController] { get set }
     var obstaclePool: [Obstacle] { get set }
     var map: MapObject { get set }
-    var winningCondition: Bool { get set }
-    var losingCondition: Bool { get set }
+    var winningCondition: Bool { get }
+    var losingCondition: Bool { get }
     
+    func getObstacleList() -> [Obstacle]
     func updateObstacleVelocityHandler()
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode)
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode)
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode)
     func objectDidCollideWithMap(object: SKSpriteNode)
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode)
+    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode)
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode)
 }

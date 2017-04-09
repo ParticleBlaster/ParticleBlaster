@@ -11,10 +11,12 @@ import SpriteKit
 struct PhysicsCategory {
     static let None      : UInt32 = 0
     static let All       : UInt32 = UInt32.max
-    static let Obstacle   : UInt32 = 0x1 << 0       // 1
-    static let Bullet: UInt32 = 0x1 << 1       // 2
+    static let Obstacle  : UInt32 = 0x1 << 0       // 1
+    static let Bullet    : UInt32 = 0x1 << 1       // 2
     static let Player    : UInt32 = 0x1 << 2       // 3
     static let Map       : UInt32 = 0x1 << 3       // 4
+    static let Grenade   : UInt32 = 0x1 << 4       // 5
+    static let Upgrade   : UInt32 = 0x1 << 5       // 6
 }
 
 enum GameMode: Int {
@@ -22,10 +24,32 @@ enum GameMode: Int {
     case multiple = 1
 }
 
+enum WeaponCategory: Int {
+    case Bullet = 0
+    case Grenade = 1
+    case Missile = 2
+    
+    static let defaultGrenadeNumber = 4
+    static let defaultMissileNumber = 2
+    
+    func getSpecialWeaponCounterNumber() -> Int {
+        switch self {
+        case .Grenade:
+            return 4
+        case .Missile:
+            return 2
+        default:
+            return 0
+        }
+    }
+}
+
 class Constants {
     static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
-        
+    
+    static var viewCentralPoint: CGPoint!
+    
     // Game Scene Constants
     static var joystickPlateWidth: CGFloat!
     static var joystickPlateHeight: CGFloat!
@@ -56,19 +80,15 @@ class Constants {
     static let obstacleWidth: CGFloat = CGFloat(75)
     static let obstacleHeight: CGFloat = CGFloat(75)
     
-    static let defaultBulletRadius: CGFloat = CGFloat(16)
-    static let defaultBulletWidth: CGFloat = CGFloat(8)
-    static let defaultBulletHeight: CGFloat = CGFloat(64)
-    
     static func initializeJoystickInfo(viewSize: CGSize) {
         self.joystickPlateWidth = viewSize.width / 8
         self.joystickPlateHeight = viewSize.width / 8
-        self.joystickPlateCenterX = viewSize.width * 0.1
-        self.joystickPlateCenterY = viewSize.height * 0.1
+        self.joystickPlateCenterX = viewSize.width * 0.15
+        self.joystickPlateCenterY = viewSize.height * 0.17
         self.joystickWidth = self.joystickPlateWidth / 2
         self.joystickHeight = self.joystickPlateHeight / 2
-        self.fireButtonCenterX = viewSize.width * 0.9
-        self.fireButtonCenterY = viewSize.height * 0.1
+        self.fireButtonCenterX = viewSize.width * 0.85
+        self.fireButtonCenterY = viewSize.height * 0.17
         self.fireButtonWidth = self.joystickPlateWidth
         self.fireButtonHeight = self.joystickPlateHeight
         
@@ -82,15 +102,40 @@ class Constants {
         
         self.defaultMultiObs1Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.8)
         self.defaultMultiObs2Center = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.2)
+        
+        self.viewCentralPoint = CGPoint(x: viewSize.width * 0.5, y: viewSize.height * 0.5)
     }
     
     // Game Static Constants
     static let playerVelocity: CGFloat = CGFloat(400)
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
-    static let missileVelocity: CGFloat = CGFloat(450)
-    static let missileLaunchOffset: CGFloat = CGFloat(15)
-    static let missileLaunchTime = 1.5
+    
+    static let missileVelocity: CGFloat = CGFloat(350)
+    static let missileInitialForceValue: CGFloat = CGFloat(20)
+    static let missileConstantForceValue: CGFloat = CGFloat(2)
+    static let missileLaunchOffset: CGFloat = CGFloat(30)
+    static let missileLaunchTime = 0.5
+    static let missileInitialAccelerationTime = 0.2
+    static let shieldRadius: CGFloat = CGFloat(120)
+    
+    static let defaultBulletRadius: CGFloat = CGFloat(16)
+    static let defaultBulletWidth: CGFloat = CGFloat(8)
+    static let defaultBulletHeight: CGFloat = CGFloat(64)
+    
+    static let grenadeThrowingVelocity: CGFloat = CGFloat(500)
+    static let grenadeThrowingTime: CGFloat = CGFloat(0.8)
+    static let grenadeRadius: CGFloat = CGFloat(15)
+    static let grenadeExplodeSizeExpansionValue: Int = 5
+    static let grenadeThrowingDistance: CGFloat = CGFloat(250)
+    static let grenadeExplosionAnimationTime = 0.8
+    
+    static let upgradePackRadius: CGFloat = CGFloat(10)
+    static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
+    //static let upgradePackMoveSpeed: CGFloat = CGFloat(5)
+    static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
+    static let upgradePackFadeTime = 1.0
+    static let upgradePackMoveTime = 5.0
     
     // Score Related Constants
     static let defaultScoreDivider: Float = 500
@@ -102,13 +147,14 @@ class Constants {
     
     static let obstacleImpulseValue: CGFloat = CGFloat(50)
     static let obstacleForceValue: CGFloat = CGFloat(50)
+    static let obstacleHitByGrenadeImpulseValue: CGFloat = CGFloat(10)
     static let playerForceValue: CGFloat = CGFloat(50)
     
     static let obstacleMass: CGFloat = CGFloat(20)
     static let playerMass: CGFloat = CGFloat(10)
     
     static let destroyObstacleScoreFont = "Papyrus"
-    static let destroyObstacleScoreFontSize = CGFloat(30)
+    static let destroyObstacleScoreFontSize = CGFloat(40)
     static let destroyObstacleScoreOffset = CGVector(dx: 0, dy: 5)
     static let destroyObstacleScoreFadeTime = 0.5
     //static let destroyObstacleScore

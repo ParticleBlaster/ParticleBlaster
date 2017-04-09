@@ -102,8 +102,13 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
-            scene.fireHandlers.append(playerController.shootHandler)
-            scene.launchMissileHandlers.append(playerController.updateMissileVelocityHandler)
+//            scene.fireHandlers.append(playerController.shootHandler)
+//            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
+//            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+            scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
+            
+            //scene.fireHandlers.append(playerController.fireHandler)
+            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
             
             // Set up MFi controller for each playerController
             configMFiController(index: i, playerController: playerController)
@@ -161,6 +166,16 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             (secondBody.categoryBitMask & PhysicsCategory.Player != 0)) {
             if let bullet = firstBody.node as? SKSpriteNode, let player = secondBody.node as? SKSpriteNode {
                 self.gameLogic.bulletDidCollideWithPlayer(bullet: bullet, player: player)
+            }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Player != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Upgrade != 0)) {
+            if let player = firstBody.node as? SKSpriteNode, let upgradePack = secondBody.node as? SKSpriteNode {
+                self.gameLogic.upgradePackDidCollideWithPlayer(upgrade: upgradePack, player: player)
+            }
+        } else if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
+            (secondBody.categoryBitMask & PhysicsCategory.Grenade != 0)) {
+            if let obstacle = firstBody.node as? SKSpriteNode, let grenade = secondBody.node as? SKSpriteNode {
+                self.gameLogic.grenadeDidCollideWithObstacle(obstacle: obstacle, grenade: grenade)
             }
         }
         

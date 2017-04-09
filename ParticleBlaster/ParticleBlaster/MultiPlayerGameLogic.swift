@@ -6,7 +6,6 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SpriteKit
 
@@ -15,9 +14,19 @@ class MultiplayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var winningCondition: Bool
-    var losingCondition: Bool
     var map: MapObject
+    
+    var winningCondition: Bool {
+        get {
+            return self.player1.checkDead() || self.player2.checkDead()
+        }
+    }
+    
+    var losingCondition: Bool {
+        get {
+            return self.player1.checkDead() || self.player2.checkDead()
+        }
+    }
     
     var playerController1: PlayerController {
         get {
@@ -49,6 +58,7 @@ class MultiplayerGameLogic: GameLogic {
         
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
+        
         let player1 = PlayerController(gameViewController: self.gameViewController)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         // TODO: Refactor
@@ -59,26 +69,33 @@ class MultiplayerGameLogic: GameLogic {
         player2.player.timeToLive = 10
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
+        
         self.obstaclePool = [Obstacle]()
-        self.winningCondition = false
-        self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
+        
+        player1.obtainObstacleListHandler = self.getObstacleList
+        player2.obtainObstacleListHandler = self.getObstacleList
+        
         
         initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
     }
     
-    func updateWinningCondition() {
-        self.winningCondition = player1.checkDead() || player2.checkDead()
-    }
-    
     // Shouldn't be implementing this
     func updateObstacleVelocityHandler() {
     }
     
+    func getObstacleList() -> [Obstacle] {
+        return self.obstaclePool
+    }
+    
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        self.gameViewController.scene.removeElement(node: bullet)
+        //self.gameViewController.scene.removeElement(node: bullet)
+        for playerController in self.playerControllers {
+            //playerController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+            playerController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+        }
     }
     
     // Obstacle in this case will not be moving, but the player will be hurt
@@ -96,7 +113,8 @@ class MultiplayerGameLogic: GameLogic {
             self.playerGotHit(player: player)
             
             let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bullet)})[0]
-            bulletMothershipController.removeBullet(bulletNode: bullet)
+//            bulletMothershipController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
+            bulletMothershipController.removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         }
     }
     
@@ -107,6 +125,14 @@ class MultiplayerGameLogic: GameLogic {
     private func bulletCollideWithItsMothership(bulletNode: SKSpriteNode, playerNode: SKSpriteNode) -> Bool {
         let bulletMothershipController = self.playerControllers.filter({$0.bulletPool.map({ele in ele.shape}).contains(bulletNode)})[0]
         return bulletMothershipController.player.shape == playerNode
+    }
+    
+    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
+        
+    }
+    
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+        
     }
     
     private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {
@@ -145,7 +171,6 @@ class MultiplayerGameLogic: GameLogic {
         collidedPlayerController.player.hitByObstacle()
         if collidedPlayerController.player.checkDead() {
             print ("game over!")
-            updateWinningCondition()
         }
     }
 }

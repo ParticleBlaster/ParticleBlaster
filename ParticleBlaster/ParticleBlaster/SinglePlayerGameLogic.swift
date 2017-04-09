@@ -6,7 +6,6 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
 import SpriteKit
 
@@ -15,9 +14,19 @@ class SinglePlayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var winningCondition: Bool
-    var losingCondition: Bool
     var map: MapObject
+    
+    var winningCondition: Bool {
+        get {
+            return self.obstaclePool.isEmpty
+        }
+    }
+    
+    var losingCondition: Bool {
+        get {
+            return self.player.checkDead()
+        }
+    }
     
     var playerController: PlayerController {
         get {
@@ -36,49 +45,38 @@ class SinglePlayerGameLogic: GameLogic {
         
         self.numberOfPlayers = 1
         let player = PlayerController(gameViewController: self.gameViewController)
+        
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]
         self.obstaclePool = [Obstacle]()
-        self.winningCondition = false
-        self.losingCondition = false
         self.map = MapObject(view: self.gameViewController.view)
+        
+        player.obtainObstacleListHandler = self.getObstacleList
         
         initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
-    }
-    
-    func updateWinningCondition() {
-        self.winningCondition = self.obstaclePool.isEmpty
-    }
-    
-    func updateLosingCondition() {
-        self.losingCondition = self.player.checkDead()
     }
 
     func updateObstacleVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
             let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
-            obs.pushedByForce(force: appliedForce)
+            obs.pushedByForce(appliedForce: appliedForce)
         }
     }
     
+    func getObstacleList() -> [Obstacle] {
+        return self.obstaclePool
+    }
+    
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        self.gameViewController.scene.removeElement(node: bullet)
-        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacle})[0]
-        obstacleGotHit.hitByBullet()
-        if obstacleGotHit.checkDestroyed() {
-            let obstacleCenter = obstacle.position
-            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
-            self.gameViewController.scene.removeElement(node: obstacle)
-            let obsDestroyedTime = DispatchTime.now()
-            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
-            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
-            self.gameViewController.currLevelObtainedScore += scoreForThisObs
-            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
-            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacle})
-        }
+        //self.gameViewController.scene.removeElement(node: bullet)
+        
+        //self.playerControllers[0].removeBulletAndMissileAfterCollision(weaponNode: bullet)
+        self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
+        
+        self.obstacleIsHit(obstacleNode: obstacle)
     }
     
     // TODO: can implement a bounce-off effect if the player hits the obs but not dead yet
@@ -86,8 +84,6 @@ class SinglePlayerGameLogic: GameLogic {
         self.player.hitByObstacle()
         if self.player.checkDead() {
             print ("You are dead!")
-            self.losingCondition = true
-            // self.gameViewController.scene.removeElement(node: player)
         }
     }
     
@@ -109,6 +105,64 @@ class SinglePlayerGameLogic: GameLogic {
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
         
+    }
+    
+    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
+        // 50% for grenade, 35% for shield, 15% for missile
+        let randomNumber = arc4random_uniform(101)
+        if randomNumber <= 50 {
+            self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Grenade)
+        } else if randomNumber <= 85 {
+            // Put the logic for shield here
+        } else {
+            self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Missile)
+        }
+        self.gameViewController.scene.removeElement(node: upgrade)
+    }
+    
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+        self.playerControllers[0].grenadeExplode(grenadeNode: grenade)
+        let impulseDirection = CGVector(dx: obstacle.position.x - grenade.position.x, dy: obstacle.position.y - grenade.position.y).normalized()
+        let obstacleImpulse = CGVector(dx: impulseDirection.dx * Constants.obstacleHitByGrenadeImpulseValue, dy: impulseDirection.dy * Constants.obstacleHitByGrenadeImpulseValue)
+        
+        obstacle.physicsBody?.applyImpulse(obstacleImpulse)
+        
+        self.obstacleIsHit(obstacleNode: obstacle)
+    }
+    
+    private func dropUpgradePack(dropPosition: CGPoint) {
+        let upgradePack = UpgradePack()
+        upgradePack.shape.position = dropPosition
+        
+        let upgradePackFadeInAction = SKAction.fadeIn(withDuration: Constants.upgradePackFadeTime)
+        let upgradePackFadeOutAction = SKAction.fadeOut(withDuration: Constants.upgradePackFadeTime)
+        let upgradePackMoveAction = SKAction.move(by: Constants.upgradePackMoveOffset, duration: Constants.upgradePackMoveTime)
+        let upgradePackAction = SKAction.sequence([upgradePackFadeInAction, upgradePackMoveAction, upgradePackFadeOutAction])
+        
+        self.gameViewController.scene.addChild(upgradePack.shape)
+        
+        upgradePack.shape.run(upgradePackAction, completion: {
+            self.gameViewController.scene.removeElement(node: upgradePack.shape)
+        })
+    }
+    
+    private func obstacleIsHit(obstacleNode: SKSpriteNode) {
+        let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacleNode})[0]
+        obstacleGotHit.hitByBullet()
+        if obstacleGotHit.checkDestroyed() {
+            let obstacleCenter = obstacleNode.position
+            let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
+            self.gameViewController.scene.removeElement(node: obstacleNode)
+            let obsDestroyedTime = DispatchTime.now()
+            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
+            let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
+            self.gameViewController.currLevelObtainedScore += scoreForThisObs
+            self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
+            self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacleNode})
+            
+            // Upgrade pack drops
+            self.dropUpgradePack(dropPosition: obstacleCenter)
+        }
     }
     
     private func prepareObstacles() {

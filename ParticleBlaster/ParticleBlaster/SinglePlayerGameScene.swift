@@ -68,7 +68,7 @@ class SinglePlayerGameScene: GameScene {
         addChild(fireButton.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
@@ -115,10 +115,6 @@ class SinglePlayerGameScene: GameScene {
         
     // Possible implementation: displays a sequence of skspritenode showing the explosion
     func displayBulletHitAnimation() {
-        
-    }
-    
-    func displayObstacleImpulseAnimation() {
         
     }
     
@@ -180,12 +176,19 @@ class SinglePlayerGameScene: GameScene {
                 // Play the sound of shooting
                 run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton.shape.alpha = 0.8
-                if let shootHandler = self.fireHandlers.first {
-                    shootHandler()
+//                if let shootHandler = self.fireHandlers.first {
+//                    shootHandler()
+//                }
+//                if let launchMissileHandler = self.launchMissileHandlers.first {
+//                    launchMissileHandler()
+//                }
+                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
+                    currThrowGrenadeHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
             }
+            // TODO: implement here for more weapon firing options
         }
     }
     
@@ -200,10 +203,10 @@ class SinglePlayerGameScene: GameScene {
             if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
                 playerVelocityHandler()
             }
-            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
-                obstacleVelocityHandler()
-            }
-            if let missileVelocityHandler = self.launchMissileHandlers.first {
+//            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+//                obstacleVelocityHandler()
+//            }
+            if let missileVelocityHandler = self.updateMissileVelocityHandlers.first {
                 missileVelocityHandler()
             }
 

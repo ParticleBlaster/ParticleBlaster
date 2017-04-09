@@ -12,6 +12,12 @@ class Obstacle : GameObject {
     var initialPosition: CGPoint
     // for support storage purpose
     var imageName: String?
+    
+    private var remainingLifePercentage: CGFloat {
+        get {
+            return CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
+        }
+    }
 
     // TODO: refactor to merge all these init methods into one (except the last one)
     init(image: String = "obs") {
@@ -67,12 +73,16 @@ class Obstacle : GameObject {
 
     func hitByBullet() {
         self.timeToLive -= 1
-        let remainingLifePercentage = CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
-        self.shape.size = CGSize(width: Constants.obstacleWidth * remainingLifePercentage, height: Constants.obstacleHeight * remainingLifePercentage)
+        let decreasePersentage = CGFloat(0.50)
+        let currentPersentage = 1.0 - (1.0 - self.remainingLifePercentage) * decreasePersentage
+        print("curr ttl \(timeToLive)")
+        print("curr perc \(currentPersentage)")
+        self.shape.size = CGSize(width: Constants.obstacleWidth * currentPersentage, height: Constants.obstacleHeight * currentPersentage)
+        self.resetPhysicsBodySize()
     }
 
     func checkDestroyed() -> Bool {
-        if self.timeToLive == 0 {
+        if self.timeToLive <= 0 {
             return true
         } else {
             return false
@@ -92,15 +102,33 @@ class Obstacle : GameObject {
         setupPhysicsProperty()
     }
 
+    private func resetPhysicsBodySize() {
+        let currFlyingVelocity = self.shape.physicsBody?.velocity
+        let currAngularVelocity = self.shape.physicsBody?.angularVelocity
+        let newPhysicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        newPhysicsBody.isDynamic = true
+        newPhysicsBody.categoryBitMask = PhysicsCategory.Obstacle
+        newPhysicsBody.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade
+        if self.isStatic {
+            newPhysicsBody.collisionBitMask = PhysicsCategory.None
+        } else {
+            newPhysicsBody.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map | PhysicsCategory.Grenade
+        }
+        newPhysicsBody.velocity = currFlyingVelocity!
+        newPhysicsBody.angularVelocity = currAngularVelocity!
+        
+        self.shape.physicsBody = newPhysicsBody
+    }
+
     func setupPhysicsProperty() {
         self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Obstacle
-        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade
         if self.isStatic {
             self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
         } else {
-            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map
+            self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Map | PhysicsCategory.Grenade
         }
     }
 }

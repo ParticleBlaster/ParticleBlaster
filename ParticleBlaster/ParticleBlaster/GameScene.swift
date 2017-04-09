@@ -21,6 +21,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var playerVelocityUpdateHandlers: [(() -> ())] = [(() -> ())]()
     var fireHandlers: [(() -> ())] = [(() -> ())]()
     var launchMissileHandlers: [(() -> ())] = [(() -> ())]()
+    var updateMissileVelocityHandlers: [(() -> ())] = [(() -> ())]()
+    var throwGrenadeHandlers: [(() -> ())] = [(() -> ())]()
     
     var obstacleHitHandler: (() -> ())?
     var obstacleMoveHandler: (() -> ())?

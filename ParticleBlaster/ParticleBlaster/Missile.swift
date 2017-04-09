@@ -8,7 +8,7 @@
 
 import SpriteKit
 
-class Missile : Bullet {
+class Missile : GameObject {
     
     var target: Obstacle!
     var isReady: Bool = false
@@ -20,12 +20,16 @@ class Missile : Bullet {
     
     init(targetObs: Obstacle) {
         self.target = targetObs
-        super.init(image: "missile")
+        super.init(imageName: "missile")
         self.setupPhysicsProperty()
     }
     
     func isReadyToFly() {
         self.isReady = true
+    }
+    
+    func updateRotation(newAngle: CGFloat) {
+        self.shape.zRotation = newAngle
     }
     
     private func setupPhysicsProperty() {

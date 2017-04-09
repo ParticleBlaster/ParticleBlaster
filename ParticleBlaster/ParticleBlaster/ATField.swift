@@ -1,14 +1,15 @@
 //
-//  Bullet.swift
+//  ATField.swift
 //  ParticleBlaster
 //
-//  Created by Richard Jiang on 23/03/17.
+//  Created by Bohan Huang on 8/4/17.
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+import Foundation
 import SpriteKit
 
-class Bullet : GameObject {
+class ATField : GameObject {
     
     init(image: String) {
         super.init(imageName: image)
@@ -16,7 +17,7 @@ class Bullet : GameObject {
     }
     
     init() {
-        super.init(imageName: "bullet-blue")
+        super.init(imageName: "ATField")
         setupPhysicsProperty()
     }
     

@@ -22,9 +22,13 @@ extension CGVector {
         return CGVector(dx: self.dy, dy: -self.dx).normalized()
     }
 
-    func normalizeJoystickDirection() -> CGVector{
+    func normalizeJoystickDirection() -> CGVector {
         let dx = self.dx * Constants.joystickWidth / 2
         let dy = self.dy * Constants.joystickHeight / 2
         return CGVector(dx: dx, dy: dy)
+    }
+    
+    func eulerRotation() -> CGFloat {
+        return atan2(self.normalized().dy, self.normalized().dx) - CGFloat.pi / 2
     }
 }

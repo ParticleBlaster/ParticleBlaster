@@ -24,13 +24,17 @@
 		0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */; };
 		0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */ = {isa = PBXBuildFile; fileRef = 0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */; };
 		0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB61B1E752D2700DEF8CC /* Constants.swift */; };
-		0CCDB6231E752F8700DEF8CC /* IsoscelesTriangle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */; };
 		0CCDB6251E754C2200DEF8CC /* CGPointExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */; };
 		0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */; };
 		0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5CE1E8140EE00E7AB51 /* Player.swift */; };
 		0E02E5D11E81615700E7AB51 /* Joystick.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D01E81615700E7AB51 /* Joystick.swift */; };
 		0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */; };
+		0E1AA4791E96B1B9007B55B6 /* SpriteUtils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */; };
+		0E1AA47C1E96C27D007B55B6 /* missile.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47A1E96C27D007B55B6 /* missile.mp3 */; };
+		0E1AA47D1E96C27D007B55B6 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */; };
+		0E8962141E98D6B7005598D7 /* UpgradePack.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8962131E98D6B7005598D7 /* UpgradePack.swift */; };
 		0E8EE7501E918EA7003F041A /* Missile.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0E8EE74F1E918EA7003F041A /* Missile.swift */; };
+		0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EAC85711E964EEE00CF48A2 /* Grenade.swift */; };
 		0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD521E82A3C400237FA9 /* Obstacle.swift */; };
 		0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */; };
 		0EB2CD571E82CD5E00237FA9 /* FireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD561E82CD5E00237FA9 /* FireButton.swift */; };
@@ -79,13 +83,17 @@
 		0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "background-music-aac.caf"; sourceTree = "<group>"; };
 		0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "pew-pew-lei.caf"; sourceTree = "<group>"; };
 		0CCDB61B1E752D2700DEF8CC /* Constants.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = IsoscelesTriangle.swift; sourceTree = "<group>"; };
 		0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGPointExtension.swift; sourceTree = "<group>"; };
 		0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameOverScene.swift; sourceTree = "<group>"; };
 		0E02E5CE1E8140EE00E7AB51 /* Player.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
 		0E02E5D01E81615700E7AB51 /* Joystick.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Joystick.swift; sourceTree = "<group>"; };
 		0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = JoystickPlate.swift; sourceTree = "<group>"; };
+		0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpriteUtils.swift; sourceTree = "<group>"; };
+		0E1AA47A1E96C27D007B55B6 /* missile.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = missile.mp3; sourceTree = "<group>"; };
+		0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
+		0E8962131E98D6B7005598D7 /* UpgradePack.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = UpgradePack.swift; sourceTree = "<group>"; };
 		0E8EE74F1E918EA7003F041A /* Missile.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Missile.swift; sourceTree = "<group>"; };
+		0EAC85711E964EEE00CF48A2 /* Grenade.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Grenade.swift; sourceTree = "<group>"; };
 		0EB2CD521E82A3C400237FA9 /* Obstacle.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Obstacle.swift; sourceTree = "<group>"; };
 		0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGVectorExtensions.swift; sourceTree = "<group>"; };
 		0EB2CD561E82CD5E00237FA9 /* FireButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireButton.swift; sourceTree = "<group>"; };
@@ -133,8 +141,8 @@
 				0C0732E81E8D024C00E5BE3D /* SinglePlayerViewParams.swift */,
 				0CB3FD581E8BEE3600FF4FB3 /* MultiplayerViewParams.swift */,
 				0CCDB6061E75254300DEF8CC /* GameViewController.swift */,
-				0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */,
 				0CB3FD4D1E8AE8A000FF4FB3 /* GameLogic.swift */,
+				0CB3FD511E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift */,
 				0CB3FD531E8BBF3800FF4FB3 /* MultiPlayerGameLogic.swift */,
 				0C0732E61E8C07D600E5BE3D /* GameScene.swift */,
 				0CCDB6041E75254300DEF8CC /* SinglePlayerGameScene.swift */,
@@ -148,7 +156,9 @@
 			children = (
 				0CA20E3C1E86A8AC00F07F14 /* MapObject.swift */,
 				6A5D43C51E7ACD8A003C8AFA /* GameObject.swift */,
+				0E8962131E98D6B7005598D7 /* UpgradePack.swift */,
 				0EB2CD581E82D8BE00237FA9 /* Bullet.swift */,
+				0EAC85711E964EEE00CF48A2 /* Grenade.swift */,
 				0E8EE74F1E918EA7003F041A /* Missile.swift */,
 				0EB2CD521E82A3C400237FA9 /* Obstacle.swift */,
 				0E02E5CE1E8140EE00E7AB51 /* Player.swift */,
@@ -156,7 +166,6 @@
 				0E02E5D01E81615700E7AB51 /* Joystick.swift */,
 				0E02E5D21E81616400E7AB51 /* JoystickPlate.swift */,
 				6A5D43C71E7ADD8C003C8AFA /* JoystickInput.swift */,
-				0CCDB6221E752F8700DEF8CC /* IsoscelesTriangle.swift */,
 				E166507D1E97878F0016BA69 /* Boundary.swift */,
 			);
 			name = GameObjects;
@@ -197,10 +206,13 @@
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
+				6A0318591E76FFF5000FAE05 /* HomePageScene.swift */,
+				6A7705771E92A0F600EFC4DF /* LevelDesignerViewController.swift */,
+				6A638EFC1E87A6710000EB16 /* LevelDesignerScene.swift */,
+				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
 				0CCDB60D1E75254300DEF8CC /* LaunchScreen.storyboard */,
 				0CCDB6081E75254300DEF8CC /* Main.storyboard */,
-				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 			);
 			path = ParticleBlaster;
 			sourceTree = "<group>";
@@ -208,6 +220,8 @@
 		0CCDB6161E752B5A00DEF8CC /* Sounds */ = {
 			isa = PBXGroup;
 			children = (
+				0E1AA47A1E96C27D007B55B6 /* missile.mp3 */,
+				0E1AA47B1E96C27D007B55B6 /* explosion.mp3 */,
 				0CCDB6171E752B5A00DEF8CC /* background-music-aac.caf */,
 				0CCDB6181E752B5A00DEF8CC /* pew-pew-lei.caf */,
 				E1F02CE01E8E5A3700240A7B /* button-pressed.mp3 */,
@@ -245,6 +259,7 @@
 			isa = PBXGroup;
 			children = (
 				E1E2057B1E82F9980018DD13 /* FIleUtils.swift */,
+				0E1AA4781E96B1B9007B55B6 /* SpriteUtils.swift */,
 				E1B242861E8D999B001E6034 /* GameCenterUtils.swift */,
 				E1F02CDE1E8E596A00240A7B /* AudioUtils.swift */,
 			);
@@ -303,7 +318,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = QQW7QECAY7;
+						DevelopmentTeam = MRZ7YD72EV;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -339,10 +354,12 @@
 				6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */,
 				0CCDB61A1E752B5A00DEF8CC /* pew-pew-lei.caf in Resources */,
 				E1F02CE11E8E5A3700240A7B /* button-pressed.mp3 in Resources */,
+				0E1AA47D1E96C27D007B55B6 /* explosion.mp3 in Resources */,
 				0CCDB60A1E75254300DEF8CC /* Main.storyboard in Resources */,
 				0CCDB6191E752B5A00DEF8CC /* background-music-aac.caf in Resources */,
 				6A638F011E87C4E50000EB16 /* Assets.xcassets in Resources */,
 				0CCDB60F1E75254300DEF8CC /* LaunchScreen.storyboard in Resources */,
+				0E1AA47C1E96C27D007B55B6 /* missile.mp3 in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -353,8 +370,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0EAC85721E964EEE00CF48A2 /* Grenade.swift in Sources */,
 				0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */,
-				0CCDB6231E752F8700DEF8CC /* IsoscelesTriangle.swift in Sources */,
 				6A5D43C81E7ADD8C003C8AFA /* JoystickInput.swift in Sources */,
 				0C0732E91E8D024C00E5BE3D /* SinglePlayerViewParams.swift in Sources */,
 				0EB2CD531E82A3C400237FA9 /* Obstacle.swift in Sources */,
@@ -362,6 +379,7 @@
 				E1E205791E82F91F0018DD13 /* GameSetting.swift in Sources */,
 				E166507E1E97878F0016BA69 /* Boundary.swift in Sources */,
 				0CCDB6051E75254300DEF8CC /* SinglePlayerGameScene.swift in Sources */,
+				0E1AA4791E96B1B9007B55B6 /* SpriteUtils.swift in Sources */,
 				0CB3FD521E8AECE100FF4FB3 /* SinglePlayerGameLogic.swift in Sources */,
 				0CC56B321E83B3D1003A39F7 /* MultiplayerGameScene.swift in Sources */,
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,
@@ -387,6 +405,7 @@
 				0C0732E71E8C07D600E5BE3D /* GameScene.swift in Sources */,
 				E1E2057C1E82F9980018DD13 /* FIleUtils.swift in Sources */,
 				E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */,
+				0E8962141E98D6B7005598D7 /* UpgradePack.swift in Sources */,
 				E1A4FE3B1E840FB30096D277 /* NavigationDelegate.swift in Sources */,
 				6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */,
 				0CCDB61C1E752D2700DEF8CC /* Constants.swift in Sources */,
@@ -517,7 +536,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = QQW7QECAY7;
+				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
@@ -531,7 +550,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = QQW7QECAY7;
+				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;

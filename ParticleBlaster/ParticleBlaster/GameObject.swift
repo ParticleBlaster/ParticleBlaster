@@ -58,7 +58,15 @@ class GameObject: NSObject {
         self.shape.physicsBody?.velocity = newVelocity
     }
 
-    public func pushedByForce(force: CGVector) {
-        self.shape.physicsBody?.applyForce(force)
+    public func pushedByForce(appliedForce: CGVector) {
+        self.shape.physicsBody?.applyForce(appliedForce)
+    }
+    
+    public func pushedByForceWithPoint(appliedForce: CGVector, point: CGPoint) {
+        self.shape.physicsBody?.applyForce(appliedForce, at: point)
+    }
+    
+    public func pushedByImpulse(appliedImpulse: CGVector) {
+        self.shape.physicsBody?.applyImpulse(appliedImpulse)
     }
 }
