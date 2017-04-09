@@ -18,8 +18,6 @@ class SinglePlayerGameScene: GameScene {
     private var plateAllowedRangeDistance: CGFloat!
     private var prevTime: TimeInterval?
     
-    private let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
-    
     var player: Player {
         get {
             return self.players.first!
@@ -253,15 +251,6 @@ class SinglePlayerGameScene: GameScene {
             }
 
             self.prevTime = currentTime
-        }
-    }
-    
-    func setupPhysicsWorld() {
-        // Set up the physics world to have no gravity
-        physicsWorld.gravity = CGVector.zero
-        // Set the scene as the delegate to be notified when two physics bodies collide.
-        if let controller = self.viewController {
-            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
     }
 }
