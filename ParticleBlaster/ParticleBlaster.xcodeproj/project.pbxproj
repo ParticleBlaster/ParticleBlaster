@@ -560,7 +560,7 @@
 				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -574,7 +574,7 @@
 				DEVELOPMENT_TEAM = MRZ7YD72EV;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;

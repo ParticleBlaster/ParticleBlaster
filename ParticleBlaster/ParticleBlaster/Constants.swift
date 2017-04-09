@@ -173,6 +173,33 @@ class Constants {
                                             "starwars-r2d2",
                                             "starwars-sith",
                                             "starwars-thundertrooper"]
+    static let pixelObstacleFilenames = ["obs",
+                                         "obs-1",
+                                         "obs-2",
+                                         "obs-3",
+                                         "obs-4",
+                                         "obs-5"]
+    static let monsterObstacleFilenames = ["monster-1",
+                                           "monster-2",
+                                           "monster-3",
+                                           "monster-4",
+                                           "monster-5"]
+
+    static let maxNumOfObstacle = 15
+    // Obstalces' size
+    static let obstacleSmallSize = CGSize(width: 75, height: 75)
+    static let obstacleNormalSize = CGSize(width: 100, height: 100)
+    static let obstacleLargeSize = CGSize(width: 120, height: 120)
+    static let obstacleLargerSize = CGSize(width: 150, height: 150)
+    static let obstacleHugeSize = CGSize(width: 200, height: 200)
+    static let obstacleSizeMap = [
+        "obs": Constants.obstacleSmallSize,
+        "monster-1": Constants.obstacleSmallSize,
+        "monster-2": Constants.obstacleNormalSize,
+        "monster-3": Constants.obstacleLargeSize,
+        "monster-4": Constants.obstacleLargerSize,
+        "monster-5": Constants.obstacleHugeSize,
+    ]
     static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)
     static let levelObstacleStandardWidth: CGFloat = 50
     static func getHeightWithSameRatio(withWidth: CGFloat, forShape: SKSpriteNode) -> CGFloat {
@@ -196,9 +223,9 @@ class Constants {
     
     // Level Designer Constants
     static let levelScreenPreviewRatio: CGFloat = 0.5
-    static let levelScreenRatio: CGFloat = 0.7
+    static let levelScreenRatio: CGFloat = 0.6
     static let screenBorderMarginRatio: CGFloat = 0.005
-    static let screenBorderOriginRatio: CGFloat = 0.25
+    static let screenBorderOriginRatio: CGFloat = 0.35
     static let screenBorderSizeRatio: CGFloat = levelScreenRatio + screenBorderMarginRatio * 2
     static let screenCenterPositionRatio: CGFloat = screenBorderOriginRatio + levelScreenRatio * 0.5 + screenBorderMarginRatio
     static let screenMin = screenBorderOriginRatio + screenBorderMarginRatio
@@ -238,7 +265,8 @@ class Constants {
     static let labelMultiplePlayers = "2 PLAYERS"
     
     // asset filenames
-    static let gameplayBackgroundFilename = "solar-system"
+    static let spaceshipFilename = "Spaceship"
+    static let gameplayBackgroundFilename = "space-background"
     static let homepageBackgroundFilename = "homepage"
     static let settingBackgroundFilename = "setting-background"
     static let soundButtonFilename = "sound-btn"
@@ -264,6 +292,7 @@ class Constants {
     static let textButtonDefaultSize = CGSize(width: 215, height: 100)
     static let textButtonTransparentDefaultSize = CGSize(width: 150, height: 100)
     static let screenPadding = CGSize(width: 50, height: 50)
+    static let obstaclePadding = CGSize(width: 10, height: 10)
     static let screenPaddingThinner = CGSize(width: 20, height: 20)
     static let buttonVerticalMargin: CGFloat = 30
     static let buttonHorizontalMargin: CGFloat = 30
@@ -271,6 +300,7 @@ class Constants {
     // Sound
     static let buttonPressedSoundFilename = "button-pressed.mp3"
     static let backgroundSoundFilename = "background-music-aac"
+    static let shootingSoundFilename = "pew-pew-lei.caf"
     
     // MFi Controller
     static let debouncingInteval: Float = 0.005

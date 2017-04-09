@@ -11,6 +11,7 @@ import AVFoundation
 class AudioUtils {
     static var gameSetting = GameSetting.getInstance()
     static var buttonPressedSound = SKAction.playSoundFileNamed(Constants.buttonPressedSoundFilename, waitForCompletion: false)
+    static var shootingSound = SKAction.playSoundFileNamed(Constants.shootingSoundFilename, waitForCompletion: false)
     static var backgroundPlayer: AVAudioPlayer? = nil
 
     public static func pressButton(on scene: SKNode) {
@@ -20,6 +21,10 @@ class AudioUtils {
         scene.run(buttonPressedSound)
     }
 
+    public static func playShootingSound(on scene: SKNode) {
+        scene.run(shootingSound)
+    }
+    
     public static func playBackgroundMusic() {
         if backgroundPlayer == nil {
             let url = Bundle.main.url(forResource: Constants.backgroundSoundFilename, withExtension: "caf")!

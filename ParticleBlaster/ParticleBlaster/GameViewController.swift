@@ -187,13 +187,25 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         
         if self.gameLogic.winningCondition {
             // present GameWinScene
-            let skView = view as! SKView
-            let gameOverScene = GameOverScene(size: view.bounds.size, won: true, viewController: self)
-            skView.presentScene(gameOverScene)
+            if self.gameLevel.gameMode == .single {
+                let skView = view as! SKView
+                let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Won!", viewController: self)
+                skView.presentScene(gameOverScene)
+            } else {
+                if (self.gameLogic as! MultiplayerGameLogic).doesPlayer1Win {
+                    let skView = view as! SKView
+                    let gameOverScene = GameOverScene(size: view.bounds.size, message: "Player 1 Won!", viewController: self)
+                    skView.presentScene(gameOverScene)
+                } else {
+                    let skView = view as! SKView
+                    let gameOverScene = GameOverScene(size: view.bounds.size, message: "Player 2 Won!", viewController: self)
+                    skView.presentScene(gameOverScene)
+                }
+            }
         } else if self.gameLogic.losingCondition {
             // present GameLoseScene
             let skView = view as! SKView
-            let gameOverScene = GameOverScene(size: view.bounds.size, won: false, viewController: self)
+            let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Lose :[", viewController: self)
             skView.presentScene(gameOverScene)
         }
     }

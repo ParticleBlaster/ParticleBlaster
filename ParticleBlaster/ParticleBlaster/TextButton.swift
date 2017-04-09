@@ -51,10 +51,15 @@ class TextButton: SKNode {
         guard isEnabled else {
             return
         }
+        guard let touch = touches.first else {
+            return
+        }
         let scaleAction = SKAction.scale(to: 1, duration: 0.1)
         scaleAction.timingMode = .easeOut
         self.run(scaleAction) {
-            self.onPress()
+            if self.positiveButton.frame.contains(touch.location(in: self)) {
+                self.onPress()
+            }
         }
     }
 

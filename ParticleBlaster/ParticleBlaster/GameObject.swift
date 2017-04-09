@@ -10,7 +10,6 @@ import UIKit
 import SpriteKit
 
 class GameObject: NSObject, NSCoding {
-    // For position of the shape, it is archived as ratio position, and need to convert to absolute value when display
     var shape: SKSpriteNode
     var timeToLive: Int
     var isStatic: Bool

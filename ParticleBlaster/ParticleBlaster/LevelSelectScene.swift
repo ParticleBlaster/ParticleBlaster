@@ -180,8 +180,8 @@ class LevelSelectScene: SKScene {
         for obstacle in gameLevel.obstacles {
             let shape = obstacle.shape.copy() as! SKSpriteNode
             shape.physicsBody = nil
-            shape.size = CGSize(width: Constants.levelObstacleStandardWidth * Constants.levelScreenPreviewRatio,
-                                height: Constants.getHeightWithSameRatio(withWidth: Constants.levelObstacleStandardWidth, forShape: shape) * Constants.levelScreenPreviewRatio)
+            shape.size = CGSize(width: shape.size.width * Constants.levelScreenPreviewRatio,
+                                height: shape.size.height * Constants.levelScreenPreviewRatio)
             shape.position = ratioPositionToLevelScreenPosition(obstacle.initialPosition, in: levelScreen)
             shape.zPosition = Constants.zPositionModal + 2
             levelScreen.addChild(shape)

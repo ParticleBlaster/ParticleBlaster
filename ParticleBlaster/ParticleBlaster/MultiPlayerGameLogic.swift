@@ -28,6 +28,12 @@ class MultiplayerGameLogic: GameLogic {
         }
     }
     
+    var doesPlayer1Win: Bool {
+        get {
+            return self.player2.checkDead()
+        }
+    }
+    
     var playerController1: PlayerController {
         get {
             return playerControllers[0]
@@ -59,14 +65,14 @@ class MultiplayerGameLogic: GameLogic {
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
         
-        let player1 = PlayerController(gameViewController: self.gameViewController)
+        let player1 = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         // TODO: Refactor
-        player1.player.timeToLive = 10
-        let player2 = PlayerController(gameViewController: self.gameViewController)
+        player1.player.timeToLive = 5
+        let player2 = PlayerController(gameViewController: self.gameViewController, playerIndex: 2)
         player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         // TODO: Refactor
-        player2.player.timeToLive = 10
+        player2.player.timeToLive = 5
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
         
@@ -114,7 +120,6 @@ class MultiplayerGameLogic: GameLogic {
             self.playerGotHit(player: player)
             
             let bulletMothershipController = self.playerControllers.filter({$0.weaponPool.map({ele in ele.shape}).contains(bullet)})[0]
-//            bulletMothershipController.removeBulletAndMissileAfterCollision(weaponNode: bullet)
             bulletMothershipController.removeWeaponAfterCollision(weaponNode: bullet)
         }
     }

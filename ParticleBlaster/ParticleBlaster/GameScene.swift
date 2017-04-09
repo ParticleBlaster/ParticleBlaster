@@ -72,6 +72,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         
         for obstacle in gameLevel.obstacles {
+            obstacle.setupShape()
             obstacle.shape.zPosition = 1
             // convert to absolute position as position is archived as ratio values
             obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.frame.size.width,
