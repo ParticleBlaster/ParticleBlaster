@@ -162,21 +162,6 @@ class PlayerController {
     }
     
     func fireHandler() {
-//        if self.selectedWeapon == WeaponCategory.Bullet || self.specialWeaponCounter == 0 {
-//            shootHandler()
-//            self.selectedWeapon = WeaponCategory.Bullet
-//        } else {
-//            switch self.selectedWeapon {
-//            case .Missile:
-//                launchMissileHandler()
-//            case .Grenade:
-//                throwGrenadeHandler()
-//            default:
-//                break
-//            }
-//            self.specialWeaponCounter -= 1
-//        }
-        
         self.selectedWeapon = nil
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
         

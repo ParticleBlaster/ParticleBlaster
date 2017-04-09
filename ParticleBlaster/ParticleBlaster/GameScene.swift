@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController!
-    var gameLevel: GameLevel?
+    // var gameLevel: GameLevel?
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
     var joysticks: [Joystick] = [Joystick]()
@@ -56,6 +56,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         })
     }
     
+    /*
     func loadGameLevel() {
         backgroundColor = Constants.backgroundColor
         
@@ -80,6 +81,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(obstacle.shape)
         }
     }
+ */
     
     func setupBackButton() {
         buttonBackToHomepage.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
@@ -104,6 +106,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if let controller = self.viewController {
             physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
+    }
+    
+    func setupBackground(backgroundImageName: String?) {
+        guard (backgroundImageName != nil) else {
+            return
+        }
+        
+        let background = SKSpriteNode(imageNamed: backgroundImageName!)
+        background.position = CGPoint(x: frame.midX, y: frame.midY)
+        background.size = size
+        background.zPosition = -100
+        addChild(background)
     }
     
     func addSingleObstacle(newObstacle: Obstacle) {

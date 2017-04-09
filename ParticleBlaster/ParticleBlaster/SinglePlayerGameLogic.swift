@@ -40,7 +40,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
-    init(gameViewController: GameViewController) {
+    init(gameViewController: GameViewController, obstaclePool: [Obstacle]) {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 1
@@ -48,12 +48,12 @@ class SinglePlayerGameLogic: GameLogic {
         
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]
-        self.obstaclePool = [Obstacle]()
+        self.obstaclePool = obstaclePool
         self.map = MapObject(view: self.gameViewController.view)
         
         player.obtainObstacleListHandler = self.getObstacleList
         
-        initialiseFakeObstacles()
+        // initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
     }
@@ -165,8 +165,12 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     private func prepareObstacles() {
-        for obs in self.obstaclePool {
-            self.gameViewController.scene.addSingleObstacle(newObstacle: obs)
+        for obstacle in self.obstaclePool {
+            obstacle.setupShape()
+            obstacle.shape.zPosition = 1
+            // convert to absolute position as position is archived as ratio values
+            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+            self.gameViewController.scene.addChild(obstacle.shape)
         }
     }
     
@@ -176,6 +180,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
+    /*
     private func initialiseFakeObstacles() {
         // TODO: Remove manual assignment of obstacle information after the Level class is created
         let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
@@ -184,6 +189,7 @@ class SinglePlayerGameLogic: GameLogic {
         self.obstaclePool.append(obs1)
         self.obstaclePool.append(obs2)
     }
+ */
     
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")

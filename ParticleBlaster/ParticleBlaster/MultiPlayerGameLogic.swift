@@ -59,7 +59,7 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     // TODO: possible improvement: remaining life percentage band/strap
-    init(gameViewController: GameViewController) {
+    init(gameViewController: GameViewController, obstaclePool: [Obstacle]) {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 2
@@ -75,15 +75,14 @@ class MultiplayerGameLogic: GameLogic {
         player2.player.timeToLive = 5
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
-        
-        self.obstaclePool = [Obstacle]()
+        self.obstaclePool = obstaclePool
         self.map = MapObject(view: self.gameViewController.view)
         
         player1.obtainObstacleListHandler = self.getObstacleList
         player2.obtainObstacleListHandler = self.getObstacleList
         
         
-        initialiseFakeObstacles()
+        // initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
     }
@@ -148,8 +147,12 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     private func prepareObstacles() {
-        for obs in self.obstaclePool {
-            self.gameViewController.scene.addSingleObstacle(newObstacle: obs)
+        for obstacle in self.obstaclePool {
+            obstacle.setupShape()
+            obstacle.shape.zPosition = 1
+            // convert to absolute position as position is archived as ratio values
+            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+            self.gameViewController.scene.addChild(obstacle.shape)
         }
     }
     

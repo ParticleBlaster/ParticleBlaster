@@ -13,7 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // Waiting for prepareForSegue
-//    var gameMode: GameMode!
+    // var gameMode: GameMode!
     var gameLevel: GameLevel!
     
     // Initialise game scene for displaying game objects
@@ -32,22 +32,24 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        resetVariables()
-        
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
 
         if gameLevel.gameMode == .single {
             print("it is single")
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
-            self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
+            self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
+            self.gameLogic = SinglePlayerGameLogic(gameViewController: self, obstaclePool: self.gameLevel.obstacles)
         } else {
             print("it is multi")
             self.scene = MultiplayerGameScene(size: view.bounds.size)
-            self.gameLogic = MultiplayerGameLogic(gameViewController: self)
+            self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
+            self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: self.gameLevel.obstacles)
         }
 
+        // resetVariables()
         setupGameScene()
+        checkGameCondition()
     }
 
     override var shouldAutorotate: Bool {
@@ -74,6 +76,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // TODO: implement the method for replay
     func resetVariables() {
+        self.gameLogic.obstaclePool = self.gameLevel.obstacles
     }
     
 //    func setGameMode(_ gameMode: GameMode = .single) {
@@ -96,7 +99,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     private func setupGameScene() {
         scene.viewController = self
-        scene.gameLevel = self.gameLevel
+        // scene.gameLevel = self.gameLevel
 
         for i in 0..<self.gameLogic.playerControllers.count {
             let playerController = self.gameLogic.playerControllers[i]
@@ -107,13 +110,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
-//            scene.fireHandlers.append(playerController.shootHandler)
-//            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
-//            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
-            //scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
-            
             scene.fireHandlers.append(playerController.fireHandler)
-            //scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
             scene.updateWeaponVelocityHandlers.append(playerController.updateWeaponVelocityHandler)
             
             // Set up MFi controller for each playerController
@@ -185,6 +182,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             }
         }
         
+        checkGameCondition()
+    }
+    
+    private func checkGameCondition() {
         if self.gameLogic.winningCondition {
             // present GameWinScene
             if self.gameLevel.gameMode == .single {
