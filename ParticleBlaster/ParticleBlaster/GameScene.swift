@@ -58,11 +58,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func loadGameLevel() {
         backgroundColor = Constants.backgroundColor
         
-        guard gameLevel != nil else {
+        guard let gameLevel = gameLevel else {
             return
         }
         
-        if let backgroundImageName = gameLevel!.backgroundImageName {
+        if let backgroundImageName = gameLevel.backgroundImageName {
             let background = SKSpriteNode(imageNamed: backgroundImageName)
             background.position = CGPoint(x: frame.midX, y: frame.midY)
             background.size = size
@@ -70,8 +70,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             addChild(background)
         }
         
-        for obstacle in gameLevel!.obstacles {
+        for obstacle in gameLevel.obstacles {
             obstacle.shape.zPosition = 1
+            // convert to absolute position as position is archived as ratio values
+            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.frame.size.width,
+                                              y: obstacle.initialPosition.y * self.frame.size.height)
             addChild(obstacle.shape)
         }
     }

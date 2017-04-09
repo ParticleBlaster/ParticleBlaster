@@ -19,10 +19,14 @@ class Grenade : GameObject {
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
     
-    init() {
+    override init() {
         super.init(imageName: "bullet-orange")
         setupPhysicsProperty()
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
     private func setupPhysicsProperty() {
