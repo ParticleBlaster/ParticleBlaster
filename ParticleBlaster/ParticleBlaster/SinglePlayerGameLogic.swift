@@ -44,7 +44,7 @@ class SinglePlayerGameLogic: GameLogic {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 1
-        let player = PlayerController(gameViewController: self.gameViewController)
+        let player = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
         
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]

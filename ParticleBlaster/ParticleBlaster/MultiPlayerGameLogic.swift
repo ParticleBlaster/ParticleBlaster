@@ -65,11 +65,11 @@ class MultiplayerGameLogic: GameLogic {
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
         
-        let player1 = PlayerController(gameViewController: self.gameViewController)
+        let player1 = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         // TODO: Refactor
         player1.player.timeToLive = 5
-        let player2 = PlayerController(gameViewController: self.gameViewController)
+        let player2 = PlayerController(gameViewController: self.gameViewController, playerIndex: 2)
         player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         // TODO: Refactor
         player2.player.timeToLive = 5

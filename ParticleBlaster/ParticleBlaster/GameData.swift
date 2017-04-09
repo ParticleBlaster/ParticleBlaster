@@ -32,7 +32,8 @@ class GameData: NSObject, NSCoding {
         guard level.id > achievedSingleModeLevel else {
             return
         }
-        achievedSingleModeLevel = level.id
+        achievedSingleModeLevel = min(numSingleModeLevel - 1, level.id)
+        GameCenterUtils.submitAchievedLevelToGC(achievedSingleModeLevel)
         let _ = FileUtils.saveGameData()
     }
 

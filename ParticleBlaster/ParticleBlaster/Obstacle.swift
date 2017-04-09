@@ -9,6 +9,7 @@
 import SpriteKit
 
 class Obstacle : GameObject {
+    // This position is archived as ratio position, and need to convert to absolute value when displaying
     var initialPosition: CGPoint
     // for support storage purpose
     var imageName: String = "obs"
@@ -33,13 +34,11 @@ class Obstacle : GameObject {
         setupShape()
     }
 
-    init(image: String, userSetInitialPosition: CGPoint, isPhysicsBody: Bool = true) {
+    init(image: String, userSetInitialPosition: CGPoint) {
         self.imageName = image
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
-        if isPhysicsBody {
-            setupShape()
-        }
+        setupShape()
     }
 
     init(obstacle: Obstacle) {
@@ -75,12 +74,11 @@ class Obstacle : GameObject {
         return copy
     }
     
-    private func setupShape() {
-        let remainingLifePercentage = CGFloat(Float(self.timeToLive) / Float(Constants.defaultTimeToLive))
-        let computedWidth = Constants.obstacleWidth * remainingLifePercentage
-        let computedHeight = Constants.obstacleHeight * remainingLifePercentage
-        self.shape.size = CGSize(width: computedWidth, height: computedHeight)
-        setupPhysicsProperty()
+    func setupShape(withPhysicsBody: Bool = true) {
+        self.shape.size = Constants.obstacleSizeMap[imageName] ?? Constants.obstacleSmallSize
+        if withPhysicsBody {
+            setupPhysicsProperty()
+        }
     }
 
     private func resetPhysicsBodySize() {
@@ -118,7 +116,7 @@ class Obstacle : GameObject {
             return nil
         }
         let initialPosition = decoder.decodeCGPoint(forKey: Constants.initialPositionKey)
-        self.init(image: imageName, userSetInitialPosition: initialPosition, isPhysicsBody: false)
+        self.init(image: imageName, userSetInitialPosition: initialPosition)
     }
     
     override func encode(with aCoder: NSCoder) {

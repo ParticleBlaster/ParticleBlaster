@@ -10,7 +10,7 @@ import UIKit
 import SpriteKit
 
 class PlayerController {
-    var player = Player(image: "Spaceship")
+    var player: Player
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
@@ -42,7 +42,9 @@ class PlayerController {
         }
     }
     
-    init(gameViewController: GameViewController) {
+    init(gameViewController: GameViewController, playerIndex: Int = 1) {
+        let playerImageName = playerIndex == 1 || playerIndex == 2 ? "\(Constants.playerFilenamePrefix)\(playerIndex)" : Constants.spaceshipFilename
+        self.player = Player(image: playerImageName)
         self.scene = gameViewController.scene
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
@@ -246,7 +248,7 @@ class PlayerController {
         
         self.bulletPool.append(bullet)
         self.scene.addChild(bullet.shape)
-        self.scene.run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
+        AudioUtils.playShootingSound(on: self.scene)
     }
 
     func launchMissileHandler() {
