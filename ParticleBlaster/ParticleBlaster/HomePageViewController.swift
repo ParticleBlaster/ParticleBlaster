@@ -145,7 +145,7 @@ extension HomePageViewController: NavigationDelegate {
     func navigateToPlayScene(gameLevel: GameLevel) {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: GameViewController = storyboard.instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
-        vc.gameMode = GameMode.multiple
+//        vc.gameMode = GameMode.multiple
         vc.gameLevel = gameLevel
         self.present(vc, animated: true, completion: nil)
     }

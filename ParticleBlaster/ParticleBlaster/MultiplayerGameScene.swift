@@ -388,8 +388,6 @@ class MultiplayerGameScene: GameScene {
                     endHandler()
                 }
             } else if self.isTouchInRange(touch: touch, frame:  fireButton1.shape.frame) {
-                // Play the sound of shooting
-                run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton1.shape.alpha = 0.8
                 if let shootHandler = self.fireHandler1 {
                     shootHandler()
@@ -399,8 +397,6 @@ class MultiplayerGameScene: GameScene {
                     endHandler()
                 }
             } else if self.isTouchInRange(touch: touch, frame:  fireButton2.shape.frame) {
-                // Play the sound of shooting
-                run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton2.shape.alpha = 0.8
                 if let shootHandler = self.fireHandler2 {
                     shootHandler()

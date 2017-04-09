@@ -213,8 +213,6 @@ class SinglePlayerGameScene: GameScene {
                     endHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: fireButton.shape.frame) {
-                // Play the sound of shooting
-                run(SKAction.playSoundFileNamed("pew-pew-lei.caf", waitForCompletion: false))
                 self.fireButton.shape.alpha = 0.8
 //                if let shootHandler = self.fireHandlers.first {
 //                    shootHandler()

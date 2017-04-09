@@ -13,7 +13,7 @@ import GameplayKit
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // Waiting for prepareForSegue
-    var gameMode: GameMode!
+//    var gameMode: GameMode!
     var gameLevel: GameLevel!
     
     // Initialise game scene for displaying game objects
@@ -37,10 +37,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
 
-        if gameMode == .single {
+        if gameLevel.gameMode == .single {
+            print("it is single")
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.gameLogic = SinglePlayerGameLogic(gameViewController: self)
         } else {
+            print("it is multi")
             self.scene = MultiplayerGameScene(size: view.bounds.size)
             self.gameLogic = MultiplayerGameLogic(gameViewController: self)
         }
@@ -74,9 +76,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     func resetVariables() {
     }
     
-    func setGameMode(_ gameMode: GameMode = .single) {
-        self.gameMode = gameMode
-    }
+//    func setGameMode(_ gameMode: GameMode = .single) {
+//        self.setGameMode = gameMode
+//    }
 
     /* TODO: Implement Level object for loading initial status of players and obstacles
     func loadLevel(_ level: Level) {
