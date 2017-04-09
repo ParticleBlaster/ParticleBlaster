@@ -15,6 +15,7 @@ class GameLevel: NSObject, NSCoding {
     var highestScore: Int = 0
     var obstacles = [Obstacle]()
     var gameMode: GameMode
+    var backgroundImageName: String?
     var playerPositions: [CGPoint] = []
     var simpleObstacles = [SimpleObstacle]()
     

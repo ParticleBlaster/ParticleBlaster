@@ -270,22 +270,5 @@ class Constants {
     static let backgroundSoundFilename = "background-music-aac"
     
     // MFi Controller
-    static var mfis = [MFiController]()
-    static let maxMFi = 2
-    
-    static var nextMFiConnect: Int {
-        for index in 0 ..< mfis.count {
-            if mfis[index].isConnected == false {
-                return index
-            }
-        }
-        return -1
-    }
-    
-    static func startNextMFiConnectionNotificationCenter() {
-        guard Constants.nextMFiConnect >= 0 else {
-            return
-        }
-        Constants.mfis[Constants.nextMFiConnect].setupConnectionNotificationCenter()
-    }
+    static let debouncingInteval: Float = 0.005
 }

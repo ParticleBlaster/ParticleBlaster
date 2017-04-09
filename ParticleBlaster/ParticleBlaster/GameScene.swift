@@ -11,6 +11,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController!
+    var gameLevel: GameLevel?
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
     var joysticks: [Joystick] = [Joystick]()
@@ -27,6 +28,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var obstacleHitHandler: (() -> ())?
     var obstacleMoveHandler: (() -> ())?
     var obstacleVelocityUpdateHandler: (() -> ())?
+    
+    let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
     
     func removeElement(node: SKSpriteNode) {
         node.removeFromParent()
@@ -50,6 +53,52 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         label.run(labelAction, completion: {
             label.removeFromParent()
         })
+    }
+    
+    func loadGameLevel() {
+        backgroundColor = Constants.backgroundColor
+        
+        guard gameLevel != nil else {
+            return
+        }
+        
+        if let backgroundImageName = gameLevel!.backgroundImageName {
+            let background = SKSpriteNode(imageNamed: backgroundImageName)
+            background.position = CGPoint(x: frame.midX, y: frame.midY)
+            background.size = size
+            background.zPosition = -100
+            addChild(background)
+        }
+        
+        for obstacle in gameLevel!.obstacles {
+            obstacle.shape.zPosition = 1
+            addChild(obstacle.shape)
+        }
+    }
+    
+    func setupBackButton() {
+        buttonBackToHomepage.position = CGPoint(x: size.width * 0.5, y: size.height * 0.5)
+        buttonBackToHomepage.fillColor = SKColor.clear
+        buttonBackToHomepage.strokeColor = SKColor.black
+        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+        
+        let buttonText = SKLabelNode(text: "Back")
+        buttonText.fontSize = Constants.fontSizeSmall
+        buttonText.fontName = Constants.titleFont
+        buttonText.fontColor = UIColor.lightGray
+        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+        
+        buttonBackToHomepage.addChild(buttonText)
+        addChild(buttonBackToHomepage)
+    }
+    
+    func setupPhysicsWorld() {
+        // Set up the physics world to have no gravity
+        physicsWorld.gravity = CGVector.zero
+        // Set the scene as the delegate to be notified when two physics bodies collide.
+        if let controller = self.viewController {
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
+        }
     }
     
     func addSingleObstacle(newObstacle: Obstacle) {
