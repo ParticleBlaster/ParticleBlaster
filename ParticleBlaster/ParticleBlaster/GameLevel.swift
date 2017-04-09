@@ -17,7 +17,6 @@ class GameLevel: NSObject, NSCoding {
     var gameMode: GameMode
     var backgroundImageName: String?
     var playerPositions: [CGPoint] = []
-    var simpleObstacles = [SimpleObstacle]()
     
     init(id: Int = 0, gameMode: GameMode = .single) {
         self.gameMode = gameMode
@@ -41,21 +40,20 @@ class GameLevel: NSObject, NSCoding {
     }
 
     required convenience init?(coder decoder: NSCoder) {
-        guard let simpleObstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [SimpleObstacle],
+        guard let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle],
             let playerPositions = decoder.decodeObject(forKey: Constants.playerPositionsKey) as? [CGPoint] else {
                 return nil
         }
         let id = decoder.decodeInteger(forKey: Constants.gameIdKey)
         let gameMode = GameMode(rawValue: decoder.decodeInteger(forKey: Constants.gameModekey)) ?? .single
         self.init(id: id, gameMode: gameMode)
-        self.obstacles = simpleObstacles.map { return Obstacle(image: $0.imageName, userSetInitialPosition: $0.position, isPhysicsBody: false) }
+        self.obstacles = obstacles
         self.playerPositions = playerPositions
     }
     
     func encode(with aCoder: NSCoder) {
         aCoder.encode(id, forKey: Constants.gameIdKey)
-        simpleObstacles = obstacles.map { return SimpleObstacle(obstacle: $0) }
-        aCoder.encode(simpleObstacles, forKey: Constants.obstaclesKey)
+        aCoder.encode(obstacles, forKey: Constants.obstaclesKey)
         aCoder.encode(gameMode.rawValue, forKey: Constants.gameModekey)
         aCoder.encode(playerPositions, forKey: Constants.playerPositionsKey)
     }

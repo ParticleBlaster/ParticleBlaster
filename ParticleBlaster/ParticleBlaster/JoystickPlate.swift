@@ -13,8 +13,12 @@ class JoystickPlate : GameObject {
         super.init(imageName: image)
     }
     
-    init() {
+    override init() {
         super.init(imageName: "plate")
+    }
+    
+    required convenience init?(coder decoder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
     }
     
 }
