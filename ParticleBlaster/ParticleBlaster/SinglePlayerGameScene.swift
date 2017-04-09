@@ -220,6 +220,9 @@ class SinglePlayerGameScene: GameScene {
 //                if let launchMissileHandler = self.launchMissileHandlers.first {
 //                    launchMissileHandler()
 //                }
+//                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
+//                    currThrowGrenadeHandler()
+//                }
                 //if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
                   //  currThrowGrenadeHandler()
                // }
@@ -244,8 +247,8 @@ class SinglePlayerGameScene: GameScene {
 //            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
 //                obstacleVelocityHandler()
 //            }
-            if let missileVelocityHandler = self.updateMissileVelocityHandlers.first {
-                missileVelocityHandler()
+            if let velocityHandler = self.updateWeaponVelocityHandlers.first {
+                velocityHandler()
             }
 
             self.prevTime = currentTime

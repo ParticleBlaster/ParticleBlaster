@@ -8,20 +8,47 @@
 
 import SpriteKit
 
-class Missile : GameObject {
+class Missile : Weapon {
     
     var target: Obstacle!
     var isReady: Bool = false
-    
-//    override init() {
-//        super.init(image: "missile")
-//        self.setupPhysicsProperty()
-//    }
+    var scene: SKScene!
     
     init(targetObs: Obstacle) {
         self.target = targetObs
-        super.init(imageName: "missile")
+        super.init(image: "missile")
         self.setupPhysicsProperty()
+    }
+    
+    // Standard initialisor for Game Play
+    init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat, targetObs: Obstacle, scene: SKScene) {
+        super.init(shootLocation: shootLocation, shootDirection: shootDirection, rotation: rotation, weaponType: WeaponCategory.Missile)
+        self.target = targetObs
+        self.scene = scene
+        self.setupPhysicsProperty()
+        
+        //        self.shootLocation = shootLocation
+        //        self.shootDirection = shootDirection.normalized()
+        //        self.rotation = rotation
+    }
+    
+    override func launch() {
+        let preparationDirection = self.shootDirection.orthonormalVector()
+        let preparationOffset = CGVector(dx: preparationDirection.dx * Constants.missileLaunchOffset, dy: preparationDirection.dy * Constants.missileLaunchOffset)
+        
+        let missileFadeInAction = SKAction.fadeIn(withDuration: Constants.missileLaunchTime)
+        let missileLaunchAction = SKAction.move(by: preparationOffset, duration: Constants.missileLaunchTime)
+        let initialForce = CGVector(dx: shootDirection.dx * Constants.missileInitialForceValue, dy: shootDirection.dy * Constants.missileInitialForceValue)
+        
+        let missileReleaseAction = SKAction.group([missileFadeInAction, missileLaunchAction])
+        self.shape.run(missileReleaseAction, completion: {
+            let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: self.shape)
+            let missileInitalAccelerationAction = SKAction.applyForce(initialForce, at: forceCenter, duration: Constants.missileInitialAccelerationTime)
+            let missileFlyAction = missileInitalAccelerationAction
+            self.shape.run(missileFlyAction, completion: {
+                self.isReadyToFly()
+            })
+        })
     }
     
     required convenience init?(coder decoder: NSCoder) {
@@ -34,6 +61,18 @@ class Missile : GameObject {
     
     func updateRotation(newAngle: CGFloat) {
         self.shape.zRotation = newAngle
+    }
+    
+    func updateFlyingVelocity() {
+        let currPosition = self.shape.position
+        let direction = CGVector(dx: self.target.shape.position.x - currPosition.x, dy: self.target.shape.position.y - currPosition.y).normalized()
+        let nextAngle = direction.eulerRotation()
+        let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
+        self.shape.run(rotateAction)
+        
+        let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
+        let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: self.shape)
+        self.pushedByForceWithPoint(appliedForce: appliedForce, point: forceCenter)
     }
     
     private func setupPhysicsProperty() {

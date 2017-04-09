@@ -89,8 +89,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     private func configMFiController(index: Int, playerController: PlayerController) {
         MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
-        MFiControllerConfig.mfis[index].shootHandler = playerController.shootHandler
-        
+        MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
+
         print("finish mfi config")
     }
 
@@ -107,9 +107,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
             scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
+//            scene.fireHandlers.append(playerController.shootHandler)
+//            scene.launchMissileHandlers.append(playerController.launchMissileHandler)
+//            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+            //scene.throwGrenadeHandlers.append(playerController.throwGrenadeHandler)
             
             scene.fireHandlers.append(playerController.fireHandler)
-//            scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+            //scene.updateMissileVelocityHandlers.append(playerController.updateMissileVelocityHandler)
+            scene.updateWeaponVelocityHandlers.append(playerController.updateWeaponVelocityHandler)
             
             // Set up MFi controller for each playerController
             configMFiController(index: i, playerController: playerController)

@@ -8,17 +8,18 @@
 
 import SpriteKit
 
-class Bullet : GameObject {
+class Bullet : Weapon {
     
-    init(image: String) {
-        super.init(imageName: image)
-        setupPhysicsProperty()
+    // Standard initialisor for Game Play
+    init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat) {
+        super.init(shootLocation: shootLocation, shootDirection: shootDirection, rotation: rotation, weaponType: WeaponCategory.Bullet)
+        self.setupPhysicsProperty()
+        
+//        self.shootLocation = shootLocation
+//        self.shootDirection = shootDirection.normalized()
+//        self.rotation = rotation
     }
-    
-    override init() {
-        super.init(imageName: "bullet-blue")
-        setupPhysicsProperty()
-    }
+
     
     required convenience init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
@@ -33,5 +34,15 @@ class Bullet : GameObject {
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None //PhysicsCategory.Obstacle
         self.shape.physicsBody?.usesPreciseCollisionDetection = true
+    }
+    
+    override func launch() {
+        let bulletVelocity = CGVector(dx: self.shootDirection.dx * Constants.bulletVelocity, dy: self.shootDirection.dy * Constants.bulletVelocity)
+        
+        self.updateVelocity(newVelocity: bulletVelocity)
+        self.shape.position = self.shootLocation
+        self.shape.zRotation = self.rotation
+        self.shape.zPosition = Constants.defaultWeaponZPosition
+        
     }
 }

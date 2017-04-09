@@ -14,9 +14,7 @@ class PlayerController {
     var joystickPlate = JoystickPlate(image: "plate")
     var joystick = Joystick(image: "top")
     var fireButton = FireButton(image: "fire")
-    var bulletPool = [Bullet]()
-    var missilePool = [Missile]()
-    var grenadePool = [Grenade]()
+    var weaponPool = [Weapon]()
     var scene: GameScene!
     var joystickPlateCenterX: CGFloat?
     var joystickPlateCenterY: CGFloat?
@@ -28,7 +26,8 @@ class PlayerController {
     private var isFlying: Bool = false
     private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 1)
     
-    var selectedWeapon = WeaponCategory.Bullet
+    var selectedWeaponType = WeaponCategory.Bullet
+    var selectedWeapon: Weapon!
     var specialWeaponCounter: Int = 0
     
     private var currFiringPosition: CGPoint {
@@ -48,19 +47,8 @@ class PlayerController {
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
     }
     
-    func removeWeaponAfterCollision(weaponNode: SKSpriteNode, weaponType: WeaponCategory) {
-        switch weaponType {
-        case .Bullet:
-            self.bulletPool = self.bulletPool.filter({$0.shape != weaponNode})
-            self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
-        case .Grenade:
-            self.grenadePool = self.grenadePool.filter({$0.shape != weaponNode})
-        case .Missile:
-            self.missilePool = self.missilePool.filter({$0.shape != weaponNode})
-//        default:
-//            break
-        }
-        
+    func removeWeaponAfterCollision(weaponNode: SKSpriteNode) {
+        self.weaponPool = self.weaponPool.filter({$0.shape != weaponNode})
         self.scene.removeElement(node: weaponNode)
     }
 
@@ -70,20 +58,35 @@ class PlayerController {
         self.player.updateVelocity(newVelocity: newVelocity)
     }
     
-    func updateMissileVelocityHandler() {
-        if self.selectedWeapon == WeaponCategory.Missile {
-            for missile in self.missilePool {
-                if missile.isReady {
-                    let currPosition = missile.shape.position
-                    let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
-                    let nextAngle = direction.eulerRotation()
-                    let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
-                    missile.shape.run(rotateAction)
-                    
-                    let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
-                    let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
-                    missile.pushedByForceWithPoint(appliedForce: appliedForce, point: forceCenter)
+//    func updateMissileVelocityHandler() {
+//        if self.selectedWeapon == WeaponCategory.Missile {
+//            for missile in self.missilePool {
+//                if missile.isReady {
+//                    let currPosition = missile.shape.position
+//                    let direction = CGVector(dx: missile.target.shape.position.x - currPosition.x, dy: missile.target.shape.position.y - currPosition.y).normalized()
+//                    let nextAngle = direction.eulerRotation()
+//                    let rotateAction = SKAction.rotate(toAngle: nextAngle, duration: 1)
+//                    missile.shape.run(rotateAction)
+//                    
+//                    let appliedForce = CGVector(dx: direction.dx * Constants.missileInitialForceValue, dy: direction.dy * Constants.missileInitialForceValue)
+//                    let forceCenter = self.scene.convert(CGPoint(x: 0.5, y: 1), from: missile.shape)
+//                    missile.pushedByForceWithPoint(appliedForce: appliedForce, point: forceCenter)
+//                }
+//            }
+//        }
+//    }
+    
+    func updateWeaponVelocityHandler() {
+        for currFlyingWeapon in self.weaponPool {
+            switch currFlyingWeapon.weaponType {
+            case .Bullet, .Grenade:
+                break
+            case .Missile:
+                // Implement here to call the update velocity function
+                guard let currFlyingMissile = currFlyingWeapon as? Missile else {
+                    return
                 }
+                currFlyingMissile.updateFlyingVelocity()
             }
         }
     }
@@ -144,32 +147,66 @@ class PlayerController {
 //        })
         
         
-        if let grenade = self.grenadePool.filter({$0.shape == grenadeNode}).first {
+        if let grenade = self.weaponPool.filter({$0.shape == grenadeNode}).first as? Grenade {
             grenade.explode()
             let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
             DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
-                self.removeWeaponAfterCollision(weaponNode: grenadeNode, weaponType: WeaponCategory.Grenade)
+                self.removeWeaponAfterCollision(weaponNode: grenadeNode)
             }
         }
     }
     
     func fireHandler() {
-        if self.selectedWeapon == WeaponCategory.Bullet || self.specialWeaponCounter == 0 {
-            shootHandler()
-            self.selectedWeapon = WeaponCategory.Bullet
-        } else {
-            switch self.selectedWeapon {
-            case .Missile:
-                launchMissileHandler()
-            case .Grenade:
-                throwGrenadeHandler()
-            default:
-                break
+//        if self.selectedWeapon == WeaponCategory.Bullet || self.specialWeaponCounter == 0 {
+//            shootHandler()
+//            self.selectedWeapon = WeaponCategory.Bullet
+//        } else {
+//            switch self.selectedWeapon {
+//            case .Missile:
+//                launchMissileHandler()
+//            case .Grenade:
+//                throwGrenadeHandler()
+//            default:
+//                break
+//            }
+//            self.specialWeaponCounter -= 1
+//        }
+        
+        
+        self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
+        
+        switch self.selectedWeaponType {
+        case .Bullet:
+            self.selectedWeapon = Bullet(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+        case .Grenade:
+            self.selectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+        case .Missile:
+            // Note: currently it will choose the first obstacle in the list
+            if let getObsListHandler = self.obtainObstacleListHandler {
+                let obstacleList = getObsListHandler()
+                // Current logic: always get the first obs available, otherwise switch back to Bullet
+                if obstacleList.count > 0 {
+                    let targetObstacle = obstacleList[0]
+                    
+                    self.selectedWeapon = Missile(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle, targetObs: targetObstacle, scene: self.scene)
+                } else {
+                    self.selectedWeapon = Bullet(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+                }
             }
-            self.specialWeaponCounter -= 1
+            
         }
+        
+        guard let weaponToUse = self.selectedWeapon else {
+            return
+        }
+        weaponToUse.launch()
+        self.specialWeaponCounter -= 1
+        self.scene.addChild(weaponToUse.shape)
+        self.weaponPool.append(weaponToUse)
+        
     }
 
+    /*
     func throwGrenadeHandler() {
         
         let grenade = Grenade()
@@ -249,9 +286,10 @@ class PlayerController {
         }
         
     }
+    */
     
     func upgradeWeapon(newWeapon: WeaponCategory) {
-        self.selectedWeapon = newWeapon
+        self.selectedWeaponType = newWeapon
         self.specialWeaponCounter = newWeapon.getSpecialWeaponCounterNumber()
         
     }
@@ -263,6 +301,5 @@ class PlayerController {
     
     func playerIsDead() {
         self.player.shape.removeFromParent()
-        
     }
 }

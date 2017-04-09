@@ -6,7 +6,6 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
 import UIKit
 
 func + (left: CGPoint, right: CGPoint) -> CGPoint {
