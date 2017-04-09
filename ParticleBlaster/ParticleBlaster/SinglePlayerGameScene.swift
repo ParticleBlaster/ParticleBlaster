@@ -46,9 +46,21 @@ class SinglePlayerGameScene: GameScene {
     
     override func didMove(to view: SKView) {
         backgroundColor = Constants.backgroundColor
+        loadGameLevel()
+        
         player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
         player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
         addChild(player.shape)
+        
+        // Set up virtual joystick
+        setupVirtualJoystick()
+        // Set up back to homepage button
+//        setupBackButton()
+        // Set up physics world
+        setupPhysicsWorld()
+    }
+    
+    private func setupVirtualJoystick() {
         
         joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
@@ -68,41 +80,71 @@ class SinglePlayerGameScene: GameScene {
         addChild(fireButton.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
         plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        
-        // Set up back to homepage button
-        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.92)
-        buttonBackToHomepage.fillColor = SKColor.clear
-        buttonBackToHomepage.strokeColor = SKColor.black
-        buttonBackToHomepage.lineWidth = Constants.strokeSmall
-        //        buttonBackToHomepage.zPosition = zPositionCounter
-        //        zPositionCounter += 1
-        
-        let buttonText = SKLabelNode(text: "Back to Home")
-        buttonText.fontSize = Constants.fontSizeSmall
-        buttonText.fontName = Constants.titleFont
-        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
-        buttonText.fontColor = SKColor.black
-        //        buttonText.zPosition = zPositionCounter
-        //        zPositionCounter += 1
-        
-        buttonBackToHomepage.addChild(buttonText)
-        
-        addChild(buttonBackToHomepage)
-        
-        // Set up the physics world to have no gravity
-        physicsWorld.gravity = CGVector.zero
-        // Set the scene as the delegate to be notified when two physics bodies collide.
-        //physicsWorld.contactDelegate = self
-        if let controller = self.viewController {
-            //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
-            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
-        }
-        
     }
+    
+//    override func didMove(to view: SKView) {
+//        backgroundColor = Constants.backgroundColor
+//        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+//        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
+//        addChild(player.shape)
+//        
+//        joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
+//        addChild(joystickPlate.shape)
+//        
+//        joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
+//        // Note: position is given as center position already
+//        joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        joystick.shape.alpha = 0.8
+//        joystick.updateJoystickPlateCenterPosition(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y)
+//        addChild(joystick.shape)
+//        joystick.shape.zPosition = 2
+//        
+//        fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
+//        fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
+//        fireButton.shape.alpha = 0.8
+//        addChild(fireButton.shape)
+//        
+//        // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
+//        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+//        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+//        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        
+//        // Set up back to homepage button
+//        buttonBackToHomepage.position = CGPoint(x: size.width * 0.03, y: size.height * 0.92)
+//        buttonBackToHomepage.fillColor = SKColor.clear
+//        buttonBackToHomepage.strokeColor = SKColor.black
+//        buttonBackToHomepage.lineWidth = Constants.strokeSmall
+//        //        buttonBackToHomepage.zPosition = zPositionCounter
+//        //        zPositionCounter += 1
+//        
+//        let buttonText = SKLabelNode(text: "Back to Home")
+//        buttonText.fontSize = Constants.fontSizeSmall
+//        buttonText.fontName = Constants.titleFont
+//        buttonText.position = CGPoint(x: buttonBackToHomepage.frame.size.width * 0.5, y: buttonBackToHomepage.frame.size.height * 0.25)
+//        buttonText.fontColor = SKColor.black
+//        //        buttonText.zPosition = zPositionCounter
+//        //        zPositionCounter += 1
+//        
+//        buttonBackToHomepage.addChild(buttonText)
+//        
+//        addChild(buttonBackToHomepage)
+//        
+//        // Set up the physics world to have no gravity
+//        physicsWorld.gravity = CGVector.zero
+//        // Set the scene as the delegate to be notified when two physics bodies collide.
+//        //physicsWorld.contactDelegate = self
+//        if let controller = self.viewController {
+//            //physicsWorld.contactDelegate = controller as! SKPhysicsContactDelegate?
+//            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
+//        }
+//        
+//    }
     
     func random() -> CGFloat {
         return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
@@ -211,6 +253,15 @@ class SinglePlayerGameScene: GameScene {
             }
 
             self.prevTime = currentTime
+        }
+    }
+    
+    func setupPhysicsWorld() {
+        // Set up the physics world to have no gravity
+        physicsWorld.gravity = CGVector.zero
+        // Set the scene as the delegate to be notified when two physics bodies collide.
+        if let controller = self.viewController {
+            physicsWorld.contactDelegate = controller as SKPhysicsContactDelegate
         }
     }
 }

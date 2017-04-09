@@ -11,20 +11,15 @@ import GameController
 
 class MFiController: NSObject {
     var mainController: GCController?
-//    var viewController: GameViewController?
     var direction = CGVector(dx: 0, dy: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
     var shootHandler: (() -> ())?
+    var inputTimestamp: DispatchTime = DispatchTime.now()
     
     
     func setupConnectionNotificationCenter() {
         print("start setupConnectionNotificationCenter")
-        
-//        guard gameViewController != nil else {
-//            print("game view controller not yet setup")
-//            return
-//        }
         
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controllerWasConnected),
@@ -35,35 +30,35 @@ class MFiController: NSObject {
                                                name: NSNotification.Name.GCControllerDidDisconnect,
                                                object: nil)
         
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { (_ notification :Notification) in
-//            
-//            guard self.isConnected == false else {
-//                return
-//            }
-//            
-//            print("1234567")
-//            
-//            let controller: GCController = notification.object as! GCController
-//            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
-//            print(status)
-//            
-//            self.mainController = controller
-//            self.isConnected = true
-//            Constants.startNextMFiConnectionNotificationCenter()
-//            self.reactToInput()
-//        }
-//        
-//        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { (_ notification :Notification) in
-//            
-//            print("3456789")
-//            
-//            let controller: GCController = notification.object as! GCController
-//            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
-//            print(status)
-//            
-//            self.mainController = nil
-//            self.isConnected = false
-//        }
+        //        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { (_ notification :Notification) in
+        //
+        //            guard self.isConnected == false else {
+        //                return
+        //            }
+        //
+        //            print("1234567")
+        //
+        //            let controller: GCController = notification.object as! GCController
+        //            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
+        //            print(status)
+        //
+        //            self.mainController = controller
+        //            self.isConnected = true
+        //            Constants.startNextMFiConnectionNotificationCenter()
+        //            self.reactToInput()
+        //        }
+        //
+        //        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { (_ notification :Notification) in
+        //
+        //            print("3456789")
+        //
+        //            let controller: GCController = notification.object as! GCController
+        //            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
+        //            print(status)
+        //
+        //            self.mainController = nil
+        //            self.isConnected = false
+        //        }
         
         print("done setupConnectionNotificationCenter")
     }
@@ -76,15 +71,17 @@ class MFiController: NSObject {
         profile.valueChangedHandler = ({
             (gamepad: GCExtendedGamepad, element: GCControllerElement) in
             
+            
             var message: String = ""
             
             
             // A button
-            if (gamepad.buttonA == element && gamepad.buttonA.isPressed) {
+            if (gamepad.buttonA == element && gamepad.buttonA.isPressed && self.inputTimestamp.getTimeInSecond(to: DispatchTime.now()) > Constants.debouncingInteval) {
                 message = "A Button"
                 if let shoot = self.shootHandler {
                     shoot()
                 }
+                self.inputTimestamp = DispatchTime.now()
             }
             
             
@@ -126,7 +123,7 @@ class MFiController: NSObject {
         
         mainController = controller
         isConnected = true
-        Constants.startNextMFiConnectionNotificationCenter()
+        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
         reactToInput()
     }
     

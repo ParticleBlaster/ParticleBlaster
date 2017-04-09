@@ -154,7 +154,7 @@ class SinglePlayerGameLogic: GameLogic {
             let scoreDisplayCenter = CGPoint(x: obstacleCenter.x, y: obstacleCenter.y + 15)
             self.gameViewController.scene.removeElement(node: obstacleNode)
             let obsDestroyedTime = DispatchTime.now()
-            let elapsedTimeInSeconds = Float(obsDestroyedTime.uptimeNanoseconds - self.gameViewController.startTime.uptimeNanoseconds) / 1_000_000_000
+            let elapsedTimeInSeconds = obsDestroyedTime.getTimeInSecond(to: self.gameViewController.startTime)
             let scoreForThisObs = Int(Constants.defaultScoreDivider / elapsedTimeInSeconds)
             self.gameViewController.currLevelObtainedScore += scoreForThisObs
             self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
