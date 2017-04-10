@@ -142,6 +142,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         print("finish mfi config")
     }
+    
+    private func deConfigMFiController(index: Int) {
+        MFiControllerConfig.mfis[index].moveHandler = nil
+        MFiControllerConfig.mfis[index].shootHandler = nil
+        
+        print("finish mfi deconfig")
+    }
+    
+    private func deConfigAllMFiControllers() {
+        for i in 0..<self.gameLogic.playerControllers.count {
+            // Deconfig MFi controller for each playerController
+            deConfigMFiController(index: i)
+        }
+    }
 
     private func setupGameScene() {
         // Set up scene controller
@@ -202,11 +216,13 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                     skView.presentScene(gameOverScene)
                 }
             }
+            deConfigAllMFiControllers()
         } else if self.gameLogic.losingCondition {
             // Present GameLoseScene
             let skView = view as! SKView
             let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Lose :[", viewController: self)
             skView.presentScene(gameOverScene)
+            deConfigAllMFiControllers()
         }
     }
 }
