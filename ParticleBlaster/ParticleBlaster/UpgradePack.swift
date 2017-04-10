@@ -25,14 +25,12 @@ class UpgradePack : GameObject {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.upgradePackRadius * 2, height: Constants.upgradePackRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.upgradePackRadius)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Upgrade
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Player
-        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Obstacle //PhysicsCategory.Obstacle
-        //self.shape.physicsBody?.usesPreciseCollisionDetection = true
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Obstacle
     }
 }

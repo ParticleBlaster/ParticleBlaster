@@ -147,7 +147,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "128"
             endingLineNumber = "128"
-            landmarkName = "objectDidCollideWithMap(object:)"
+            landmarkName = "bulletCollideWithItsMothership(bulletNode:playerNode:)"
             landmarkType = "7">
             <Locations>
                <Location
@@ -210,8 +210,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "131"
             endingLineNumber = "131"
-            landmarkName = "bulletCollideWithItsMothership(bulletNode:playerNode:)"
-            landmarkType = "7">
+            landmarkName = "MultiplayerGameLogic"
+            landmarkType = "3">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -226,7 +226,7 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "133"
             endingLineNumber = "133"
-            landmarkName = "bulletCollideWithItsMothership(bulletNode:playerNode:)"
+            landmarkName = "upgradePackDidCollideWithPlayer(upgrade:player:)"
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
@@ -274,8 +274,8 @@
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "135"
             endingLineNumber = "135"
-            landmarkName = "upgradePackDidCollideWithPlayer(upgrade:player:)"
-            landmarkType = "7">
+            landmarkName = "MultiplayerGameLogic"
+            landmarkType = "3">
             <Locations>
                <Location
                   shouldBeEnabled = "No"
