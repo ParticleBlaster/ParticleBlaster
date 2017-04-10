@@ -11,11 +11,6 @@ import SpriteKit
 
 class UpgradePack : GameObject {
     
-    init(image: String) {
-        super.init(imageName: image)
-        setupPhysicsProperty()
-    }
-    
     override init() {
         super.init(imageName: "bullet-green")
         setupPhysicsProperty()

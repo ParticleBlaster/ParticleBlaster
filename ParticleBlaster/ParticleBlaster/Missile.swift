@@ -26,10 +26,6 @@ class Missile : Weapon {
         self.target = targetObs
         self.scene = scene
         self.setupPhysicsProperty()
-        
-        //        self.shootLocation = shootLocation
-        //        self.shootDirection = shootDirection.normalized()
-        //        self.rotation = rotation
     }
     
     override func launch() {

@@ -14,10 +14,6 @@ class Bullet : Weapon {
     init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat) {
         super.init(shootLocation: shootLocation, shootDirection: shootDirection, rotation: rotation, weaponType: WeaponCategory.Bullet)
         self.setupPhysicsProperty()
-        
-//        self.shootLocation = shootLocation
-//        self.shootDirection = shootDirection.normalized()
-//        self.rotation = rotation
     }
 
     

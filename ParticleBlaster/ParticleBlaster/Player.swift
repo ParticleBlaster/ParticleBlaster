@@ -11,11 +11,19 @@ import SpriteKit
 class Player : GameObject {
     init(image: String) {
         super.init(imageName: image)
+        self.timeToLive = Constants.playerTimeToLive
         setupPhysicsProperty()
     }
     
     override init() {
         super.init(imageName: "Spaceship")
+        self.timeToLive = Constants.playerTimeToLive
+        setupPhysicsProperty()
+    }
+    
+    init(timeToLive: Int) {
+        super.init(imageName: "Spaceship")
+        self.timeToLive = timeToLive
         setupPhysicsProperty()
     }
     

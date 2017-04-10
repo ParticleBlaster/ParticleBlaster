@@ -301,6 +301,9 @@ class Constants {
     static let buttonPressedSoundFilename = "button-pressed.mp3"
     static let backgroundSoundFilename = "background-music-aac"
     static let shootingSoundFilename = "pew-pew-lei.caf"
+    static let throwGrenadeSoundFilename = "pew-pew-lei.caf"
+    static let launchMissileSoundFilename = "missile.mp3"
+    static let grenadeExplodeSoundFilename = "explosion.mp3"
     
     // MFi Controller
     static let debouncingInteval: Float = 0.005
