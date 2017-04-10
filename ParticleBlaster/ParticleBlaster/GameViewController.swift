@@ -139,8 +139,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     private func setupGameScene() {
+        // Set up scene controller
         scene.viewController = self
         
+        // Set up player controllers
         for i in 0..<self.gameLogic.playerControllers.count {
             let playerController = self.gameLogic.playerControllers[i]
             self.scene.players.append(playerController.player)
@@ -157,17 +159,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             configMFiController(index: i, playerController: playerController)
         }
         
-        //
+        // Set up obstacles
         for obstacle in self.gameLogic.obstaclePool {
             obstacle.shape.removeFromParent()
             self.scene.addChild(obstacle.shape)
         }
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstaclesVelocityHandler
         
-        // Add map into scene
+        // Set up map
         scene.addChild(self.gameLogic.map)
 
-        // Link game scene to view
+        // Set up connection between skView and game scene
         skView = view as! SKView
         skView.showsFPS = true
         skView.showsNodeCount = true
@@ -182,7 +184,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             // Present GameWinScene
             if self.gameLevel.gameMode == .single {
                 let skView = view as! SKView
-                let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Won!", viewController: self)
+                let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Scored \(self.currLevelObtainedScore) !", viewController: self)
                 skView.presentScene(gameOverScene)
             } else {
                 if (self.gameLogic as! MultiplayerGameLogic).doesPlayer1Win {
