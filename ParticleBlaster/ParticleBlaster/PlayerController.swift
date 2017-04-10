@@ -7,7 +7,7 @@
 //
 
 /*
- * This class serves as the controller module for logic related to the player's actions
+ * The `PlayerController` class serves as the controller module for logic related to the player's actions
  * including the movement of the player itself, and the logic regarding the weapon system
  *      - It defines the set of UI elements related to the user, including joystick, fire button, player
  *      - It defines the movement of the jystick and the player according to the user's gentures
