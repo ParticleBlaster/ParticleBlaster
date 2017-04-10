@@ -14,7 +14,7 @@ class MultiplayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var map: MapObject
+    var map: Boundary
     
     var winningCondition: Bool {
         get {
@@ -76,13 +76,11 @@ class MultiplayerGameLogic: GameLogic {
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
         self.obstaclePool = obstaclePool
-        self.map = MapObject(view: self.gameViewController.view)
+        self.map = Boundary(rect: self.gameViewController.scene.frame)
         
         player1.obtainObstacleListHandler = self.getObstacleList
         player2.obtainObstacleListHandler = self.getObstacleList
         
-        
-        // initialiseFakeObstacles()
         prepareObstacles()
         prepareMap()
     }
@@ -157,18 +155,7 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     private func prepareMap() {
-        for boundary in self.map.boundaries {
-            self.gameViewController.scene.addBoundary(boundary: boundary)
-        }
-    }
-    
-    private func initialiseFakeObstacles() {
-        // TODO: Remove manual assignment of obstacle information after the Level class is created
-        let obs1 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs1Center, isStatic: true)
-        let obs2 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs2Center, isStatic: true)
-        
-        self.obstaclePool.append(obs1)
-        self.obstaclePool.append(obs2)
+        self.gameViewController.scene.addChild(self.map)
     }
     
     private func _checkRep() {

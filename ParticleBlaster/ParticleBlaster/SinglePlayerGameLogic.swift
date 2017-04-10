@@ -6,6 +6,11 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The 'SinglePlayerGameLogic'c class conforms to GameLogic protocol
+ *  It defines the logic for Single Player Mode 
+ */
+
 import UIKit
 import SpriteKit
 
@@ -14,7 +19,7 @@ class SinglePlayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var map: MapObject
+    var map: Boundary
     
     var winningCondition: Bool {
         get {
@@ -49,7 +54,7 @@ class SinglePlayerGameLogic: GameLogic {
         player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         self.playerControllers = [player]
         self.obstaclePool = obstaclePool
-        self.map = MapObject(view: self.gameViewController.view)
+        self.map = Boundary(rect: self.gameViewController.scene.frame)
         
         player.obtainObstacleListHandler = self.getObstacleList
         
@@ -175,22 +180,14 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     private func prepareMap() {
+        self.gameViewController.scene.addChild(self.map)
+        /*
         for boundary in self.map.boundaries {
             self.gameViewController.scene.addBoundary(boundary: boundary)
         }
-    }
-    
-    /*
-    private func initialiseFakeObstacles() {
-        // TODO: Remove manual assignment of obstacle information after the Level class is created
-        let obs1 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle1CenterX, y: Constants.obstacle1CenterY))
-        let obs2 = Obstacle(userSetInitialPosition: CGPoint(x: Constants.obstacle2CenterX, y: Constants.obstacle2CenterY))
-        
-        self.obstaclePool.append(obs1)
-        self.obstaclePool.append(obs2)
-    }
  */
-    
+    }
+
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
     }

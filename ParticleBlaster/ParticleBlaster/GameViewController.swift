@@ -47,7 +47,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: self.gameLevel.obstacles)
         }
 
-        // resetVariables()
         setupGameScene()
         checkGameCondition()
     }
@@ -74,20 +73,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     /* End of UIViewController related methods */
 
-    // TODO: implement the method for replay
-    func resetVariables() {
-        self.gameLogic.obstaclePool = self.gameLevel.obstacles
-    }
     
-//    func setGameMode(_ gameMode: GameMode = .single) {
-//        self.setGameMode = gameMode
-//    }
-
-    /* TODO: Implement Level object for loading initial status of players and obstacles
-    func loadLevel(_ level: Level) {
-    }
-     */
-
     /* Start of setup related methods */
     
     private func configMFiController(index: Int, playerController: PlayerController) {
@@ -187,7 +173,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     
     private func checkGameCondition() {
         if self.gameLogic.winningCondition {
-            // present GameWinScene
+            // Present GameWinScene
             if self.gameLevel.gameMode == .single {
                 let skView = view as! SKView
                 let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Won!", viewController: self)
@@ -204,7 +190,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 }
             }
         } else if self.gameLogic.losingCondition {
-            // present GameLoseScene
+            // Present GameLoseScene
             let skView = view as! SKView
             let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Lose :[", viewController: self)
             skView.presentScene(gameOverScene)
