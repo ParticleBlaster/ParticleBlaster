@@ -14,6 +14,7 @@ class MFiController: NSObject {
     var direction = CGVector(dx: 0, dy: 0)
     var isConnected = false
     var moveHandler: ((CGVector) -> ())?
+    var endMoveHandler: (() -> ())?
     var shootHandler: (() -> ())?
     var inputTimestamp: DispatchTime = DispatchTime.now()
     
@@ -29,36 +30,6 @@ class MFiController: NSObject {
                                                selector: #selector(controllerWasDisconnected),
                                                name: NSNotification.Name.GCControllerDidDisconnect,
                                                object: nil)
-        
-        //        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidConnect, object: nil, queue: nil) { (_ notification :Notification) in
-        //
-        //            guard self.isConnected == false else {
-        //                return
-        //            }
-        //
-        //            print("1234567")
-        //
-        //            let controller: GCController = notification.object as! GCController
-        //            let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
-        //            print(status)
-        //
-        //            self.mainController = controller
-        //            self.isConnected = true
-        //            Constants.startNextMFiConnectionNotificationCenter()
-        //            self.reactToInput()
-        //        }
-        //
-        //        NotificationCenter.default.addObserver(forName: NSNotification.Name.GCControllerDidDisconnect, object: nil, queue: nil) { (_ notification :Notification) in
-        //
-        //            print("3456789")
-        //
-        //            let controller: GCController = notification.object as! GCController
-        //            let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
-        //            print(status)
-        //
-        //            self.mainController = nil
-        //            self.isConnected = false
-        //        }
         
         print("done setupConnectionNotificationCenter")
     }
@@ -102,8 +73,14 @@ class MFiController: NSObject {
                 self.direction = CGVector(dx: CGFloat(gamepad.leftThumbstick.xAxis.value),
                                           dy: CGFloat(gamepad.leftThumbstick.yAxis.value))
                 
-                if let move = self.moveHandler {
-                    move(self.direction)
+                if gamepad.leftThumbstick.yAxis.value == 0 && gamepad.leftThumbstick.xAxis.value == 0 {
+                    if let endMove = self.endMoveHandler {
+                        endMove()
+                    }
+                } else {
+                    if let move = self.moveHandler {
+                        move(self.direction)
+                    }
                 }
             }
             
