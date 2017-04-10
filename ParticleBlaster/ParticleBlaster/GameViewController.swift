@@ -34,17 +34,22 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
+        
+        var obstaclesCopy = [Obstacle]()
+        for obs in self.gameLevel.obstacles {
+            obstaclesCopy.append(obs.copy() as! Obstacle)
+        }
 
         if gameLevel.gameMode == .single {
             print("it is single")
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
-            self.gameLogic = SinglePlayerGameLogic(gameViewController: self, obstaclePool: self.gameLevel.obstacles)
+            self.gameLogic = SinglePlayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy)
         } else {
             print("it is multi")
             self.scene = MultiplayerGameScene(size: view.bounds.size)
             self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
-            self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: self.gameLevel.obstacles)
+            self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy)
         }
 
         setupGameScene()
