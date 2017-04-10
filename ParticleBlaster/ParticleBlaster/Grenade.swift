@@ -13,8 +13,11 @@ class Grenade : Weapon {
     var exploded: Bool = false
     private var grenadeAnimationList = [SKTexture]()
     
+    var explosionMusicName: String
+    
     // Standard initialisor for Game Play
     init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat) {
+        self.explosionMusicName = "explosion.mp3"
         super.init(shootLocation: shootLocation, shootDirection: shootDirection, rotation: rotation, weaponType: WeaponCategory.Grenade)
         self.setupPhysicsProperty()
         self.grenadeAnimationList = SpriteUtils.obtainSpriteNodeList(textureName: "explosion", rows: 4, cols: 4)
@@ -43,17 +46,12 @@ class Grenade : Weapon {
     }
     
     private func setupPhysicsProperty() {
-//        let currGrenadeRadius = self.exploded ? (Constants.grenadeRadius * 4) : Constants.grenadeRadius
-//        self.shape.size = CGSize(width: currGrenadeRadius * 2, height: currGrenadeRadius * 2)
-//        self.shape.physicsBody = SKPhysicsBody(circleOfRadius: currGrenadeRadius * 2)
-        
         self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Grenade
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Obstacle //PhysicsCategory.Obstacle
-        //self.shape.physicsBody?.usesPreciseCollisionDetection = true
     }
     
     func explode() {

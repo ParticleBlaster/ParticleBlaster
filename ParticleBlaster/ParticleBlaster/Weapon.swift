@@ -13,12 +13,15 @@ class Weapon : GameObject {
     
     var weaponType: WeaponCategory
     
+    var lauchMusicName: String
+    
     var shootLocation: CGPoint!
     var shootDirection: CGVector!
     var rotation: CGFloat!
     
     init(image: String) {
         self.weaponType = WeaponCategory.Bullet
+        self.lauchMusicName = "pew-pew-lei.caf"
         super.init(imageName: image)
         setupPhysicsProperty()
     }
@@ -27,13 +30,15 @@ class Weapon : GameObject {
         self.weaponType = weaponType
         switch weaponType {
         case .Bullet:
+            self.lauchMusicName = "pew-pew-lei.caf"
             super.init(imageName: "bullet-blue")
         case .Grenade:
+            self.lauchMusicName = "pew-pew-lei.caf"
             super.init(imageName: "bullet-orange")
         case .Missile:
+            self.lauchMusicName = "missile.mp3"
             super.init(imageName: "missile")
         }
-        //super.init(imageName: "bullet-blue")
         self.setupPhysicsProperty()
         
         self.shootLocation = shootLocation
@@ -57,6 +62,11 @@ class Weapon : GameObject {
     }
     
     func launch() {
-        
+    }
+    
+    func resetSpriteNodePhysicsProperties() {
+        self.shape.physicsBody?.categoryBitMask = PhysicsCategory.None
+        self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.None
+        self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None
     }
 }

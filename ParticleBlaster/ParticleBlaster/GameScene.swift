@@ -36,6 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         node.removeFromParent()
     }
     
+    func playMusic(musicName: String) {
+        self.run(SKAction.playSoundFileNamed(musicName, waitForCompletion: false))
+    }
+    
     func displayScoreAnimation(displayScore: Int, scoreSceneCenter: CGPoint) {
         let score = "+" + String(displayScore)
         let label = SKLabelNode(fontNamed: Constants.destroyObstacleScoreFont)
