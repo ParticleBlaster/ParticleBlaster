@@ -139,6 +139,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func configMFiController(index: Int, playerController: PlayerController) {
         MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
         MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
+        MFiControllerConfig.mfis[index].endMoveHandler = playerController.endJoystickMoveHandler
 
         print("finish mfi config")
     }
@@ -146,6 +147,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func deConfigMFiController(index: Int) {
         MFiControllerConfig.mfis[index].moveHandler = nil
         MFiControllerConfig.mfis[index].shootHandler = nil
+        MFiControllerConfig.mfis[index].endMoveHandler = nil
         
         print("finish mfi deconfig")
     }
