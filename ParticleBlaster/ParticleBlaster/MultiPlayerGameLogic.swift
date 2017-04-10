@@ -14,7 +14,7 @@ class MultiplayerGameLogic: GameLogic {
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
-    var map: MapObject
+    var map: Boundary
     
     var winningCondition: Bool {
         get {
@@ -76,22 +76,19 @@ class MultiplayerGameLogic: GameLogic {
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
         self.obstaclePool = obstaclePool
-        self.map = MapObject(view: self.gameViewController.view)
+        self.map = Boundary(rect: self.gameViewController.scene.frame)
         
-        player1.obtainObstacleListHandler = self.getObstacleList
-        player2.obtainObstacleListHandler = self.getObstacleList
+        player1.obtainObstacleListHandler = self.obtainObstaclesHandler
+        player2.obtainObstacleListHandler = self.obtainObstaclesHandler
         
-        
-        // initialiseFakeObstacles()
         prepareObstacles()
-        prepareMap()
     }
     
     // Shouldn't be implementing this
-    func updateObstacleVelocityHandler() {
+    func updateObstaclesVelocityHandler() {
     }
     
-    func getObstacleList() -> [Obstacle] {
+    func obtainObstaclesHandler() -> [Obstacle] {
         return self.obstaclePool
     }
     
@@ -152,23 +149,7 @@ class MultiplayerGameLogic: GameLogic {
             obstacle.shape.zPosition = 1
             // convert to absolute position as position is archived as ratio values
             obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
-            self.gameViewController.scene.addChild(obstacle.shape)
         }
-    }
-    
-    private func prepareMap() {
-        for boundary in self.map.boundaries {
-            self.gameViewController.scene.addBoundary(boundary: boundary)
-        }
-    }
-    
-    private func initialiseFakeObstacles() {
-        // TODO: Remove manual assignment of obstacle information after the Level class is created
-        let obs1 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs1Center, isStatic: true)
-        let obs2 = Obstacle(userSetInitialPosition: Constants.defaultMultiObs2Center, isStatic: true)
-        
-        self.obstaclePool.append(obs1)
-        self.obstaclePool.append(obs2)
     }
     
     private func _checkRep() {

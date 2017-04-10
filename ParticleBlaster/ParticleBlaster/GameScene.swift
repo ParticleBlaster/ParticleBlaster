@@ -128,8 +128,4 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         newObstacle.shape.position = newObstacle.initialPosition
         addChild(newObstacle.shape)
     }
-    
-    func addBoundary(boundary: SKShapeNode) {
-        addChild(boundary)
-    }
 }
