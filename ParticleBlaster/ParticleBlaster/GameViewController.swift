@@ -73,51 +73,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     /* End of UIViewController related methods */
 
-    
-    /* Start of setup related methods */
-    
-    private func configMFiController(index: Int, playerController: PlayerController) {
-        MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
-        MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
-
-        print("finish mfi config")
-    }
-
-    private func setupGameScene() {
-        scene.viewController = self
-        // scene.gameLevel = self.gameLevel
-
-        for i in 0..<self.gameLogic.playerControllers.count {
-            let playerController = self.gameLogic.playerControllers[i]
-            self.scene.players.append(playerController.player)
-            self.scene.joysticks.append(playerController.joystick)
-            scene.joystickPlates.append(playerController.joystickPlate)
-            scene.fireButtons.append(playerController.fireButton)
-            scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
-            scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
-            scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
-            scene.fireHandlers.append(playerController.fireHandler)
-            scene.updateWeaponVelocityHandlers.append(playerController.updateWeaponVelocityHandler)
-            
-            // Set up MFi controller for each playerController
-            configMFiController(index: i, playerController: playerController)
-        }
-        
-        scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstacleVelocityHandler
-
-        // Link game scene to view
-        skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
-        skView.ignoresSiblingOrder = true
-        scene.scaleMode = .resizeFill
-        skView.presentScene(scene)
-        self.startTime = DispatchTime.now()
-    }
-
     // Contact delegate method
     func didBegin(_ contact: SKPhysicsContact) {
-
+        
         // Arranges two colliding bodies so they are sorted by their category bit masks
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
@@ -128,7 +86,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-
+        
         if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
@@ -169,6 +127,54 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         }
         
         checkGameCondition()
+    }
+    
+    /* Start of setup related methods */
+    
+    private func configMFiController(index: Int, playerController: PlayerController) {
+        MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
+        MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
+
+        print("finish mfi config")
+    }
+
+    private func setupGameScene() {
+        scene.viewController = self
+        
+        for i in 0..<self.gameLogic.playerControllers.count {
+            let playerController = self.gameLogic.playerControllers[i]
+            self.scene.players.append(playerController.player)
+            self.scene.joysticks.append(playerController.joystick)
+            scene.joystickPlates.append(playerController.joystickPlate)
+            scene.fireButtons.append(playerController.fireButton)
+            scene.playerVelocityUpdateHandlers.append(playerController.updatePlayerVelocityHandler)
+            scene.rotateJoystickAndPlayerHandlers.append(playerController.moveJoystickAndRotatePlayerHandler)
+            scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
+            scene.fireHandlers.append(playerController.fireHandler)
+            scene.updateWeaponVelocityHandlers.append(playerController.updateWeaponVelocityHandler)
+            
+            // Set up MFi controller for each playerController
+            configMFiController(index: i, playerController: playerController)
+        }
+        
+        //
+        for obstacle in self.gameLogic.obstaclePool {
+            obstacle.shape.removeFromParent()
+            self.scene.addChild(obstacle.shape)
+        }
+        scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstaclesVelocityHandler
+        
+        // Add map into scene
+        scene.addChild(self.gameLogic.map)
+
+        // Link game scene to view
+        skView = view as! SKView
+        skView.showsFPS = true
+        skView.showsNodeCount = true
+        skView.ignoresSiblingOrder = true
+        scene.scaleMode = .resizeFill
+        skView.presentScene(scene)
+        self.startTime = DispatchTime.now()
     }
     
     private func checkGameCondition() {
