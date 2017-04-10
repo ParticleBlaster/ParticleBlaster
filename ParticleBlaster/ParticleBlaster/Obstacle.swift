@@ -53,11 +53,8 @@ class Obstacle : GameObject {
 
     func hitByBullet() {
         self.timeToLive -= 1
-        let decreasePersentage = CGFloat(0.50)
-        let currentPersentage = 1.0 - (1.0 - self.remainingLifePercentage) * decreasePersentage
-        print("curr ttl \(timeToLive)")
-        print("curr perc \(currentPersentage)")
-        self.shape.size = CGSize(width: Constants.obstacleWidth * currentPersentage, height: Constants.obstacleHeight * currentPersentage)
+        let decreasePersentage = CGFloat(0.95)
+        self.shape.size = CGSize(width: self.shape.size.width * decreasePersentage, height: self.shape.size.height * decreasePersentage)
         self.resetPhysicsBodySize()
     }
 
