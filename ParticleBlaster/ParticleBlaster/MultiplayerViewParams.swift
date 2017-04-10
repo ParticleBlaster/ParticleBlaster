@@ -61,6 +61,5 @@ class MultiplayerViewParams {
         
         self.fireButtonCenterX2 = viewSize.width * 0.9
         self.fireButtonCenterY2 = viewSize.height * 0.1
-        
     }
 }

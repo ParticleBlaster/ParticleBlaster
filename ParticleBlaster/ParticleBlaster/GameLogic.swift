@@ -32,13 +32,13 @@ protocol GameLogic {
     var playerControllers: [PlayerController] { get set }
     // The obstacles in the game
     var obstaclePool: [Obstacle] { get set }
-    // The map
+    // The map boundary of the game
     var map: Boundary { get set }
     /* End of game object related properties */
     
     /* Start of Obstacles behavior related methods */
-    func getObstacleList() -> [Obstacle]
-    func updateObstacleVelocityHandler()
+    func obtainObstaclesHandler() -> [Obstacle]
+    func updateObstaclesVelocityHandler()
     /* End of obstacles behavior related methods */
     
     /* Start of collision related methods */

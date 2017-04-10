@@ -78,18 +78,17 @@ class MultiplayerGameLogic: GameLogic {
         self.obstaclePool = obstaclePool
         self.map = Boundary(rect: self.gameViewController.scene.frame)
         
-        player1.obtainObstacleListHandler = self.getObstacleList
-        player2.obtainObstacleListHandler = self.getObstacleList
+        player1.obtainObstacleListHandler = self.obtainObstaclesHandler
+        player2.obtainObstacleListHandler = self.obtainObstaclesHandler
         
         prepareObstacles()
-        prepareMap()
     }
     
     // Shouldn't be implementing this
-    func updateObstacleVelocityHandler() {
+    func updateObstaclesVelocityHandler() {
     }
     
-    func getObstacleList() -> [Obstacle] {
+    func obtainObstaclesHandler() -> [Obstacle] {
         return self.obstaclePool
     }
     
@@ -150,12 +149,7 @@ class MultiplayerGameLogic: GameLogic {
             obstacle.shape.zPosition = 1
             // convert to absolute position as position is archived as ratio values
             obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
-            self.gameViewController.scene.addChild(obstacle.shape)
         }
-    }
-    
-    private func prepareMap() {
-        self.gameViewController.scene.addChild(self.map)
     }
     
     private func _checkRep() {

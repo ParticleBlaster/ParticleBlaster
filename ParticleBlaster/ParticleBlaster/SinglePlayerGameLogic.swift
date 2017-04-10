@@ -8,19 +8,22 @@
 
 /**
  *  The 'SinglePlayerGameLogic'c class conforms to GameLogic protocol
- *  It defines the logic for Single Player Mode 
+ *  It defines the logic for single player mode
  */
 
 import UIKit
 import SpriteKit
 
 class SinglePlayerGameLogic: GameLogic {
+    /* Start of stored properties */
     var gameViewController: GameViewController
     var numberOfPlayers: Int
     var playerControllers: [PlayerController]
     var obstaclePool: [Obstacle]
     var map: Boundary
+    /* End of stored properties */
     
+    /* Start of computed properties */
     var winningCondition: Bool {
         get {
             return self.obstaclePool.isEmpty
@@ -44,26 +47,29 @@ class SinglePlayerGameLogic: GameLogic {
             return self.playerController.player
         }
     }
+    /* End of computed properties */
     
+    /* Start of initialiser */
     init(gameViewController: GameViewController, obstaclePool: [Obstacle]) {
         self.gameViewController = gameViewController
         
-        self.numberOfPlayers = 1
-        let player = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
         
-        player.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        self.playerControllers = [player]
         self.obstaclePool = obstaclePool
         self.map = Boundary(rect: self.gameViewController.scene.frame)
         
-        player.obtainObstacleListHandler = self.getObstacleList
+        self.numberOfPlayers = 1
+        let playerController = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
+        self.playerControllers = [playerController]
         
-        // initialiseFakeObstacles()
         prepareObstacles()
-        prepareMap()
+        preparePlayerControllers()
+        
+        _checkRep()
     }
-
-    func updateObstacleVelocityHandler() {
+    /* End of initialiser */
+    
+    
+    func updateObstaclesVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
             let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
@@ -71,7 +77,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
-    func getObstacleList() -> [Obstacle] {
+    func obtainObstaclesHandler() -> [Obstacle] {
         return self.obstaclePool
     }
     
@@ -173,23 +179,23 @@ class SinglePlayerGameLogic: GameLogic {
         for obstacle in self.obstaclePool {
             obstacle.setupShape()
             obstacle.shape.zPosition = 1
-            // convert to absolute position as position is archived as ratio values
+            // Convert to absolute position as position is archived as ratio values
             obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
-            self.gameViewController.scene.addChild(obstacle.shape)
+        }
+    }
+    
+    private func preparePlayerControllers() {
+        for playerController in self.playerControllers {
+            playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+            playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
         }
     }
     
     private func prepareMap() {
         self.gameViewController.scene.addChild(self.map)
-        /*
-        for boundary in self.map.boundaries {
-            self.gameViewController.scene.addBoundary(boundary: boundary)
-        }
- */
     }
 
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
     }
-    
 }
