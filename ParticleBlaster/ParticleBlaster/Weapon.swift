@@ -31,13 +31,13 @@ class Weapon : GameObject {
         switch weaponType {
         case .Bullet:
             self.lauchMusicName = Constants.shootingSoundFilename
-            super.init(imageName: "bullet-blue")
+            super.init(imageName: Constants.defaultBulletSpriteFilename)
         case .Grenade:
             self.lauchMusicName = Constants.throwGrenadeSoundFilename
-            super.init(imageName: "bullet-orange")
+            super.init(imageName: Constants.defaultGrenadeSpriteFilename)
         case .Missile:
             self.lauchMusicName = Constants.launchMissileSoundFilename
-            super.init(imageName: "missile")
+            super.init(imageName: Constants.defaultMissileSpriteFilename)
         }
         self.setupPhysicsProperty()
         

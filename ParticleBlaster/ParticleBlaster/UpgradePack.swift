@@ -12,7 +12,7 @@ import SpriteKit
 class UpgradePack : GameObject {
     
     override init() {
-        super.init(imageName: "bullet-green")
+        super.init(imageName: Constants.defaultUpgradePackSpriteFilename)
         setupPhysicsProperty()
     }
     
