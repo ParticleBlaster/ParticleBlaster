@@ -168,7 +168,7 @@ class Constants {
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
 
     static let maxNumOfObstacle = 15
-    static let defaultThemeName = "Planet"
+    static let defaultThemeName = "Planets"
     // Obstalces' size
     static let obstacleBasicSize = CGSize(width: 80, height: 80)
     static let obstacleSizeMap = [

@@ -18,7 +18,7 @@ class LevelDesignerScene: SKScene {
     fileprivate var backButton: IconButton!
     fileprivate var saveButton: TextButton!
     fileprivate var playButton: TextButton!
-    fileprivate var levelScreen = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
+    fileprivate var levelScreen = SKSpriteNode()
     fileprivate var players: [Player] = []
 
     fileprivate var currentTheme: Theme! = ThemeConfig.themes[Constants.defaultThemeName]
@@ -40,7 +40,8 @@ class LevelDesignerScene: SKScene {
 
         initLayout()
         initPalette()
-        // initThemeList()
+        initLevelScreen()
+        initThemeList()
         backButton.onPressHandler = onBackButtonPressed
         saveButton.onPressHandler = onSaveButtonPressed
         playButton.onPressHandler = onPlayButtonPressed
@@ -192,6 +193,7 @@ class LevelDesignerScene: SKScene {
             obstacleClone.setupShape()
             level.addObstacle(obstacleClone)
         }
+        level.backgroundImageName = gameLevel.backgroundImageName
         return level
     }
 
