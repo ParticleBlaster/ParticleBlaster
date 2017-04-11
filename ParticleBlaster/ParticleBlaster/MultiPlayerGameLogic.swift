@@ -131,11 +131,9 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
-        
     }
     
     func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
-        
     }
     
     private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {

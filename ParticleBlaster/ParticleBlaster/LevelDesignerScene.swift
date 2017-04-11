@@ -129,6 +129,7 @@ class LevelDesignerScene: SKScene {
             } else {
                 removecurrentObject(withAnimation: true)
             }
+            self.saveButton.alpha = 1.0
         }
         currentObject = nil
         removeOutsideObstacles()
@@ -204,6 +205,7 @@ class LevelDesignerScene: SKScene {
     private func onSaveButtonPressed() {
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
+        self.saveButton.alpha = 0.3
     }
 
     private func onPlayButtonPressed() {
@@ -323,15 +325,16 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initLevelScreen() {
-        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName!)
-        gameLevel.backgroundImageName = currentTheme.backgroundName!
+        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
+        gameLevel.backgroundImageName = currentTheme.backgroundName
     }
 
     fileprivate func initThemeList() {
         var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
         // Create obstacle pallete
-        for item in ThemeConfig.themes {
-            let themeIconImageName = item.value.iconName == nil ? "" : item.value.iconName!
+        for key in ThemeConfig.themeNames {
+            let value = ThemeConfig.themes[key]!
+            let themeIconImageName = value.iconName
             let themeIcon = IconButton(imageNamed: themeIconImageName,
                                     disabledImageNamed: themeIconImageName,
                                     size: CGSize(width: 80,
@@ -340,7 +343,7 @@ extension LevelDesignerScene {
             themeIcon.zPosition = normalZPosition
             themeIcon.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
                                          y: yValue)
-            themeIcon.tag = item.key
+            themeIcon.tag = key
             themeIcon.onPressHandlerWithTag = loadTheme
             yValue -= 70
             addChild(themeIcon)
