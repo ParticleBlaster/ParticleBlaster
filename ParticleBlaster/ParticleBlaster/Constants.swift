@@ -116,7 +116,7 @@ class Constants {
     static let missileInitialForceValue: CGFloat = CGFloat(20)
     static let missileConstantForceValue: CGFloat = CGFloat(2)
     static let missileLaunchOffset: CGFloat = CGFloat(30)
-    static let missileLaunchTime = 1.0
+    static let missileLaunchTime = 0.8
     static let missileInitialAccelerationTime = 0.2
     static let shieldRadius: CGFloat = CGFloat(120)
     

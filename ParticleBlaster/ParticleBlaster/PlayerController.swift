@@ -135,7 +135,7 @@ class PlayerController {
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
         
         // Force the weapon to be Bullet for debugging purposes
-        self.selectedWeaponType = WeaponCategory.Grenade
+        self.selectedWeaponType = WeaponCategory.Missile
         
         switch self.selectedWeaponType {
         case .Bullet:
@@ -182,6 +182,10 @@ class PlayerController {
     
     // This function updates the weapon's velocity if its velocity needs to be calculated per frame
     func updateWeaponVelocityHandler() {
+        var obstacleNodeList = [SKSpriteNode]()
+        if let getObsListHandler = self.obtainObstacleListHandler {
+            obstacleNodeList = getObsListHandler().map({return $0.shape})
+        }
         for currFlyingWeapon in self.weaponPool {
             switch currFlyingWeapon.weaponType {
             case .Bullet, .Grenade:
@@ -190,7 +194,10 @@ class PlayerController {
                 guard let currFlyingMissile = currFlyingWeapon as? Missile else {
                     return
                 }
-                currFlyingMissile.updateFlyingVelocity()
+                if currFlyingMissile.isReady && obstacleNodeList.contains(currFlyingMissile.target.shape) {
+                    currFlyingMissile.updateFlyingVelocity()
+                }
+                //currFlyingMissile.updateFlyingVelocity()
             }
         }
     }
@@ -206,6 +213,7 @@ class PlayerController {
         }
     }
     
+    // This function is handles the explosion music play and grenade removal after collision
     func grenadeDidExplodeListener(grenadeNode: SKSpriteNode) {
         self.scene.playMusic(musicName: Grenade.explosionMusicName)
         let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime

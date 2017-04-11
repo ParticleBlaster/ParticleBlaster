@@ -109,6 +109,10 @@ class SinglePlayerGameLogic: GameLogic {
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
         // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
+        if object.physicsBody?.categoryBitMask == PhysicsCategory.Bullet {
+            self.playerControllers[0].removeWeaponAfterCollision(weaponNode: object)
+            object.removeFromParent()
+        }
         object.removeAllActions()
     }
     

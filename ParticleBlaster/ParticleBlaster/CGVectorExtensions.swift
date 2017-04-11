@@ -30,7 +30,7 @@ extension CGVector {
     
     func eulerRotation() -> CGFloat {
         if (self.dx < 0 && self.dy < 0) {
-            return atan2(self.normalized().dy, self.normalized().dx) + CGFloat.pi / 2
+            return atan2(self.normalized().dy, self.normalized().dx) + CGFloat.pi / 2 * 3
         } else {
             return atan2(self.normalized().dy, self.normalized().dx) - CGFloat.pi / 2
         }
