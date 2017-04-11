@@ -112,18 +112,21 @@ class Constants {
     static let obstacleVelocity: CGFloat = CGFloat(200)
     static let bulletVelocity: CGFloat = CGFloat(1000)
     
+    static let defaultMissileSpriteFilename = "missile"
     static let missileVelocity: CGFloat = CGFloat(350)
     static let missileInitialForceValue: CGFloat = CGFloat(20)
     static let missileConstantForceValue: CGFloat = CGFloat(2)
     static let missileLaunchOffset: CGFloat = CGFloat(30)
-    static let missileLaunchTime = 0.5
+    static let missileLaunchTime = 0.8
     static let missileInitialAccelerationTime = 0.2
     static let shieldRadius: CGFloat = CGFloat(120)
     
+    static let defaultBulletSpriteFilename = "bullet-new"
     static let defaultBulletRadius: CGFloat = CGFloat(16)
     static let defaultBulletWidth: CGFloat = CGFloat(12)
     static let defaultBulletHeight: CGFloat = CGFloat(42)
     
+    static let defaultGrenadeSpriteFilename = "grenade-new"
     static let grenadeThrowingVelocity: CGFloat = CGFloat(500)
     static let grenadeThrowingTime: CGFloat = CGFloat(0.8)
     static let grenadeRadius: CGFloat = CGFloat(15)
@@ -132,9 +135,9 @@ class Constants {
     static let grenadeExplosionAnimationTime = 0.8
     static let grenadeExplosionAnimationZPosition: CGFloat = CGFloat(5)
     
+    static let defaultUpgradePackSpriteFilename = "upgradePack"
     static let upgradePackRadius: CGFloat = CGFloat(10)
     static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
-    //static let upgradePackMoveSpeed: CGFloat = CGFloat(5)
     static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
     static let upgradePackFadeTime = 1.0
     static let upgradePackMoveTime = 5.0

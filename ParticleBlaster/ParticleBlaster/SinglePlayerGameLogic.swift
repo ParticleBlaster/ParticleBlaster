@@ -112,6 +112,10 @@ class SinglePlayerGameLogic: GameLogic {
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
         // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
+        if object.physicsBody?.categoryBitMask == PhysicsCategory.Bullet {
+            self.playerControllers[0].removeWeaponAfterCollision(weaponNode: object)
+            object.removeFromParent()
+        }
         object.removeAllActions()
     }
     
@@ -120,12 +124,10 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
-        // 50% for grenade, 35% for shield, 15% for missile
+        // 75% perentage for grenade, 25% percentage for missile
         let randomNumber = arc4random_uniform(101)
-        if randomNumber <= 50 {
+        if randomNumber <= 75 {
             self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Grenade)
-        } else if randomNumber <= 85 {
-            // Put the logic for shield here
         } else {
             self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Missile)
         }

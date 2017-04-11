@@ -195,6 +195,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
+        skView.showsPhysics = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         self.startTime = DispatchTime.now()

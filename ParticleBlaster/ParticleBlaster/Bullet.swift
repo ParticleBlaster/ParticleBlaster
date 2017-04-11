@@ -25,6 +25,7 @@ class Bullet : Weapon {
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.defaultBulletRadius * 2, height: Constants.defaultBulletRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
+        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player

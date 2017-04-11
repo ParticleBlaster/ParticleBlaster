@@ -31,13 +31,13 @@ class Weapon : GameObject {
         switch weaponType {
         case .Bullet:
             self.lauchMusicName = Constants.shootingSoundFilename
-            super.init(imageName: "bullet-blue")
+            super.init(imageName: Constants.defaultBulletSpriteFilename)
         case .Grenade:
             self.lauchMusicName = Constants.throwGrenadeSoundFilename
-            super.init(imageName: "bullet-orange")
+            super.init(imageName: Constants.defaultGrenadeSpriteFilename)
         case .Missile:
             self.lauchMusicName = Constants.launchMissileSoundFilename
-            super.init(imageName: "missile")
+            super.init(imageName: Constants.defaultMissileSpriteFilename)
         }
         self.setupPhysicsProperty()
         
@@ -54,6 +54,7 @@ class Weapon : GameObject {
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.defaultBulletRadius * 2, height: Constants.defaultBulletRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.defaultBulletRadius)
+        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player
