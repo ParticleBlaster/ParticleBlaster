@@ -136,7 +136,7 @@ class Obstacle : GameObject {
 
     // This function returns a new physics body associated with the size of the obstacle
     private func generatePhysicsBody() -> SKPhysicsBody {
-        let newPhysicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        let newPhysicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         newPhysicsBody.isDynamic = true
         newPhysicsBody.categoryBitMask = PhysicsCategory.Obstacle
         newPhysicsBody.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade

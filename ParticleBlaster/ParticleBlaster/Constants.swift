@@ -199,6 +199,8 @@ class Constants {
         "planet-5": Constants.obstacleBasicSize * 1.8,
         "planet-6": Constants.obstacleBasicSize * 2.0
     ]
+    static let defaultFirstPlayerPositionRatio = CGPoint(x: 0.15, y: 0.5)
+    static let defaultSecondPlayerPositionRatio = CGPoint(x: 0.85, y: 0.5)
     static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)
     static let levelObstacleStandardWidth: CGFloat = 50
     static func getHeightWithSameRatio(withWidth: CGFloat, forShape: SKSpriteNode) -> CGFloat {
@@ -248,8 +250,9 @@ class Constants {
     static let gameDataAchievedSingleModeLevelKey = "gameDataAchievedSingleModeLevelKey" 
     static let imageNameKey = "imageNameKey"
     static let initialPositionKey = "initialPositionKey"
+    static let ratioPositionKey = "ratioPositionKey"
     static let gameModekey = "gameModeKey"
-    static let playerPositionsKey = "playerPositionsKey"
+    static let playersKey = "playersKey"
     static let gameIdKey = "gameIdKey"
     static let obstaclesKey = "obstaclesKey"
     static let launchedBeforeKey = "launchedBeforeKey"

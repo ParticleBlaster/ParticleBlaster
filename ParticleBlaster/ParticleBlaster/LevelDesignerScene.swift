@@ -179,7 +179,9 @@ class LevelDesignerScene: SKScene {
     private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
         for player in players {
-            level.playerPositions.append(levelScreenPositionToRatioPosition(player.shape.position))
+            let copiedPlayer = player.copy() as! Player
+            copiedPlayer.ratioPosition = levelScreenPositionToRatioPosition(player.shape.position)
+            level.players.append(copiedPlayer)
         }
         for obstacle in gameLevel.obstacles {
             let obstacleClone = obstacle.copy() as! Obstacle
@@ -311,30 +313,31 @@ extension LevelDesignerScene {
     }
 
     fileprivate func preparePlayers() {
-        let player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
-        player1.setupPhysicsProperty()
+        var player1: Player
+        if gameLevel.players.count > 0 {
+            player1 = gameLevel.players[0]
+            player1.shape.position = ratioPositionToLevelScreenPosition(player1.ratioPosition)
+        } else {
+            player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
+            player1.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultFirstPlayerPositionRatio)
+        }
         player1.shape.scale(to: CGSize(width: player1.shape.size.width * Constants.levelScreenRatio,
                                        height: player1.shape.size.width * Constants.levelScreenRatio))
         player1.shape.physicsBody?.allowsRotation = false
-        if gameLevel.playerPositions.count > 0 {
-            player1.shape.position = ratioPositionToLevelScreenPosition(gameLevel.playerPositions[0])
-        } else {
-            player1.shape.position = CGPoint(x: -levelScreen.frame.size.width/2 + player1.shape.size.width/2, y: 0)
-        }
         players.append(player1)
         
         if gameLevel.gameMode == .multiple {
-            let player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
-            player2.setupPhysicsProperty()
+            var player2: Player
+            if gameLevel.players.count > 1 {
+                player2 = gameLevel.players[1]
+                player2.shape.position = ratioPositionToLevelScreenPosition(player2.ratioPosition)
+            } else {
+                player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
+                player2.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultSecondPlayerPositionRatio)
+            }
             player2.shape.scale(to: CGSize(width: player2.shape.size.width * Constants.levelScreenRatio,
                                            height: player2.shape.size.width * Constants.levelScreenRatio))
             player2.shape.physicsBody?.allowsRotation = false
-            
-            if gameLevel.playerPositions.count > 1 {
-                player2.shape.position = ratioPositionToLevelScreenPosition(gameLevel.playerPositions[1])
-            } else {
-                player2.shape.position = CGPoint(x: levelScreen.frame.size.width/2 - player2.shape.size.width/2, y: 0)
-            }
             players.append(player2)
         }
         
