@@ -175,12 +175,12 @@ class Constants {
                                             "starwars-r2d2",
                                             "starwars-sith",
                                             "starwars-thundertrooper"]
-    static let pixelObstacleFilenames = ["obs",
-                                         "obs-1",
-                                         "obs-2",
-                                         "obs-3",
-                                         "obs-4",
-                                         "obs-5"]
+    static let planetsObstacleFilenames = ["planet-1",
+                                         "planet-2",
+                                         "planet-3",
+                                         "planet-4",
+                                         "planet-5",
+                                         "planet-6"]
     static let monsterObstacleFilenames = ["monster-1",
                                            "monster-2",
                                            "monster-3",
@@ -189,18 +189,15 @@ class Constants {
 
     static let maxNumOfObstacle = 15
     // Obstalces' size
-    static let obstacleSmallSize = CGSize(width: 75, height: 75)
-    static let obstacleNormalSize = CGSize(width: 100, height: 100)
-    static let obstacleLargeSize = CGSize(width: 120, height: 120)
-    static let obstacleLargerSize = CGSize(width: 150, height: 150)
-    static let obstacleHugeSize = CGSize(width: 200, height: 200)
+    static let obstacleBasicSize = CGSize(width: 80, height: 80)
     static let obstacleSizeMap = [
-        "obs": Constants.obstacleSmallSize,
-        "monster-1": Constants.obstacleSmallSize,
-        "monster-2": Constants.obstacleNormalSize,
-        "monster-3": Constants.obstacleLargeSize,
-        "monster-4": Constants.obstacleLargerSize,
-        "monster-5": Constants.obstacleHugeSize,
+        "obs": Constants.obstacleBasicSize,
+        "planet-1": Constants.obstacleBasicSize,
+        "planet-2": Constants.obstacleBasicSize * 1.2,
+        "planet-3": Constants.obstacleBasicSize * 1.4,
+        "planet-4": Constants.obstacleBasicSize * 1.6,
+        "planet-5": Constants.obstacleBasicSize * 1.8,
+        "planet-6": Constants.obstacleBasicSize * 2.0
     ]
     static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)
     static let levelObstacleStandardWidth: CGFloat = 50

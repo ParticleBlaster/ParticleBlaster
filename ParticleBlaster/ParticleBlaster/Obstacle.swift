@@ -111,7 +111,7 @@ class Obstacle : GameObject {
     /* Start of physics body setup and update functions */
     // This function sets up the initial size of the obstacle according to its image (hence type)
     func setupShape(withPhysicsBody: Bool = true) {
-        self.shape.size = Constants.obstacleSizeMap[imageName] ?? Constants.obstacleSmallSize
+        self.shape.size = Constants.obstacleSizeMap[imageName] ?? Constants.obstacleBasicSize
         if withPhysicsBody {
             setupPhysicsProperty()
         }

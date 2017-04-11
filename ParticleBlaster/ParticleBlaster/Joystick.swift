@@ -22,6 +22,7 @@ class Joystick : GameObject {
         self.joystickPlateCenterX = nil
         self.joystickPlateCenterY = nil
         super.init(imageName: "top")
+        self.shape.alpha = 0.5
     }
     
     required convenience init?(coder decoder: NSCoder) {

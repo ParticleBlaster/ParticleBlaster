@@ -297,7 +297,7 @@ extension LevelDesignerScene {
         var posX = size.width - Constants.obstaclePadding.width
         let posY = levelScreen.frame.minY/2
         // Create obstacle pallete
-        for itemFilename in Constants.monsterObstacleFilenames.reversed() {
+        for itemFilename in Constants.planetsObstacleFilenames.reversed() {
             let item = Obstacle(image: itemFilename, userSetInitialPosition: .zero)
             item.shape.position = CGPoint(x: posX - item.shape.size.width/2, y: posY)
             // remove physicBody
