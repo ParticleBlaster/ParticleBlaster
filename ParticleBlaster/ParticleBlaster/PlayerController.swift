@@ -135,7 +135,7 @@ class PlayerController {
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
         
         // Force the weapon to be Bullet for debugging purposes
-        self.selectedWeaponType = WeaponCategory.Grenade
+        self.selectedWeaponType = WeaponCategory.Bullet
         
         switch self.selectedWeaponType {
         case .Bullet:

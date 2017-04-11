@@ -43,7 +43,8 @@ class Grenade : Weapon {
     
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
-        self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
+        //self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
+        self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: (self.shape.texture?.size())!)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Grenade
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
