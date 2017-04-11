@@ -349,11 +349,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-<<<<<<< HEAD
 						DevelopmentTeam = QQW7QECAY7;
-=======
-						DevelopmentTeam = HF56BSQHPC;
->>>>>>> 03ae861c70b8dd7527e7e5bd82e1e9e1f97233ea
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -577,11 +573,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = QQW7QECAY7;
-=======
-				DEVELOPMENT_TEAM = HF56BSQHPC;
->>>>>>> 03ae861c70b8dd7527e7e5bd82e1e9e1f97233ea
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
@@ -595,11 +587,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-<<<<<<< HEAD
 				DEVELOPMENT_TEAM = QQW7QECAY7;
-=======
-				DEVELOPMENT_TEAM = HF56BSQHPC;
->>>>>>> 03ae861c70b8dd7527e7e5bd82e1e9e1f97233ea
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
