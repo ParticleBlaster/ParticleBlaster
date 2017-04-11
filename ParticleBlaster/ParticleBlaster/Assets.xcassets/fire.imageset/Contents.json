@@ -2,17 +2,8 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "projectile.png",
+      "filename" : "gimp_fx__focus_blast_by_tehkrazeh1-d52wvft copy 2.png",
       "scale" : "1x"
-    },
-    {
-      "idiom" : "universal",
-      "filename" : "projectile@2x.png",
-      "scale" : "2x"
-    },
-    {
-      "idiom" : "universal",
-      "scale" : "3x"
     }
   ],
   "info" : {
