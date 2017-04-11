@@ -60,9 +60,8 @@ class PlayerController {
     
     
     // Initializer
-    init(gameViewController: GameViewController, playerIndex: Int = 1) {
-        let playerImageName = playerIndex == 1 || playerIndex == 2 ? "\(Constants.playerFilenamePrefix)\(playerIndex)" : Constants.spaceshipFilename
-        self.player = Player(image: playerImageName)
+    init(gameViewController: GameViewController, player: Player) {
+        self.player = player
         self.scene = gameViewController.scene
     }
     

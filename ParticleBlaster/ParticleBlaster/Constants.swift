@@ -149,6 +149,7 @@ class Constants {
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
     static let multiplayerTimeToLive: Int = 5
+    static let obstacleMinimumWidth: CGFloat = 20
     
     static let obstacleImpulseValue: CGFloat = CGFloat(50)
     static let obstacleForceValue: CGFloat = CGFloat(50)
@@ -165,29 +166,9 @@ class Constants {
     //static let destroyObstacleScore
     // Homepage Constants
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
-    
-    // Star Wars Theme Obstacles
-    static let starwarsObstaclesFilename = ["starwars-bb8",
-                                            "starwars-bountyhunter",
-                                            "starwars-c3po",
-                                            "starwars-darthvadar",
-                                            "starwars-princess",
-                                            "starwars-r2d2",
-                                            "starwars-sith",
-                                            "starwars-thundertrooper"]
-    static let planetsObstacleFilenames = ["planet-1",
-                                         "planet-2",
-                                         "planet-3",
-                                         "planet-4",
-                                         "planet-5",
-                                         "planet-6"]
-    static let monsterObstacleFilenames = ["monster-1",
-                                           "monster-2",
-                                           "monster-3",
-                                           "monster-4",
-                                           "monster-5"]
 
     static let maxNumOfObstacle = 15
+    static let defaultThemeName = "Planet"
     // Obstalces' size
     static let obstacleBasicSize = CGSize(width: 80, height: 80)
     static let obstacleSizeMap = [
@@ -199,6 +180,16 @@ class Constants {
         "planet-5": Constants.obstacleBasicSize * 1.8,
         "planet-6": Constants.obstacleBasicSize * 2.0
     ]
+    static let timeToLiveMap = [
+        "obs": 10,
+        "planet-1": 3,
+        "planet-2": 4,
+        "planet-3": 6,
+        "planet-4": 7,
+        "planet-5": 8,
+        "planet-6": 10
+    ]
+    static let standardObstacleSize = CGSize(width: 80, height: 80)
     static let defaultFirstPlayerPositionRatio = CGPoint(x: 0.15, y: 0.5)
     static let defaultSecondPlayerPositionRatio = CGPoint(x: 0.85, y: 0.5)
     static let defaultPosition: CGPoint = CGPoint(x: 0, y: 0)

@@ -32,9 +32,13 @@ class FileUtils {
         let fileUrl = DocumentsDirectory.appendingPathComponent(Constants.gameDataFilename)
         return NSKeyedArchiver.archiveRootObject(gameData, toFile: fileUrl.path)
     }
-
+    
+    static func getLevelFilename(id: Int, gameMode: GameMode = .single) -> String {
+        return "\(Constants.levelPrefix)_\(gameMode.rawValue)_\(id)"
+    }
+    
     static func getLevelUrl(id: Int, gameMode: GameMode = .single) -> URL {
-        return DocumentsDirectory.appendingPathComponent("\(Constants.levelPrefix)_\(gameMode.rawValue)_\(id)")
+        return DocumentsDirectory.appendingPathComponent(getLevelFilename(id: id, gameMode: gameMode))
     }
     
     static func loadGameLevel(id: Int, gameMode: GameMode = .single) -> GameLevel? {
@@ -54,7 +58,14 @@ class FileUtils {
             return
         }
         UserDefaults.standard.set(true, forKey: Constants.launchedBeforeKey)
-        // TODO: continue working on this method
+        for index in 0..<GameData.getInstance().numSingleModeLevel {
+            let filename = getLevelFilename(id: index, gameMode: .single)
+            guard let filePath = Bundle.main.path(forResource: filename, ofType: nil) else {
+                continue
+            }
+            let targetPath = getLevelUrl(id: index, gameMode: .single).path
+            let _ = copyFile(fromPath: filePath, toPath: targetPath)
+        }
     }
 
     static func copyFile(fromPath: String, toPath: String) -> Bool {

@@ -32,5 +32,12 @@ class SpriteUtils {
         
         return resultSpriteNodeList
     }
-    
+
+    static func getObstacleTimeToLive(_ obstacle: Obstacle) -> Int {
+        return Constants.timeToLiveMap[obstacle.imageName] ?? Constants.defaultTimeToLive
+    }
+
+    static func getObstacleOriginalSize(_ obstacle: Obstacle) -> CGSize {
+        return Constants.obstacleSizeMap[obstacle.imageName] ?? Constants.obstacleBasicSize
+    }
 }

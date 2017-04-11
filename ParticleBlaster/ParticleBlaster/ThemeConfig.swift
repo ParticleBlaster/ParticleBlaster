@@ -10,14 +10,15 @@ import Foundation
 
 struct ThemeConfig {
     static var themes = [String: Theme]()
-    
-    
+
+
     static let themeNames = ["Planets",
                              "StarWars",
                              "StarTrek",
 //                             "DoctorWho",
 //                             "EVA",
                              "Monster"]
+
     static let themeObstacleNames = ["Planets":obstacleFileNamesPlanets,
                                      "StarWars":obstacleFileNamesStarWars,
                                      "StarTrek":obstacleFileNamesStarTrek,
@@ -39,7 +40,7 @@ struct ThemeConfig {
                      spaceshipNames: themeSpaceshipNames[name]!)
         }
     }
-    
+
     static func setTheme(name: String,
                          logoName: String,
                          backgroundName: String,
@@ -51,10 +52,11 @@ struct ThemeConfig {
         theme.iconName = logoName
         theme.obstaclesNames = obstacleNames
         theme.spaceshipsNames = spaceshipNames
-        
+
         themes[themeName] = theme
     }
-    
+
+
     // MARK: Default Theme
     // Theme Planet
     static let obstacleFileNamesPlanets = ["planet-1",
@@ -65,7 +67,7 @@ struct ThemeConfig {
                                            "planet-6"]
     static let spaceshipFileNamesPlanets = ["planet-spaceship-1",
                                             "planet-spaceship-2"]
-    
+
     // Theme StarWars
     static let obstacleFileNamesStarWars = ["starwars-bb8",
                                             "starwars-bountyhunter",
@@ -77,7 +79,7 @@ struct ThemeConfig {
                                             "starwars-thundertrooper"]
     static let spaceshipFileNamesStarWars = ["starwars-spaceship-1",
                                              "starwars-spaceship-2"]
-    
+
     // Theme StarWars
     static let obstacleFileNamesStarTrek = ["startrek-blue-1",
                                             "startrek-blue-2",
@@ -90,7 +92,7 @@ struct ThemeConfig {
                                             "startrek-llap"]
     static let spaceshipFileNamesStarTrek = ["startrek-spaceship-1",
                                              "startrek-spaceship-2"]
-    
+
     // Theme EVA
     static let obstacleFileNamesEVA = ["starwars-bb8",
                                         "starwars-bountyhunter",
@@ -102,7 +104,7 @@ struct ThemeConfig {
                                         "starwars-thundertrooper"]
     static let spaceshipFileNamesEVA = ["eva-spaceship-1",
                                         "eva-spaceship-2"]
-    
+
     // Theme Doctor Who
     static let obstacleFileNamesDoctorWho = ["starwars-bb8",
                                             "starwars-bountyhunter",
@@ -114,7 +116,7 @@ struct ThemeConfig {
                                             "starwars-thundertrooper"]
     static let spaceshipFileNamesDoctorWho = ["doctorwho-spaceship-1",
                                              "doctorwho-spaceship-2"]
-    
+
     // Theme Monster
     static let obstacleFileNamesMonster = ["monster-1",
                                            "monster-2",

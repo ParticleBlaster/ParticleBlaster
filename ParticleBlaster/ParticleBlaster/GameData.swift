@@ -10,10 +10,7 @@ import Foundation
 
 class GameData: NSObject, NSCoding {
     static var instance: GameData? = nil
-//    var numSingleModeLevel: Int = 20
-//    var numMultiModeLevel: Int = 0
-//    var achievedSingleModeLevel: Int = -1
-    var numSingleModeLevel: Int = 0
+    var numSingleModeLevel: Int = 12
     var numMultiModeLevel: Int = 0
     var achievedSingleModeLevel: Int = 1000
     

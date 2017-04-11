@@ -13,7 +13,7 @@ class Grenade : Weapon {
     var exploded: Bool = false
     private var grenadeAnimationList = [SKTexture]()
     var explosionMusicAdvertiser: (() -> ())!
-    
+
     static let explosionMusicName = Constants.grenadeExplodeSoundFilename
     
     // Standard initialisor for Game Play
