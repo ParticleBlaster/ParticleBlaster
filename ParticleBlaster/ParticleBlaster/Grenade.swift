@@ -12,8 +12,9 @@ import SpriteKit
 class Grenade : Weapon {
     var exploded: Bool = false
     private var grenadeAnimationList = [SKTexture]()
+    var explosionMusicAdvertiser: (() -> ())!
     
-    var explosionMusicName = "explosion.mp3"
+    static let explosionMusicName = Constants.grenadeExplodeSoundFilename
     
     // Standard initialisor for Game Play
     init(shootLocation: CGPoint, shootDirection: CGVector, rotation: CGFloat) {
@@ -52,7 +53,7 @@ class Grenade : Weapon {
     func explode() {
         if !self.exploded {
             self.exploded = true
-            self.shape.size = CGSize(width: Constants.grenadeRadius * 6, height: Constants.grenadeRadius * 6)
+            self.shape.size = CGSize(width: Constants.grenadeRadius * 8, height: Constants.grenadeRadius * 8)
             self.shape.zPosition = Constants.grenadeExplosionAnimationZPosition
             //self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
             self.shape.physicsBody?.isDynamic = false
@@ -63,6 +64,9 @@ class Grenade : Weapon {
             
             let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
             self.shape.run(explosionAnimation)
+            if let musicHandler = self.explosionMusicAdvertiser {
+                musicHandler()
+            }
             
         }
     }

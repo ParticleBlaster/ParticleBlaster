@@ -11,6 +11,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController!
+    var background: SKSpriteNode = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
     // var gameLevel: GameLevel?
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
@@ -122,6 +123,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         background.size = size
         background.zPosition = -100
         addChild(background)
+    }
+    
+    func setupBackgroundWithSprite() {
+        self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+        self.background.size = self.size
+        self.background.zPosition = Constants.defaultBackgroundZPosition
+        self.addChild(self.background)
     }
     
     func addSingleObstacle(newObstacle: Obstacle) {

@@ -21,7 +21,7 @@ class Weapon : GameObject {
     
     init(image: String) {
         self.weaponType = WeaponCategory.Bullet
-        self.lauchMusicName = "pew-pew-lei.caf"
+        self.lauchMusicName = Constants.shootingSoundFilename
         super.init(imageName: image)
         setupPhysicsProperty()
     }
@@ -30,13 +30,13 @@ class Weapon : GameObject {
         self.weaponType = weaponType
         switch weaponType {
         case .Bullet:
-            self.lauchMusicName = "pew-pew-lei.caf"
+            self.lauchMusicName = Constants.shootingSoundFilename
             super.init(imageName: "bullet-blue")
         case .Grenade:
-            self.lauchMusicName = "pew-pew-lei.caf"
+            self.lauchMusicName = Constants.throwGrenadeSoundFilename
             super.init(imageName: "bullet-orange")
         case .Missile:
-            self.lauchMusicName = "missile.mp3"
+            self.lauchMusicName = Constants.launchMissileSoundFilename
             super.init(imageName: "missile")
         }
         self.setupPhysicsProperty()

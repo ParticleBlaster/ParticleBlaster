@@ -169,7 +169,8 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func didMove(to view: SKView) {
-        backgroundColor = Constants.backgroundColor
+        self.setupBackgroundWithSprite()
+        //backgroundColor = Constants.backgroundColor
         // loadGameLevel()
         
         player1.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
