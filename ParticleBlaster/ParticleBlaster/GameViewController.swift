@@ -44,12 +44,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             print("it is single")
             self.scene = SinglePlayerGameScene(size: view.bounds.size)
             self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
-            self.gameLogic = SinglePlayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy)
+            self.gameLogic = SinglePlayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy, player: gameLevel.players[0])
         } else {
             print("it is multi")
             self.scene = MultiplayerGameScene(size: view.bounds.size)
             self.scene.setupBackground(backgroundImageName: self.gameLevel.backgroundImageName)
-            self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy)
+            self.gameLogic = MultiplayerGameLogic(gameViewController: self, obstaclePool: obstaclesCopy, players: gameLevel.players)
         }
 
         setupGameScene()

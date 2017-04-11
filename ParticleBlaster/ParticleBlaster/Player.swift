@@ -9,26 +9,13 @@
 import SpriteKit
 
 class Player : GameObject {
-    init(image: String) {
+    var imageName: String
+    var ratioPosition: CGPoint = .zero
+    init(image: String = Constants.spaceshipFilename, timeToLive: Int = Constants.playerTimeToLive) {
+        self.imageName = image
         super.init(imageName: image)
-        self.timeToLive = Constants.playerTimeToLive
-        setupPhysicsProperty()
-    }
-    
-    override init() {
-        super.init(imageName: "Spaceship")
-        self.timeToLive = Constants.playerTimeToLive
-        setupPhysicsProperty()
-    }
-    
-    init(timeToLive: Int) {
-        super.init(imageName: "Spaceship")
         self.timeToLive = timeToLive
         setupPhysicsProperty()
-    }
-    
-    required convenience init?(coder decoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
     }
     
     func updateRotation(newAngle: CGFloat) {
@@ -45,6 +32,30 @@ class Player : GameObject {
         } else {
             return false
         }
+    }
+    
+    // Initializor supporting the storing of Obstacle objects using Object Archive
+    required convenience init?(coder decoder: NSCoder) {
+        guard let imageName = decoder.decodeObject(forKey: Constants.imageNameKey) as? String else {
+            return nil
+        }
+        let ratioPosition = decoder.decodeCGPoint(forKey: Constants.ratioPositionKey)
+        self.init(image: imageName)
+        self.ratioPosition = ratioPosition
+    }
+    
+    // Encoding function for supporting Object Archive
+    override func encode(with aCoder: NSCoder) {
+        aCoder.encode(imageName, forKey: Constants.imageNameKey)
+        aCoder.encode(ratioPosition, forKey: Constants.ratioPositionKey)
+    }
+    
+    // This function returns a copy of itself without physicsBody properties, except the position
+    override func copy() -> Any {
+        let copy = Player(image: self.imageName, timeToLive: self.timeToLive)
+        copy.ratioPosition = self.ratioPosition
+        // copy.shape.position = self.shape.position
+        return copy
     }
 
     func setupPhysicsProperty() {

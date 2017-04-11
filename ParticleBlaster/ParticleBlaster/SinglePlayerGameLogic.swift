@@ -50,7 +50,7 @@ class SinglePlayerGameLogic: GameLogic {
     /* End of computed properties */
     
     /* Start of initialiser */
-    init(gameViewController: GameViewController, obstaclePool: [Obstacle]) {
+    init(gameViewController: GameViewController, obstaclePool: [Obstacle], player: Player) {
         self.gameViewController = gameViewController
         
         
@@ -58,10 +58,11 @@ class SinglePlayerGameLogic: GameLogic {
         self.map = Boundary(rect: self.gameViewController.scene.frame)
         
         self.numberOfPlayers = 1
-        let playerController = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
+        let playerController = PlayerController(gameViewController: self.gameViewController, player: player.copy() as! Player)
         self.playerControllers = [playerController]
         
         prepareObstacles()
+        preparePlayer()
         preparePlayerControllers()
         
         _checkRep()
@@ -72,7 +73,9 @@ class SinglePlayerGameLogic: GameLogic {
     func updateObstaclesVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
-            let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue, dy: direction.dy * Constants.obstacleForceValue)
+            let percentage = obs.shape.size.width * obs.shape.size.height / (Constants.standardObstacleSize.width * Constants.standardObstacleSize.height)
+            let appliedForce = CGVector(dx: direction.dx * Constants.obstacleForceValue * percentage, dy: direction.dy * Constants.obstacleForceValue * percentage
+            )
             obs.pushedByForce(appliedForce: appliedForce)
         }
     }
@@ -97,14 +100,14 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-        let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
-        let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
-        
-        let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
-        let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
-        
-        obs1.physicsBody?.applyImpulse(impulse1)
-        obs2.physicsBody?.applyImpulse(impulse2)
+//        let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
+//        let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
+//        
+//        let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
+//        let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
+//        
+//        obs1.physicsBody?.applyImpulse(impulse1)
+//        obs2.physicsBody?.applyImpulse(impulse2)
     }
     
     func objectDidCollideWithMap(object: SKSpriteNode) {
@@ -135,7 +138,9 @@ class SinglePlayerGameLogic: GameLogic {
     func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
         self.playerControllers[0].grenadeExplode(grenadeNode: grenade)
         let impulseDirection = CGVector(dx: obstacle.position.x - grenade.position.x, dy: obstacle.position.y - grenade.position.y).normalized()
-        let obstacleImpulse = CGVector(dx: impulseDirection.dx * Constants.obstacleHitByGrenadeImpulseValue, dy: impulseDirection.dy * Constants.obstacleHitByGrenadeImpulseValue)
+        let percentage = obstacle.size.width * obstacle.size.height / (Constants.standardObstacleSize.width * Constants.standardObstacleSize.height)
+        let obstacleImpulse = CGVector(dx: impulseDirection.dx * Constants.obstacleHitByGrenadeImpulseValue * percentage,
+                                       dy: impulseDirection.dy * Constants.obstacleHitByGrenadeImpulseValue * percentage)
         
         obstacle.physicsBody?.applyImpulse(obstacleImpulse)
         
@@ -183,9 +188,16 @@ class SinglePlayerGameLogic: GameLogic {
             obstacle.shape.zPosition = 1
             // Convert to absolute position as position is archived as ratio values
             obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+            obstacle.timeToLive = SpriteUtils.getObstacleTimeToLive(obstacle)
         }
     }
-    
+
+    func preparePlayer() {
+        let player = self.player
+        player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
+                                        y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
+    }
+
     private func preparePlayerControllers() {
         for playerController in self.playerControllers {
             playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)

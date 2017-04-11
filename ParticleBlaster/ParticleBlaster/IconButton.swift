@@ -9,6 +9,7 @@
 import SpriteKit
 
 class IconButton: SKNode {
+    var tag: String?
     private var positiveButton: SKSpriteNode
     private var negativeButton: SKSpriteNode? = nil
     var isPositive: Bool {
@@ -20,7 +21,8 @@ class IconButton: SKNode {
         }
     }
     var isEnabled: Bool
-
+    
+    var onPressHandlerWithTag: ((String?) -> Void)?
     var onPressHandler: (() -> Void)?
     var size: CGSize {
         return positiveButton.size
@@ -88,7 +90,9 @@ class IconButton: SKNode {
     }
 
     private func onPress() {
-        if let onPressHandler = onPressHandler {
+        if let onPressHandlerWithTag = onPressHandlerWithTag {
+            onPressHandlerWithTag(tag)
+        } else if let onPressHandler = onPressHandler {
             onPressHandler()
         }
     }

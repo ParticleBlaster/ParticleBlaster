@@ -59,17 +59,17 @@ class MultiplayerGameLogic: GameLogic {
     }
     
     // TODO: possible improvement: remaining life percentage band/strap
-    init(gameViewController: GameViewController, obstaclePool: [Obstacle]) {
+    init(gameViewController: GameViewController, obstaclePool: [Obstacle], players: [Player]) {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
         
-        let player1 = PlayerController(gameViewController: self.gameViewController, playerIndex: 1)
+        let player1 = PlayerController(gameViewController: self.gameViewController, player: players[0].copy() as! Player)
         player1.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
         // TODO: Refactor
         player1.player.timeToLive = 5
-        let player2 = PlayerController(gameViewController: self.gameViewController, playerIndex: 2)
+        let player2 = PlayerController(gameViewController: self.gameViewController, player: players[1].copy() as! Player)
         player2.updateJoystickPlateCenter(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
         // TODO: Refactor
         player2.player.timeToLive = 5
@@ -82,6 +82,7 @@ class MultiplayerGameLogic: GameLogic {
         player2.obtainObstacleListHandler = self.obtainObstaclesHandler
         
         prepareObstacles()
+        preparePlayers()
     }
     
     // Shouldn't be implementing this
@@ -148,7 +149,16 @@ class MultiplayerGameLogic: GameLogic {
             obstacle.setupShape()
             obstacle.shape.zPosition = 1
             // convert to absolute position as position is archived as ratio values
-            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width,
+                                              y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+        }
+    }
+    
+    func preparePlayers() {
+        let players = [player1, player2]
+        for player in players {
+            player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
+                                            y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
         }
     }
     

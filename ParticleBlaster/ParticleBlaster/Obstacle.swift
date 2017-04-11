@@ -26,13 +26,7 @@ class Obstacle : GameObject {
     var initialPosition: CGPoint
     // for support storage purpose
     var imageName: String = "obs"
-    
-    // Computed property, invoked when the obstacle is hit and its size needs recalculation
-    private var remainingLifePercentage: CGFloat {
-        get {
-            return CGFloat(self.timeToLive) / CGFloat(Constants.defaultTimeToLive)
-        }
-    }
+
     /* End of class attributes definition */
 
 
@@ -92,8 +86,12 @@ class Obstacle : GameObject {
     // This function updates the size of the obstacle once it is hit by weapon
     func hitByBullet() {
         self.timeToLive -= 1
-        let decreasePersentage = CGFloat(0.95)
-        self.shape.size = CGSize(width: self.shape.size.width * decreasePersentage, height: self.shape.size.height * decreasePersentage)
+        let originalSize = SpriteUtils.getObstacleOriginalSize(self)
+        let minWidth = Constants.obstacleMinimumWidth
+        let minHeight = minWidth * originalSize.height / originalSize.width
+        let remainingPercentage = CGFloat(timeToLive) / CGFloat(SpriteUtils.getObstacleTimeToLive(self))
+        self.shape.size = CGSize(width: minWidth + (originalSize.width - minWidth) * remainingPercentage,
+                                 height: minHeight + (originalSize.height - minHeight) * remainingPercentage)
         self.resetPhysicsBodySize()
     }
 

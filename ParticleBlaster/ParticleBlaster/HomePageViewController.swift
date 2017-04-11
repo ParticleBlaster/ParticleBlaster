@@ -36,6 +36,8 @@ class HomePageViewController: UIViewController {
         // Call the GC authentication controller
         authenticateLocalPlayer()
         
+        setupThemes()
+        
         setupMFiControllers()
         MFiControllerConfig.startNextMFiConnectionNotificationCenter()
      }
@@ -47,6 +49,11 @@ class HomePageViewController: UIViewController {
             print("\(MFiControllerConfig.mfis.count) added")
         }
     }
+    
+    private func setupThemes() {
+        ThemeConfig.setThemes()
+    }
+
     
     func onGCEnableChange() {
         guard let scene = homePageScene else {

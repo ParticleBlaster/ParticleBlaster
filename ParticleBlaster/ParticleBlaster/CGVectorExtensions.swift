@@ -23,8 +23,8 @@ extension CGVector {
     }
 
     func normalizeJoystickDirection() -> CGVector {
-        let dx = self.dx * Constants.joystickWidth / 2
-        let dy = self.dy * Constants.joystickHeight / 2
+        let dx = self.dx * Constants.joystickPlateWidth / 2
+        let dy = self.dy * Constants.joystickPlateHeight / 2
         return CGVector(dx: dx, dy: dy)
     }
     
