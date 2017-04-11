@@ -9,6 +9,7 @@
 import UIKit
 import SpriteKit
 import GameplayKit
+import GameKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
@@ -195,7 +196,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.showsFPS = true
         skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
-        skView.showsPhysics = true
+        //skView.showsPhysics = true
         scene.scaleMode = .resizeFill
         skView.presentScene(scene)
         self.startTime = DispatchTime.now()
@@ -208,6 +209,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 let skView = view as! SKView
                 let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Scored \(self.currLevelObtainedScore) !", viewController: self)
                 skView.presentScene(gameOverScene)
+                updateScoreAndShowLeaderboard()
             } else {
                 if (self.gameLogic as! MultiplayerGameLogic).doesPlayer1Win {
                     let skView = view as! SKView
@@ -227,5 +229,20 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             skView.presentScene(gameOverScene)
             deConfigAllMFiControllers()
         }
+    }
+
+    private func updateScoreAndShowLeaderboard() {
+        let level = gameLevel.id
+        let score = self.currLevelObtainedScore
+        GameCenterUtils.submitScore(for: level, score: score) {
+            GameCenterUtils.openLeaderboard(in: self, level: level)
+        }
+    }
+}
+
+extension GameViewController: GKGameCenterControllerDelegate {
+    // Delegate to dismiss the GC controller
+    func gameCenterViewControllerDidFinish(_ gameCenterViewController: GKGameCenterViewController) {
+        gameCenterViewController.dismiss(animated: true, completion: nil)
     }
 }
