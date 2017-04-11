@@ -22,6 +22,7 @@ class HomePageViewController: UIViewController {
             guard oldValue != gcEnabled else {
                 return
             }
+            GameCenterUtils.gcEnabled = gcEnabled
             self.onGCEnableChange()
         }
     }
@@ -93,7 +94,6 @@ class HomePageViewController: UIViewController {
                          print(error ?? "")
                     } else {
                         self.gcDefaultLeaderBoard = leaderboardIdentifer!
-                        print(self.gcDefaultLeaderBoard)
                     }
                 })
             } else {
@@ -187,10 +187,6 @@ extension HomePageViewController: NavigationDelegate {
     }
 
     func navigateToLeaderBoard() {
-        let gcVC = GKGameCenterViewController()
-        gcVC.gameCenterDelegate = self
-        gcVC.viewState = .leaderboards
-        gcVC.leaderboardIdentifier = Constants.levelLeaderboardID
-        present(gcVC, animated: true, completion: nil)
+        GameCenterUtils.openLevelLeaderboard(in: self)
     }
 }

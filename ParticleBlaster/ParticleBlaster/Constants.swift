@@ -45,7 +45,7 @@ enum WeaponCategory: Int {
 }
 
 class Constants {
-    static let levelLeaderboardID = "com.score.levelLeaderboard"
+    static let numOfPreloadSingleModeLevel = 12
     static let backgroundColor = SKColor.white
     static let defaultBackgroundZPosition: CGFloat = CGFloat(-100)
     
