@@ -49,7 +49,7 @@ class PlayerController {
     }
     /* End of variables associated with data models */
     
-    // Function handler, for obtaining obstacle list from game logic
+    // Function handlers, for obtaining obstacle list
     var obtainObstacleListHandler: (() -> ([Obstacle]))!
     
     /* Start of variables which support the logic for the game play */
@@ -135,13 +135,16 @@ class PlayerController {
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
         
         // Force the weapon to be Bullet for debugging purposes
-        self.selectedWeaponType = WeaponCategory.Bullet
+        self.selectedWeaponType = WeaponCategory.Grenade
         
         switch self.selectedWeaponType {
         case .Bullet:
             self.selectedWeapon = Bullet(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
         case .Grenade:
-            self.selectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+            let newSelectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+            newSelectedWeapon.explosionMusicAdvertiser = self.grenadeDidExplodePlayMusicListener
+            //self.selectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
+            self.selectedWeapon = newSelectedWeapon
         case .Missile:
             if let getObsListHandler = self.obtainObstacleListHandler {
                 let obstacleList = getObsListHandler()
@@ -165,6 +168,16 @@ class PlayerController {
         weaponToUse.launch()
         self.scene.run(SKAction.playSoundFileNamed(weaponToUse.lauchMusicName, waitForCompletion: false))
         self.scene.playMusic(musicName: weaponToUse.lauchMusicName)
+//        if self.selectedWeaponType == WeaponCategory.Grenade {
+//            let grenadeExpectedExplosionTime = DispatchTime.now() + TimeInterval(Constants.grenadeThrowingTime)
+//            DispatchQueue.main.asyncAfter(deadline: grenadeExpectedExplosionTime, execute: {
+//                if let grenadeThrowed = weaponToUse as? Grenade {
+//                    if !grenadeThrowed.exploded {
+//                        //self.scene.playMusic(musicName: grenadeThrowed.explosionMusicName)
+//                    }
+//                }
+//            })
+//        }
     }
     
     // This function updates the weapon's velocity if its velocity needs to be calculated per frame
@@ -191,6 +204,10 @@ class PlayerController {
                 self.removeWeaponAfterCollision(weaponNode: grenadeNode)
             }
         }
+    }
+    
+    func grenadeDidExplodePlayMusicListener() {
+        self.scene.playMusic(musicName: Grenade.explosionMusicName)
     }
     
     // This function is invoked when the weapon collides with the osbtacle; it updates the weapon's physics properties such that it won't collide with another obstacle
