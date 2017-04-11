@@ -322,6 +322,7 @@ extension LevelDesignerScene {
 
     fileprivate func initLevelScreen() {
         levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName!)
+        gameLevel.backgroundImageName = currentTheme.backgroundName!
     }
 
     fileprivate func initThemeList() {
@@ -347,16 +348,38 @@ extension LevelDesignerScene {
     fileprivate func loadTheme(_ name: String?) {
         currentTheme = ThemeConfig.themes[name!]
         initPalette()
+        clearAllObstaclesFromLevelScreen()
         initLevelScreen()
+        clearAllSpaceshipsFromLevelScreen()
+        preparePlayers()
     }
 
+    fileprivate func clearAllObstaclesFromLevelScreen() {
+        for item in gameLevel.obstacles {
+            item.shape.removeFromParent()
+        }
+        gameLevel.removeAllObstacle()
+    }
+    
+    fileprivate func clearAllSpaceshipsFromLevelScreen() {
+        for item in gameLevel.players {
+            item.shape.removeFromParent()
+        }
+        gameLevel.players.removeAll()
+    }
+    
     fileprivate func preparePlayers() {
+        for player in players {
+            player.shape.removeFromParent()
+        }
+        players.removeAll()
+        
         var player1: Player
         if gameLevel.players.count > 0 {
             player1 = gameLevel.players[0]
             player1.shape.position = ratioPositionToLevelScreenPosition(player1.ratioPosition)
         } else {
-            player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
+            player1 = Player(image: currentTheme.spaceshipsNames[0])
             player1.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultFirstPlayerPositionRatio)
         }
         player1.shape.scale(to: CGSize(width: player1.shape.size.width * Constants.levelScreenRatio,
@@ -370,7 +393,7 @@ extension LevelDesignerScene {
                 player2 = gameLevel.players[1]
                 player2.shape.position = ratioPositionToLevelScreenPosition(player2.ratioPosition)
             } else {
-                player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
+                player2 = Player(image: currentTheme.spaceshipsNames[1])
                 player2.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultSecondPlayerPositionRatio)
             }
             player2.shape.scale(to: CGSize(width: player2.shape.size.width * Constants.levelScreenRatio,
@@ -382,6 +405,7 @@ extension LevelDesignerScene {
         for player in players {
             player.shape.zPosition = normalZPosition + 1
             levelScreen.addChild(player.shape)
+            gameLevel.players.append(player)
         }
     }
 

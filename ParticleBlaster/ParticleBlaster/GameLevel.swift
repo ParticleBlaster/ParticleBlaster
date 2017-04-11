@@ -38,6 +38,10 @@ class GameLevel: NSObject, NSCoding {
         }
         obstacles.remove(at: index)
     }
+    
+    func removeAllObstacle() {
+        obstacles.removeAll()
+    }
 
     required convenience init?(coder decoder: NSCoder) {
         guard let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle],
