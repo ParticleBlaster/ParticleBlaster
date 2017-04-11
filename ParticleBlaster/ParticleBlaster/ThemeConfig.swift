@@ -12,24 +12,27 @@ struct ThemeConfig {
     static var themes = [String: Theme]()
     
     
-    static let themeNames = ["StarWars",
+    static let themeNames = ["Planet",
+                             "StarWars",
                              "StarTrek",
                              "DoctorWho",
                              "EVA",
                              "Pixel",
                              "Monster"]
-    static let themeObstacleNames = ["StarWars":obstacleFileNamesStarWars,
+    static let themeObstacleNames = ["Planet": obstacleFileNamesPlanet,
+                                     "StarWars":obstacleFileNamesStarWars,
                                      "StarTrek":obstacleFileNamesStarTrek,
                                      "DoctorWho":obstacleFileNamesDoctorWho,
                                      "EVA":obstacleFileNamesEVA,
                                      "Pixel":obstacleFileNamesPixel,
                                      "Monster":obstacleFileNamesMonster]
-    static let themeSpaceshipNames = ["StarWars":obstacleFileNamesStarWars,
-                                     "StarTrek":obstacleFileNamesStarTrek,
-                                     "DoctorWho":obstacleFileNamesDoctorWho,
-                                     "EVA":obstacleFileNamesEVA,
-                                     "Pixel":obstacleFileNamesPixel,
-                                     "Monster":obstacleFileNamesMonster]
+    static let themeSpaceshipNames = ["Planet": obstacleFileNamesPlanet,
+                                      "StarWars":obstacleFileNamesStarWars,
+                                      "StarTrek":obstacleFileNamesStarTrek,
+                                      "DoctorWho":obstacleFileNamesDoctorWho,
+                                      "EVA":obstacleFileNamesEVA,
+                                      "Pixel":obstacleFileNamesPixel,
+                                      "Monster":obstacleFileNamesMonster]
     static func setThemes() {
         for name in themeNames {
             setTheme(name: name,
@@ -49,6 +52,13 @@ struct ThemeConfig {
         
         themes[themeName] = theme
     }
+    
+    static let obstacleFileNamesPlanet = ["planet-1",
+                                          "planet-2",
+                                          "planet-3",
+                                          "planet-4",
+                                          "planet-5",
+                                          "planet-6"]
     
     static let obstacleFileNamesStarWars = ["starwars-bb8",
                                             "starwars-bountyhunter",

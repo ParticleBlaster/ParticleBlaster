@@ -166,29 +166,9 @@ class Constants {
     //static let destroyObstacleScore
     // Homepage Constants
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
-    
-    // Star Wars Theme Obstacles
-    static let starwarsObstaclesFilename = ["starwars-bb8",
-                                            "starwars-bountyhunter",
-                                            "starwars-c3po",
-                                            "starwars-darthvadar",
-                                            "starwars-princess",
-                                            "starwars-r2d2",
-                                            "starwars-sith",
-                                            "starwars-thundertrooper"]
-    static let planetsObstacleFilenames = ["planet-1",
-                                         "planet-2",
-                                         "planet-3",
-                                         "planet-4",
-                                         "planet-5",
-                                         "planet-6"]
-    static let monsterObstacleFilenames = ["monster-1",
-                                           "monster-2",
-                                           "monster-3",
-                                           "monster-4",
-                                           "monster-5"]
 
     static let maxNumOfObstacle = 15
+    static let defaultThemeName = "Planet"
     // Obstalces' size
     static let obstacleBasicSize = CGSize(width: 80, height: 80)
     static let obstacleSizeMap = [
