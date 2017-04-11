@@ -187,13 +187,12 @@ class LevelSelectScene: SKScene {
             levelScreen.addChild(shape)
         }
         // add players to preview
-        for (index, playerPosition) in gameLevel.playerPositions.enumerated() {
-            let player = Player(image: "\(Constants.playerFilenamePrefix)\(index + 1)")
-            let shape = player.shape
+        for player in gameLevel.players {
+            let shape = player.shape.copy() as! SKSpriteNode
             shape.physicsBody = nil
             shape.size = CGSize(width: shape.size.width * Constants.levelScreenPreviewRatio,
                                 height: shape.size.height * Constants.levelScreenPreviewRatio)
-            shape.position = ratioPositionToLevelScreenPosition(playerPosition, in: levelScreen)
+            shape.position = ratioPositionToLevelScreenPosition(player.ratioPosition, in: levelScreen)
             shape.zPosition = Constants.zPositionModal + 2
             levelScreen.addChild(shape)
         }

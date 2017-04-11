@@ -111,7 +111,7 @@ class Obstacle : GameObject {
     /* Start of physics body setup and update functions */
     // This function sets up the initial size of the obstacle according to its image (hence type)
     func setupShape(withPhysicsBody: Bool = true) {
-        self.shape.size = Constants.obstacleSizeMap[imageName] ?? Constants.obstacleSmallSize
+        self.shape.size = Constants.obstacleSizeMap[imageName] ?? Constants.obstacleBasicSize
         if withPhysicsBody {
             setupPhysicsProperty()
         }
@@ -136,7 +136,7 @@ class Obstacle : GameObject {
 
     // This function returns a new physics body associated with the size of the obstacle
     private func generatePhysicsBody() -> SKPhysicsBody {
-        let newPhysicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        let newPhysicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         newPhysicsBody.isDynamic = true
         newPhysicsBody.categoryBitMask = PhysicsCategory.Obstacle
         newPhysicsBody.contactTestBitMask = PhysicsCategory.Bullet | PhysicsCategory.Obstacle | PhysicsCategory.Player | PhysicsCategory.Map | PhysicsCategory.Grenade

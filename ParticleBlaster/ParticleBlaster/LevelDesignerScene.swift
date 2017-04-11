@@ -20,7 +20,7 @@ class LevelDesignerScene: SKScene {
     fileprivate var playButton: TextButton!
     fileprivate var levelScreen = SKSpriteNode()
     fileprivate var players: [Player] = []
-    
+
     fileprivate var currentTheme: Theme! = ThemeConfig.themes["Monster"]
 
     var paletteItems = [Obstacle]()
@@ -37,7 +37,7 @@ class LevelDesignerScene: SKScene {
 
     override func didMove(to view: SKView) {
         physicsWorld.gravity = .zero
-        
+
         initLayout()
         initPalette()
         initThemeList()
@@ -117,7 +117,7 @@ class LevelDesignerScene: SKScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-        
+
         if let obstacle = currentObject as? Obstacle {
             if isTouchInside(touch: touch, frame: levelScreen.frame, inside: self) {
                 let obstacle = obstacle.copy() as! Obstacle
@@ -182,7 +182,9 @@ class LevelDesignerScene: SKScene {
     private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
         for player in players {
-            level.playerPositions.append(levelScreenPositionToRatioPosition(player.shape.position))
+            let copiedPlayer = player.copy() as! Player
+            copiedPlayer.ratioPosition = levelScreenPositionToRatioPosition(player.shape.position)
+            level.players.append(copiedPlayer)
         }
         for obstacle in gameLevel.obstacles {
             let obstacleClone = obstacle.copy() as! Obstacle
@@ -282,7 +284,7 @@ extension LevelDesignerScene {
         levelScreenBorder.strokeColor = SKColor.white
         levelScreenBorder.lineWidth = Constants.strokeMedium
         levelScreenBorder.zPosition = normalZPosition
-        
+
         levelScreen.size = CGSize(width: size.width * Constants.levelScreenRatio,
                                   height: size.height * Constants.levelScreenRatio)
         levelScreen.position = CGPoint(x: size.width * Constants.screenCenterPositionRatio,
@@ -301,7 +303,7 @@ extension LevelDesignerScene {
             item.shape.removeFromParent()
         }
         paletteItems.removeAll()
-        
+
         var posX = size.width - Constants.obstaclePadding.width
         let posY = levelScreen.frame.minY/2
         // Create obstacle pallete
@@ -317,11 +319,11 @@ extension LevelDesignerScene {
             posX -= item.shape.size.width
         }
     }
-    
+
     fileprivate func initLevelScreen() {
         levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName!)
     }
-    
+
     fileprivate func initThemeList() {
         var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
         // Create obstacle pallete
@@ -341,7 +343,7 @@ extension LevelDesignerScene {
             addChild(themeIcon)
         }
     }
-    
+
     fileprivate func loadTheme(_ name: String?) {
         currentTheme = ThemeConfig.themes[name!]
         initPalette()
@@ -349,33 +351,34 @@ extension LevelDesignerScene {
     }
 
     fileprivate func preparePlayers() {
-        let player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
-        player1.setupPhysicsProperty()
+        var player1: Player
+        if gameLevel.players.count > 0 {
+            player1 = gameLevel.players[0]
+            player1.shape.position = ratioPositionToLevelScreenPosition(player1.ratioPosition)
+        } else {
+            player1 = Player(image: "\(Constants.playerFilenamePrefix)1")
+            player1.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultFirstPlayerPositionRatio)
+        }
         player1.shape.scale(to: CGSize(width: player1.shape.size.width * Constants.levelScreenRatio,
                                        height: player1.shape.size.width * Constants.levelScreenRatio))
         player1.shape.physicsBody?.allowsRotation = false
-        if gameLevel.playerPositions.count > 0 {
-            player1.shape.position = ratioPositionToLevelScreenPosition(gameLevel.playerPositions[0])
-        } else {
-            player1.shape.position = CGPoint(x: -levelScreen.frame.size.width/2 + player1.shape.size.width/2, y: 0)
-        }
         players.append(player1)
-        
+
         if gameLevel.gameMode == .multiple {
-            let player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
-            player2.setupPhysicsProperty()
+            var player2: Player
+            if gameLevel.players.count > 1 {
+                player2 = gameLevel.players[1]
+                player2.shape.position = ratioPositionToLevelScreenPosition(player2.ratioPosition)
+            } else {
+                player2 = Player(image: "\(Constants.playerFilenamePrefix)2")
+                player2.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultSecondPlayerPositionRatio)
+            }
             player2.shape.scale(to: CGSize(width: player2.shape.size.width * Constants.levelScreenRatio,
                                            height: player2.shape.size.width * Constants.levelScreenRatio))
             player2.shape.physicsBody?.allowsRotation = false
-            
-            if gameLevel.playerPositions.count > 1 {
-                player2.shape.position = ratioPositionToLevelScreenPosition(gameLevel.playerPositions[1])
-            } else {
-                player2.shape.position = CGPoint(x: levelScreen.frame.size.width/2 - player2.shape.size.width/2, y: 0)
-            }
             players.append(player2)
         }
-        
+
         for player in players {
             player.shape.zPosition = normalZPosition + 1
             levelScreen.addChild(player.shape)
