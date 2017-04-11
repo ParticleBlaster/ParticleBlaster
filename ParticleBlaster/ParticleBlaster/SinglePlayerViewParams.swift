@@ -6,9 +6,13 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `SinglePlayerViewParams` class defines the view parameters used to positioning nodes in singleplayer mode
+ */
+
 import SpriteKit
 
-class SinglePlayerViewParams {
+class SingleplayerViewParams {
     static let playerWidth: CGFloat = CGFloat(50)
     static let playerHeight: CGFloat = CGFloat(50)
     static let playerRadius: CGFloat = CGFloat(22)
