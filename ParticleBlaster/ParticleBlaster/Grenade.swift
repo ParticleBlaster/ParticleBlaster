@@ -53,7 +53,7 @@ class Grenade : Weapon {
     func explode() {
         if !self.exploded {
             self.exploded = true
-            self.shape.size = CGSize(width: Constants.grenadeRadius * 6, height: Constants.grenadeRadius * 6)
+            self.shape.size = CGSize(width: Constants.grenadeRadius * 8, height: Constants.grenadeRadius * 8)
             self.shape.zPosition = Constants.grenadeExplosionAnimationZPosition
             //self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 2)
             self.shape.physicsBody?.isDynamic = false

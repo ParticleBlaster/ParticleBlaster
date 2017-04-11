@@ -152,7 +152,7 @@ class Constants {
     
     static let obstacleImpulseValue: CGFloat = CGFloat(50)
     static let obstacleForceValue: CGFloat = CGFloat(50)
-    static let obstacleHitByGrenadeImpulseValue: CGFloat = CGFloat(10)
+    static let obstacleHitByGrenadeImpulseValue: CGFloat = CGFloat(150)
     static let playerForceValue: CGFloat = CGFloat(50)
     
     static let obstacleMass: CGFloat = CGFloat(20)
