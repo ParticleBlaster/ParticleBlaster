@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `MultiplayerViewParams` class defines the view parameters used to positioning nodes in multiplayer mode
+ */
+
 import SpriteKit
 
 class MultiplayerViewParams {

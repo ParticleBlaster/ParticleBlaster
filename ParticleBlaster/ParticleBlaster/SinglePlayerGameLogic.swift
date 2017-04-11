@@ -85,13 +85,14 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
-        //self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet, weaponType: WeaponCategory.Bullet)
         self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet)
         
         self.obstacleIsHit(obstacleNode: obstacle)
     }
     
     // TODO: can implement a bounce-off effect if the player hits the obs but not dead yet
+    // In single player mode, the time-to-live value of a player should decrease 
+    // when it collides with an obstacles
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
         self.player.hitByObstacle()
         if self.player.checkDead() {
@@ -99,19 +100,14 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
+    // In single player mode, obstacles have no special effects after colliding with each other
     func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-//        let obstacle1Velocity = obs1.physicsBody?.velocity.normalized()
-//        let obstacle2Velocity = obs2.physicsBody?.velocity.normalized()
-//        
-//        let impulse1 = CGVector(dx: obstacle2Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle2Velocity!.dy * Constants.obstacleImpulseValue)
-//        let impulse2 = CGVector(dx: obstacle1Velocity!.dx * Constants.obstacleImpulseValue, dy: obstacle1Velocity!.dy * Constants.obstacleImpulseValue)
-//        
-//        obs1.physicsBody?.applyImpulse(impulse1)
-//        obs2.physicsBody?.applyImpulse(impulse2)
     }
     
+    // In single player mode, when an object collides with the map
+    // If it is a bullets, it should be removed from the scene (as if it flies out of the boundary)
+    // Otherwise it should collides with the map and be constrainted inside the map
     func objectDidCollideWithMap(object: SKSpriteNode) {
-        // TODO: The interaction between player and boundary seems buggy (probably due to player physics body)
         if object.physicsBody?.categoryBitMask == PhysicsCategory.Bullet {
             self.playerControllers[0].removeWeaponAfterCollision(weaponNode: object)
             object.removeFromParent()
@@ -120,7 +116,6 @@ class SinglePlayerGameLogic: GameLogic {
     }
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
-        
     }
     
     func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
@@ -182,6 +177,22 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
+    
+
+    func preparePlayer() {
+        let player = self.player
+        player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
+                                        y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
+    }
+
+    /* Start of private methods */
+    private func preparePlayerControllers() {
+        for playerController in self.playerControllers {
+            playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+            playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
+        }
+    }
+    
     private func prepareObstacles() {
         for obstacle in self.obstaclePool {
             obstacle.setupShape()
@@ -192,24 +203,8 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
 
-    func preparePlayer() {
-        let player = self.player
-        player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
-                                        y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
-    }
-
-    private func preparePlayerControllers() {
-        for playerController in self.playerControllers {
-            playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-            playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
-        }
-    }
-    
-    private func prepareMap() {
-        self.gameViewController.scene.addChild(self.map)
-    }
-
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
     }
+    /* End of private methods */
 }
