@@ -47,6 +47,7 @@ enum WeaponCategory: Int {
 class Constants {
     static let levelLeaderboardID = "com.score.levelLeaderboard"
     static let backgroundColor = SKColor.white
+    static let defaultBackgroundZPosition: CGFloat = CGFloat(-100)
     
     static var viewCentralPoint: CGPoint!
     
@@ -147,6 +148,7 @@ class Constants {
     // Physics Related Constants
     static let defaultTimeToLive: Int = 10
     static let playerTimeToLive: Int = 1
+    static let multiplayerTimeToLive: Int = 5
     
     static let obstacleImpulseValue: CGFloat = CGFloat(50)
     static let obstacleForceValue: CGFloat = CGFloat(50)
