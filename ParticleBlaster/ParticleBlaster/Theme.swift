@@ -10,8 +10,8 @@ import Foundation
 
 class Theme {
     var name: String
-    var iconName: String? = nil
-    var backgroundName: String? = nil
+    var iconName: String = ""
+    var backgroundName: String = ""
     var obstaclesNames = [String]()
     var spaceshipsNames = [String]()
     

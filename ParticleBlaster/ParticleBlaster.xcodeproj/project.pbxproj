@@ -66,6 +66,7 @@
 		6ADA68311E99E76E0006328F /* DispatchTimeExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADA68301E99E76E0006328F /* DispatchTimeExtensions.swift */; };
 		6ADE9F611E9CC35C00A2B845 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADE9F601E9CC35C00A2B845 /* Theme.swift */; };
 		6ADE9F631E9CC36500A2B845 /* ThemeConfig.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6ADE9F621E9CC36500A2B845 /* ThemeConfig.swift */; };
+		6AF0EA311E9D6156004A1E30 /* GamePauseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6AF0EA301E9D6156004A1E30 /* GamePauseScene.swift */; };
 		E11D1ED11E95772500E4B6CE /* GameData.swift in Sources */ = {isa = PBXBuildFile; fileRef = E11D1ED01E95772500E4B6CE /* GameData.swift */; };
 		E166507E1E97878F0016BA69 /* Boundary.swift in Sources */ = {isa = PBXBuildFile; fileRef = E166507D1E97878F0016BA69 /* Boundary.swift */; };
 		E1A4FE391E83FE2F0096D277 /* TextButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = E1A4FE381E83FE2F0096D277 /* TextButton.swift */; };
@@ -143,6 +144,7 @@
 		6ADA68301E99E76E0006328F /* DispatchTimeExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DispatchTimeExtensions.swift; sourceTree = "<group>"; };
 		6ADE9F601E9CC35C00A2B845 /* Theme.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		6ADE9F621E9CC36500A2B845 /* ThemeConfig.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ThemeConfig.swift; sourceTree = "<group>"; };
+		6AF0EA301E9D6156004A1E30 /* GamePauseScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GamePauseScene.swift; sourceTree = "<group>"; };
 		E11D1ED01E95772500E4B6CE /* GameData.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GameData.swift; sourceTree = "<group>"; };
 		E166507D1E97878F0016BA69 /* Boundary.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Boundary.swift; sourceTree = "<group>"; };
 		E1A4FE381E83FE2F0096D277 /* TextButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TextButton.swift; sourceTree = "<group>"; };
@@ -202,6 +204,8 @@
 				0C0732E61E8C07D600E5BE3D /* GameScene.swift */,
 				0CCDB6041E75254300DEF8CC /* SinglePlayerGameScene.swift */,
 				0CC56B311E83B3D1003A39F7 /* MultiplayerGameScene.swift */,
+				6AF0EA301E9D6156004A1E30 /* GamePauseScene.swift */,
+				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 			);
 			name = GamePlay;
 			sourceTree = "<group>";
@@ -261,7 +265,6 @@
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
 				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
-				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
@@ -474,6 +477,7 @@
 				0CCDB6291E758E0700DEF8CC /* GameOverScene.swift in Sources */,
 				0E02E5D31E81616400E7AB51 /* JoystickPlate.swift in Sources */,
 				0E02E5CF1E8140EE00E7AB51 /* Player.swift in Sources */,
+				6AF0EA311E9D6156004A1E30 /* GamePauseScene.swift in Sources */,
 				6ADA682F1E99E6E30006328F /* MFiControllerConfig.swift in Sources */,
 				6ADA68311E99E76E0006328F /* DispatchTimeExtensions.swift in Sources */,
 				6A2AC26A1E87745F00BE3A41 /* HomePageViewController.swift in Sources */,

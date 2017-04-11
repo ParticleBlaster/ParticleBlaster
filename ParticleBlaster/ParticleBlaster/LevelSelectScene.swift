@@ -170,7 +170,7 @@ class LevelSelectScene: SKScene {
         maskLayer.zPosition = Constants.zPositionModal
         maskLayer.position = .zero
 
-        let levelScreen = SKSpriteNode(imageNamed: gameLevel.backgroundImageName!)
+        let levelScreen = SKSpriteNode(imageNamed: gameLevel.backgroundImageName)
         levelScreen.size = CGSize(width: size.width * Constants.levelScreenPreviewRatio,
                                   height: size.height * Constants.levelScreenPreviewRatio)
         levelScreen.position = .zero
