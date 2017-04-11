@@ -53,7 +53,8 @@ class Player : GameObject {
     // This function returns a copy of itself without physicsBody properties, except the position
     override func copy() -> Any {
         let copy = Player(image: self.imageName, timeToLive: self.timeToLive)
-        copy.shape.position = self.shape.position
+        copy.ratioPosition = self.ratioPosition
+        // copy.shape.position = self.shape.position
         return copy
     }
 

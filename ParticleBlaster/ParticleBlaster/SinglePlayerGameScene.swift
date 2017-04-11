@@ -47,14 +47,14 @@ class SinglePlayerGameScene: GameScene {
         //backgroundColor = Constants.backgroundColor
         // loadGameLevel()
         
-        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
+//        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+//        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
         addChild(player.shape)
         
         // Set up virtual joystick
         setupVirtualJoystick()
         // Set up back to homepage button
-//        setupBackButton()
+        setupBackButton()
         // Set up physics world
         setupPhysicsWorld()
     }
@@ -184,9 +184,9 @@ class SinglePlayerGameScene: GameScene {
             if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
                 playerVelocityHandler()
             }
-//            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
-//                obstacleVelocityHandler()
-//            }
+            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+                obstacleVelocityHandler()
+            }
             if let velocityHandler = self.updateWeaponVelocityHandlers.first {
                 velocityHandler()
             }

@@ -173,12 +173,12 @@ class MultiplayerGameScene: GameScene {
         //backgroundColor = Constants.backgroundColor
         // loadGameLevel()
         
-        player1.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        player1.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX1, y: MultiplayerViewParams.playerCenterY1)
+//        player1.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+//        player1.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX1, y: MultiplayerViewParams.playerCenterY1)
         addChild(player1.shape)
         
-        player2.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-        player2.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX2, y: MultiplayerViewParams.playerCenterY2)
+//        player2.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
+//        player2.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX2, y: MultiplayerViewParams.playerCenterY2)
         addChild(player2.shape)
         
         // Set up virtual joystick
