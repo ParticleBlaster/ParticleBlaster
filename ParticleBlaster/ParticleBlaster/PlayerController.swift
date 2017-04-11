@@ -135,14 +135,14 @@ class PlayerController {
         self.selectedWeaponType = self.specialWeaponCounter <= 0 ? WeaponCategory.Bullet : self.selectedWeaponType
         
         // Force the weapon to be Bullet for debugging purposes
-        self.selectedWeaponType = WeaponCategory.Bullet
+        self.selectedWeaponType = WeaponCategory.Grenade
         
         switch self.selectedWeaponType {
         case .Bullet:
             self.selectedWeapon = Bullet(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
         case .Grenade:
             let newSelectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
-            newSelectedWeapon.explosionMusicAdvertiser = self.grenadeDidExplodePlayMusicListener
+            newSelectedWeapon.explosionAdvertiser = self.grenadeDidExplodeListener
             //self.selectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
             self.selectedWeapon = newSelectedWeapon
         case .Missile:
@@ -199,15 +199,19 @@ class PlayerController {
     func grenadeExplode(grenadeNode: SKSpriteNode) {
         if let grenade = self.weaponPool.filter({$0.shape == grenadeNode}).first as? Grenade {
             grenade.explode()
-            let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
-            DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
-                self.removeWeaponAfterCollision(weaponNode: grenadeNode)
-            }
+//            let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
+//            DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
+//                self.removeWeaponAfterCollision(weaponNode: grenadeNode)
+//            }
         }
     }
     
-    func grenadeDidExplodePlayMusicListener() {
+    func grenadeDidExplodeListener(grenadeNode: SKSpriteNode) {
         self.scene.playMusic(musicName: Grenade.explosionMusicName)
+        let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
+        DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
+            self.removeWeaponAfterCollision(weaponNode: grenadeNode)
+        }
     }
     
     // This function is invoked when the weapon collides with the osbtacle; it updates the weapon's physics properties such that it won't collide with another obstacle

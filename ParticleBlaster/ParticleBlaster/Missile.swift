@@ -82,8 +82,8 @@ class Missile : Weapon {
     
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.defaultBulletWidth, height: Constants.defaultBulletHeight)
-        //self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
-        self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: (self.shape.texture?.size())!)
+        self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
+        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: (self.shape.texture?.size())!)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player

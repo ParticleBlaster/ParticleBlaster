@@ -12,7 +12,7 @@ import SpriteKit
 class Grenade : Weapon {
     var exploded: Bool = false
     private var grenadeAnimationList = [SKTexture]()
-    var explosionMusicAdvertiser: (() -> ())!
+    var explosionAdvertiser: ((SKSpriteNode) -> ())!
     
     static let explosionMusicName = Constants.grenadeExplodeSoundFilename
     
@@ -65,8 +65,8 @@ class Grenade : Weapon {
             
             let explosionAnimation = SKAction.animate(with: self.grenadeAnimationList, timePerFrame: 0.05)
             self.shape.run(explosionAnimation)
-            if let musicHandler = self.explosionMusicAdvertiser {
-                musicHandler()
+            if let grenadeDidExplodeHandler = self.explosionAdvertiser {
+                grenadeDidExplodeHandler(self.shape)
             }
             
         }
