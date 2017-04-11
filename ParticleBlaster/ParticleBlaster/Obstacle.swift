@@ -7,7 +7,7 @@
 //
 
 /*
- * The `Osbtacle` class is the model for all obstacles the user needs to clear during the game
+ * The `Obstacle` class is the model for all obstacles the user needs to clear during the game
  * It subclassed the basic GameObject class, and added extra functions for the unique attributes of obs
  *      - It defines its own initial physics properties
  *      - It defines the remaining life percentage of the obstacle, updating it after hit by weapon

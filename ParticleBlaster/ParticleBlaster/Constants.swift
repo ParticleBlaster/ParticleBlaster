@@ -136,7 +136,7 @@ class Constants {
     static let grenadeExplosionAnimationZPosition: CGFloat = CGFloat(5)
     
     static let defaultUpgradePackSpriteFilename = "upgradePack"
-    static let upgradePackRadius: CGFloat = CGFloat(10)
+    static let upgradePackRadius: CGFloat = CGFloat(20)
     static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
     static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
     static let upgradePackFadeTime = 1.0
