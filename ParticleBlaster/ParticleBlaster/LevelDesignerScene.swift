@@ -330,8 +330,9 @@ extension LevelDesignerScene {
     fileprivate func initThemeList() {
         var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
         // Create obstacle pallete
-        for item in ThemeConfig.themes {
-            let themeIconImageName = item.value.iconName
+        for key in ThemeConfig.themeNames {
+            let value = ThemeConfig.themes[key]!
+            let themeIconImageName = value.iconName
             let themeIcon = IconButton(imageNamed: themeIconImageName,
                                     disabledImageNamed: themeIconImageName,
                                     size: CGSize(width: 80,
@@ -340,7 +341,7 @@ extension LevelDesignerScene {
             themeIcon.zPosition = normalZPosition
             themeIcon.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
                                          y: yValue)
-            themeIcon.tag = item.key
+            themeIcon.tag = key
             themeIcon.onPressHandlerWithTag = loadTheme
             yValue -= 70
             addChild(themeIcon)

@@ -13,11 +13,12 @@ struct ThemeConfig {
 
 
     static let themeNames = ["Planets",
-                             "StarWars",
-                             "StarTrek",
+                             "StarWars"
+//                             "StarTrek",
 //                             "DoctorWho",
 //                             "EVA",
-                             "Monster"]
+//                             "Monster"
+                            ]
 
     static let themeObstacleNames = ["Planets":obstacleFileNamesPlanets,
                                      "StarWars":obstacleFileNamesStarWars,
