@@ -18,8 +18,10 @@ class LevelDesignerScene: SKScene {
     fileprivate var backButton: IconButton!
     fileprivate var saveButton: TextButton!
     fileprivate var playButton: TextButton!
-    fileprivate let levelScreen = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
+    fileprivate var levelScreen = SKSpriteNode()
     fileprivate var players: [Player] = []
+    
+    fileprivate var currentTheme: Theme! = ThemeConfig.themes["Monster"]
 
     var paletteItems = [Obstacle]()
     var currentObject: GameObject?
@@ -37,7 +39,8 @@ class LevelDesignerScene: SKScene {
         physicsWorld.gravity = .zero
         
         initLayout()
-        initPallete()
+        initPalette()
+        initThemeList()
         backButton.onPressHandler = onBackButtonPressed
         saveButton.onPressHandler = onSaveButtonPressed
         playButton.onPressHandler = onPlayButtonPressed
@@ -293,11 +296,16 @@ extension LevelDesignerScene {
         addChild(Boundary(rect: levelScreen.frame))
     }
 
-    fileprivate func initPallete() {
+    fileprivate func initPalette() {
+        for item in paletteItems {
+            item.shape.removeFromParent()
+        }
+        paletteItems.removeAll()
+        
         var posX = size.width - Constants.obstaclePadding.width
         let posY = levelScreen.frame.minY/2
         // Create obstacle pallete
-        for itemFilename in Constants.monsterObstacleFilenames.reversed() {
+        for itemFilename in currentTheme.obstaclesNames.reversed() {
             let item = Obstacle(image: itemFilename, userSetInitialPosition: .zero)
             item.shape.position = CGPoint(x: posX - item.shape.size.width/2, y: posY)
             // remove physicBody
@@ -308,6 +316,36 @@ extension LevelDesignerScene {
             addChild(item.shape)
             posX -= item.shape.size.width
         }
+    }
+    
+    fileprivate func initLevelScreen() {
+        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName!)
+    }
+    
+    fileprivate func initThemeList() {
+        var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
+        // Create obstacle pallete
+        for item in ThemeConfig.themes {
+            let themeIconImageName = item.value.iconName == nil ? "" : item.value.iconName!
+            let themeIcon = IconButton(imageNamed: themeIconImageName,
+                                    disabledImageNamed: themeIconImageName,
+                                    size: CGSize(width: 80,
+                                                 height: Constants.getHeightWithSameRatio(withWidth: 80,
+                                                                                          forShape: SKSpriteNode(imageNamed: themeIconImageName))))
+            themeIcon.zPosition = normalZPosition
+            themeIcon.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
+                                         y: yValue)
+            themeIcon.tag = item.key
+            themeIcon.onPressHandlerWithTag = loadTheme
+            yValue -= 70
+            addChild(themeIcon)
+        }
+    }
+    
+    fileprivate func loadTheme(_ name: String?) {
+        currentTheme = ThemeConfig.themes[name!]
+        initPalette()
+        initLevelScreen()
     }
 
     fileprivate func preparePlayers() {

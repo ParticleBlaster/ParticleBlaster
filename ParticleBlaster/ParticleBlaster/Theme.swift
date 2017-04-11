@@ -10,10 +10,10 @@ import Foundation
 
 class Theme {
     var name: String
-    var logoName: String? = nil
+    var iconName: String? = nil
     var backgroundName: String? = nil
-    var obstacles = [Obstacle]()
-    var players = [Player]()
+    var obstaclesNames = [String]()
+    var spaceshipsNames = [String]()
     
     init(_ name: String) {
         self.name = name

@@ -209,12 +209,11 @@
 				E1E2057D1E82FF1B0018DD13 /* Widgets */,
 				6A638F411E8A84900000EB16 /* MFi */,
 				E1E2057A1E82F9590018DD13 /* Utils */,
+				6ADE9F641E9D0AFD00A2B845 /* Themes */,
 				6ADA68321E99E7780006328F /* Extensions */,
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
-				6ADE9F601E9CC35C00A2B845 /* Theme.swift */,
-				6ADE9F621E9CC36500A2B845 /* ThemeConfig.swift */,
 				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
 				0CCDB6281E758E0700DEF8CC /* GameOverScene.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
@@ -263,6 +262,15 @@
 				6ADA68301E99E76E0006328F /* DispatchTimeExtensions.swift */,
 			);
 			name = Extensions;
+			sourceTree = "<group>";
+		};
+		6ADE9F641E9D0AFD00A2B845 /* Themes */ = {
+			isa = PBXGroup;
+			children = (
+				6ADE9F601E9CC35C00A2B845 /* Theme.swift */,
+				6ADE9F621E9CC36500A2B845 /* ThemeConfig.swift */,
+			);
+			name = Themes;
 			sourceTree = "<group>";
 		};
 		E1E205771E82F8E00018DD13 /* Models */ = {
@@ -338,7 +346,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MRZ7YD72EV;
+						DevelopmentTeam = QQW7QECAY7;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -561,7 +569,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
@@ -575,7 +583,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
