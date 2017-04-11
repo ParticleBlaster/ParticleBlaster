@@ -16,12 +16,13 @@ class GameLevel: NSObject, NSCoding {
     var obstacles = [Obstacle]()
     var players = [Player]()
     var gameMode: GameMode
-    var backgroundImageName: String?
+    var backgroundImageName: String
     
     init(id: Int = 0, gameMode: GameMode = .single) {
         self.gameMode = gameMode
         self.id = id
         self.highestScore = 0
+        self.backgroundImageName = ""
     }
 
     var obstacleCount: Int {
@@ -62,6 +63,6 @@ class GameLevel: NSObject, NSCoding {
         aCoder.encode(obstacles, forKey: Constants.obstaclesKey)
         aCoder.encode(gameMode.rawValue, forKey: Constants.gameModekey)
         aCoder.encode(players, forKey: Constants.playersKey)
-        aCoder.encode(backgroundImageName!, forKey: "backgroundImageNameKey")
+        aCoder.encode(backgroundImageName, forKey: "backgroundImageNameKey")
     }
 }

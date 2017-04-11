@@ -11,7 +11,7 @@ import SpriteKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     var viewController: GameViewController!
-    var background: SKSpriteNode = SKSpriteNode(imageNamed: Constants.gameplayBackgroundFilename)
+    var background = SKSpriteNode()
     // var gameLevel: GameLevel?
     var players: [Player] = [Player]()
     var joystickPlates: [JoystickPlate] = [JoystickPlate]()
@@ -126,6 +126,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func setupBackgroundWithSprite() {
+        self.background.texture = SKTexture(imageNamed: self.viewController.gameLevel.backgroundImageName)
         self.background.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
         self.background.size = self.size
         self.background.zPosition = Constants.defaultBackgroundZPosition

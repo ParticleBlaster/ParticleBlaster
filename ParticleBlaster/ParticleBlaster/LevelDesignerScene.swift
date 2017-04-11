@@ -325,15 +325,15 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initLevelScreen() {
-        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName!)
-        gameLevel.backgroundImageName = currentTheme.backgroundName!
+        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
+        gameLevel.backgroundImageName = currentTheme.backgroundName
     }
 
     fileprivate func initThemeList() {
         var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
         // Create obstacle pallete
         for item in ThemeConfig.themes {
-            let themeIconImageName = item.value.iconName == nil ? "" : item.value.iconName!
+            let themeIconImageName = item.value.iconName
             let themeIcon = IconButton(imageNamed: themeIconImageName,
                                     disabledImageNamed: themeIconImageName,
                                     size: CGSize(width: 80,
