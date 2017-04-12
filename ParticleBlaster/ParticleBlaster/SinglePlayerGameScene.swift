@@ -61,21 +61,24 @@ class SinglePlayerGameScene: GameScene {
     
     private func setupVirtualJoystick() {
         
-        joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
+        joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
+//        joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
         addChild(joystickPlate.shape)
         
-        joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
-        // Note: position is given as center position already
-        joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        joystick.shape.alpha = 0.8
-        joystick.updateJoystickPlateCenterPosition(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y)
+        joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
+//        joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
+//        // Note: position is given as center position already
+//        joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+//        joystick.shape.alpha = 0.8
+//        joystick.updateJoystickPlateCenterPosition(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y)
         addChild(joystick.shape)
-        joystick.shape.zPosition = 2
+        //joystick.shape.zPosition = 2
         
-        fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
-        fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
-        fireButton.shape.alpha = 0.8
+//        fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
+//        fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
+//        fireButton.shape.alpha = Constants.fireButtonReleaseAlpha
+        fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
         addChild(fireButton.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
@@ -118,7 +121,7 @@ class SinglePlayerGameScene: GameScene {
         }
     }
     
-    private func checkJoystickOp(touch: UITouch) {
+    private func checkVirtualControllerOp(touch: UITouch) {
         if self.checkTouchRange(touch: touch, frame: plateTouchEndRange.frame) {
             if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
                 if let rotateHandler = self.rotateJoystickAndPlayerHandlers.first {
@@ -130,18 +133,20 @@ class SinglePlayerGameScene: GameScene {
                     endHandler()
                 }
             }
+        } else if self.checkTouchRange(touch: touch, frame: self.fireButton.shape.frame) {
+            self.fireButton.fireButtonPressed()
         }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-            self.checkJoystickOp(touch: t)
+            self.checkVirtualControllerOp(touch: t)
         }
     }
     
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
         for t in touches {
-            self.checkJoystickOp(touch: t)
+            self.checkVirtualControllerOp(touch: t)
         }
     }
     
@@ -153,10 +158,12 @@ class SinglePlayerGameScene: GameScene {
                     endHandler()
                 }
             } else if self.checkTouchRange(touch: touch, frame: fireButton.shape.frame) {
-                self.fireButton.shape.alpha = 0.8
+                self.fireButton.shape.alpha = Constants.fireButtonReleaseAlpha
                 if let shootHandler = self.fireHandlers.first {
                     shootHandler()
                 }
+                
+                self.fireButton.fireButtonReleased()
 //                if let launchMissileHandler = self.launchMissileHandlers.first {
 //                    launchMissileHandler()
 //                }
@@ -169,7 +176,6 @@ class SinglePlayerGameScene: GameScene {
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
             }
-            // TODO: implement here for more weapon firing options
         }
     }
     

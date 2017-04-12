@@ -37,4 +37,13 @@ class Joystick : GameObject {
         self.joystickPlateCenterX = x
         self.joystickPlateCenterY = y
     }
+    
+    func initializeJoystick(position: CGPoint, plateCenter: CGPoint) {
+        self.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
+        // Note: position is given as center position already
+        self.shape.position = position
+        self.shape.alpha = SingleplayerViewParams.joystickAlpha
+        self.updateJoystickPlateCenterPosition(x: plateCenter.x, y: plateCenter.y)
+        self.shape.zPosition = Constants.defaultJoystickZPosition
+    }
 }

@@ -20,4 +20,19 @@ class FireButton : GameObject {
     required convenience init?(coder decoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
+    func initializeFireButton(position: CGPoint) {
+        self.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
+        self.shape.position = position
+        self.shape.alpha = Constants.fireButtonReleaseAlpha
+        self.shape.zPosition = Constants.defaultFireBUttonZPosition
+    }
+    
+    func fireButtonPressed() {
+        self.shape.alpha = Constants.fireButtonPressAlpha
+    }
+    
+    func fireButtonReleased() {
+        self.shape.alpha = Constants.fireButtonReleaseAlpha
+    }
 }

@@ -29,6 +29,14 @@ class SingleplayerViewParams {
     static var fireButtonWidth: CGFloat!
     static var fireButtonHeight: CGFloat!
     
+    static let fireButtonPressAlpha: CGFloat = CGFloat(1)
+    static let fireButtonReleaseAlpha: CGFloat = CGFloat(0.6)
+    static let joystickAlpha: CGFloat = CGFloat(0.8)
+    
+    static let defaultJoystickZPosition: CGFloat = CGFloat(50)
+    static let defaultJoystickPlateZPosition: CGFloat = CGFloat(49)
+    static let defaultFireBUttonZPosition: CGFloat = CGFloat(50)
+    
     // TODO: consider changing all CGPointX and CGPointY to be CGPoint
     static var playerCenterX: CGFloat!
     static var playerCenterY: CGFloat!
@@ -53,8 +61,8 @@ class SingleplayerViewParams {
         self.joystickHeight = self.joystickPlateHeight / 2
         self.fireButtonCenterX = viewSize.width * 0.85
         self.fireButtonCenterY = viewSize.height * 0.17
-        self.fireButtonWidth = self.joystickWidth * 1.5
-        self.fireButtonHeight = self.joystickHeight * 1.5
+        self.fireButtonWidth = self.joystickWidth * 2.5
+        self.fireButtonHeight = self.joystickHeight * 2.5
         
         self.playerCenterX = viewSize.width * 0.1
         self.playerCenterY = viewSize.height * 0.5
