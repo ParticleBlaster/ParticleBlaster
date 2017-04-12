@@ -325,7 +325,12 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initLevelScreen() {
-        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
+        var levelBackGroundName = gameLevel.backgroundImageName
+        
+        if levelBackGroundName == "" {
+            levelBackGroundName = currentTheme.backgroundName
+        }
+        levelScreen.texture = SKTexture(imageNamed: levelBackGroundName)
         gameLevel.backgroundImageName = currentTheme.backgroundName
     }
 
