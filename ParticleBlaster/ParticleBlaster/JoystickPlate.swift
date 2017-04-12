@@ -21,4 +21,10 @@ class JoystickPlate : GameObject {
         fatalError("init(coder:) has not been implemented")
     }
     
+    func initializeJoystickPlate(position: CGPoint) {
+        self.shape.position = position
+        self.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
+        self.shape.zPosition = Constants.defaultJoystickPlateZPosition
+    }
+    
 }

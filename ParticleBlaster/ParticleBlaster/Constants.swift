@@ -63,6 +63,13 @@ class Constants {
     static var fireButtonWidth: CGFloat!
     static var fireButtonHeight: CGFloat!
     
+    static let fireButtonPressAlpha: CGFloat = CGFloat(1)
+    static let fireButtonReleaseAlpha: CGFloat = CGFloat(0.6)
+    
+    static let defaultJoystickZPosition: CGFloat = CGFloat(50)
+    static let defaultJoystickPlateZPosition: CGFloat = CGFloat(49)
+    static let defaultFireBUttonZPosition: CGFloat = CGFloat(50)
+    
     // TODO: consider changing all CGPointX and CGPointY to be CGPoint
     static var playerCenterX: CGFloat!
     static var playerCenterY: CGFloat!
@@ -90,8 +97,8 @@ class Constants {
         self.joystickHeight = self.joystickPlateHeight / 2
         self.fireButtonCenterX = viewSize.width * 0.85
         self.fireButtonCenterY = viewSize.height * 0.17
-        self.fireButtonWidth = self.joystickWidth * 1.5
-        self.fireButtonHeight = self.joystickHeight * 1.5
+        self.fireButtonWidth = self.joystickWidth * 2.5
+        self.fireButtonHeight = self.joystickHeight * 2.5
         
         self.playerCenterX = viewSize.width * 0.1
         self.playerCenterY = viewSize.height * 0.5
@@ -136,7 +143,7 @@ class Constants {
     static let grenadeExplosionAnimationZPosition: CGFloat = CGFloat(5)
     
     static let defaultUpgradePackSpriteFilename = "upgradePack"
-    static let upgradePackRadius: CGFloat = CGFloat(10)
+    static let upgradePackRadius: CGFloat = CGFloat(20)
     static let upgradePackMoveVelocity: CGVector = CGVector(dx: 0, dy: -5)
     static let upgradePackMoveOffset = CGVector(dx: 0, dy: -40)
     static let upgradePackFadeTime = 1.0
