@@ -403,8 +403,9 @@ extension LevelDesignerScene {
             player1 = Player(image: currentTheme.spaceshipsNames[0])
             player1.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultFirstPlayerPositionRatio)
         }
-        player1.shape.scale(to: CGSize(width: player1.shape.size.width * Constants.levelScreenRatio,
-                                       height: player1.shape.size.width * Constants.levelScreenRatio))
+        let player1Width = player1.shape.size.width * Constants.levelScreenRatio
+        player1.shape.scale(to: CGSize(width: player1Width,
+                                       height: Constants.getHeightWithSameRatio(withWidth: player1Width, forShape: player1.shape)))
         player1.shape.physicsBody?.allowsRotation = false
         players.append(player1)
 
@@ -417,8 +418,9 @@ extension LevelDesignerScene {
                 player2 = Player(image: currentTheme.spaceshipsNames[1])
                 player2.shape.position = ratioPositionToLevelScreenPosition(Constants.defaultSecondPlayerPositionRatio)
             }
-            player2.shape.scale(to: CGSize(width: player2.shape.size.width * Constants.levelScreenRatio,
-                                           height: player2.shape.size.width * Constants.levelScreenRatio))
+            let player2Width = player2.shape.size.width * Constants.levelScreenRatio
+            player2.shape.scale(to: CGSize(width: player2Width,
+                                           height: Constants.getHeightWithSameRatio(withWidth: player2Width, forShape: player2.shape)))
             player2.shape.physicsBody?.allowsRotation = false
             players.append(player2)
         }

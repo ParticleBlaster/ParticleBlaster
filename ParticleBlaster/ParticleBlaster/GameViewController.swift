@@ -193,8 +193,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         // Set up connection between skView and game scene
         skView = view as! SKView
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+//        skView.showsFPS = true
+//        skView.showsNodeCount = true
         skView.ignoresSiblingOrder = true
         //skView.showsPhysics = true
         scene.scaleMode = .resizeFill

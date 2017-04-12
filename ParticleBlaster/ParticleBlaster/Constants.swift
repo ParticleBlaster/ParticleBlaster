@@ -173,6 +173,7 @@ class Constants {
     static let maxNumOfObstacle = 15
     static let defaultThemeName = "Planets"
     // Obstalces' size
+    static let obstacleBasicWidth: CGFloat = 80
     static let obstacleBasicSize = CGSize(width: 80, height: 80)
     static let obstacleSizeMap = [
         "obs": Constants.obstacleBasicSize,
