@@ -17,12 +17,14 @@ class GameLevel: NSObject, NSCoding {
     var players = [Player]()
     var gameMode: GameMode
     var backgroundImageName: String
+    var themeName: String
     
     init(id: Int = 0, gameMode: GameMode = .single) {
         self.gameMode = gameMode
         self.id = id
         self.highestScore = 0
         self.backgroundImageName = ""
+        self.themeName = Constants.defaultThemeName
     }
 
     var obstacleCount: Int {
@@ -47,7 +49,8 @@ class GameLevel: NSObject, NSCoding {
     required convenience init?(coder decoder: NSCoder) {
         guard let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle],
             let players = decoder.decodeObject(forKey: Constants.playersKey) as? [Player],
-            let backgroundImageName = decoder.decodeObject(forKey: "backgroundImageNameKey") as? String else {
+            let themeName = decoder.decodeObject(forKey: Constants.themeNameKey) as? String,
+            let backgroundImageName = decoder.decodeObject(forKey: Constants.backgroundImageNameKey) as? String else {
                 return nil
         }
         let id = decoder.decodeInteger(forKey: Constants.gameIdKey)
@@ -55,7 +58,9 @@ class GameLevel: NSObject, NSCoding {
         self.init(id: id, gameMode: gameMode)
         self.obstacles = obstacles
         self.players = players
+        self.themeName = themeName
         self.backgroundImageName = backgroundImageName
+        
     }
     
     func encode(with aCoder: NSCoder) {
@@ -63,6 +68,7 @@ class GameLevel: NSObject, NSCoding {
         aCoder.encode(obstacles, forKey: Constants.obstaclesKey)
         aCoder.encode(gameMode.rawValue, forKey: Constants.gameModekey)
         aCoder.encode(players, forKey: Constants.playersKey)
-        aCoder.encode(backgroundImageName, forKey: "backgroundImageNameKey")
+        aCoder.encode(themeName, forKey: Constants.themeNameKey)
+        aCoder.encode(backgroundImageName, forKey: Constants.backgroundImageNameKey)
     }
 }
