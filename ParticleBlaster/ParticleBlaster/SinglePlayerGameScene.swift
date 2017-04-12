@@ -54,7 +54,7 @@ class SinglePlayerGameScene: GameScene {
         // Set up virtual joystick
         setupVirtualJoystick()
         // Set up back to homepage button
-        setupBackButton()
+//        setupBackButton()
         // Set up physics world
         setupPhysicsWorld()
     }

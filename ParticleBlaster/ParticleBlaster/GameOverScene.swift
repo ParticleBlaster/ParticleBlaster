@@ -30,7 +30,7 @@ class GameOverScene: SKScene {
         addChild(background)
         
         // Choose font and set parameters for displaying laber of text
-        let label = SKLabelNode(fontNamed: "Chalkduster")
+        let label = SKLabelNode(fontNamed: Constants.titleFont)
         label.text = message
         label.fontName = Constants.titleFont
         label.fontSize = Constants.fontSizeHuge

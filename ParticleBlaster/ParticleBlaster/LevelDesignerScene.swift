@@ -262,16 +262,23 @@ extension LevelDesignerScene {
         addChild(backButton)
 
         // create a save button
-        saveButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+//        saveButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+//                                text: Constants.labelSave,
+//                                size: Constants.textButtonTransparentDefaultSize)
+        saveButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename,
                                 text: Constants.labelSave,
                                 size: Constants.textButtonTransparentDefaultSize)
+
         saveButton.zPosition = normalZPosition
         saveButton.position = CGPoint(x: Constants.screenPadding.width + saveButton.size.width / 2,
                                       y: self.size.height - Constants.screenPaddingThinner.height - saveButton.size.height / 2)
         addChild(saveButton)
 
         // create play button
-        playButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+//        playButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
+//                                text: Constants.labelPlay,
+//                                size: Constants.textButtonTransparentDefaultSize)
+        playButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename,
                                 text: Constants.labelPlay,
                                 size: Constants.textButtonTransparentDefaultSize)
         playButton.zPosition = normalZPosition
@@ -336,22 +343,22 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initThemeList() {
-        var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2
+        var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2 - 30
         // Create obstacle pallete
         for key in ThemeConfig.themeNames {
             let value = ThemeConfig.themes[key]!
             let themeIconImageName = value.iconName
             let themeIcon = IconButton(imageNamed: themeIconImageName,
                                     disabledImageNamed: themeIconImageName,
-                                    size: CGSize(width: 80,
-                                                 height: Constants.getHeightWithSameRatio(withWidth: 80,
+                                    size: CGSize(width: 150,
+                                                 height: Constants.getHeightWithSameRatio(withWidth: 150,
                                                                                           forShape: SKSpriteNode(imageNamed: themeIconImageName))))
             themeIcon.zPosition = normalZPosition
             themeIcon.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
                                          y: yValue)
             themeIcon.tag = key
             themeIcon.onPressHandlerWithTag = loadTheme
-            yValue -= 70
+            yValue -= 50 + themeIcon.size.height * 0.5
             addChild(themeIcon)
         }
     }
