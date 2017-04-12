@@ -247,6 +247,8 @@ class Constants {
     static let ratioPositionKey = "ratioPositionKey"
     static let gameModekey = "gameModeKey"
     static let playersKey = "playersKey"
+    static let backgroundImageNameKey = "backgroundImageNameKey"
+    static let themeNameKey = "themeNameKey"
     static let gameIdKey = "gameIdKey"
     static let obstaclesKey = "obstaclesKey"
     static let launchedBeforeKey = "launchedBeforeKey"

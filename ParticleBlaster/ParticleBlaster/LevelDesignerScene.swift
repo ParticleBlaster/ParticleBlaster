@@ -20,8 +20,7 @@ class LevelDesignerScene: SKScene {
     fileprivate var playButton: TextButton!
     fileprivate var levelScreen = SKSpriteNode()
     fileprivate var players: [Player] = []
-
-    fileprivate var currentTheme: Theme! = ThemeConfig.themes[Constants.defaultThemeName]
+    fileprivate var currentTheme: Theme!
 
     var paletteItems = [Obstacle]()
     var currentObject: GameObject?
@@ -37,7 +36,8 @@ class LevelDesignerScene: SKScene {
 
     override func didMove(to view: SKView) {
         physicsWorld.gravity = .zero
-
+        
+        initTheme()
         initLayout()
         initPalette()
         initLevelScreen()
@@ -195,6 +195,7 @@ class LevelDesignerScene: SKScene {
             level.addObstacle(obstacleClone)
         }
         level.backgroundImageName = gameLevel.backgroundImageName
+        level.themeName = gameLevel.themeName
         return level
     }
 
@@ -325,12 +326,12 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initLevelScreen() {
-        var levelBackGroundName = gameLevel.backgroundImageName
-        
-        if levelBackGroundName == "" {
-            levelBackGroundName = currentTheme.backgroundName
-        }
-        levelScreen.texture = SKTexture(imageNamed: levelBackGroundName)
+//        var levelBackGroundName = gameLevel.backgroundImageName
+//        
+//        if levelBackGroundName == "" {
+//            levelBackGroundName = currentTheme.backgroundName
+//        }
+        levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
         gameLevel.backgroundImageName = currentTheme.backgroundName
     }
 
@@ -355,7 +356,17 @@ extension LevelDesignerScene {
         }
     }
 
+    fileprivate func initTheme() {
+        print("initTheme: gameLevel.themeName = \(gameLevel.themeName)")
+        currentTheme = ThemeConfig.themes[gameLevel.themeName]
+    }
+    
     fileprivate func loadTheme(_ name: String?) {
+        guard name != gameLevel.themeName else {
+            return
+        }
+        
+        gameLevel.themeName = name!
         currentTheme = ThemeConfig.themes[name!]
         initPalette()
         clearAllObstaclesFromLevelScreen()
