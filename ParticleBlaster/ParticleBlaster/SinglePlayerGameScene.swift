@@ -43,6 +43,7 @@ class SinglePlayerGameScene: GameScene {
     }
     
     override func didMove(to view: SKView) {
+        self.isPaused = false
         self.setupBackgroundWithSprite()
         //backgroundColor = Constants.backgroundColor
         // loadGameLevel()
@@ -181,6 +182,9 @@ class SinglePlayerGameScene: GameScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        guard self.isPaused == false else {
+            return
+        }
         
         // TODO: if not using the concept of elapsed time then delete self.prevTime
         if self.prevTime == nil {
