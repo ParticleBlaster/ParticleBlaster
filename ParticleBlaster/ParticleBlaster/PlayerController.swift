@@ -10,7 +10,7 @@
  * The `PlayerController` class serves as the controller module for logic related to the player's actions
  * including the movement of the player itself, and the logic regarding the weapon system
  *      - It defines the set of UI elements related to the user, including joystick, fire button, player
- *      - It defines the movement of the joystick and the player according to the user's gentures
+ *      - It defines the movement of the joystick and the player according to the user's gestures
  *      - It links the weapon model with the game play logic
  *      - It defines the weapon system and the weapon logic when the user presses the fire button
 */
@@ -30,8 +30,6 @@ class PlayerController {
     /* End of data models for UI elements */
     
     /* Start of variables associated with data models */
-    private var joystickPlateCenterX: CGFloat?
-    private var joystickPlateCenterY: CGFloat?
     private var flyingVelocity: CGFloat = CGFloat(0)
     private var isFlying: Bool = false
     private var playerUnitDirection: CGVector = CGVector(dx: 0, dy: 1)
@@ -63,18 +61,21 @@ class PlayerController {
     init(gameViewController: GameViewController, player: Player) {
         self.player = player
         self.scene = gameViewController.scene
+        self.initilizeJoystickSet()
     }
     
     /* Start of Joystick and Player position and velocity handler functions */
-    // This function updates the center position of the joystick plate
-    func updateJoystickPlateCenter(x: CGFloat, y: CGFloat) {
-        self.joystickPlateCenterX = x
-        self.joystickPlateCenterY = y
+    private func initilizeJoystickSet() {
+        self.joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
+        
+        self.joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
+        
+        self.fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
     }
     
     // This function moves the joystick according to the touch gestures
     func moveJoystickAndRotatePlayerHandler(touchLocation: CGPoint) {
-        let direction = CGVector(dx: touchLocation.x - joystickPlateCenterX!, dy: touchLocation.y - joystickPlateCenterY!)
+        let direction = CGVector(dx: touchLocation.x - self.joystickPlate.shape.position.x, dy: touchLocation.y - self.joystickPlate.shape.position.y)
         self.updateJoystickAndPlayerRotationHandler(direction: direction)
     }
     
@@ -96,7 +97,7 @@ class PlayerController {
             radius = length
         }
         
-        let newJoystickPosition = CGPoint(x: joystickPlateCenterX! + self.playerUnitDirection.dx * radius, y: joystickPlateCenterY! + self.playerUnitDirection.dy * radius)
+        let newJoystickPosition = CGPoint(x: self.joystickPlate.shape.position.x + self.playerUnitDirection.dx * radius, y: self.joystickPlate.shape.position.y + self.playerUnitDirection.dy * radius)
         self.joystick.updatePosition(newLoation: newJoystickPosition)
         self.player.updateRotation(newAngle: rotationAngle)
     }
@@ -142,7 +143,6 @@ class PlayerController {
         case .Grenade:
             let newSelectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
             newSelectedWeapon.explosionAdvertiser = self.grenadeDidExplodeListener
-            //self.selectedWeapon = Grenade(shootLocation: self.currFiringPosition, shootDirection: self.playerUnitDirection, rotation: self.currFiringAngle)
             self.selectedWeapon = newSelectedWeapon
         case .Missile:
             if let getObsListHandler = self.obtainObstacleListHandler {
@@ -167,16 +167,6 @@ class PlayerController {
         weaponToUse.launch()
         self.scene.run(SKAction.playSoundFileNamed(weaponToUse.lauchMusicName, waitForCompletion: false))
         self.scene.playMusic(musicName: weaponToUse.lauchMusicName)
-//        if self.selectedWeaponType == WeaponCategory.Grenade {
-//            let grenadeExpectedExplosionTime = DispatchTime.now() + TimeInterval(Constants.grenadeThrowingTime)
-//            DispatchQueue.main.asyncAfter(deadline: grenadeExpectedExplosionTime, execute: {
-//                if let grenadeThrowed = weaponToUse as? Grenade {
-//                    if !grenadeThrowed.exploded {
-//                        //self.scene.playMusic(musicName: grenadeThrowed.explosionMusicName)
-//                    }
-//                }
-//            })
-//        }
     }
     
     // This function updates the weapon's velocity if its velocity needs to be calculated per frame
@@ -196,7 +186,6 @@ class PlayerController {
                 if currFlyingMissile.isReady && obstacleNodeList.contains(currFlyingMissile.target.shape) {
                     currFlyingMissile.updateFlyingVelocity()
                 }
-                //currFlyingMissile.updateFlyingVelocity()
             }
         }
     }
@@ -205,14 +194,10 @@ class PlayerController {
     func grenadeExplode(grenadeNode: SKSpriteNode) {
         if let grenade = self.weaponPool.filter({$0.shape == grenadeNode}).first as? Grenade {
             grenade.explode()
-//            let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
-//            DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
-//                self.removeWeaponAfterCollision(weaponNode: grenadeNode)
-//            }
         }
     }
     
-    // This function is handles the explosion music play and grenade removal after collision
+    // This function subscribes the returning message from Player Controller, and is handling the explosion music play and grenade removal after collision
     func grenadeDidExplodeListener(grenadeNode: SKSpriteNode) {
         self.scene.playMusic(musicName: Grenade.explosionMusicName)
         let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
@@ -221,7 +206,7 @@ class PlayerController {
         }
     }
     
-    // This function is invoked when the weapon collides with the osbtacle; it updates the weapon's physics properties such that it won't collide with another obstacle
+    // This function is invoked when the weapon collides with the osbtacle; it updates the weapon's physics properties such that it won't collide with another obstacle or player
     func removeWeaponAfterCollision(weaponNode: SKSpriteNode) {
         weaponNode.physicsBody?.collisionBitMask = PhysicsCategory.None
         weaponNode.physicsBody?.contactTestBitMask = PhysicsCategory.None

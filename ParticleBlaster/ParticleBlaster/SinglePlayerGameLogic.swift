@@ -53,7 +53,6 @@ class SinglePlayerGameLogic: GameLogic {
     init(gameViewController: GameViewController, obstaclePool: [Obstacle], player: Player) {
         self.gameViewController = gameViewController
         
-        
         self.obstaclePool = obstaclePool
         self.map = Boundary(rect: self.gameViewController.scene.frame)
         
@@ -63,12 +62,36 @@ class SinglePlayerGameLogic: GameLogic {
         
         prepareObstacles()
         preparePlayer()
-        preparePlayerControllers()
+        preparePlayerControllersSubscribers()
         
         _checkRep()
     }
     /* End of initialiser */
     
+    /* Start of preparation methods for the PlayerController */
+    private func preparePlayer() {
+        let player = self.player
+        player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
+                                        y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
+    }
+    
+    private func preparePlayerControllersSubscribers() {
+        for playerController in self.playerControllers {
+            //playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+            playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
+        }
+    }
+    
+    private func prepareObstacles() {
+        for obstacle in self.obstaclePool {
+            obstacle.setupShape()
+            obstacle.shape.zPosition = 1
+            // Convert to absolute position as position is archived as ratio values
+            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
+            obstacle.timeToLive = SpriteUtils.getObstacleTimeToLive(obstacle)
+        }
+    }
+    /* End of preparation methods for the PlayerController */
     
     func updateObstaclesVelocityHandler() {
         for obs in self.obstaclePool {
@@ -90,7 +113,6 @@ class SinglePlayerGameLogic: GameLogic {
         self.obstacleIsHit(obstacleNode: obstacle)
     }
     
-    // TODO: can implement a bounce-off effect if the player hits the obs but not dead yet
     // In single player mode, the time-to-live value of a player should decrease 
     // when it collides with an obstacles
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
@@ -179,32 +201,9 @@ class SinglePlayerGameLogic: GameLogic {
     
     
 
-    func preparePlayer() {
-        let player = self.player
-        player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
-                                        y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
-    }
-
-    /* Start of private methods */
-    private func preparePlayerControllers() {
-        for playerController in self.playerControllers {
-            playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-            playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
-        }
-    }
     
-    private func prepareObstacles() {
-        for obstacle in self.obstaclePool {
-            obstacle.setupShape()
-            obstacle.shape.zPosition = 1
-            // Convert to absolute position as position is archived as ratio values
-            obstacle.shape.position = CGPoint(x: obstacle.initialPosition.x * self.gameViewController.scene.frame.size.width, y: obstacle.initialPosition.y * self.gameViewController.scene.frame.size.height)
-            obstacle.timeToLive = SpriteUtils.getObstacleTimeToLive(obstacle)
-        }
-    }
 
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
     }
-    /* End of private methods */
 }
