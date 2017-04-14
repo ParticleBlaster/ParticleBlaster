@@ -50,8 +50,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         label.position = scoreSceneCenter
         label.alpha = 0
         addChild(label)
-        // animation for moving the label upwards by Constants.offset, and change alpha to 1
-        // then moving it upwards also by offset, change alpha to 0; remove label from scene
         let fadeInAction = SKAction.fadeIn(withDuration: Constants.destroyObstacleScoreFadeTime)
         let fadeOutAction = SKAction.fadeOut(withDuration: Constants.destroyObstacleScoreFadeTime)
         let moveAction = SKAction.move(by: Constants.destroyObstacleScoreOffset, duration: Constants.destroyObstacleScoreFadeTime)

@@ -44,44 +44,29 @@ class SinglePlayerGameScene: GameScene {
     
     override func didMove(to view: SKView) {
         self.setupBackgroundWithSprite()
-        //backgroundColor = Constants.backgroundColor
-        // loadGameLevel()
         
-//        player.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-//        player.shape.position = CGPoint(x: Constants.playerCenterX, y: Constants.playerCenterY)
         addChild(player.shape)
         
         // Set up virtual joystick
         setupVirtualJoystick()
         // Set up back to homepage button
-//        setupBackButton()
+        //setupBackButton()
         // Set up physics world
         setupPhysicsWorld()
     }
     
     private func setupVirtualJoystick() {
         
-        joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
-//        joystickPlate.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-//        joystickPlate.shape.size = CGSize(width: Constants.joystickPlateWidth, height: Constants.joystickPlateHeight)
+//        joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
         addChild(joystickPlate.shape)
         
-        joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
-//        joystick.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
-//        // Note: position is given as center position already
-//        joystick.shape.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-//        joystick.shape.alpha = 0.8
-//        joystick.updateJoystickPlateCenterPosition(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y)
+//        joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
         addChild(joystick.shape)
-        //joystick.shape.zPosition = 2
         
-//        fireButton.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
-//        fireButton.shape.position = CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY)
-//        fireButton.shape.alpha = Constants.fireButtonReleaseAlpha
-        fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
+//        fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
         addChild(fireButton.shape)
         
-        // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
+        // plateAllowedRange and plateTouchEndRange are to give a buffer area for joystick operation and should not be added as child
         plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
         plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
@@ -96,7 +81,6 @@ class SinglePlayerGameScene: GameScene {
     func random(min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
     }
-    
         
     // Possible implementation: displays a sequence of skspritenode showing the explosion
     func displayBulletHitAnimation() {
@@ -164,15 +148,6 @@ class SinglePlayerGameScene: GameScene {
                 }
                 
                 self.fireButton.fireButtonReleased()
-//                if let launchMissileHandler = self.launchMissileHandlers.first {
-//                    launchMissileHandler()
-//                }
-//                if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
-//                    currThrowGrenadeHandler()
-//                }
-                //if let currThrowGrenadeHandler = self.throwGrenadeHandlers.first {
-                  //  currThrowGrenadeHandler()
-               // }
             } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
                 self.viewController?.dismiss(animated: true, completion: nil)
             }
@@ -182,7 +157,6 @@ class SinglePlayerGameScene: GameScene {
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
         
-        // TODO: if not using the concept of elapsed time then delete self.prevTime
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {

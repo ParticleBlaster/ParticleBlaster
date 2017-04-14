@@ -33,7 +33,7 @@ class Joystick : GameObject {
         self.shape.run(SKAction.move(to: CGPoint(x: joystickPlateCenterX!, y: joystickPlateCenterY!), duration: 0.2))
     }
     
-    func updateJoystickPlateCenterPosition(x: CGFloat, y: CGFloat) {
+    private func updateJoystickPlateCenterPosition(x: CGFloat, y: CGFloat) {
         self.joystickPlateCenterX = x
         self.joystickPlateCenterY = y
     }
