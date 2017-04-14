@@ -16,6 +16,11 @@ class MFiController: NSObject {
     var moveHandler: ((CGVector) -> ())?
     var endMoveHandler: (() -> ())?
     var shootHandler: (() -> ())?
+    
+    var isGamePaused: Bool = false
+    var pauseHandler: (() -> ())?
+    var resumeHandler: (() -> ())?
+    
     var inputTimestamp: DispatchTime = DispatchTime.now()
     
     
@@ -38,6 +43,20 @@ class MFiController: NSObject {
         guard let profile: GCExtendedGamepad = self.mainController?.extendedGamepad else {
             return
         }
+        
+        self.mainController!.controllerPausedHandler = ({
+            (controller: GCController) in
+            
+            if self.isGamePaused == true {
+                if let doResume = self.resumeHandler {
+                    doResume()
+                }
+            } else {
+                if let doPause = self.pauseHandler {
+                    doPause()
+                }
+            }
+        })
         
         profile.valueChangedHandler = ({
             (gamepad: GCExtendedGamepad, element: GCControllerElement) in

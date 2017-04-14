@@ -43,6 +43,7 @@ class SinglePlayerGameScene: GameScene {
     }
     
     override func didMove(to view: SKView) {
+        self.isPaused = false
         self.setupBackgroundWithSprite()
         
         addChild(player.shape)
@@ -146,6 +147,9 @@ class SinglePlayerGameScene: GameScene {
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
+        guard self.isPaused == false else {
+            return
+        }
         
         if self.prevTime == nil {
             self.prevTime = currentTime

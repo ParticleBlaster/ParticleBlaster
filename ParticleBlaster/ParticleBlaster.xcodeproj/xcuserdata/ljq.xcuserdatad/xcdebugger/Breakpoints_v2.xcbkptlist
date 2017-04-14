@@ -6,17 +6,161 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/HomePageViewController.swift"
+            timestampString = "513854895.54023"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "43"
+            endingLineNumber = "43"
+            landmarkName = "viewDidLoad()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/SinglePlayerGameScene.swift"
-            timestampString = "513632758.534012"
+            filePath = "ParticleBlaster/MFiController.swift"
+            timestampString = "513855599.177649"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "50"
+            endingLineNumber = "50"
+            landmarkName = "reactToInput()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/MFiController.swift"
+            timestampString = "513855879.625042"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "52"
             endingLineNumber = "52"
-            landmarkName = "didMove(to:)"
+            landmarkName = "reactToInput()"
             landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/MFiController.swift"
+            timestampString = "513855880.454111"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "56"
+            endingLineNumber = "56"
+            landmarkName = "reactToInput()"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/MFiController.swift"
+            timestampString = "513855894.110011"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "51"
+            endingLineNumber = "51"
+            landmarkName = "reactToInput()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.MFiController.((reactToInput in _7386439EE0B124A707E932391CB65B93) () -&gt; ()).(closure #1)"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MFiController.swift"
+                  timestampString = "513857511.691509"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "80">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.MFiController.((reactToInput in _7386439EE0B124A707E932391CB65B93) () -&gt; ()).(closure #1)"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MFiController.swift"
+                  timestampString = "513857511.693065"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "51"
+                  endingLineNumber = "51"
+                  offsetFromSymbolStart = "140">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/MFiController.swift"
+            timestampString = "513856732.095439"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "55"
+            endingLineNumber = "55"
+            landmarkName = "reactToInput()"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.MFiController.((reactToInput in _7386439EE0B124A707E932391CB65B93) () -&gt; ()).(closure #1)"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MFiController.swift"
+                  timestampString = "513857511.696717"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "208">
+               </Location>
+               <Location
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "ParticleBlaster.MFiController.((reactToInput in _7386439EE0B124A707E932391CB65B93) () -&gt; ()).(closure #1)"
+                  moduleName = "ParticleBlaster"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/MFiController.swift"
+                  timestampString = "513857511.698428"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "55"
+                  endingLineNumber = "55"
+                  offsetFromSymbolStart = "268">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

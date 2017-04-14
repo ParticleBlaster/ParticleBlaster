@@ -169,6 +169,7 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func didMove(to view: SKView) {
+        self.isPaused = false
         self.setupBackgroundWithSprite()
         //backgroundColor = Constants.backgroundColor
         // loadGameLevel()
@@ -333,6 +334,10 @@ class MultiplayerGameScene: GameScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
+        guard self.isPaused == false else {
+            return
+        }
+        
         // Called before each frame is rendered
         if self.prevTime == nil {
             self.prevTime = currentTime

@@ -20,6 +20,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     var skView: SKView!
+    var pauseScene: GamePauseNode!
 
     // Initialise game logic for controlling game objects
     var gameLogic: GameLogic!
@@ -55,6 +56,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         }
 
         setupGameScene()
+        setupGamePause()
         checkGameCondition()
     }
 
@@ -142,14 +144,26 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
         MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
         MFiControllerConfig.mfis[index].endMoveHandler = playerController.endJoystickMoveHandler
+        MFiControllerConfig.mfis[index].pauseHandler = self.doPauseGame
+        MFiControllerConfig.mfis[index].resumeHandler = self.doResumeGame
 
         print("finish mfi config")
+    }
+    
+    private func configAllMFiControllers() {
+        for i in 0..<self.gameLogic.playerControllers.count {
+            // Set up MFi controller for each playerController
+            let playerController = self.gameLogic.playerControllers[i]
+            configMFiController(index: i, playerController: playerController)
+        }
     }
     
     private func deConfigMFiController(index: Int) {
         MFiControllerConfig.mfis[index].moveHandler = nil
         MFiControllerConfig.mfis[index].shootHandler = nil
         MFiControllerConfig.mfis[index].endMoveHandler = nil
+        MFiControllerConfig.mfis[index].pauseHandler = nil
+        MFiControllerConfig.mfis[index].resumeHandler = nil
         
         print("finish mfi deconfig")
     }
@@ -158,6 +172,25 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         for i in 0..<self.gameLogic.playerControllers.count {
             // Deconfig MFi controller for each playerController
             deConfigMFiController(index: i)
+        }
+    }
+    
+    private func pauseAllMFiControllers() {
+        for i in 0..<self.gameLogic.playerControllers.count {
+            // Deconfig MFi controller for each playerController
+            deConfigMFiController(index: i)
+            MFiControllerConfig.mfis[i].isGamePaused = true
+            MFiControllerConfig.mfis[i].pauseHandler = self.doPauseGame
+            MFiControllerConfig.mfis[i].resumeHandler = self.doResumeGame
+        }
+    }
+    
+    private func resumeAllMFiControllers() {
+        for i in 0..<self.gameLogic.playerControllers.count {
+            // Set up MFi controller for each playerController
+            let playerController = self.gameLogic.playerControllers[i]
+            configMFiController(index: i, playerController: playerController)
+            MFiControllerConfig.mfis[i].isGamePaused = false
         }
     }
 
@@ -200,6 +233,10 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.startTime = DispatchTime.now()
     }
     
+    private func setupGamePause() {
+        self.pauseScene = GamePauseNode(size: view.bounds.size, viewController: self)
+    }
+    
     private func checkGameCondition() {
         if self.gameLogic.winningCondition {
             // Present GameWinScene
@@ -236,6 +273,23 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             GameCenterUtils.openLeaderboard(in: self, level: level)
         }
     }
+    
+    func doPauseGame() {
+        self.scene.isPaused = true
+        pauseAllMFiControllers()
+        pauseScene.alpha = 1
+        pauseScene.zPosition = 100
+        pauseScene.isUserInteractionEnabled = true
+        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        scene.addChild(pauseScene)
+    }
+    
+    func doResumeGame() {
+        self.scene.isPaused = false
+        resumeAllMFiControllers()
+        self.pauseScene.removeFromParent()
+    }
+    
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {
