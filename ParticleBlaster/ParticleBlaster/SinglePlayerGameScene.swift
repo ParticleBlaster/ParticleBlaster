@@ -6,18 +6,24 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `SinglePlayerGameScene` class subclasses the GameScene class
+ *  It defines the logic for user interactions in SinglePlayer mode
+ */
+
+
 import SpriteKit
 import GameplayKit
 
 class SinglePlayerGameScene: GameScene {
-    private var monstersDestroyed = 0
-    private let monstersDestroyRequirement = 10
 
+    /* Start of stored properties */
     private var plateAllowedRange: SKShapeNode!
     private var plateTouchEndRange: SKShapeNode!
     private var plateAllowedRangeDistance: CGFloat!
-    private var prevTime: TimeInterval?
+    /* End of stored properties */
     
+    /* Start of computed properties; joystick set UI elements */
     var player: Player {
         get {
             return self.players.first!
@@ -41,7 +47,9 @@ class SinglePlayerGameScene: GameScene {
             return self.fireButtons.first!
         }
     }
+    /* End of computed properties; joystick set UI elements */
     
+    /* Start of overriding functions from SKScene */
     override func didMove(to view: SKView) {
         self.isPaused = false
         self.setupBackgroundWithSprite()
@@ -51,36 +59,6 @@ class SinglePlayerGameScene: GameScene {
         setupVirtualJoystick()
         //setupBackButton()
         setupPhysicsWorld()
-    }
-    
-    private func setupVirtualJoystick() {
-        // Initialization of joystick set has been done in PlayerController class
-        addChild(joystickPlate.shape)
-        addChild(joystick.shape)
-        addChild(fireButton.shape)
-        
-        // plateAllowedRange and plateTouchEndRange are to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
-        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
-        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-    }
-    
-    private func checkVirtualControllerOp(touch: UITouch) {
-        if self.checkTouchRange(touch: touch, frame: plateTouchEndRange.frame) {
-            if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
-                if let rotateHandler = self.rotateJoystickAndPlayerHandlers.first {
-                    let location = touch.location(in: self)
-                    rotateHandler(location)
-                }
-            } else {
-                if let endHandler = self.endJoystickMoveHandlers.first {
-                    endHandler()
-                }
-            }
-        } else if self.checkTouchRange(touch: touch, frame: self.fireButton.shape.frame) {
-            self.fireButton.fireButtonPressed()
-        }
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -116,25 +94,54 @@ class SinglePlayerGameScene: GameScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        // Called before each frame is rendered
         guard self.isPaused == false else {
             return
         }
         
-        if self.prevTime == nil {
-            self.prevTime = currentTime
-        } else {
-            if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
-                playerVelocityHandler()
-            }
-            if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
-                obstacleVelocityHandler()
-            }
-            if let velocityHandler = self.updateWeaponVelocityHandlers.first {
-                velocityHandler()
-            }
-
-            self.prevTime = currentTime
+        if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
+            playerVelocityHandler()
+        }
+        if let obstacleVelocityHandler = self.obstacleVelocityUpdateHandler {
+            obstacleVelocityHandler()
+        }
+        if let velocityHandler = self.updateWeaponVelocityHandlers.first {
+            velocityHandler()
         }
     }
+    /* End of overriding functions from SKScene */
+    
+    /* Start of overriding supporting functions */
+    // This function adds the joystick set UI elements into the scene
+    override func setupVirtualJoystick() {
+        // Initialization of joystick set UI elements has been done in PlayerController class
+        addChild(joystickPlate.shape)
+        addChild(joystick.shape)
+        addChild(fireButton.shape)
+        
+        // plateAllowedRange and plateTouchEndRange are to give a buffer area for joystick operation and should not be added as child
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+        plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
+    }
+    
+    // This function invokes function handlers according to the ongoing gesture location
+    override func checkVirtualControllerOp(touch: UITouch) {
+        if self.checkTouchRange(touch: touch, frame: plateTouchEndRange.frame) {
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange.frame) {
+                if let rotateHandler = self.rotateJoystickAndPlayerHandlers.first {
+                    let location = touch.location(in: self)
+                    rotateHandler(location)
+                }
+            } else {
+                if let endHandler = self.endJoystickMoveHandlers.first {
+                    endHandler()
+                }
+            }
+        } else if self.checkTouchRange(touch: touch, frame: self.fireButton.shape.frame) {
+            self.fireButton.fireButtonPressed()
+        }
+    }
+    /* End of overriding supporting functions */
+    
 }

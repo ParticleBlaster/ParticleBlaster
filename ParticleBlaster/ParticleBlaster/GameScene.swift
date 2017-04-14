@@ -12,6 +12,7 @@
  *      - It defines setup methods which should be shared by Single and Multi player modes
  *      - It defines functions for addition and removal of elements inside the scene
  *      - It declares the physics delegate to be implemented
+ *      - It declares the functions to be overridden by subclasses
  */
 
 
@@ -137,4 +138,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     /* End of supporting functions for different implementations of GameScene */
+    
+    /* Start of function declarations to be implemented by subclasses */
+    // This function sets up the vortual joystick set UI elements
+    func setupVirtualJoystick() {
+    }
+    
+    // This function invokes function handlers according to the ongoing gesture location
+    func checkVirtualControllerOp(touch: UITouch) {
+    }
+    /* End of function declarations to be implemented by subclasses */
 }

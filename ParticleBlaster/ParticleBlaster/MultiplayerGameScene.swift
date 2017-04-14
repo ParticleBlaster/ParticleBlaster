@@ -6,10 +6,18 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `MultiPlayerGameScene` class subclasses the GameScene class
+ *  It defines the logic for user interactions in MultiPlayer mode
+ */
+
+
 import SpriteKit
 import GameplayKit
 
 class MultiplayerGameScene: GameScene {
+    
+    /* Start of stored properties */
     private var plateAllowedRange1: SKShapeNode!
     private var plateTouchEndRange1: SKShapeNode!
     private var plateAllowedRangeDistance1: CGFloat!
@@ -17,9 +25,9 @@ class MultiplayerGameScene: GameScene {
     private var plateAllowedRange2: SKShapeNode!
     private var plateTouchEndRange2: SKShapeNode!
     private var plateAllowedRangeDistance2: CGFloat!
+    /* End of stored properties */
     
-    private var prevTime: TimeInterval?
-    
+    /* Start of computed properties: joystick set UI elements */
     var player1: Player {
         get {
             return self.players[0]
@@ -67,7 +75,10 @@ class MultiplayerGameScene: GameScene {
             return self.fireButtons[1]
         }
     }
+    /* End of computed properties: joystick set UI elements */
     
+    
+    /* Start of computed properties: function handlers for both players' gestures */
     var rotateJoystickAndPlayerHandler1: ((CGPoint) -> ())? {
         get {
             if self.rotateJoystickAndPlayerHandlers.count > 0 {
@@ -167,7 +178,9 @@ class MultiplayerGameScene: GameScene {
             }
         }
     }
+    /* Start of computed properties: function handlers for both players' gestures */
     
+    /* Start of overriding functions from SKScene */
     override func didMove(to view: SKView) {
         self.isPaused = false
         self.setupBackgroundWithSprite()
@@ -180,7 +193,74 @@ class MultiplayerGameScene: GameScene {
         setupPhysicsWorld()
     }
     
-    func setupVirtualJoystick() {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            self.checkVirtualControllerOp(touch: t)
+        }
+    }
+    
+    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for t in touches {
+            self.checkVirtualControllerOp(touch: t)
+        }
+    }
+    
+    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+        for touch in touches {
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange1.frame) {
+                if let endHandler = self.endJoystickMoveHandler1 {
+                    endHandler()
+                }
+            } else if self.checkTouchRange(touch: touch, frame:  fireButton1.shape.frame) {
+                self.fireButton1.shape.alpha = 0.8
+                if let shootHandler = self.fireHandler1 {
+                    shootHandler()
+                }
+                fireButton1.fireButtonReleased()
+            } else if self.checkTouchRange(touch: touch, frame: plateAllowedRange2.frame) {
+                if let endHandler = self.endJoystickMoveHandler2 {
+                    endHandler()
+                }
+            } else if self.checkTouchRange(touch: touch, frame:  fireButton2.shape.frame) {
+                self.fireButton2.shape.alpha = 0.8
+                if let shootHandler = self.fireHandler2 {
+                    shootHandler()
+                }
+                fireButton2.fireButtonReleased()
+            } else if self.checkTouchRange(touch: touch, frame: buttonBackToHomepage.frame) {
+                self.viewController?.dismiss(animated: true, completion: nil)
+            }
+        }
+    }
+    
+    override func update(_ currentTime: TimeInterval) {
+        guard self.isPaused == false else {
+            return
+        }
+        
+        // Called before each frame is rendered
+        if let playerPositionHandler1 = self.playerVelocityUpdateHandler1 {
+            playerPositionHandler1()
+        }
+        
+        if let weaponVelocityHandler1 = self.weaponVelocityUpdateHandler1 {
+            weaponVelocityHandler1()
+        }
+        
+        if let playerPositionHandler2 = self.playerVelocityUpdateHandler2 {
+            playerPositionHandler2()
+        }
+        
+        if let weaponVelocityHandler2 = self.weaponVelocityUpdateHandler1 {
+            weaponVelocityHandler2()
+        }
+    }
+    /* End of overriding functions from SKScene */
+    
+    /* Start of overriding supprting functions */
+    // This function adds the joystick set UI elements into the scene
+    override func setupVirtualJoystick() {
+        // Initialization of joystick set UI elements has been done in PlayerController class
         // joystick 1
         addChild(joystickPlate1.shape)
         addChild(joystick1.shape)
@@ -204,18 +284,10 @@ class MultiplayerGameScene: GameScene {
         plateTouchEndRange2.position = MultiPlayerViewParams.joystickPlateCenter2
     }
     
-    private func isTouchInRange(touch: UITouch, frame: CGRect) -> Bool {
-        let location = touch.location(in: self)
-        if frame.contains(location) {
-            return true
-        } else {
-            return false
-        }
-    }
-    
-    private func checkVirtualControllerOp(touch: UITouch) {
-        if self.isTouchInRange(touch: touch, frame: plateTouchEndRange1.frame) {
-            if self.isTouchInRange(touch: touch, frame: plateAllowedRange1.frame) {
+    // This function invokes function handlers according to the ongoing gesture location
+    override func checkVirtualControllerOp(touch: UITouch) {
+        if self.checkTouchRange(touch: touch, frame: plateTouchEndRange1.frame) {
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange1.frame) {
                 if let rotateHandler = self.rotateJoystickAndPlayerHandler1 {
                     let location = touch.location(in: self)
                     rotateHandler(location)
@@ -225,8 +297,8 @@ class MultiplayerGameScene: GameScene {
                     endHandler()
                 }
             }
-        } else if self.isTouchInRange(touch: touch, frame: plateTouchEndRange2.frame) {
-            if self.isTouchInRange(touch: touch, frame: plateAllowedRange2.frame) {
+        } else if self.checkTouchRange(touch: touch, frame: plateTouchEndRange2.frame) {
+            if self.checkTouchRange(touch: touch, frame: plateAllowedRange2.frame) {
                 if let rotateHandler = self.rotateJoystickAndPlayerHandler2 {
                     let location = touch.location(in: self)
                     rotateHandler(location)
@@ -236,79 +308,12 @@ class MultiplayerGameScene: GameScene {
                     endHandler()
                 }
             }
-        } else if self.isTouchInRange(touch: touch, frame: fireButton1.shape.frame) {
+        } else if self.checkTouchRange(touch: touch, frame: fireButton1.shape.frame) {
             fireButton1.fireButtonPressed()
-        } else if self.isTouchInRange(touch: touch, frame: fireButton2.shape.frame) {
+        } else if self.checkTouchRange(touch: touch, frame: fireButton2.shape.frame) {
             fireButton2.fireButtonPressed()
         }
     }
+    /* End of overriding supprting functions */
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            self.checkVirtualControllerOp(touch: t)
-        }
-    }
-    
-    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for t in touches {
-            self.checkVirtualControllerOp(touch: t)
-        }
-    }
-    
-    override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        for touch in touches {
-            if self.isTouchInRange(touch: touch, frame: plateAllowedRange1.frame) {
-                if let endHandler = self.endJoystickMoveHandler1 {
-                    endHandler()
-                }
-            } else if self.isTouchInRange(touch: touch, frame:  fireButton1.shape.frame) {
-                self.fireButton1.shape.alpha = 0.8
-                if let shootHandler = self.fireHandler1 {
-                    shootHandler()
-                }
-                fireButton1.fireButtonReleased()
-            } else if self.isTouchInRange(touch: touch, frame: plateAllowedRange2.frame) {
-                if let endHandler = self.endJoystickMoveHandler2 {
-                    endHandler()
-                }
-            } else if self.isTouchInRange(touch: touch, frame:  fireButton2.shape.frame) {
-                self.fireButton2.shape.alpha = 0.8
-                if let shootHandler = self.fireHandler2 {
-                    shootHandler()
-                }
-                fireButton2.fireButtonReleased()
-            } else if self.isTouchInRange(touch: touch, frame: buttonBackToHomepage.frame) {
-                self.viewController?.dismiss(animated: true, completion: nil)
-            }
-        }
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        guard self.isPaused == false else {
-            return
-        }
-        
-        // Called before each frame is rendered
-        if self.prevTime == nil {
-            self.prevTime = currentTime
-        } else {
-            if let playerPositionHandler1 = self.playerVelocityUpdateHandler1 {
-                playerPositionHandler1()
-            }
-            
-            if let weaponVelocityHandler1 = self.weaponVelocityUpdateHandler1 {
-                weaponVelocityHandler1()
-            }
-            
-            if let playerPositionHandler2 = self.playerVelocityUpdateHandler2 {
-                playerPositionHandler2()
-            }
-            
-            if let weaponVelocityHandler2 = self.weaponVelocityUpdateHandler1 {
-                weaponVelocityHandler2()
-            }
-            
-            self.prevTime = currentTime
-        }
-    }
 }
