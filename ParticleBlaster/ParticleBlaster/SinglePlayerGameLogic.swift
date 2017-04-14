@@ -68,8 +68,8 @@ class SinglePlayerGameLogic: GameLogic {
     }
     /* End of initialiser */
     
-    /* Start of preparation methods for the PlayerController */
-    // This function initializes the player (spaceship) with the initial location
+    /* Start of preparation methods for GameObjects */
+    // This function initializes the player's starting location
     private func preparePlayer() {
         let player = self.player
         player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
@@ -93,7 +93,7 @@ class SinglePlayerGameLogic: GameLogic {
             obstacle.timeToLive = SpriteUtils.getObstacleTimeToLive(obstacle)
         }
     }
-    /* End of preparation methods for the PlayerController */
+    /* End of preparation methods for GameObjects */
     
     /* Start of function handlers */
     // This function handles the velocity update
@@ -129,7 +129,7 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
-    // This function is invoked when an arbitrary object collides with the map boundary; the bullet will be ignore; 
+    // This function is invoked when an arbitrary object collides with the map boundary; the bullet will be ignored; 
     // All other GameObjects should not be allowed to pass through
     func objectDidCollideWithMap(object: SKSpriteNode) {
         if object.physicsBody?.categoryBitMask == PhysicsCategory.Bullet {

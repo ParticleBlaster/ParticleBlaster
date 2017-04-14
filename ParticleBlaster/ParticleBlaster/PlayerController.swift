@@ -65,6 +65,7 @@ class PlayerController {
     }
     
     /* Start of Joystick and Player position and velocity handler functions */
+    // This function initializes the joystick set's components according to the controller type
     private func initilizeJoystickSet(controllerType: ControllerType) {
         switch controllerType {
         case .single:

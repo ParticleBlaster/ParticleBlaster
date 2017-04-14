@@ -48,11 +48,8 @@ class SinglePlayerGameScene: GameScene {
         
         addChild(player.shape)
         
-        // Set up virtual joystick
         setupVirtualJoystick()
-        // Set up back to homepage button
         //setupBackButton()
-        // Set up physics world
         setupPhysicsWorld()
     }
     
@@ -67,33 +64,6 @@ class SinglePlayerGameScene: GameScene {
         plateAllowedRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
         plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
-    }
-    
-
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
-    
-    func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
-        bullet.shape.position = position
-        bullet.shape.zRotation = directionAngle
-        bullet.shape.zPosition = -1
-        
-        addChild(bullet.shape)
-        
-    }
-    
-    private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
-        let location = touch.location(in: self)
-        if frame.contains(location) {
-            return true
-        } else {
-            return false
-        }
     }
     
     private func checkVirtualControllerOp(touch: UITouch) {
@@ -154,7 +124,6 @@ class SinglePlayerGameScene: GameScene {
         if self.prevTime == nil {
             self.prevTime = currentTime
         } else {
-            // new logic goes here
             if let playerVelocityHandler = self.playerVelocityUpdateHandlers.first {
                 playerVelocityHandler()
             }

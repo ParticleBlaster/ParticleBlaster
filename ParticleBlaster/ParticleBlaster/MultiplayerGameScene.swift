@@ -171,35 +171,19 @@ class MultiplayerGameScene: GameScene {
     override func didMove(to view: SKView) {
         self.isPaused = false
         self.setupBackgroundWithSprite()
-        //backgroundColor = Constants.backgroundColor
-        // loadGameLevel()
         
-//        player1.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-//        player1.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX1, y: MultiplayerViewParams.playerCenterY1)
         addChild(player1.shape)
-        
-//        player2.shape.size = CGSize(width: Constants.playerWidth, height: Constants.playerHeight)
-//        player2.shape.position = CGPoint(x: MultiplayerViewParams.playerCenterX2, y: MultiplayerViewParams.playerCenterY2)
         addChild(player2.shape)
         
-        // Set up virtual joystick
         setupVirtualJoystick()
-        // Set up back to homepage button
 //        setupBackButton()
-        // Set up physics world
         setupPhysicsWorld()
     }
     
     func setupVirtualJoystick() {
         // joystick 1
-        
-//        joystickPlate1.initializeJoystickPlate(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1))
         addChild(joystickPlate1.shape)
-        
-//        joystick1.initializeJoystick(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1), plateCenter: CGPoint(x: joystickPlate1.shape.position.x, y: joystickPlate1.shape.position.y))
         addChild(joystick1.shape)
-        
-//        fireButton1.initializeFireButton(position: CGPoint(x: MultiplayerViewParams.fireButtonCenterX1, y: MultiplayerViewParams.fireButtonCenterY1))
         addChild(fireButton1.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
@@ -209,14 +193,8 @@ class MultiplayerGameScene: GameScene {
         plateTouchEndRange1.position = MultiPlayerViewParams.joystickPlateCenter1
         
         // joystick 2
-        
-//        joystickPlate2.initializeJoystickPlate(position: CGPoint(x: MultiPlayerViewParams.joystickPlateCenterX2, y: MultiPlayerViewParams.joystickPlateCenterY2))
         addChild(joystickPlate2.shape)
-        
-//        joystick2.initializeJoystick(position: CGPoint(x: MultiPlayerViewParams.joystickPlateCenterX2, y: MultiPlayerViewParams.joystickPlateCenterY2), plateCenter: CGPoint(x: joystickPlate2.shape.position.x, y: joystickPlate2.shape.position.y))
         addChild(joystick2.shape)
-        
-//        fireButton2.initializeFireButton(position: CGPoint(x: MultiPlayerViewParams.fireButtonCenterX2, y: MultiPlayerViewParams.fireButtonCenterY2))
         addChild(fireButton2.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
@@ -224,34 +202,6 @@ class MultiplayerGameScene: GameScene {
         plateAllowedRange2.position = MultiPlayerViewParams.joystickPlateCenter2
         plateTouchEndRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 200)
         plateTouchEndRange2.position = MultiPlayerViewParams.joystickPlateCenter2
-    }
-    
-    func random() -> CGFloat {
-        return CGFloat(Float(arc4random()) / 0xFFFFFFFF)
-    }
-    
-    func random(min: CGFloat, max: CGFloat) -> CGFloat {
-        return random() * (max - min) + min
-    }
-    
-    func displayScoreAnimation(displayScore: Int) {
-        
-    }
-    
-    func displayBulletHitAnimation() {
-        
-    }
-    
-    func displayObstacleImpulseAnimation() {
-        
-    }
-    
-    func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {
-        bullet.shape.position = position
-        bullet.shape.zRotation = directionAngle
-        bullet.shape.zPosition = -1
-        
-        addChild(bullet.shape)
     }
     
     private func isTouchInRange(touch: UITouch, frame: CGRect) -> Bool {
