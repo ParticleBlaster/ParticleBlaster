@@ -56,14 +56,9 @@ class SinglePlayerGameScene: GameScene {
     }
     
     private func setupVirtualJoystick() {
-        
-//        joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
+        // Initialization of joystick set has been done in PlayerController class
         addChild(joystickPlate.shape)
-        
-//        joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
         addChild(joystick.shape)
-        
-//        fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
         addChild(fireButton.shape)
         
         // plateAllowedRange and plateTouchEndRange are to give a buffer area for joystick operation and should not be added as child
@@ -80,11 +75,6 @@ class SinglePlayerGameScene: GameScene {
     
     func random(min: CGFloat, max: CGFloat) -> CGFloat {
         return random() * (max - min) + min
-    }
-        
-    // Possible implementation: displays a sequence of skspritenode showing the explosion
-    func displayBulletHitAnimation() {
-        
     }
     
     func addBullet(bullet: Bullet, directionAngle: CGFloat, position: CGPoint) {

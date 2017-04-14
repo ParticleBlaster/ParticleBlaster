@@ -7,7 +7,7 @@
 //
 
 /**
- *  The 'SinglePlayerGameLogic'c class conforms to GameLogic protocol
+ *  The `SinglePlayerGameLogic` class conforms to GameLogic protocol
  *  It defines the logic for single player mode
  */
 
@@ -57,7 +57,7 @@ class SinglePlayerGameLogic: GameLogic {
         self.map = Boundary(rect: self.gameViewController.scene.frame)
         
         self.numberOfPlayers = 1
-        let playerController = PlayerController(gameViewController: self.gameViewController, player: player.copy() as! Player)
+        let playerController = PlayerController(gameViewController: self.gameViewController, player: player.copy() as! Player, controllerType: ControllerType.single)
         self.playerControllers = [playerController]
         
         prepareObstacles()
@@ -69,19 +69,21 @@ class SinglePlayerGameLogic: GameLogic {
     /* End of initialiser */
     
     /* Start of preparation methods for the PlayerController */
+    // This function initializes the player (spaceship) with the initial location
     private func preparePlayer() {
         let player = self.player
         player.shape.position = CGPoint(x: player.ratioPosition.x * self.gameViewController.scene.frame.size.width,
                                         y: player.ratioPosition.y * self.gameViewController.scene.frame.size.height)
     }
     
+    // This function links the handler in PlayerController with the actual implementation in GameLogic
     private func preparePlayerControllersSubscribers() {
         for playerController in self.playerControllers {
-            //playerController.updateJoystickPlateCenter(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY)
             playerController.obtainObstacleListHandler = self.obtainObstaclesHandler
         }
     }
     
+    // This function initializes the obstacle list
     private func prepareObstacles() {
         for obstacle in self.obstaclePool {
             obstacle.setupShape()
@@ -93,6 +95,8 @@ class SinglePlayerGameLogic: GameLogic {
     }
     /* End of preparation methods for the PlayerController */
     
+    /* Start of function handlers */
+    // This function handles the velocity update
     func updateObstaclesVelocityHandler() {
         for obs in self.obstaclePool {
             let direction = CGVector(dx: self.player.shape.position.x - obs.shape.position.x, dy: self.player.shape.position.y - obs.shape.position.y).normalized()
@@ -103,18 +107,21 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
+    // This function returns the obstacle list of the current GameLogic
     func obtainObstaclesHandler() -> [Obstacle] {
         return self.obstaclePool
     }
+    /* End of function handlers */
     
+    /* Start of collision delegate function implementations */
+    // This function is invoked when a weapon collides with the obstacle
     func bulletDidCollideWithObstacle(bullet: SKSpriteNode, obstacle: SKSpriteNode) {
         self.playerControllers[0].removeWeaponAfterCollision(weaponNode: bullet)
         
         self.obstacleIsHit(obstacleNode: obstacle)
     }
     
-    // In single player mode, the time-to-live value of a player should decrease 
-    // when it collides with an obstacles
+    // This function is invoked when the plaer collides with the obstacle
     func obstacleDidCollideWithPlayer(obs: SKSpriteNode, player: SKSpriteNode) {
         self.player.hitByObstacle()
         if self.player.checkDead() {
@@ -122,13 +129,8 @@ class SinglePlayerGameLogic: GameLogic {
         }
     }
     
-    // In single player mode, obstacles have no special effects after colliding with each other
-    func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-    }
-    
-    // In single player mode, when an object collides with the map
-    // If it is a bullets, it should be removed from the scene (as if it flies out of the boundary)
-    // Otherwise it should collides with the map and be constrainted inside the map
+    // This function is invoked when an arbitrary object collides with the map boundary; the bullet will be ignore; 
+    // All other GameObjects should not be allowed to pass through
     func objectDidCollideWithMap(object: SKSpriteNode) {
         if object.physicsBody?.categoryBitMask == PhysicsCategory.Bullet {
             self.playerControllers[0].removeWeaponAfterCollision(weaponNode: object)
@@ -137,11 +139,9 @@ class SinglePlayerGameLogic: GameLogic {
         object.removeAllActions()
     }
     
-    func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
-    }
-    
+    // This function is invoked when the upgrade pack collides with the player
     func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
-        // 75% perentage for grenade, 25% percentage for missile
+        // Upgrade possibility: 75% perentage for grenade, 25% percentage for missile
         let randomNumber = arc4random_uniform(101)
         if randomNumber <= 75 {
             self.playerControllers[0].upgradeWeapon(newWeapon: WeaponCategory.Grenade)
@@ -152,6 +152,8 @@ class SinglePlayerGameLogic: GameLogic {
         self.gameViewController.scene.removeElement(node: upgrade)
     }
     
+    // This function is invoked when a grenade collides with the obstacle;
+    // An impulse will be applied to the obstacle for special effects
     func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
         self.playerControllers[0].grenadeExplode(grenadeNode: grenade)
         let impulseDirection = CGVector(dx: obstacle.position.x - grenade.position.x, dy: obstacle.position.y - grenade.position.y).normalized()
@@ -163,7 +165,10 @@ class SinglePlayerGameLogic: GameLogic {
         
         self.obstacleIsHit(obstacleNode: obstacle)
     }
+    /* End of collision delegate function implementations */
     
+    /* Start of supporting functions for collision implementation */
+    // This function adds an upgrade pack to the game
     private func dropUpgradePack(dropPosition: CGPoint) {
         let upgradePack = UpgradePack()
         upgradePack.shape.position = dropPosition
@@ -180,6 +185,7 @@ class SinglePlayerGameLogic: GameLogic {
         })
     }
     
+    // This function updates the obstacle when it has been detected to be hit by a weapon
     private func obstacleIsHit(obstacleNode: SKSpriteNode) {
         let obstacleGotHit = self.obstaclePool.filter({$0.shape == obstacleNode})[0]
         obstacleGotHit.hitByBullet()
@@ -194,16 +200,23 @@ class SinglePlayerGameLogic: GameLogic {
             self.gameViewController.scene.displayScoreAnimation(displayScore: scoreForThisObs, scoreSceneCenter: scoreDisplayCenter)
             self.obstaclePool = self.obstaclePool.filter({$0.shape != obstacleNode})
             
-            // Upgrade pack drops
             self.dropUpgradePack(dropPosition: obstacleCenter)
         }
     }
+    /* End of supporting functions for collision implementation */
     
-    
-
-    
-
     private func _checkRep() {
         assert(self.numberOfPlayers == playerControllers.count, "Invalid number of players.")
+    }
+}
+
+// Mark: functions defined in the GameLogic protocol, but should not be implemented
+extension SinglePlayerGameLogic {
+    // Future imporvement: add special effects when obs are colliding with each other, like bouncing away
+    func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
+    }
+    
+    // In single player mode, bullet can only collides with its own mothership, so nothing happens
+    func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
     }
 }

@@ -192,37 +192,37 @@ class MultiplayerGameScene: GameScene {
     func setupVirtualJoystick() {
         // joystick 1
         
-        joystickPlate1.initializeJoystickPlate(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1))
+//        joystickPlate1.initializeJoystickPlate(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1))
         addChild(joystickPlate1.shape)
         
-        joystick1.initializeJoystick(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1), plateCenter: CGPoint(x: joystickPlate1.shape.position.x, y: joystickPlate1.shape.position.y))
+//        joystick1.initializeJoystick(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1), plateCenter: CGPoint(x: joystickPlate1.shape.position.x, y: joystickPlate1.shape.position.y))
         addChild(joystick1.shape)
         
-        fireButton1.initializeFireButton(position: CGPoint(x: MultiplayerViewParams.fireButtonCenterX1, y: MultiplayerViewParams.fireButtonCenterY1))
+//        fireButton1.initializeFireButton(position: CGPoint(x: MultiplayerViewParams.fireButtonCenterX1, y: MultiplayerViewParams.fireButtonCenterY1))
         addChild(fireButton1.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
         plateAllowedRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
-        plateAllowedRange1.position = CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
+        plateAllowedRange1.position = MultiPlayerViewParams.joystickPlateCenter1
         plateTouchEndRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
-        plateTouchEndRange1.position = CGPoint(x: MultiplayerViewParams.joystickPlateCenterX1, y: MultiplayerViewParams.joystickPlateCenterY1)
+        plateTouchEndRange1.position = MultiPlayerViewParams.joystickPlateCenter1
         
         // joystick 2
         
-        joystickPlate2.initializeJoystickPlate(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2))
+//        joystickPlate2.initializeJoystickPlate(position: CGPoint(x: MultiPlayerViewParams.joystickPlateCenterX2, y: MultiPlayerViewParams.joystickPlateCenterY2))
         addChild(joystickPlate2.shape)
         
-        joystick2.initializeJoystick(position: CGPoint(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2), plateCenter: CGPoint(x: joystickPlate2.shape.position.x, y: joystickPlate2.shape.position.y))
+//        joystick2.initializeJoystick(position: CGPoint(x: MultiPlayerViewParams.joystickPlateCenterX2, y: MultiPlayerViewParams.joystickPlateCenterY2), plateCenter: CGPoint(x: joystickPlate2.shape.position.x, y: joystickPlate2.shape.position.y))
         addChild(joystick2.shape)
         
-        fireButton2.initializeFireButton(position: CGPoint(x: MultiplayerViewParams.fireButtonCenterX2, y: MultiplayerViewParams.fireButtonCenterY2))
+//        fireButton2.initializeFireButton(position: CGPoint(x: MultiPlayerViewParams.fireButtonCenterX2, y: MultiPlayerViewParams.fireButtonCenterY2))
         addChild(fireButton2.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
         plateAllowedRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
-        plateAllowedRange2.position = CGPoint(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
+        plateAllowedRange2.position = MultiPlayerViewParams.joystickPlateCenter2
         plateTouchEndRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 200)
-        plateTouchEndRange2.position = CGPoint(x: MultiplayerViewParams.joystickPlateCenterX2, y: MultiplayerViewParams.joystickPlateCenterY2)
+        plateTouchEndRange2.position = MultiPlayerViewParams.joystickPlateCenter2
     }
     
     func random() -> CGFloat {

@@ -6,6 +6,12 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `MultiPlayerGameLogic` class conforms to GameLogic protocol
+ *  It defines the logic for multi player mode
+ */
+
+
 import UIKit
 import SpriteKit
 
@@ -58,17 +64,16 @@ class MultiplayerGameLogic: GameLogic {
         }
     }
     
-    // TODO: possible improvement: remaining life percentage band/strap
     init(gameViewController: GameViewController, obstaclePool: [Obstacle], players: [Player]) {
         self.gameViewController = gameViewController
         
         self.numberOfPlayers = 2
         self.playerControllers = [PlayerController]()
         
-        let player1 = PlayerController(gameViewController: self.gameViewController, player: players[0].copy() as! Player)
+        let player1 = PlayerController(gameViewController: self.gameViewController, player: players[0].copy() as! Player, controllerType: ControllerType.multi1)
         // TODO: Refactor
         player1.player.timeToLive = 5
-        let player2 = PlayerController(gameViewController: self.gameViewController, player: players[1].copy() as! Player)
+        let player2 = PlayerController(gameViewController: self.gameViewController, player: players[1].copy() as! Player, controllerType: ControllerType.multi2)
         // TODO: Refactor
         player2.player.timeToLive = 5
         self.playerControllers.append(player1)
@@ -81,10 +86,6 @@ class MultiplayerGameLogic: GameLogic {
         
         prepareObstacles()
         preparePlayers()
-    }
-    
-    // Shouldn't be implementing this
-    func updateObstaclesVelocityHandler() {
     }
     
     func obtainObstaclesHandler() -> [Obstacle] {
@@ -105,9 +106,6 @@ class MultiplayerGameLogic: GameLogic {
         self.playerGotHit(player: player)
     }
     
-    // Shouldn't be implementing this
-    func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
-    }
     
     func bulletDidCollideWithPlayer(bullet: SKSpriteNode, player: SKSpriteNode) {
         if !self.bulletCollideWithItsMothership(bulletNode: bullet, playerNode: player) {
@@ -128,11 +126,7 @@ class MultiplayerGameLogic: GameLogic {
         return bulletMothershipController.player.shape == playerNode
     }
     
-    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
-    }
     
-    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
-    }
     
     private func retrieveBulletObject(bulletNode: SKSpriteNode) -> Bullet {
         let bulletMothership = self.playerControllers.filter({$0.weaponPool.map({$0.shape}).contains(bulletNode)})[0]
@@ -168,5 +162,20 @@ class MultiplayerGameLogic: GameLogic {
         if collidedPlayerController.player.checkDead() {
             print ("game over!")
         }
+    }
+}
+
+// Mark: functions defined in the GameLogic protocol, but should not be implemented
+extension MultiplayerGameLogic {
+    func upgradePackDidCollideWithPlayer(upgrade: SKSpriteNode, player: SKSpriteNode) {
+    }
+    
+    func grenadeDidCollideWithObstacle(obstacle: SKSpriteNode, grenade: SKSpriteNode) {
+    }
+    
+    func obstaclesDidCollideWithEachOther(obs1: SKSpriteNode, obs2: SKSpriteNode) {
+    }
+    
+    func updateObstaclesVelocityHandler() {
     }
 }

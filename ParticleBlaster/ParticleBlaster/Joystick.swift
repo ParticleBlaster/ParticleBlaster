@@ -9,20 +9,19 @@
 import SpriteKit
 
 class Joystick : GameObject {
-    var joystickPlateCenterX: CGFloat?
-    var joystickPlateCenterY: CGFloat?
+//    var joystickPlateCenterX: CGFloat?
+//    var joystickPlateCenterY: CGFloat?
+    var joystickPlateCenter: CGPoint?
     
     init(image: String) {
-        self.joystickPlateCenterX = nil
-        self.joystickPlateCenterY = nil
+        self.joystickPlateCenter = nil
         super.init(imageName: image)
     }
     
     override init() {
-        self.joystickPlateCenterX = nil
-        self.joystickPlateCenterY = nil
+        self.joystickPlateCenter = nil
         super.init(imageName: "top")
-        self.shape.alpha = 0.5
+        //self.shape.alpha = 0.5
     }
     
     required convenience init?(coder decoder: NSCoder) {
@@ -30,20 +29,15 @@ class Joystick : GameObject {
     }
     
     func releaseJoystick() {
-        self.shape.run(SKAction.move(to: CGPoint(x: joystickPlateCenterX!, y: joystickPlateCenterY!), duration: 0.2))
+        self.shape.run(SKAction.move(to: self.joystickPlateCenter!, duration: 0.2))
     }
     
-    private func updateJoystickPlateCenterPosition(x: CGFloat, y: CGFloat) {
-        self.joystickPlateCenterX = x
-        self.joystickPlateCenterY = y
-    }
-    
-    func initializeJoystick(position: CGPoint, plateCenter: CGPoint) {
+    func initializeJoystick(position: CGPoint) {
         self.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
         // Note: position is given as center position already
         self.shape.position = position
-        self.shape.alpha = SingleplayerViewParams.joystickAlpha
-        self.updateJoystickPlateCenterPosition(x: plateCenter.x, y: plateCenter.y)
+        self.shape.alpha = SinglePlayerViewParams.joystickAlpha
+        self.joystickPlateCenter = position
         self.shape.zPosition = Constants.defaultJoystickZPosition
     }
 }

@@ -10,11 +10,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
+            timestampString = "513876390.102539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "289"
-            endingLineNumber = "289">
+            startingLineNumber = "290"
+            endingLineNumber = "290">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -24,11 +24,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
+            timestampString = "513876390.102539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "232"
-            endingLineNumber = "232"
+            startingLineNumber = "233"
+            endingLineNumber = "233"
             landmarkName = "updateScoreAndShowLeaderboard()"
             landmarkType = "7">
          </BreakpointContent>
@@ -40,21 +40,7 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "316"
-            endingLineNumber = "316">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
+            timestampString = "513876390.102539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
             startingLineNumber = "317"
@@ -64,15 +50,29 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ParticleBlaster/GameViewController.swift"
+            timestampString = "513876390.102539"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "318"
+            endingLineNumber = "318">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
             shouldBeEnabled = "Yes"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
+            timestampString = "513876390.102539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "284"
-            endingLineNumber = "284">
+            startingLineNumber = "285"
+            endingLineNumber = "285">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -82,11 +82,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/GameViewController.swift"
-            timestampString = "513849002.213928"
+            timestampString = "513876390.102539"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "365"
-            endingLineNumber = "365">
+            startingLineNumber = "366"
+            endingLineNumber = "366">
          </BreakpointContent>
       </BreakpointProxy>
       <BreakpointProxy
@@ -96,106 +96,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513854456.597056"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "126"
-            endingLineNumber = "126"
-            landmarkName = "bulletCollideWithItsMothership(bulletNode:playerNode:)"
-            landmarkType = "7">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.(bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513419069.722077"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "127"
-                  endingLineNumber = "127"
-                  offsetFromSymbolStart = "32">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.((bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool).(closure #1)"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513419069.723709"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "127"
-                  endingLineNumber = "127"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.((bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool).(closure #1).(closure #1)"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513419069.725284"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "127"
-                  endingLineNumber = "127"
-                  offsetFromSymbolStart = "16">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
-            landmarkName = "bulletCollideWithItsMothership(bulletNode:playerNode:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "131"
-            endingLineNumber = "131"
-            landmarkName = "upgradePackDidCollideWithPlayer(upgrade:player:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "96"
-            endingLineNumber = "96"
+            startingLineNumber = "97"
+            endingLineNumber = "97"
             landmarkName = "bulletDidCollideWithObstacle(bullet:obstacle:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -206,107 +111,12 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "116"
-            endingLineNumber = "116"
-            landmarkName = "bulletDidCollideWithPlayer(bullet:player:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "133"
-            endingLineNumber = "133"
-            landmarkName = "MultiplayerGameLogic"
-            landmarkType = "3">
-            <Locations>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.(bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513423184.076672"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "912">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.((bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool).(closure #2)"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513423184.078536"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "28">
-               </Location>
-               <Location
-                  shouldBeEnabled = "No"
-                  ignoreCount = "0"
-                  continueAfterRunningActions = "No"
-                  symbolName = "ParticleBlaster.MultiplayerGameLogic.((bulletCollideWithItsMothership in _A708709E392A42201E4F0AE6CED90699) (bulletNode : __ObjC.SKSpriteNode, playerNode : __ObjC.SKSpriteNode) -&gt; Swift.Bool).(closure #2).(closure #1)"
-                  moduleName = "ParticleBlaster"
-                  usesParentBreakpointCondition = "Yes"
-                  urlString = "file:///Users/RichardJiang/Desktop/Year%204%20-%20Sem%202/CS3217/project/Particle/ParticleBlaster/ParticleBlaster/MultiPlayerGameLogic.swift"
-                  timestampString = "513423184.08082"
-                  startingColumnNumber = "9223372036854775807"
-                  endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "135"
-                  endingLineNumber = "135"
-                  offsetFromSymbolStart = "8">
-               </Location>
-            </Locations>
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ParticleBlaster/MultiPlayerGameLogic.swift"
-            timestampString = "513852561.624122"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "110"
-            endingLineNumber = "110"
-            landmarkName = "obstaclesDidCollideWithEachOther(obs1:obs2:)"
-            landmarkType = "7">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/PlayerController.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513876221.068686"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "85"
-            endingLineNumber = "85"
+            startingLineNumber = "96"
+            endingLineNumber = "96"
             landmarkName = "moveMFIJoystickAndRotatePlayerHandler(_:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -318,11 +128,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/PlayerController.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513876221.068686"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "92"
-            endingLineNumber = "92"
+            startingLineNumber = "103"
+            endingLineNumber = "103"
             landmarkName = "updateJoystickAndPlayerRotationHandler(direction:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -334,11 +144,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/PlayerController.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513876221.068686"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "101"
-            endingLineNumber = "101"
+            startingLineNumber = "112"
+            endingLineNumber = "112"
             landmarkName = "updateJoystickAndPlayerRotationHandler(direction:)"
             landmarkType = "7">
          </BreakpointContent>
@@ -350,11 +160,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/PlayerController.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513876221.068686"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "135"
-            endingLineNumber = "135"
+            startingLineNumber = "146"
+            endingLineNumber = "146"
             landmarkName = "fireHandler()"
             landmarkType = "7">
          </BreakpointContent>
@@ -478,11 +288,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ParticleBlaster/PlayerController.swift"
-            timestampString = "513852561.624122"
+            timestampString = "513876221.068686"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "188"
-            endingLineNumber = "188"
+            startingLineNumber = "199"
+            endingLineNumber = "199"
             landmarkName = "updateWeaponVelocityHandler()"
             landmarkType = "7">
          </BreakpointContent>

@@ -24,6 +24,12 @@ enum GameMode: Int {
     case multiple = 1
 }
 
+enum ControllerType: Int {
+    case single = 0
+    case multi1 = 1
+    case multi2 = 2
+}
+
 enum WeaponCategory: Int {
     case Bullet = 0
     case Grenade = 1

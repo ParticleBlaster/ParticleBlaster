@@ -34,7 +34,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         super.viewDidLoad()
 
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
-        MultiplayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
+        SinglePlayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
+        MultiPlayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
         
         var obstaclesCopy = [Obstacle]()
         for obs in self.gameLevel.obstacles {

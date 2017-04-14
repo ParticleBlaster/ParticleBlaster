@@ -58,19 +58,30 @@ class PlayerController {
     
     
     // Initializer
-    init(gameViewController: GameViewController, player: Player) {
+    init(gameViewController: GameViewController, player: Player, controllerType: ControllerType) {
         self.player = player
         self.scene = gameViewController.scene
-        self.initilizeJoystickSet()
+        self.initilizeJoystickSet(controllerType: controllerType)
     }
     
     /* Start of Joystick and Player position and velocity handler functions */
-    private func initilizeJoystickSet() {
-        self.joystickPlate.initializeJoystickPlate(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY))
+    private func initilizeJoystickSet(controllerType: ControllerType) {
+        switch controllerType {
+        case .single:
+            self.joystickPlate.initializeJoystickPlate(position: SinglePlayerViewParams.joystickPlateCenter)
+            self.joystick.initializeJoystick(position: SinglePlayerViewParams.joystickPlateCenter)
+            self.fireButton.initializeFireButton(position: SinglePlayerViewParams.fireButtonCenter)
+        case .multi1:
+            self.joystickPlate.initializeJoystickPlate(position: MultiPlayerViewParams.joystickPlateCenter1)
+            self.joystick.initializeJoystick(position: MultiPlayerViewParams.joystickPlateCenter1)
+            self.fireButton.initializeFireButton(position: MultiPlayerViewParams.fireButtonCenter1)
+        case .multi2:
+            self.joystickPlate.initializeJoystickPlate(position: MultiPlayerViewParams.joystickPlateCenter2)
+            self.joystick.initializeJoystick(position: MultiPlayerViewParams.joystickPlateCenter2)
+            self.fireButton.initializeFireButton(position: MultiPlayerViewParams.fireButtonCenter2)
+            
+        }
         
-        self.joystick.initializeJoystick(position: CGPoint(x: Constants.joystickPlateCenterX, y: Constants.joystickPlateCenterY), plateCenter: CGPoint(x: joystickPlate.shape.position.x, y: joystickPlate.shape.position.y))
-        
-        self.fireButton.initializeFireButton(position: CGPoint(x: Constants.fireButtonCenterX, y: Constants.fireButtonCenterY))
     }
     
     // This function moves the joystick according to the touch gestures
