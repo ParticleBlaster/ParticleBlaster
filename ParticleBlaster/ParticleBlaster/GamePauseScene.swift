@@ -6,15 +6,19 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `GamePauseNode` is SKNode in the scene that is used to pause the game on-click
+ */
+
 import Foundation
 import SpriteKit
 
 class GamePauseNode: SKNode {
-    var background: SKSpriteNode!
-    var buttonHomePage: TextButton!
-    var buttonResume: TextButton!
-    var buttonReplay: TextButton!
-    var viewController: GameViewController!
+    private var background: SKSpriteNode!
+    private var buttonHomePage: TextButton!
+    private var buttonResume: TextButton!
+    private var buttonReplay: TextButton!
+    private var viewController: GameViewController!
     
     init(size: CGSize, viewController: GameViewController) {
         self.background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
@@ -25,8 +29,6 @@ class GamePauseNode: SKNode {
         super.init()
         
         // Set the background image
-//        anchorPoint = CGPoint(x: 0.5, y: 0.5)
-//        background.position = CGPoint(x: frame.midX, y: frame.midY)
         background.position = .zero
         background.size = size
         background.alpha = 1
@@ -43,6 +45,7 @@ class GamePauseNode: SKNode {
         label.zPosition = 1
         addChild(label)
         
+        // Set button positions
         buttonResume.position = CGPoint(x: frame.midX + 0, y: frame.midY + size.height * 0.05)
         buttonResume.onPressHandler = self.resumeButtonPressed
         buttonResume.zPosition = 1

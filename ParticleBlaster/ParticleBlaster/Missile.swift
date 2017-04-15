@@ -48,7 +48,6 @@ class Missile : Weapon {
             let missileInitalAccelerationAction = SKAction.applyForce(initialForce, at: forceCenter, duration: Constants.missileInitialAccelerationTime)
             
             let missileInitialRotateAction = SKAction.rotate(toAngle: rotationAngle, duration: Constants.missileInitialAccelerationTime)
-            //let missileFlyAction = missileInitalAccelerationAction
             let missileFlyAction = SKAction.group([missileInitalAccelerationAction, missileInitialRotateAction])
             self.shape.run(missileFlyAction, completion: {
                 self.isReadyToFly()
@@ -83,7 +82,6 @@ class Missile : Weapon {
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.defaultBulletWidth, height: Constants.defaultBulletHeight)
         self.shape.physicsBody = SKPhysicsBody(rectangleOf: self.shape.size)
-        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: (self.shape.texture?.size())!)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Bullet
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Player

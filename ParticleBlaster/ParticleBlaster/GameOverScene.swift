@@ -6,14 +6,18 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `GameOverScene` is used to display the final game status of a game
+ */
+
 import Foundation
 import SpriteKit
 
 class GameOverScene: SKScene {
-    var background: SKSpriteNode!
-    var buttonHomePage: TextButton!
-    var buttonReplay: TextButton!
-    var viewController: GameViewController!
+    private var background: SKSpriteNode!
+    private var buttonHomePage: TextButton!
+    private var buttonReplay: TextButton!
+    private var viewController: GameViewController!
     
     init(size: CGSize, message: String, viewController: GameViewController) {
         self.background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
@@ -39,6 +43,7 @@ class GameOverScene: SKScene {
         label.zPosition = 1
         addChild(label)
         
+        // Set button positions
         buttonReplay.position = CGPoint(x: 0, y: size.height * 0)
         buttonReplay.onPressHandler = self.replayButtonPressed
         buttonReplay.zPosition = 1

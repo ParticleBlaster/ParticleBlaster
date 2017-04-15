@@ -57,7 +57,6 @@ class SinglePlayerGameScene: GameScene {
         addChild(player.shape)
         
         setupVirtualJoystick()
-        //setupBackButton()
         setupPhysicsWorld()
     }
     

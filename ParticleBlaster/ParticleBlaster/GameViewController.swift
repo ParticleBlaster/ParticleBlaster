@@ -14,7 +14,6 @@ import GameKit
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // Waiting for prepareForSegue
-    // var gameMode: GameMode!
     var gameLevel: GameLevel!
     
     // Initialise game scene for displaying game objects
@@ -139,6 +138,28 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
     
     /* Start of setup related methods */
+    
+    /* Start of game pause related methods */
+    
+    func doPauseGame() {
+        self.scene.isPaused = true
+        pauseAllMFiControllers()
+        pauseScene.alpha = 1
+        pauseScene.zPosition = 100
+        pauseScene.isUserInteractionEnabled = true
+        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        scene.addChild(pauseScene)
+    }
+    
+    func doResumeGame() {
+        self.scene.isPaused = false
+        resumeAllMFiControllers()
+        self.pauseScene.removeFromParent()
+    }
+    
+    /* End of game pause related methods */
+    
+    /* Start of private methods */
     
     private func configMFiController(index: Int, playerController: PlayerController) {
         MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
@@ -274,22 +295,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         }
     }
     
-    func doPauseGame() {
-        self.scene.isPaused = true
-        pauseAllMFiControllers()
-        pauseScene.alpha = 1
-        pauseScene.zPosition = 100
-        pauseScene.isUserInteractionEnabled = true
-        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        scene.addChild(pauseScene)
-    }
-    
-    func doResumeGame() {
-        self.scene.isPaused = false
-        resumeAllMFiControllers()
-        self.pauseScene.removeFromParent()
-    }
-    
+    /* End of private methods */
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {

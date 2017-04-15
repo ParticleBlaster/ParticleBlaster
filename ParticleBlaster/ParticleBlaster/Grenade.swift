@@ -44,7 +44,6 @@ class Grenade : Weapon {
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.grenadeRadius * 2, height: Constants.grenadeRadius * 2)
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius)
-        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Grenade
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle //| PhysicsCategory.Player
@@ -56,7 +55,6 @@ class Grenade : Weapon {
             self.exploded = true
             self.shape.size = CGSize(width: Constants.grenadeRadius * 8, height: Constants.grenadeRadius * 8)
             self.shape.zPosition = Constants.grenadeExplosionAnimationZPosition
-            //self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.grenadeRadius * 4)
             self.shape.physicsBody?.isDynamic = false
             self.shape.physicsBody?.velocity = CGVector.zero
             self.shape.physicsBody?.categoryBitMask = PhysicsCategory.None

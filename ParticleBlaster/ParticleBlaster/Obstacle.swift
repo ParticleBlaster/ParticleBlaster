@@ -24,7 +24,7 @@ class Obstacle : GameObject {
     /* Start of class attributes definition */
     // This position is archived as ratio position, and need to convert to absolute value when displaying
     var initialPosition: CGPoint
-    // for support storage purpose
+    // To support storage purpose
     var imageName: String = "obs"
 
     /* End of class attributes definition */

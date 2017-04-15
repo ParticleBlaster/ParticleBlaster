@@ -178,7 +178,7 @@ class MultiplayerGameScene: GameScene {
             }
         }
     }
-    /* Start of computed properties: function handlers for both players' gestures */
+    /* End of computed properties: function handlers for both players' gestures */
     
     /* Start of overriding functions from SKScene */
     override func didMove(to view: SKView) {
@@ -189,7 +189,6 @@ class MultiplayerGameScene: GameScene {
         addChild(player2.shape)
         
         setupVirtualJoystick()
-//        setupBackButton()
         setupPhysicsWorld()
     }
     
