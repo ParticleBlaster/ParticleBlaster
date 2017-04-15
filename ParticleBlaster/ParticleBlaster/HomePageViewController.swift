@@ -95,6 +95,7 @@ extension HomePageViewController: NavigationDelegate {
         let storyboard: UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
         let vc: GameViewController = storyboard.instantiateViewController(withIdentifier: "GameViewController") as! GameViewController
         vc.gameLevel = gameLevel
+        vc.navigationDelegate = self
         self.present(vc, animated: true, completion: nil)
     }
 
@@ -127,5 +128,13 @@ extension HomePageViewController: NavigationDelegate {
 
     func navigateToLeaderBoard() {
         GameCenterUtils.openLevelLeaderboard(in: self)
+    }
+
+    func onAppeared() {
+        let skView = view as! SKView
+        guard let scene = skView.scene as? LevelSelectScene else {
+            return
+        }
+        scene.reload()
     }
 }

@@ -55,7 +55,7 @@ class GameOverScene: SKScene {
     }
     
     private func homepageButtonPressed() {
-        self.viewController.dismiss(animated: true, completion: nil)
+        self.viewController.goback()
     }
     
     required init(coder aDecoder: NSCoder) {

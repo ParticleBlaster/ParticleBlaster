@@ -12,9 +12,9 @@ import GameplayKit
 import GameKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
+    
+    var navigationDelegate: NavigationDelegate?
 
-    // Waiting for prepareForSegue
-    // var gameMode: GameMode!
     var gameLevel: GameLevel!
     
     // Initialise game scene for displaying game objects
@@ -290,6 +290,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.scene.isPaused = false
         resumeAllMFiControllers()
         self.pauseScene.removeFromParent()
+    }
+
+    func goback() {
+        self.navigationDelegate?.onAppeared()
+        dismiss(animated: true, completion: nil)
     }
     
 }

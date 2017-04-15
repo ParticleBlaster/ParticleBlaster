@@ -24,8 +24,7 @@ class LevelSelectScene: SKScene {
             guard oldValue != currentPage else {
                 return
             }
-            self.reloadLevelPage()
-            self.updatePaginationButtons()
+            self.onPageChange()
         }
     }
 
@@ -48,6 +47,18 @@ class LevelSelectScene: SKScene {
         self.anchorPoint = CGPoint(x: 0.5, y: 0.5)
         initLayout()
         prepareGrid()
+    }
+
+    func reload() {
+        // only need to reload in single player mode
+        guard gameMode == .single else {
+            return
+        }
+        resetView()
+        initLayout()
+        prepareGrid()
+        // call reloading the grid manually
+        onPageChange()
     }
 
     fileprivate func reloadLevelPage() {
@@ -90,6 +101,11 @@ class LevelSelectScene: SKScene {
             nextButton.isEnabled = true
             nextButton.isPositive = true
         }
+    }
+
+    fileprivate func onPageChange() {
+        reloadLevelPage()
+        updatePaginationButtons()
     }
 
     fileprivate func ratioPositionToLevelScreenPosition(_ position: CGPoint, in layer: SKNode) -> CGPoint {
@@ -144,6 +160,11 @@ class LevelSelectScene: SKScene {
 
 /// MARK: Viewing related part
 extension LevelSelectScene {
+
+    fileprivate func resetView() {
+        self.removeAllChildren()
+    }
+    
     fileprivate func initLayout() {
         background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
         preButton = IconButton(imageNamed: Constants.upwardButtonFilename,
@@ -183,6 +204,7 @@ extension LevelSelectScene {
         gridLayer.zPosition = 1
         addChild(gridLayer)
         let levelCount = gameMode == .single ? gameData.numSingleModeLevel : gameData.numMultiModeLevel
+        levelBoxList = []
         
         for index in 0..<levelCount {
             var levelBox: SKNode

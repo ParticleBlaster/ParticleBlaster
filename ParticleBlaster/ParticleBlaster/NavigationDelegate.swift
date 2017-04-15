@@ -21,4 +21,6 @@ protocol NavigationDelegate {
     func navigateToHomePage()
     /// Open default Leaderboard
     func navigateToLeaderBoard()
+    /// Callback when navigate back from other viewcontroller
+    func onAppeared()
 }
