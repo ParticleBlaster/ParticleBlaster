@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `JoystickInput` defines the input format the joystick
+ */
+
 import UIKit
 import SpriteKit
 

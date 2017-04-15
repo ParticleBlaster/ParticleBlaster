@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `JoystickPlate` defines the plate part of the joystick
+ */
+
 import SpriteKit
 
 class JoystickPlate : GameObject {

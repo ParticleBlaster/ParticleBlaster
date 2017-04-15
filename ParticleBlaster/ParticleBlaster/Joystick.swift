@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Joystick` deifnes the stick part of the joystick
+ */
+
 import SpriteKit
 
 class Joystick : GameObject {
