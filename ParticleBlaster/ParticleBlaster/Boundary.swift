@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Boundary` class defines the boundary of the map
+ */
+
 import SpriteKit
 
 class Boundary: SKNode {
