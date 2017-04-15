@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Joystick` defines the top part of the joystick
+ */
+
 import SpriteKit
 
 class Joystick : GameObject {
@@ -34,7 +38,7 @@ class Joystick : GameObject {
         self.shape.size = CGSize(width: Constants.joystickPlateWidth / 2, height: Constants.joystickPlateHeight / 2)
         // Note: position is given as center position already
         self.shape.position = position
-        self.shape.alpha = SinglePlayerViewParams.joystickAlpha
+        self.shape.alpha = Constants.joystickAlpha
         self.joystickPlateCenter = position
         self.shape.zPosition = Constants.defaultJoystickZPosition
     }

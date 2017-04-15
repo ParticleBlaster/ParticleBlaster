@@ -239,7 +239,7 @@ extension LevelSelectScene {
         let maskLayer = SKSpriteNode()
         maskLayer.color = .black
         maskLayer.size = self.size
-        maskLayer.alpha = 0.5
+        maskLayer.alpha = Constants.normalBlurAlpha
         maskLayer.zPosition = Constants.zPositionModal
         maskLayer.position = .zero
         

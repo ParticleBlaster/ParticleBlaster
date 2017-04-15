@@ -267,9 +267,9 @@ class MultiplayerGameScene: GameScene {
         addChild(fireButton1.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateAllowedRange)
         plateAllowedRange1.position = MultiPlayerViewParams.joystickPlateCenter1
-        plateTouchEndRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
+        plateTouchEndRange1 = SKShapeNode(circleOfRadius: Constants.joystickPlateTouchEndRange)
         plateTouchEndRange1.position = MultiPlayerViewParams.joystickPlateCenter1
         
         // joystick 2
@@ -278,9 +278,9 @@ class MultiplayerGameScene: GameScene {
         addChild(fireButton2.shape)
         
         // plateAllowedRange is to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
+        plateAllowedRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateAllowedRange)
         plateAllowedRange2.position = MultiPlayerViewParams.joystickPlateCenter2
-        plateTouchEndRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 200)
+        plateTouchEndRange2 = SKShapeNode(circleOfRadius: Constants.joystickPlateTouchEndRange)
         plateTouchEndRange2.position = MultiPlayerViewParams.joystickPlateCenter2
     }
     

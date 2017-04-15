@@ -314,12 +314,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/TextButton.swift"
-                  timestampString = "513966490.793095"
+                  timestampString = "513969544.370475"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
                   startingLineNumber = "59"
                   endingLineNumber = "59"
-                  offsetFromSymbolStart = "188">
+                  offsetFromSymbolStart = "276">
                </Location>
                <Location
                   shouldBeEnabled = "Yes"
@@ -329,12 +329,12 @@
                   moduleName = "ParticleBlaster"
                   usesParentBreakpointCondition = "Yes"
                   urlString = "file:///Users/ljq/Desktop/Study/CS3217/Project/ParticleBlaster/ParticleBlaster/ParticleBlaster/TextButton.swift"
-                  timestampString = "513966490.798353"
+                  timestampString = "513969544.3727"
                   startingColumnNumber = "9223372036854775807"
                   endingColumnNumber = "9223372036854775807"
-                  startingLineNumber = "61"
-                  endingLineNumber = "61"
-                  offsetFromSymbolStart = "16">
+                  startingLineNumber = "60"
+                  endingLineNumber = "60"
+                  offsetFromSymbolStart = "20">
                </Location>
             </Locations>
          </BreakpointContent>

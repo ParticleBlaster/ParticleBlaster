@@ -13,8 +13,8 @@ class Player : GameObject {
     var ratioPosition: CGPoint = .zero
     init(image: String = Constants.spaceshipFilename, timeToLive: Int = Constants.playerTimeToLive) {
         self.imageName = image
-        super.init(imageName: image)
-        self.timeToLive = timeToLive
+        super.init(imageName: image, timeToLive: timeToLive)
+
         setupPhysicsProperty()
     }
     
@@ -57,7 +57,7 @@ class Player : GameObject {
         return copy
     }
 
-    func setupPhysicsProperty() {
+    private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.playerWidth,
                                  height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth, forShape: self.shape))
         self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)

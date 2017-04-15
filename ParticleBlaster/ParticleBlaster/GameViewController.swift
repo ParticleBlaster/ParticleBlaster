@@ -155,6 +155,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.pauseNode.removeFromParent()
     }
 
+    func goback() {
+        self.navigationDelegate?.onAppeared()
+        dismiss(animated: true, completion: nil)
+    }
+
     /* End of game pause related methods */
 
     /* Start of private methods */
@@ -305,6 +310,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.navigationDelegate?.onAppeared()
         dismiss(animated: true, completion: nil)
     }
+
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {

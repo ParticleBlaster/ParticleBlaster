@@ -31,21 +31,17 @@ class Obstacle : GameObject {
 
 
     /* Start of initializors and supporting functions */
-    // Initialize with the image name provided
-    init(image: String, userSetInitialPosition: CGPoint) {
-        self.imageName = image
-        self.initialPosition = userSetInitialPosition
-        super.init(imageName: image)
-        self.timeToLive = Constants.defaultTimeToLive
-        setupShape()
-    }
-    
-    init(image: String, userSetInitialPosition: CGPoint, timeToLIve: Int) {
+    // Initialize with the image name, initial position and time-to-live value provided
+    init(image: String, userSetInitialPosition: CGPoint, timeToLive: Int) {
         self.imageName = image
         self.initialPosition = userSetInitialPosition
         super.init(imageName: image)
         self.timeToLive = timeToLive
         setupShape()
+    }
+    
+    convenience init(image: String, userSetInitialPosition: CGPoint) {
+        self.init(image: image, userSetInitialPosition: userSetInitialPosition, timeToLive: Constants.defaultTimeToLive)
     }
 
     // Initialize with the same attributes of an existing obstacle, discarding the original physics body
