@@ -79,7 +79,7 @@ class Weapon : GameObject {
     }
     
     // This function resets the physics properties to None to avoid duplicate collision
-    func resetSpriteNodePhysicsProperties() {
+    private func resetSpriteNodePhysicsProperties() {
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.None
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.None
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.None

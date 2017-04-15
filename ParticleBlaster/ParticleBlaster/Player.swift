@@ -57,7 +57,7 @@ class Player : GameObject {
         return copy
     }
 
-    func setupPhysicsProperty() {
+    private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.playerWidth,
                                  height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth, forShape: self.shape))
         self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
