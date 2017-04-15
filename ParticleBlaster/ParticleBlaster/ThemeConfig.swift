@@ -14,10 +14,6 @@ struct ThemeConfig {
 
     static let themeNames = ["Planets",
                              "StarWars"
-//                             "StarTrek",
-//                             "DoctorWho",
-//                             "EVA",
-//                             "Monster"
                             ]
 
     static let themeObstacleNames = ["Planets":obstacleFileNamesPlanets,
@@ -80,51 +76,4 @@ struct ThemeConfig {
                                             "starwars-thundertrooper"]
     static let spaceshipFileNamesStarWars = ["starwars-spaceship-1",
                                              "starwars-spaceship-2"]
-
-    // Theme StarWars
-    static let obstacleFileNamesStarTrek = ["startrek-blue-1",
-                                            "startrek-blue-2",
-                                            "startrek-red-1",
-                                            "startrek-red-2",
-                                            "startrek-yellow-1",
-                                            "startrek-yellow-2",
-                                            "startrek-spock",
-                                            "startrek-logo",
-                                            "startrek-llap"]
-    static let spaceshipFileNamesStarTrek = ["startrek-spaceship-1",
-                                             "startrek-spaceship-2"]
-
-    // Theme EVA
-    static let obstacleFileNamesEVA = ["starwars-bb8",
-                                        "starwars-bountyhunter",
-                                        "starwars-c3po",
-                                        "starwars-darthvadar",
-                                        "starwars-princess",
-                                        "starwars-r2d2",
-                                        "starwars-sith",
-                                        "starwars-thundertrooper"]
-    static let spaceshipFileNamesEVA = ["eva-spaceship-1",
-                                        "eva-spaceship-2"]
-
-    // Theme Doctor Who
-    static let obstacleFileNamesDoctorWho = ["starwars-bb8",
-                                            "starwars-bountyhunter",
-                                            "starwars-c3po",
-                                            "starwars-darthvadar",
-                                            "starwars-princess",
-                                            "starwars-r2d2",
-                                            "starwars-sith",
-                                            "starwars-thundertrooper"]
-    static let spaceshipFileNamesDoctorWho = ["doctorwho-spaceship-1",
-                                             "doctorwho-spaceship-2"]
-
-    // Theme Monster
-    static let obstacleFileNamesMonster = ["monster-1",
-                                           "monster-2",
-                                           "monster-3",
-                                           "monster-4",
-                                           "monster-5",
-                                           "monster-6"]
-    static let spaceshipFileNamesMonster = ["monster-spaceship-1",
-                                            "monster-spaceship-2"]
 }

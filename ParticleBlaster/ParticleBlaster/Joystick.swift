@@ -9,8 +9,6 @@
 import SpriteKit
 
 class Joystick : GameObject {
-//    var joystickPlateCenterX: CGFloat?
-//    var joystickPlateCenterY: CGFloat?
     var joystickPlateCenter: CGPoint?
     
     init(image: String) {

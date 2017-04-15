@@ -52,7 +52,6 @@
 		0EB2CD551E82B27D00237FA9 /* CGVectorExtensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */; };
 		0EB2CD571E82CD5E00237FA9 /* FireButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD561E82CD5E00237FA9 /* FireButton.swift */; };
 		0EB2CD591E82D8BE00237FA9 /* Bullet.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EB2CD581E82D8BE00237FA9 /* Bullet.swift */; };
-		0EF34DB21E9A3C5700B60C60 /* SKSpriteNodeExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */; };
 		6A0318581E76FFE0000FAE05 /* StarTrekFont.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */; };
 		6A03185A1E76FFF5000FAE05 /* HomePageScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A0318591E76FFF5000FAE05 /* HomePageScene.swift */; };
 		6A2AC26A1E87745F00BE3A41 /* HomePageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */; };
@@ -130,7 +129,6 @@
 		0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CGVectorExtensions.swift; sourceTree = "<group>"; };
 		0EB2CD561E82CD5E00237FA9 /* FireButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FireButton.swift; sourceTree = "<group>"; };
 		0EB2CD581E82D8BE00237FA9 /* Bullet.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Bullet.swift; sourceTree = "<group>"; };
-		0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SKSpriteNodeExtension.swift; sourceTree = "<group>"; };
 		6A0318561E76FF6C000FAE05 /* StarTrekFont.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = StarTrekFont.ttf; sourceTree = "<group>"; };
 		6A0318591E76FFF5000FAE05 /* HomePageScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageScene.swift; sourceTree = "<group>"; };
 		6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = HomePageViewController.swift; sourceTree = "<group>"; };
@@ -264,7 +262,6 @@
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
-				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
@@ -396,7 +393,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MRZ7YD72EV;
+						DevelopmentTeam = HF56BSQHPC;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -509,7 +506,6 @@
 				0EB2CD571E82CD5E00237FA9 /* FireButton.swift in Sources */,
 				0EB2CD591E82D8BE00237FA9 /* Bullet.swift in Sources */,
 				0E8EE7501E918EA7003F041A /* Missile.swift in Sources */,
-				0EF34DB21E9A3C5700B60C60 /* SKSpriteNodeExtension.swift in Sources */,
 				E1A4FE3D1E84684D0096D277 /* LevelSelectScene.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -633,10 +629,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = HF56BSQHPC;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;
@@ -647,10 +643,10 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = HF56BSQHPC;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
+				PRODUCT_BUNDLE_IDENTIFIER = com.bohan.TriAdventure;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 2;

@@ -54,15 +54,12 @@ class Player : GameObject {
     override func copy() -> Any {
         let copy = Player(image: self.imageName, timeToLive: self.timeToLive)
         copy.ratioPosition = self.ratioPosition
-        // copy.shape.position = self.shape.position
         return copy
     }
 
     func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.playerWidth,
-                                 height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth,
-                                                                          forShape: self.shape))
-        //self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
+                                 height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth, forShape: self.shape))
         self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
