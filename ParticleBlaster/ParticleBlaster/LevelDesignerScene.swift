@@ -128,7 +128,6 @@ class LevelDesignerScene: SKScene {
             } else {
                 removecurrentObject(withAnimation: true)
             }
-            self.saveButton.isEnabled = true
         }
         currentObject = nil
         removeOutsideObstacles()
@@ -205,7 +204,6 @@ class LevelDesignerScene: SKScene {
     private func onSaveButtonPressed() {
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
-        self.saveButton.isEnabled = false
     }
 
     private func onPlayButtonPressed() {

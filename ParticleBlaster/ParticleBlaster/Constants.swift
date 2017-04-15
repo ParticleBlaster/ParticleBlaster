@@ -322,5 +322,5 @@ class Constants {
     static let debouncingInteval: Float = 0.005
 
     // Alpha values
-    static let normalBlurAlpha = 0.2
+    static let normalBlurAlpha: CGFloat = 0.2
 }

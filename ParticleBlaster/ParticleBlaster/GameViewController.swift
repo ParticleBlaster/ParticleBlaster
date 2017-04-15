@@ -270,7 +270,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         let level = gameLevel.id
         let score = self.currLevelObtainedScore
         GameData.getInstance().finishGameLevel(gameLevel)
-        GameCenterUtils.submitAchievedLevelToGC(level)
+        GameCenterUtils.submitAchievedLevelToGC(level + 1)
         GameCenterUtils.submitScore(for: level, score: score) {
             GameCenterUtils.openLeaderboard(in: self, level: level)
         }
