@@ -29,6 +29,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var fireButtons: [FireButton] = [FireButton]()
     /* End of stored UI elements and properties */
     
+    /* Start of control related variables */
+    var wasPaused: Bool = false
+    /* End of control related variables */
+    
     /* Start of function handlers declaration for gesture recognition */
     var rotateJoystickAndPlayerHandlers: [((CGPoint) -> ())] = [((CGPoint) -> ())]()
     var endJoystickMoveHandlers: [(() -> ())] = [(() -> ())]()
@@ -40,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // UI element: back button; navigation to the previous page
     let buttonBackToHomepage = SKShapeNode(rect: CGRect(x: 0, y: 0, width: 100, height: 30), cornerRadius: 10)
+    var buttonPause: TextButton!
     
     /* Start of setup methods */
     // This function sets up the back button to be displayed
@@ -57,6 +62,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         buttonBackToHomepage.addChild(buttonText)
         addChild(buttonBackToHomepage)
+    }
+    
+    // This function sets up the pasue button to be displayed
+    func setupPauseButton() {
+        buttonPause = TextButton(imageNamed: Constants.backgroundButtonFilename, text: "||", size: Constants.iconButtonDefaultSize * 0.5)
+//        buttonPause = TextButton(imageNamed: Constants.pauseButtonFilename, text: "", size: Constants.iconButtonDefaultSize * 0.5)
+        buttonPause.position = CGPoint(x: frame.midX,
+                                       y: self.size.height - Constants.screenPaddingThinner.height - buttonPause.size.height / 2)
+        buttonPause.onPressHandler = self.viewController.doPauseGame
+        addChild(buttonPause)
     }
     
     // This function initializes the physics world; no gravity, delegate to GameViewController
@@ -120,7 +135,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             label.removeFromParent()
         })
     }
+    
     /* End of UI elements manipulation methods */
+    
     
     /* Start of supporting functions for different implementations of GameScene */
     // This function checks whether an UITouch locates inside the selected area

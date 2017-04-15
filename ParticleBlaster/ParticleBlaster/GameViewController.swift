@@ -19,7 +19,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     var skView: SKView!
-    var pauseScene: GamePauseNode!
+    var pauseNode: GamePauseNode!
 
     // Initialise game logic for controlling game objects
     var gameLogic: GameLogic!
@@ -142,19 +142,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     /* Start of game pause related methods */
 
     func doPauseGame() {
-        self.scene.isPaused = true
+        self.scene.wasPaused = true
+        self.scene.physicsWorld.speed = 0
         pauseAllMFiControllers()
-        pauseScene.alpha = 1
-        pauseScene.zPosition = 100
-        pauseScene.isUserInteractionEnabled = true
-        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        scene.addChild(pauseScene)
+        scene.addChild(pauseNode)
     }
 
     func doResumeGame() {
-        self.scene.isPaused = false
+        self.scene.wasPaused = false
+        self.scene.physicsWorld.speed = 1
         resumeAllMFiControllers()
-        self.pauseScene.removeFromParent()
+        self.pauseNode.removeFromParent()
     }
 
     /* End of game pause related methods */
@@ -255,7 +253,9 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     private func setupGamePause() {
-        self.pauseScene = GamePauseNode(size: view.bounds.size, viewController: self)
+        self.pauseNode = GamePauseNode(size: view.bounds.size, viewController: self)
+        pauseNode.zPosition = 100
+        pauseNode.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
     }
 
     // This method checks the game winning / losing status and display the GameOverScene according to the checks
@@ -300,23 +300,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     /* End of private methods */
-    func doPauseGame() {
-        self.scene.isPaused = true
-        pauseAllMFiControllers()
-        pauseScene.alpha = 1
-        pauseScene.zPosition = 100
-        pauseScene.isUserInteractionEnabled = true
-        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        scene.addChild(pauseScene)
-    }
 
-    func doResumeGame() {
-        self.scene.isPaused = false
-        resumeAllMFiControllers()
-        self.pauseScene.removeFromParent()
-    }
-
-    func goback() {
+    func goBack() {
         self.navigationDelegate?.onAppeared()
         dismiss(animated: true, completion: nil)
     }

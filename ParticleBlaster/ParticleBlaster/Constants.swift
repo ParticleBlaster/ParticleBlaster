@@ -181,11 +181,28 @@ class Constants {
     static let destroyObstacleScoreOffset = CGVector(dx: 0, dy: 5)
     static let destroyObstacleScoreFadeTime = 0.5
     //static let destroyObstacleScore
+    
     // Homepage Constants
     static let backgroundImage: UIImage = #imageLiteral(resourceName: "homepage")
 
     static let maxNumOfObstacle = 15
     static let defaultThemeName = "Planets"
+    
+    // Game Pause Constants
+    static let pauseTitle = "Game Paused"
+    static let pauseResumeTitle = "Resume"
+    static let pauseReplayTitle = "Replay"
+    static let pauseHomepageTitle = "Homepage"
+    
+    static let zPositionLabel: CGFloat = 1
+    static let zPositionButton: CGFloat = 1
+    static let zPositionBackground: CGFloat = 0
+    
+    static let pauseLabelOffset: CGFloat = 0.2
+    static let pauseResumeButtonOffset: CGFloat = 0.05
+    static let pauseReplayButtonOffset: CGFloat = -0.1
+    static let pauseHomepageButtonOffset: CGFloat = -0.25
+    
     // Obstalces' size
     static let obstacleBasicWidth: CGFloat = 80
     static let obstacleBasicSize = CGSize(width: 80, height: 80)
@@ -299,8 +316,10 @@ class Constants {
     static let rankButtonFilename = "rank-btn"
     static let rankButtonDisabledFilename = "rank-btn-disabled"
     static let transparentBackgroundFilename = "transparent-background"
+    static let pauseButtonFilename = "setting-btn"
+    
 
-    // sizes
+    // Sizes
     static let iconButtonDefaultSize = CGSize(width: 100, height: 100)
     static let textButtonDefaultSize = CGSize(width: 215, height: 100)
     static let textButtonTransparentDefaultSize = CGSize(width: 150, height: 100)
@@ -323,4 +342,8 @@ class Constants {
 
     // Alpha values
     static let normalBlurAlpha: CGFloat = 0.2
+    static let fullAlpha: CGFloat = 1
+    
+    // Error Message
+    static let errorMessageNSCoder = "init(coder:) has not been implemented"
 }

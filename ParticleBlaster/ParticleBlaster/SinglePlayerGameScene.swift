@@ -51,13 +51,14 @@ class SinglePlayerGameScene: GameScene {
     
     /* Start of overriding functions from SKScene */
     override func didMove(to view: SKView) {
-        self.isPaused = false
+        self.wasPaused = false
         self.setupBackgroundWithSprite()
         
         addChild(player.shape)
         
         setupVirtualJoystick()
         setupPhysicsWorld()
+        setupPauseButton()
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -93,7 +94,7 @@ class SinglePlayerGameScene: GameScene {
     }
     
     override func update(_ currentTime: TimeInterval) {
-        guard self.isPaused == false else {
+        guard self.wasPaused == false else {
             return
         }
         

@@ -22,43 +22,46 @@ class GamePauseNode: SKNode {
     
     init(size: CGSize, viewController: GameViewController) {
         self.background = SKSpriteNode(imageNamed: Constants.homepageBackgroundFilename)
-        self.buttonHomePage = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: "Homepage")
-        self.buttonResume = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: "Resume")
-        self.buttonReplay = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: "Replay")
+        self.buttonHomePage = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.pauseHomepageTitle)
+        self.buttonResume = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.pauseResumeTitle)
+        self.buttonReplay = TextButton(imageNamed: Constants.backgroundButtonLargeFilename, text: Constants.pauseReplayTitle)
         self.viewController = viewController
         super.init()
+        
+        self.alpha = Constants.fullAlpha
+        self.isUserInteractionEnabled = true
         
         // Set the background image
         background.position = .zero
         background.size = size
-        background.alpha = 1
-        background.zPosition = 0
+        background.alpha = Constants.fullAlpha
+        background.zPosition = Constants.zPositionBackground
         addChild(background)
         
         // Choose font and set parameters for displaying laber of text
         let label = SKLabelNode(fontNamed: Constants.titleFont)
-        label.text = "Pause"
+        label.text = Constants.pauseTitle
         label.fontName = Constants.titleFont
         label.fontSize = Constants.fontSizeHuge
         label.fontColor = SKColor.white
-        label.position = CGPoint(x: frame.midX + 0, y: frame.midY + size.height * 0.2)
-        label.zPosition = 1
+        label.position = CGPoint(x: 0, y: size.height * Constants.pauseLabelOffset)
+        label.zPosition = Constants.zPositionLabel
         addChild(label)
         
         // Set button positions
-        buttonResume.position = CGPoint(x: frame.midX + 0, y: frame.midY + size.height * 0.05)
+        buttonResume.position = CGPoint(x: 0, y: size.height * Constants.pauseResumeButtonOffset)
         buttonResume.onPressHandler = self.resumeButtonPressed
-        buttonResume.zPosition = 1
+        buttonResume.zPosition = Constants.zPositionButton
         addChild(buttonResume)
         
-        buttonReplay.position = CGPoint(x: frame.midX + 0, y: frame.midY + size.height * -0.1)
+        buttonReplay.position = CGPoint(x: 0, y: size.height * Constants.pauseReplayButtonOffset)
         buttonReplay.onPressHandler = self.replayButtonPressed
-        buttonReplay.zPosition = 1
+        buttonReplay.zPosition = Constants.zPositionButton
         addChild(buttonReplay)
         
-        buttonHomePage.position = CGPoint(x: frame.midX + 0, y: frame.midY + size.height * -0.25)
+        buttonHomePage.position = CGPoint(x: 0, y: size.height * Constants.pauseHomepageButtonOffset)
         buttonHomePage.onPressHandler = self.homepageButtonPressed
-        buttonHomePage.zPosition = 1
+        buttonHomePage.zPosition = Constants.zPositionButton
         addChild(buttonHomePage)
     }
     
@@ -71,10 +74,10 @@ class GamePauseNode: SKNode {
     }
     
     private func homepageButtonPressed() {
-        self.viewController.dismiss(animated: true, completion: nil)
+        self.viewController.goBack()
     }
     
     required init(coder aDecoder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
+        fatalError(Constants.errorMessageNSCoder)
     }
 }

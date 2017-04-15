@@ -60,7 +60,7 @@ class GameOverScene: SKScene {
     }
     
     private func homepageButtonPressed() {
-        self.viewController.goback()
+        self.viewController.goBack()
     }
     
     required init(coder aDecoder: NSCoder) {
