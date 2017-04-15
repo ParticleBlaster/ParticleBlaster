@@ -25,7 +25,7 @@ class FireButton : GameObject {
         self.shape.size = CGSize(width: Constants.fireButtonWidth, height: Constants.fireButtonHeight)
         self.shape.position = position
         self.shape.alpha = Constants.fireButtonReleaseAlpha
-        self.shape.zPosition = Constants.defaultFireBUttonZPosition
+        self.shape.zPosition = Constants.defaultFireButtonZPosition
     }
     
     func fireButtonPressed() {

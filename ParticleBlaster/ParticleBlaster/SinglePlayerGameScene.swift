@@ -118,9 +118,9 @@ class SinglePlayerGameScene: GameScene {
         addChild(fireButton.shape)
         
         // plateAllowedRange and plateTouchEndRange are to give a buffer area for joystick operation and should not be added as child
-        plateAllowedRange = SKShapeNode(circleOfRadius: SinglePlayerViewParams.joystickPlateWidth / 2 + 50)
+        plateAllowedRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 50)
         plateAllowedRange.position = CGPoint(x: SinglePlayerViewParams.joystickPlateCenter.x, y: SinglePlayerViewParams.joystickPlateCenter.y)
-        plateTouchEndRange = SKShapeNode(circleOfRadius: SinglePlayerViewParams.joystickPlateWidth / 2 + 100)
+        plateTouchEndRange = SKShapeNode(circleOfRadius: Constants.joystickPlateWidth / 2 + 100)
         plateTouchEndRange.position = CGPoint(x: SinglePlayerViewParams.joystickPlateCenter.x, y: SinglePlayerViewParams.joystickPlateCenter.y)
     }
     
