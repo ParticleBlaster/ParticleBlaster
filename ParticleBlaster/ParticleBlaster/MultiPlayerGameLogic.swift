@@ -78,10 +78,10 @@ class MultiplayerGameLogic: GameLogic {
         // TODO: Refactor; initialization of players should include the `timeToLive` of players
         // Where this `timeToLive` is supposed to be from level designers or default
         let player1 = PlayerController(gameViewController: self.gameViewController, player: players[0].copy() as! Player, controllerType: ControllerType.multi1)
-        player1.player.timeToLive = 5
+        player1.player.timeToLive = Constants.multiplayerTimeToLive
         
         let player2 = PlayerController(gameViewController: self.gameViewController, player: players[1].copy() as! Player, controllerType: ControllerType.multi2)
-        player2.player.timeToLive = 5
+        player2.player.timeToLive = Constants.multiplayerTimeToLive
         
         self.playerControllers.append(player1)
         self.playerControllers.append(player2)
