@@ -157,6 +157,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.pauseScene.removeFromParent()
     }
 
+    func goback() {
+        self.navigationDelegate?.onAppeared()
+        dismiss(animated: true, completion: nil)
+    }
+    
     /* End of game pause related methods */
 
     /* Start of private methods */
@@ -300,26 +305,6 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     /* End of private methods */
-    func doPauseGame() {
-        self.scene.isPaused = true
-        pauseAllMFiControllers()
-        pauseScene.alpha = 1
-        pauseScene.zPosition = 100
-        pauseScene.isUserInteractionEnabled = true
-        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
-        scene.addChild(pauseScene)
-    }
-
-    func doResumeGame() {
-        self.scene.isPaused = false
-        resumeAllMFiControllers()
-        self.pauseScene.removeFromParent()
-    }
-
-    func goback() {
-        self.navigationDelegate?.onAppeared()
-        dismiss(animated: true, completion: nil)
-    }
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {
