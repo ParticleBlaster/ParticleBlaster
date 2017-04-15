@@ -303,6 +303,7 @@
 		6ADA68321E99E7780006328F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CA49CCA1E9D105E0048ABA6 /* CGSizeExtension.swift */,

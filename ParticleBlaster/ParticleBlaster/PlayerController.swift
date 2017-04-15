@@ -177,8 +177,7 @@ class PlayerController {
         self.scene.addChild(weaponToUse.shape)
         self.weaponPool.append(weaponToUse)
         weaponToUse.launch()
-        self.scene.run(SKAction.playSoundFileNamed(weaponToUse.lauchMusicName, waitForCompletion: false))
-        self.scene.playMusic(musicName: weaponToUse.lauchMusicName)
+        AudioUtils.playMusic(named: weaponToUse.lauchMusicName, on: self.scene)
     }
     
     // This function updates the weapon's velocity if its velocity needs to be calculated per frame
@@ -211,7 +210,7 @@ class PlayerController {
     
     // This function subscribes the returning message from Player Controller, and is handling the explosion music play and grenade removal after collision
     func grenadeDidExplodeListener(grenadeNode: SKSpriteNode) {
-        self.scene.playMusic(musicName: Grenade.explosionMusicName)
+        AudioUtils.playMusic(named: Grenade.explosionMusicName, on: self.scene)
         let removeGrenadeElementTime = DispatchTime.now() + Constants.grenadeExplosionAnimationTime
         DispatchQueue.main.asyncAfter(deadline: removeGrenadeElementTime) {
             self.removeWeaponAfterCollision(weaponNode: grenadeNode)
