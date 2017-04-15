@@ -67,7 +67,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     // This function sets up the pasue button to be displayed
     func setupPauseButton() {
         buttonPause = TextButton(imageNamed: Constants.backgroundButtonFilename, text: "||", size: Constants.iconButtonDefaultSize * 0.5)
-//        buttonPause = TextButton(imageNamed: Constants.pauseButtonFilename, text: "", size: Constants.iconButtonDefaultSize * 0.5)
         buttonPause.position = CGPoint(x: frame.midX,
                                        y: self.size.height - Constants.screenPaddingThinner.height - buttonPause.size.height / 2)
         buttonPause.onPressHandler = self.viewController.doPauseGame
