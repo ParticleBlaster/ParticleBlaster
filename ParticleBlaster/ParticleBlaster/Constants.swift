@@ -60,12 +60,12 @@ class Constants {
     // Game Scene Constants
     static var joystickPlateWidth: CGFloat!
     static var joystickPlateHeight: CGFloat!
-    static var joystickPlateCenterX: CGFloat!
-    static var joystickPlateCenterY: CGFloat!
+    //static var joystickPlateCenterX: CGFloat!
+    //static var joystickPlateCenterY: CGFloat!
     static var joystickWidth: CGFloat!
     static var joystickHeight: CGFloat!
-    static var fireButtonCenterX: CGFloat!
-    static var fireButtonCenterY: CGFloat!
+    //static var fireButtonCenterX: CGFloat!
+    //static var fireButtonCenterY: CGFloat!
     static var fireButtonWidth: CGFloat!
     static var fireButtonHeight: CGFloat!
     
@@ -97,12 +97,12 @@ class Constants {
     static func initializeJoystickInfo(viewSize: CGSize) {
         self.joystickPlateWidth = viewSize.width / 8
         self.joystickPlateHeight = viewSize.width / 8
-        self.joystickPlateCenterX = viewSize.width * 0.15
-        self.joystickPlateCenterY = viewSize.height * 0.17
+        //self.joystickPlateCenterX = viewSize.width * 0.15
+        //self.joystickPlateCenterY = viewSize.height * 0.17
         self.joystickWidth = self.joystickPlateWidth / 2
         self.joystickHeight = self.joystickPlateHeight / 2
-        self.fireButtonCenterX = viewSize.width * 0.85
-        self.fireButtonCenterY = viewSize.height * 0.17
+        //self.fireButtonCenterX = viewSize.width * 0.85
+        //self.fireButtonCenterY = viewSize.height * 0.17
         self.fireButtonWidth = self.joystickWidth * 2.5
         self.fireButtonHeight = self.joystickHeight * 2.5
         

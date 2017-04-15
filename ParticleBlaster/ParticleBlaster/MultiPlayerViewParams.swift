@@ -43,11 +43,11 @@ class MultiPlayerViewParams {
         self.fireButtonHeight = self.joystickPlateHeight
         
         self.playerCenter1 = CGPoint(x: viewSize.width * 0.1, y: viewSize.height * 0.5)
-        self.joystickPlateCenter1 = CGPoint(x: viewSize.width * 0.1, y: viewSize.height * 0.1)
-        self.fireButtonCenter1 = CGPoint(x: viewSize.width * 0.1, y: viewSize.height * 0.9)
-        
+        self.joystickPlateCenter1 = CGPoint(x: viewSize.width * 0.1, y: viewSize.height * 0.9)
+        self.fireButtonCenter1 = CGPoint(x: viewSize.width * 0.1, y: viewSize.height * 0.1)
+
         self.playerCenter2 = CGPoint(x: viewSize.width * 0.9, y: viewSize.height * 0.5)
-        self.joystickPlateCenter2 = CGPoint(x: viewSize.width * 0.9, y: viewSize.height * 0.9)
-        self.fireButtonCenter2 = CGPoint(x: viewSize.width * 0.9, y: viewSize.height * 0.1)
+        self.joystickPlateCenter2 = CGPoint(x: viewSize.width * 0.9, y: viewSize.height * 0.1)
+        self.fireButtonCenter2 = CGPoint(x: viewSize.width * 0.9, y: viewSize.height * 0.9)
     }
 }
