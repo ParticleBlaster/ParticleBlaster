@@ -60,7 +60,7 @@ class Player : GameObject {
     private func setupPhysicsProperty() {
         self.shape.size = CGSize(width: Constants.playerWidth,
                                  height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth, forShape: self.shape))
-        self.shape.physicsBody = SKPhysicsBody(texture: self.shape.texture!, size: self.shape.size)
+        self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.playerRadius)
         self.shape.physicsBody?.isDynamic = true
         self.shape.physicsBody?.categoryBitMask = PhysicsCategory.Player
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Map
