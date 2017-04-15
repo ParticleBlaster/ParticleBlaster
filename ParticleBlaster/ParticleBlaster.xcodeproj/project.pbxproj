@@ -264,7 +264,6 @@
 				0CCDB5FE1E75254300DEF8CC /* AppDelegate.swift */,
 				6A638F001E87C4E50000EB16 /* Assets.xcassets */,
 				E1A4FE3A1E840FB30096D277 /* NavigationDelegate.swift */,
-				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
 				6A2AC2681E87745F00BE3A41 /* HomePageViewController.swift */,
 				0CCDB61B1E752D2700DEF8CC /* Constants.swift */,
 				0CCDB6101E75254300DEF8CC /* Info.plist */,
@@ -306,6 +305,7 @@
 		6ADA68321E99E7780006328F /* Extensions */ = {
 			isa = PBXGroup;
 			children = (
+				0EF34DB11E9A3C5700B60C60 /* SKSpriteNodeExtension.swift */,
 				0EB2CD541E82B27D00237FA9 /* CGVectorExtensions.swift */,
 				0CCDB6241E754C2200DEF8CC /* CGPointExtension.swift */,
 				0CA49CCA1E9D105E0048ABA6 /* CGSizeExtension.swift */,
@@ -396,7 +396,7 @@
 				TargetAttributes = {
 					0CCDB5FA1E75254300DEF8CC = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = MRZ7YD72EV;
+						DevelopmentTeam = QQW7QECAY7;
 						ProvisioningStyle = Automatic;
 						SystemCapabilities = {
 							com.apple.GameCenter = {
@@ -633,7 +633,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
@@ -647,7 +647,7 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = MRZ7YD72EV;
+				DEVELOPMENT_TEAM = QQW7QECAY7;
 				INFOPLIST_FILE = ParticleBlaster/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.travis.TriAdventure;
