@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Missile` class is a subclass of Weapon object which defines a weapon with speical launch effect and flying logic
+ */
+
 import SpriteKit
 
 class Missile : Weapon {

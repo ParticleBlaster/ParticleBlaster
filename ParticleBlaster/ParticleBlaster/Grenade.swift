@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Grenade` class is a subclass of Weapon object which defines a weapon with speical launch effect
+ */
+
 import UIKit
 import SpriteKit
 

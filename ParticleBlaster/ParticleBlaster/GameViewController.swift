@@ -56,7 +56,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         setupGameScene()
         setupGamePause()
-        checkGameCondition()
+        checkGameStatus()
     }
 
     override var shouldAutorotate: Bool {
@@ -134,7 +134,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             }
         }
         
-        checkGameCondition()
+        checkGameStatus()
     }
     
     /* Start of setup related methods */
@@ -258,7 +258,8 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         self.pauseScene = GamePauseNode(size: view.bounds.size, viewController: self)
     }
     
-    private func checkGameCondition() {
+    // This method checks the game winning / losing status and display the GameOverScene according to the checks
+    private func checkGameStatus() {
         if self.gameLogic.winningCondition {
             // Present GameWinScene
             if self.gameLevel.gameMode == .single {
@@ -287,6 +288,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         }
     }
 
+    // This method 
     private func updateScoreAndShowLeaderboard() {
         let level = gameLevel.id
         let score = self.currLevelObtainedScore

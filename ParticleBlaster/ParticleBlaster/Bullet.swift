@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Bullet` class is a subclass of Weapon object which defines a very basic weapon
+ */
+
 import SpriteKit
 
 class Bullet : Weapon {
