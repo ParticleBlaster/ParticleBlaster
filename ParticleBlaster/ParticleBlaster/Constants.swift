@@ -147,6 +147,7 @@ class Constants {
     static let grenadeThrowingDistance: CGFloat = CGFloat(250)
     static let grenadeExplosionAnimationTime = 0.8
     static let grenadeExplosionAnimationZPosition: CGFloat = CGFloat(5)
+    static let sceneAnimationTime = 0.5
     
     static let defaultUpgradePackSpriteFilename = "upgradePack"
     static let upgradePackRadius: CGFloat = CGFloat(20)
@@ -319,4 +320,7 @@ class Constants {
     
     // MFi Controller
     static let debouncingInteval: Float = 0.005
+
+    // Alpha values
+    static let normalBlurAlpha: CGFloat = 0.2
 }

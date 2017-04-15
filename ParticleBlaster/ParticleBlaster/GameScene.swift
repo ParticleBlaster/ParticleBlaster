@@ -123,11 +123,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     /* End of UI elements manipulation methods */
     
     /* Start of supporting functions for different implementations of GameScene */
-    // This function plays the requested music
-    func playMusic(musicName: String) {
-        self.run(SKAction.playSoundFileNamed(musicName, waitForCompletion: false))
-    }
-    
     // This function checks whether an UITouch locates inside the selected area
     func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
         let location = touch.location(in: self)

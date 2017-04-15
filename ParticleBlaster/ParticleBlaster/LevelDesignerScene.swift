@@ -66,7 +66,6 @@ class LevelDesignerScene: SKScene {
     }
 
     private func touchPaletteItems(touch: UITouch) {
-        // TODO: find a better way to prevent user from putting too much obstacles into screen
         guard gameLevel.obstacleCount < Constants.maxNumOfObstacle else {
             return
         }
@@ -87,7 +86,7 @@ class LevelDesignerScene: SKScene {
                 return
             }
         }
-        // special case, we use the player itself instead of making a copy
+        // we use the player itself instead of making a copy, and will not allow user to move these players out of level screen
         for player in players {
             if isTouchInside(touch: touch, frame: player.shape.frame, inside: levelScreen) {
                 currentObject = player
@@ -129,7 +128,6 @@ class LevelDesignerScene: SKScene {
             } else {
                 removecurrentObject(withAnimation: true)
             }
-            self.saveButton.alpha = 1.0
         }
         currentObject = nil
         removeOutsideObstacles()
@@ -206,7 +204,6 @@ class LevelDesignerScene: SKScene {
     private func onSaveButtonPressed() {
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
-        self.saveButton.alpha = 0.3
     }
 
     private func onPlayButtonPressed() {
@@ -247,7 +244,7 @@ class LevelDesignerScene: SKScene {
 extension LevelDesignerScene {
     fileprivate func initLayout() {
         background.position = CGPoint(x: frame.midX, y: frame.midY)
-        background.alpha = 0.2
+        background.alpha = Constants.normalBlurAlpha
         background.size = size
         addChild(background)
         background.zPosition = 0
@@ -262,9 +259,6 @@ extension LevelDesignerScene {
         addChild(backButton)
 
         // create a save button
-//        saveButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
-//                                text: Constants.labelSave,
-//                                size: Constants.textButtonTransparentDefaultSize)
         saveButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename,
                                 text: Constants.labelSave,
                                 size: Constants.textButtonTransparentDefaultSize)
@@ -275,9 +269,6 @@ extension LevelDesignerScene {
         addChild(saveButton)
 
         // create play button
-//        playButton = TextButton(imageNamed: Constants.transparentBackgroundFilename,
-//                                text: Constants.labelPlay,
-//                                size: Constants.textButtonTransparentDefaultSize)
         playButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename,
                                 text: Constants.labelPlay,
                                 size: Constants.textButtonTransparentDefaultSize)
@@ -333,11 +324,6 @@ extension LevelDesignerScene {
     }
 
     fileprivate func initLevelScreen() {
-//        var levelBackGroundName = gameLevel.backgroundImageName
-//        
-//        if levelBackGroundName == "" {
-//            levelBackGroundName = currentTheme.backgroundName
-//        }
         levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
         gameLevel.backgroundImageName = currentTheme.backgroundName
     }

@@ -13,9 +13,9 @@ import GameKit
 
 class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
-    // Waiting for prepareForSegue
+    var navigationDelegate: NavigationDelegate?
     var gameLevel: GameLevel!
-    
+
     // Initialise game scene for displaying game objects
     var scene: GameScene!
     var skView: SKView!
@@ -36,7 +36,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         Constants.initializeJoystickInfo(viewSize: view.bounds.size)
         SinglePlayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
         MultiPlayerViewParams.initializeJoystickInfo(viewSize: view.bounds.size)
-        
+
         var obstaclesCopy = [Obstacle]()
         for obs in self.gameLevel.obstacles {
             obstaclesCopy.append(obs.copy() as! Obstacle)
@@ -83,7 +83,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
     // Contact delegate method
     func didBegin(_ contact: SKPhysicsContact) {
-        
+
         // Arranges two colliding bodies so they are sorted by their category bit masks
         var firstBody: SKPhysicsBody
         var secondBody: SKPhysicsBody
@@ -94,7 +94,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             firstBody = contact.bodyB
             secondBody = contact.bodyA
         }
-        
+
         if ((firstBody.categoryBitMask & PhysicsCategory.Obstacle != 0) &&
             (secondBody.categoryBitMask & PhysicsCategory.Bullet != 0)) {
             if let obs = firstBody.node as? SKSpriteNode, let
@@ -133,14 +133,14 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 self.gameLogic.grenadeDidCollideWithObstacle(obstacle: obstacle, grenade: grenade)
             }
         }
-        
+
         checkGameStatus()
     }
-    
+
     /* Start of setup related methods */
-    
+
     /* Start of game pause related methods */
-    
+
     func doPauseGame() {
         self.scene.isPaused = true
         pauseAllMFiControllers()
@@ -150,17 +150,17 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
         scene.addChild(pauseScene)
     }
-    
+
     func doResumeGame() {
         self.scene.isPaused = false
         resumeAllMFiControllers()
         self.pauseScene.removeFromParent()
     }
-    
+
     /* End of game pause related methods */
-    
+
     /* Start of private methods */
-    
+
     private func configMFiController(index: Int, playerController: PlayerController) {
         MFiControllerConfig.mfis[index].moveHandler = playerController.moveMFIJoystickAndRotatePlayerHandler
         MFiControllerConfig.mfis[index].shootHandler = playerController.fireHandler
@@ -170,7 +170,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
 
         print("finish mfi config")
     }
-    
+
     private func configAllMFiControllers() {
         for i in 0..<self.gameLogic.playerControllers.count {
             // Set up MFi controller for each playerController
@@ -178,24 +178,24 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             configMFiController(index: i, playerController: playerController)
         }
     }
-    
+
     private func deConfigMFiController(index: Int) {
         MFiControllerConfig.mfis[index].moveHandler = nil
         MFiControllerConfig.mfis[index].shootHandler = nil
         MFiControllerConfig.mfis[index].endMoveHandler = nil
         MFiControllerConfig.mfis[index].pauseHandler = nil
         MFiControllerConfig.mfis[index].resumeHandler = nil
-        
+
         print("finish mfi deconfig")
     }
-    
+
     private func deConfigAllMFiControllers() {
         for i in 0..<self.gameLogic.playerControllers.count {
             // Deconfig MFi controller for each playerController
             deConfigMFiController(index: i)
         }
     }
-    
+
     private func pauseAllMFiControllers() {
         for i in 0..<self.gameLogic.playerControllers.count {
             // Deconfig MFi controller for each playerController
@@ -205,7 +205,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             MFiControllerConfig.mfis[i].resumeHandler = self.doResumeGame
         }
     }
-    
+
     private func resumeAllMFiControllers() {
         for i in 0..<self.gameLogic.playerControllers.count {
             // Set up MFi controller for each playerController
@@ -218,7 +218,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     private func setupGameScene() {
         // Set up scene controller
         scene.viewController = self
-        
+
         // Set up player controllers
         for i in 0..<self.gameLogic.playerControllers.count {
             let playerController = self.gameLogic.playerControllers[i]
@@ -231,18 +231,18 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
             scene.endJoystickMoveHandlers.append(playerController.endJoystickMoveHandler)
             scene.fireHandlers.append(playerController.fireHandler)
             scene.updateWeaponVelocityHandlers.append(playerController.updateWeaponVelocityHandler)
-            
+
             // Set up MFi controller for each playerController
             configMFiController(index: i, playerController: playerController)
         }
-        
+
         // Set up obstacles
         for obstacle in self.gameLogic.obstaclePool {
             obstacle.shape.removeFromParent()
             self.scene.addChild(obstacle.shape)
         }
         scene.obstacleVelocityUpdateHandler = self.gameLogic.updateObstaclesVelocityHandler
-        
+
         // Set up map
         scene.addChild(self.gameLogic.map)
 
@@ -253,11 +253,11 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         skView.presentScene(scene)
         self.startTime = DispatchTime.now()
     }
-    
+
     private func setupGamePause() {
         self.pauseScene = GamePauseNode(size: view.bounds.size, viewController: self)
     }
-    
+
     // This method checks the game winning / losing status and display the GameOverScene according to the checks
     private func checkGameStatus() {
         if self.gameLogic.winningCondition {
@@ -288,16 +288,38 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
         }
     }
 
-    // This method 
+    // This method
     private func updateScoreAndShowLeaderboard() {
         let level = gameLevel.id
         let score = self.currLevelObtainedScore
+        GameData.getInstance().finishGameLevel(gameLevel)
+        GameCenterUtils.submitAchievedLevelToGC(level + 1)
         GameCenterUtils.submitScore(for: level, score: score) {
             GameCenterUtils.openLeaderboard(in: self, level: level)
         }
     }
-    
+
     /* End of private methods */
+    func doPauseGame() {
+        self.scene.isPaused = true
+        pauseAllMFiControllers()
+        pauseScene.alpha = 1
+        pauseScene.zPosition = 100
+        pauseScene.isUserInteractionEnabled = true
+        pauseScene.position = CGPoint(x: view.frame.midX, y: view.frame.midY)
+        scene.addChild(pauseScene)
+    }
+
+    func doResumeGame() {
+        self.scene.isPaused = false
+        resumeAllMFiControllers()
+        self.pauseScene.removeFromParent()
+    }
+
+    func goback() {
+        self.navigationDelegate?.onAppeared()
+        dismiss(animated: true, completion: nil)
+    }
 }
 
 extension GameViewController: GKGameCenterControllerDelegate {

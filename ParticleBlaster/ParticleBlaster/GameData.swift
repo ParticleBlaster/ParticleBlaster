@@ -12,7 +12,7 @@ class GameData: NSObject, NSCoding {
     static var instance: GameData? = nil
     var numSingleModeLevel: Int = 12
     var numMultiModeLevel: Int = 0
-    var achievedSingleModeLevel: Int = 1000
+    var achievedSingleModeLevel: Int = -1
     
 
     static func getInstance() -> GameData {
@@ -29,8 +29,7 @@ class GameData: NSObject, NSCoding {
         guard level.id > achievedSingleModeLevel else {
             return
         }
-        achievedSingleModeLevel = min(numSingleModeLevel - 1, level.id)
-        GameCenterUtils.submitAchievedLevelToGC(achievedSingleModeLevel)
+        achievedSingleModeLevel = max(achievedSingleModeLevel, level.id)
         let _ = FileUtils.saveGameData()
     }
 
