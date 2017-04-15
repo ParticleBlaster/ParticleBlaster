@@ -15,10 +15,6 @@ import SpriteKit
 class SinglePlayerViewParams {
     static var joystickPlateCenter: CGPoint!
     static var fireButtonCenter: CGPoint!
-
-    static let defaultJoystickZPosition: CGFloat = CGFloat(50)
-    static let defaultJoystickPlateZPosition: CGFloat = CGFloat(49)
-    static let defaultFireBUttonZPosition: CGFloat = CGFloat(50)
     
     static var playerCenter: CGPoint!
     
