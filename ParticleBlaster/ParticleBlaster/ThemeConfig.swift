@@ -17,17 +17,9 @@ struct ThemeConfig {
                             ]
 
     static let themeObstacleNames = ["Planets":obstacleFileNamesPlanets,
-                                     "StarWars":obstacleFileNamesStarWars,
-                                     "StarTrek":obstacleFileNamesStarTrek,
-                                     "DoctorWho":obstacleFileNamesDoctorWho,
-                                     "EVA":obstacleFileNamesEVA,
-                                     "Monster":obstacleFileNamesMonster]
+                                     "StarWars":obstacleFileNamesStarWars]
     static let themeSpaceshipNames = ["Planets":spaceshipFileNamesPlanets,
-                                      "StarWars":spaceshipFileNamesStarWars,
-                                      "StarTrek":spaceshipFileNamesStarTrek,
-                                      "DoctorWho":spaceshipFileNamesDoctorWho,
-                                      "EVA":spaceshipFileNamesEVA,
-                                      "Monster":spaceshipFileNamesMonster]
+                                      "StarWars":spaceshipFileNamesStarWars]
     static func setThemes() {
         for name in themeNames {
             setTheme(name: name,
