@@ -258,6 +258,7 @@ class Constants {
     static let backButtonFilename = "back-btn"
     static let backButtonDisabledFilename = "back-btn-disabled"
     static let backgroundButtonLargeFilename = "background-btn-large"
+    static let backgroundButtonDisabledLargeFilename = "background-btn-large-disabled"
     static let backgroundButtonFilename = "background-btn"
     static let upwardButtonFilename = "upward-btn"
     static let upwardButtonDisabledFilename = "upward-btn-disabled"

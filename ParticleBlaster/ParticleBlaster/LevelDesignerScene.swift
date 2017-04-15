@@ -139,7 +139,7 @@ class LevelDesignerScene: SKScene {
             }
 
             if shouldSaveButtonBeEnabled {
-                self.saveButton.alpha = 1.0
+                self.saveButton.isPositive = true
                 self.saveButton.isEnabled = true
             }
         }
@@ -225,7 +225,7 @@ class LevelDesignerScene: SKScene {
     }
 
     private func onSaveButtonPressed() {
-        self.saveButton.alpha = Constants.normalBlurAlpha
+        self.saveButton.isPositive = false
         self.saveButton.isEnabled = false
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
@@ -285,6 +285,7 @@ extension LevelDesignerScene {
 
         // create a save button
         saveButton = TextButton(imageNamed: Constants.backgroundButtonLargeFilename,
+                                disabledImageNamed: Constants.backgroundButtonDisabledLargeFilename,
                                 text: Constants.labelSave,
                                 size: Constants.textButtonTransparentDefaultSize)
 

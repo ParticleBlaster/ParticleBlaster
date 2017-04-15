@@ -11,12 +11,21 @@ import SpriteKit
 // TODO: support disabled background
 class TextButton: SKNode {
     private var positiveButton: SKSpriteNode
+    private var negativeButton: SKSpriteNode? = nil
     private var label: SKLabelNode
 
     var onPressHandler: (() -> Void)?
     var isEnabled: Bool = true
     var size: CGSize {
         return positiveButton.size
+    }
+    var isPositive: Bool {
+        didSet {
+            guard oldValue != isPositive else {
+                return
+            }
+            self.toggleBackground()
+        }
     }
 
     init(imageNamed: String, text: String, fontSize: CGFloat = Constants.normalFontSize, size: CGSize = Constants.textButtonDefaultSize) {
@@ -27,6 +36,25 @@ class TextButton: SKNode {
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center
         label.zPosition = 5
+        isPositive = true
+        super.init()
+        addChild(positiveButton)
+        addChild(label)
+        self.isUserInteractionEnabled = true
+    }
+    
+    init(imageNamed: String, disabledImageNamed: String?, text: String, fontSize: CGFloat = Constants.normalFontSize, size: CGSize = Constants.textButtonDefaultSize) {
+        positiveButton = SKSpriteNode(texture: SKTexture(imageNamed: imageNamed), size: size)
+        if let disabledImageNamed = disabledImageNamed {
+            self.negativeButton = SKSpriteNode(texture: SKTexture(imageNamed: disabledImageNamed), size: size)
+        }
+        label = SKLabelNode(text: text)
+        label.fontName = Constants.normalFont
+        label.fontSize = fontSize
+        label.horizontalAlignmentMode = .center
+        label.verticalAlignmentMode = .center
+        label.zPosition = 5
+        isPositive = true
         super.init()
         addChild(positiveButton)
         addChild(label)
@@ -66,6 +94,19 @@ class TextButton: SKNode {
     private func onPress() {
         if let onPressHandler = onPressHandler {
             onPressHandler()
+        }
+    }
+    
+    private func toggleBackground() {
+        guard let negativeButton = negativeButton else {
+            return
+        }
+        if !isPositive {
+            positiveButton.removeFromParent()
+            addChild(negativeButton)
+        } else {
+            negativeButton.removeFromParent()
+            addChild(positiveButton)
         }
     }
 }
