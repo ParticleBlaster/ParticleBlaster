@@ -39,35 +39,18 @@ class GameObject: NSObject, NSCoding {
         self.shape = shape
         self.isStatic = isStatic
     }
-
-    init(imageName: String) {
-        self.shape = SKSpriteNode(imageNamed: imageName)
-        self.shape.name = imageName
-        // FIX: should this part be inside Player and other game object class itselt?
-        if imageName == "player" || imageName == "Spaceship" {
-            self.timeToLive = Constants.playerTimeToLive
-        } else {
-            self.timeToLive = Constants.defaultTimeToLive // by default set to 10 times of hit
-        }
-        self.isStatic = false
-    }
-
+    
     init(imageName: String, timeToLive: Int, isStatic: Bool) {
         let shapeNode = SKSpriteNode(imageNamed: imageName)
         self.shape = shapeNode
         self.timeToLive = timeToLive
         self.isStatic = isStatic
     }
-
-    init(imageName: String, isStatic: Bool) {
+    
+    init(imageName: String, timeToLive: Int = Constants.defaultTimeToLive) {
         self.shape = SKSpriteNode(imageNamed: imageName)
-        self.shape.name = imageName
-        if imageName == "player" || imageName == "Spaceship" {
-            self.timeToLive = Constants.playerTimeToLive
-        } else {
-            self.timeToLive = Constants.defaultTimeToLive // by default set to 10 times of hit
-        }
-        self.isStatic = isStatic
+        self.timeToLive = timeToLive
+        self.isStatic = false
     }
     
     required convenience init?(coder decoder: NSCoder) {

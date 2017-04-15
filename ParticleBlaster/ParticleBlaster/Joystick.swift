@@ -7,7 +7,7 @@
 //
 
 /**
- *  The `Joystick` deifnes the stick part of the joystick
+ *  The `Joystick` defines the top part of the joystick
  */
 
 import SpriteKit

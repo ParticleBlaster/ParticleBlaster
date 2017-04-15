@@ -31,7 +31,7 @@ class Obstacle : GameObject {
 
 
     /* Start of initializors and supporting functions */
-    // Initialize with the image name provided
+    // Initialize with the image name, initial position and time-to-live value provided
     init(image: String, userSetInitialPosition: CGPoint, timeToLive: Int) {
         self.imageName = image
         self.initialPosition = userSetInitialPosition

@@ -13,8 +13,8 @@ class Player : GameObject {
     var ratioPosition: CGPoint = .zero
     init(image: String = Constants.spaceshipFilename, timeToLive: Int = Constants.playerTimeToLive) {
         self.imageName = image
-        super.init(imageName: image)
-        self.timeToLive = timeToLive
+        super.init(imageName: image, timeToLive: timeToLive)
+
         setupPhysicsProperty()
     }
     
