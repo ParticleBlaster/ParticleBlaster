@@ -21,7 +21,8 @@ class LevelDesignerScene: SKScene {
     fileprivate var levelScreen = SKSpriteNode()
     fileprivate var players: [Player] = []
     fileprivate var currentTheme: Theme!
-
+    fileprivate var shouldSaveButtonBeEnabled: Bool = false
+    
     var paletteItems = [Obstacle]()
     var currentObject: GameObject?
 
@@ -99,8 +100,12 @@ class LevelDesignerScene: SKScene {
         guard currentObject == nil, let touch = touches.first else {
             return
         }
+        shouldSaveButtonBeEnabled = false
         self.touchPaletteItems(touch: touch)
         self.touchSceenItems(touch: touch)
+        if self.checkTouchRange(touch: touch, frame: self.levelScreen.frame) {
+            shouldSaveButtonBeEnabled = true
+        }
     }
 
     override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -117,7 +122,11 @@ class LevelDesignerScene: SKScene {
 
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touch = touches.first!
-
+        
+        if self.checkTouchRange(touch: touch, frame: self.levelScreen.frame) {
+            shouldSaveButtonBeEnabled = true
+        }
+        
         if let obstacle = currentObject as? Obstacle {
             if isTouchInside(touch: touch, frame: levelScreen.frame, inside: self) {
                 let obstacle = obstacle.copy() as! Obstacle
@@ -128,10 +137,23 @@ class LevelDesignerScene: SKScene {
             } else {
                 removecurrentObject(withAnimation: true)
             }
-            self.saveButton.alpha = 1
+
+            if shouldSaveButtonBeEnabled {
+                self.saveButton.alpha = 1.0
+                self.saveButton.isEnabled = true
+            }
         }
         currentObject = nil
         removeOutsideObstacles()
+    }
+    
+    private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
+        let location = touch.location(in: self)
+        if frame.contains(location) {
+            return true
+        } else {
+            return false
+        }
     }
 
     private func removeWithAnimation(_ node: SKNode) {
@@ -204,6 +226,7 @@ class LevelDesignerScene: SKScene {
 
     private func onSaveButtonPressed() {
         self.saveButton.alpha = Constants.normalBlurAlpha
+        self.saveButton.isEnabled = false
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
     }
