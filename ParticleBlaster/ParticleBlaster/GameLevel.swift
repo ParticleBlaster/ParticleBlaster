@@ -46,6 +46,7 @@ class GameLevel: NSObject, NSCoding {
         obstacles.removeAll()
     }
 
+    // MARK: NSCoding
     required convenience init?(coder decoder: NSCoder) {
         guard let obstacles = decoder.decodeObject(forKey: Constants.obstaclesKey) as? [Obstacle],
             let players = decoder.decodeObject(forKey: Constants.playersKey) as? [Player],

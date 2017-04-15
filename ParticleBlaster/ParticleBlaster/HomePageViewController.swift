@@ -100,7 +100,7 @@ extension HomePageViewController: NavigationDelegate {
 
     func navigateToDesignScene(gameLevel: GameLevel) {
         let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let reveal = SKTransition.crossFade(withDuration: Constants.sceneAnimationTime)
         let scene = LevelDesignerScene(size: skView.frame.size, gameLevel: gameLevel)
         scene.scaleMode = .resizeFill
         scene.navigationDelegate = self
@@ -109,7 +109,7 @@ extension HomePageViewController: NavigationDelegate {
 
     func navigateToLevelSelectScene(gameMode: GameMode) {
         let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let reveal = SKTransition.crossFade(withDuration: Constants.sceneAnimationTime)
         let scene = LevelSelectScene(size: skView.frame.size, gameMode: gameMode)
         scene.navigationDelegate = self
         skView.presentScene(scene, transition: reveal)
@@ -117,7 +117,7 @@ extension HomePageViewController: NavigationDelegate {
 
     func navigateToHomePage() {
         let skView = view as! SKView
-        let reveal = SKTransition.crossFade(withDuration: 0.5)
+        let reveal = SKTransition.crossFade(withDuration: Constants.sceneAnimationTime)
         if homePageScene == nil {
             homePageScene = HomePageScene(size: skView.frame.size)
             homePageScene?.navigationDelegate = self
