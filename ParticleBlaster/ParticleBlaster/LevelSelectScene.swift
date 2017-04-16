@@ -7,6 +7,7 @@
 //
 import SpriteKit
 
+/// MARK: Logic related part
 class LevelSelectScene: SKScene {
     var navigationDelegate: NavigationDelegate?
     fileprivate var gameData: GameData

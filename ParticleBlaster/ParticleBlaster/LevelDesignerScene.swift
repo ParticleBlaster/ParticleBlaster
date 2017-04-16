@@ -201,6 +201,20 @@ class LevelDesignerScene: SKScene {
         }
     }
 
+    fileprivate func loadTheme(_ name: String?) {
+        guard name != gameLevel.themeName else {
+            return
+        }
+        
+        gameLevel.themeName = name!
+        currentTheme = ThemeConfig.themes[name!]
+        initPalette()
+        clearAllObstaclesFromLevelScreen()
+        initLevelScreen()
+        clearAllSpaceshipsFromLevelScreen()
+        preparePlayers()
+    }
+
     /// Convert the current designing level to standard format game level
     private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
@@ -378,20 +392,6 @@ extension LevelDesignerScene {
     fileprivate func initTheme() {
         print("initTheme: gameLevel.themeName = \(gameLevel.themeName)")
         currentTheme = ThemeConfig.themes[gameLevel.themeName]
-    }
-    
-    fileprivate func loadTheme(_ name: String?) {
-        guard name != gameLevel.themeName else {
-            return
-        }
-        
-        gameLevel.themeName = name!
-        currentTheme = ThemeConfig.themes[name!]
-        initPalette()
-        clearAllObstaclesFromLevelScreen()
-        initLevelScreen()
-        clearAllSpaceshipsFromLevelScreen()
-        preparePlayers()
     }
 
     fileprivate func clearAllObstaclesFromLevelScreen() {

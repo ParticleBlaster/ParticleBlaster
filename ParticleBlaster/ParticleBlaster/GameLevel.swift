@@ -59,7 +59,7 @@ class GameLevel: NSObject, NSCoding {
         self.players = players
         self.themeName = themeName
         self.backgroundImageName = backgroundImageName
-        
+        _checkRep()
     }
     
     func encode(with aCoder: NSCoder) {
@@ -69,5 +69,14 @@ class GameLevel: NSObject, NSCoding {
         aCoder.encode(players, forKey: Constants.playersKey)
         aCoder.encode(themeName, forKey: Constants.themeNameKey)
         aCoder.encode(backgroundImageName, forKey: Constants.backgroundImageNameKey)
+        _checkRep()
+    }
+
+    private func _checkRep() {
+        if gameMode == .single {
+            assert(players.count == 1, "Number of players in single mode must be 1")
+        } else {
+            assert(players.count == 2, "Number of players in multiple mode must be 2")
+        }
     }
 }
