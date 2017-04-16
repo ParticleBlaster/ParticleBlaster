@@ -6,9 +6,14 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `TextButton` defines a new type of button that 
+ *      - Accepts a string to be displayed as the text in the button
+ *      - Shows different button images according to the `isEnabled` value
+ */
+
 import SpriteKit
 
-// TODO: support disabled background
 class TextButton: SKNode {
     private var positiveButton: SKSpriteNode
     private var negativeButton: SKSpriteNode? = nil

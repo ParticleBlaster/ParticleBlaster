@@ -6,6 +6,11 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `IconButton` defines a new type of button that has different button images
+ *  according to its `isEnabled` value
+ */
+
 import SpriteKit
 
 class IconButton: SKNode {
