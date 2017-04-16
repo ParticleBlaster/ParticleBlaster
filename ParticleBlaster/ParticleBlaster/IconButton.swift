@@ -17,6 +17,7 @@ class IconButton: SKNode {
     var tag: String?
     private var positiveButton: SKSpriteNode
     private var negativeButton: SKSpriteNode? = nil
+    // By setting the isPositive value, the background image will be toggled
     var isPositive: Bool {
         didSet {
             guard oldValue != isPositive else {

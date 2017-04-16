@@ -24,6 +24,7 @@ class TextButton: SKNode {
     var size: CGSize {
         return positiveButton.size
     }
+    // By setting the isPositive value, the background image will be toggled
     var isPositive: Bool {
         didSet {
             guard oldValue != isPositive else {
