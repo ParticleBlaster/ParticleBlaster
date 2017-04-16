@@ -51,16 +51,13 @@ class GameData: NSObject, NSCoding {
     }
     
     // MARK: NSCoding
-    // TODO: Do not save numSingleModeLevel when change back to support level design for multiple mode
     func encode(with aCoder: NSCoder) {
-        aCoder.encode(numSingleModeLevel, forKey: Constants.gameDataNumSingleModeLevelKey)
         aCoder.encode(numMultiModeLevel, forKey: Constants.gameDataNumMultiModeLevelKey)
         aCoder.encode(achievedSingleModeLevel, forKey: Constants.gameDataAchievedSingleModeLevelKey)
     }
 
     required convenience init?(coder aDecoder: NSCoder) {
         self.init()
-        self.numSingleModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataNumSingleModeLevelKey)
         self.numMultiModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataNumMultiModeLevelKey)
         self.achievedSingleModeLevel = aDecoder.decodeInteger(forKey: Constants.gameDataAchievedSingleModeLevelKey)
     }

@@ -12,7 +12,6 @@ import CoreGraphics
 class GameLevel: NSObject, NSCoding {
     // index of the level in level list (index from 0)
     var id: Int = 0
-    var highestScore: Int = 0
     var obstacles = [Obstacle]()
     var players = [Player]()
     var gameMode: GameMode
@@ -22,7 +21,6 @@ class GameLevel: NSObject, NSCoding {
     init(id: Int = 0, gameMode: GameMode = .single) {
         self.gameMode = gameMode
         self.id = id
-        self.highestScore = 0
         self.backgroundImageName = ""
         self.themeName = Constants.defaultThemeName
     }
