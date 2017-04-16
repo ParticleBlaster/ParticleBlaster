@@ -214,6 +214,21 @@ class LevelDesignerScene: SKScene {
         }
     }
 
+    fileprivate func loadTheme(_ name: String?) -> (() -> Void){
+        return {
+            guard name != self.gameLevel.themeName else {
+                return
+            }
+            self.gameLevel.themeName = name!
+            self.currentTheme = ThemeConfig.themes[name!]
+            self.initPalette()
+            self.clearAllObstaclesFromLevelScreen()
+            self.initLevelScreen()
+            self.clearAllSpaceshipsFromLevelScreen()
+            self.preparePlayers()
+        }
+    }
+
     // Convert the current designing level to standard format game level
     private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
@@ -409,8 +424,8 @@ extension LevelDesignerScene {
             themeIcon.zPosition = normalZPosition
             themeIcon.position = CGPoint(x: Constants.screenPadding.width + playButton.size.width / 2,
                                          y: yValue)
-            themeIcon.tag = key
-            themeIcon.onPressHandlerWithTag = loadTheme
+            let themeName = key
+            themeIcon.onPressHandler = loadTheme(themeName)
             yValue -= 50 + themeIcon.size.height * 0.5
             addChild(themeIcon)
         }
