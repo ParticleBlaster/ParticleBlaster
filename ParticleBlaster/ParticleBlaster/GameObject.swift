@@ -13,7 +13,6 @@
  *      - It defines the basic APIs for modifying the physics properties of the object
  */
 
-
 import UIKit
 import SpriteKit
 
@@ -38,6 +37,8 @@ class GameObject: NSObject, NSCoding {
         self.timeToLive = timeToLive
         self.shape = shape
         self.isStatic = isStatic
+        super.init()
+        _checkRep()
     }
     
     init(imageName: String, timeToLive: Int, isStatic: Bool) {
@@ -45,12 +46,16 @@ class GameObject: NSObject, NSCoding {
         self.shape = shapeNode
         self.timeToLive = timeToLive
         self.isStatic = isStatic
+        super.init()
+        _checkRep()
     }
     
     init(imageName: String, timeToLive: Int = Constants.defaultTimeToLive) {
         self.shape = SKSpriteNode(imageNamed: imageName)
         self.timeToLive = timeToLive
         self.isStatic = false
+        super.init()
+        _checkRep()
     }
     
     required convenience init?(coder decoder: NSCoder) {
@@ -64,28 +69,46 @@ class GameObject: NSObject, NSCoding {
     /* Start of basic physics properties modification and update functions */
     // This function updates the position of the GameObject
     public func updatePosition(newLoation: CGPoint) {
+        _checkRep()
         self.shape.position = newLoation
+        _checkRep()
     }
 
     // This function updates the velocity of the GameObject from PhysicsBody level
     public func updateVelocity(newVelocity: CGVector) {
+        _checkRep()
         self.shape.physicsBody?.velocity = newVelocity
+        _checkRep()
     }
 
     // This function moves the GameObject based on a force applied to the central point of its physics body
     public func pushedByForce(appliedForce: CGVector) {
+        _checkRep()
         self.shape.physicsBody?.applyForce(appliedForce)
+        _checkRep()
     }
     
     // This function moves the GameObject based on a force aplied on the chosen point on the GameObject
     public func pushedByForceWithPoint(appliedForce: CGVector, point: CGPoint) {
+        _checkRep()
         self.shape.physicsBody?.applyForce(appliedForce, at: point)
+        _checkRep()
     }
     
     // This function moves the GameObject based on an instantaneous impulse applied on the physics body
     public func pushedByImpulse(appliedImpulse: CGVector) {
+        _checkRep()
         self.shape.physicsBody?.applyImpulse(appliedImpulse)
+        _checkRep()
     }
     /* End of basic physics properties modification and update functions */
-
+    
+    /* Start of private functions */
+    // This function checks the representation of the GameObject class
+    // A valid GameObject should have timeToLive value >= 0
+    private func _checkRep() {
+        assert(self.timeToLive >= 0, "Invalid time to live value.")
+    }
+    
+    /* End of private functions */
 }
