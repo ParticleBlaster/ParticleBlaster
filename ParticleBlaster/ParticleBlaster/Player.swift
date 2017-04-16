@@ -6,6 +6,14 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `Player` class defines the spaceship players controls
+ *
+ *  The representation invariants:
+ *      - It should be a non static game object
+ *      - The timeToLive value is non-negative
+ */
+
 import SpriteKit
 
 class Player : GameObject {
@@ -14,19 +22,24 @@ class Player : GameObject {
     init(image: String = Constants.spaceshipFilename, timeToLive: Int = Constants.playerTimeToLive) {
         self.imageName = image
         super.init(imageName: image, timeToLive: timeToLive)
-
+        _checkRep()
         setupPhysicsProperty()
     }
     
     func updateRotation(newAngle: CGFloat) {
+        _checkRep()
         self.shape.zRotation = newAngle
+        _checkRep()
     }
     
     func hitByObstacle() {
+        _checkRep()
         self.timeToLive -= 1
+        _checkRep()
     }
     
     func checkDead() -> Bool {
+        _checkRep()
         if self.timeToLive == 0 {
             return true
         } else {
@@ -42,22 +55,28 @@ class Player : GameObject {
         let ratioPosition = decoder.decodeCGPoint(forKey: Constants.ratioPositionKey)
         self.init(image: imageName)
         self.ratioPosition = ratioPosition
+        _checkRep()
     }
     
     // Encoding function for supporting Object Archive
     override func encode(with aCoder: NSCoder) {
+        _checkRep()
         aCoder.encode(imageName, forKey: Constants.imageNameKey)
         aCoder.encode(ratioPosition, forKey: Constants.ratioPositionKey)
+        _checkRep()
     }
     
     // This function returns a copy of itself without physicsBody properties, except the position
     override func copy() -> Any {
+        _checkRep()
         let copy = Player(image: self.imageName, timeToLive: self.timeToLive)
         copy.ratioPosition = self.ratioPosition
+        _checkRep()
         return copy
     }
 
     private func setupPhysicsProperty() {
+        _checkRep()
         self.shape.size = CGSize(width: Constants.playerWidth,
                                  height: Constants.getHeightWithSameRatio(withWidth: Constants.playerWidth, forShape: self.shape))
         self.shape.physicsBody = SKPhysicsBody(circleOfRadius: Constants.playerRadius)
@@ -66,5 +85,12 @@ class Player : GameObject {
         self.shape.physicsBody?.contactTestBitMask = PhysicsCategory.Obstacle | PhysicsCategory.Map
         self.shape.physicsBody?.collisionBitMask = PhysicsCategory.Map | PhysicsCategory.Obstacle
         self.shape.physicsBody?.mass = 0
+        _checkRep()
+    }
+    
+    // A valid Player should be a non-static game object with timeToLive value >= 0
+    private func _checkRep() {
+        assert(self.isStatic == false, "Should be a non-static game object.")
+        assert(self.timeToLive >= 0, "Invalid time to live value.")
     }
 }
