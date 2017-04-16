@@ -8,6 +8,10 @@
 
 import Foundation
 
+/*
+ *  The ThemeConfig class is used to initialize, config and retrieve theme assets
+ */
+
 struct ThemeConfig {
     static var themes = [String: Theme]()
 

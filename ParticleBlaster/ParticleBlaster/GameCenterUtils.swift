@@ -8,6 +8,10 @@
 
 import GameKit
 
+/*
+ *  The GameCenterUtils class includes methods which support authenticate, submit high score and open particular leaderboard.
+ */
+
 class GameCenterUtils {
     static let levelLeaderboardID = "com.score.levelLeaderboard"
 
@@ -37,6 +41,7 @@ class GameCenterUtils {
         }
     }
 
+    /// Sumbit archived level to the default leaderboard (level leaderboard)
     static func submitAchievedLevelToGC(_ level: Int) {
         guard gcEnabled else {
             return
@@ -47,7 +52,8 @@ class GameCenterUtils {
         GKScore.report([bestScoreInt])
     }
 
-    static func submitScore(for level: Int, score: Int, completion: (() -> Void)?) {
+    /// Submit high score of particular level to corresponding leaderboard
+    static func submitScore(for level: Int, score: Int, completion: (() -> Void)? = nil) {
         guard gcEnabled else {
             return
         }

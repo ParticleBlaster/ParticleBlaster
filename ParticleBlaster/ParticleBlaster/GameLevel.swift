@@ -9,6 +9,21 @@
 import Foundation
 import CoreGraphics
 
+/*
+ *  The `GameLevel` class is the base model keeping information about a game level
+ *  It contains the following properties:
+ *      -   id                  : Indentifier of the game level.
+ *      -   obstacles           : List of obstacles in the screen
+ *      -   players             : List of players in the screen
+ *      -   gameMode            : Determine the game mode of this level, either .single or .multiple
+ *      -   backgroundImageName : The background image filename of this level
+ *      -   themeName           : The name of the theme that the assets of this level belong to.
+ *
+ *  The representation invariants - As we allow the level designer to init and modify 
+ *      the game level during runtime, we will only do the checkRep for encode and decode methods:
+ *      -   The number of players in the players array must be one if the game mode is single
+ *      -   The number of players in the players array must be two if the game mode is multiple
+ */
 class GameLevel: NSObject, NSCoding {
     // index of the level in level list (index from 0)
     var id: Int = 0
