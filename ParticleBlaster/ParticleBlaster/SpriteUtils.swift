@@ -6,6 +6,11 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `SpriteUtils` class is designed to cut sprite sheet into array of SKTexture nodes
+ *  that can be used in animation later
+ */
+
 import UIKit
 import SpriteKit
 
