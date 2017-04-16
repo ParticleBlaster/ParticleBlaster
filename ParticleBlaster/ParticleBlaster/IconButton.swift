@@ -6,12 +6,17 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `IconButton` defines a new type of button that has different button images
+ *  according to its provided images assets and isPositive value value
+ */
+
 import SpriteKit
 
 class IconButton: SKNode {
-    var tag: String?
     private var positiveButton: SKSpriteNode
     private var negativeButton: SKSpriteNode? = nil
+    // By setting the isPositive value, the background image will be toggled
     var isPositive: Bool {
         didSet {
             guard oldValue != isPositive else {
@@ -21,8 +26,7 @@ class IconButton: SKNode {
         }
     }
     var isEnabled: Bool
-    
-    var onPressHandlerWithTag: ((String?) -> Void)?
+
     var onPressHandler: (() -> Void)?
     var size: CGSize {
         return positiveButton.size
@@ -63,6 +67,7 @@ class IconButton: SKNode {
         self.isUserInteractionEnabled = true
     }
 
+    /// Scale up the button when user touch the button
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard isEnabled else {
             return
@@ -73,6 +78,7 @@ class IconButton: SKNode {
         AudioUtils.pressButton(on: self)
     }
 
+    /// Check if the touch ended and still inside the button then call the provided onPressHandler method
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard isEnabled else {
             return
@@ -90,9 +96,7 @@ class IconButton: SKNode {
     }
 
     private func onPress() {
-        if let onPressHandlerWithTag = onPressHandlerWithTag {
-            onPressHandlerWithTag(tag)
-        } else if let onPressHandler = onPressHandler {
+        if let onPressHandler = onPressHandler {
             onPressHandler()
         }
     }

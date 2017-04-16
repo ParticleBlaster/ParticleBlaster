@@ -14,6 +14,11 @@
  *      - It defines a list of spaceships associated with this theme.
  */
 
+
+/*
+ *  The Theme class is the model to store every assets related to particular theme
+ */
+
 class Theme {
     var name: String
     var iconName: String = ""

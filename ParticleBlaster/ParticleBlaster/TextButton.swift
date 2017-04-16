@@ -6,9 +6,14 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `TextButton` defines a new type of button that 
+ *      - Accepts a string to be displayed as the text in the button
+ *      - Shows different button images according provided asset file name in initializer
+ */
+
 import SpriteKit
 
-// TODO: support disabled background
 class TextButton: SKNode {
     private var positiveButton: SKSpriteNode
     private var negativeButton: SKSpriteNode? = nil
@@ -19,6 +24,7 @@ class TextButton: SKNode {
     var size: CGSize {
         return positiveButton.size
     }
+    // By setting the isPositive value, the background image will be toggled
     var isPositive: Bool {
         didSet {
             guard oldValue != isPositive else {
@@ -65,6 +71,7 @@ class TextButton: SKNode {
         fatalError("init(coder:) has not been implemented")
     }
 
+    /// Scale up the button when user touch the button
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard isEnabled else {
             return
@@ -75,6 +82,7 @@ class TextButton: SKNode {
         AudioUtils.pressButton(on: self)
     }
 
+    /// Check if the touch ended and still inside the button then call the provided onPressHandler method
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard isEnabled else {
             return
@@ -96,7 +104,8 @@ class TextButton: SKNode {
             onPressHandler()
         }
     }
-    
+
+    /// Toggle background of button between positive <-> negative
     private func toggleBackground() {
         guard let negativeButton = negativeButton else {
             return

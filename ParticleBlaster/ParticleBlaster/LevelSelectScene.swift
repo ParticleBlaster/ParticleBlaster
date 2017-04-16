@@ -5,9 +5,13 @@
 //  Created by Bui Hiep on 24/3/17.
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
+
+/**
+ *  The `LevelSelectScene` is the scene for displaying level selector.
+ */
+
 import SpriteKit
 
-/// MARK: Logic related part
 class LevelSelectScene: SKScene {
     var navigationDelegate: NavigationDelegate?
     fileprivate var gameData: GameData
@@ -159,7 +163,7 @@ class LevelSelectScene: SKScene {
 }
 
 
-/// MARK: Viewing related part
+/// MARK: Viewing related methods
 extension LevelSelectScene {
 
     fileprivate func resetView() {
@@ -189,7 +193,7 @@ extension LevelSelectScene {
         preButton.zPosition = 1
         preButton.position = CGPoint(x: nextButton.position.x,
                                      y: nextButton.position.y + preButton.size.height / 2 + Constants.buttonVerticalMargin + nextButton.size.height / 2)
-        // assign press handler for buttons
+        // Assign press handler for buttons
         backButton.onPressHandler = self.backButtonPressed
         preButton.onPressHandler = self.preButtonPressed
         nextButton.onPressHandler = self.nextButtonPressed
@@ -224,7 +228,7 @@ extension LevelSelectScene {
             levelBoxList.append(levelBox)
         }
         
-        // if multiple mode selector, allow user to add new level
+        // If multiple mode selector, allow user to add new level
         if gameMode == .multiple {
             let button = IconButton(imageNamed: Constants.addButtonFilename, disabledImageNamed: nil, size: levelBoxSize)
             button.onPressHandler = self.addButtonPressed
@@ -250,7 +254,7 @@ extension LevelSelectScene {
         levelScreen.position = .zero
         levelScreen.zPosition = Constants.zPositionModal + 1
         levelScreen.alpha = 1
-        // add obstacles to preview
+        // Add obstacles to preview
         for obstacle in gameLevel.obstacles {
             let shape = obstacle.shape.copy() as! SKSpriteNode
             shape.physicsBody = nil
@@ -260,7 +264,7 @@ extension LevelSelectScene {
             shape.zPosition = Constants.zPositionModal + 2
             levelScreen.addChild(shape)
         }
-        // add players to preview
+        // Add players to preview
         for player in gameLevel.players {
             let shape = player.shape.copy() as! SKSpriteNode
             shape.physicsBody = nil

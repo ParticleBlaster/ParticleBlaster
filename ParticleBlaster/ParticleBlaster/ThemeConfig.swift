@@ -14,6 +14,10 @@
  *      - It defines a list of spaceships associated with this theme.
  */
 
+/*
+ *  The ThemeConfig class is used to initialize, config and retrieve theme assets
+ */
+
 struct ThemeConfig {
     /* Start of class attributes definition */
     static var themes = [String: Theme]()

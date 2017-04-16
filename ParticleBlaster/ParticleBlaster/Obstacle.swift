@@ -93,14 +93,16 @@ class Obstacle : GameObject {
     // This function updates the size of the obstacle once it is hit by weapon
     func hitByBullet() {
         _checkRep()
-        self.timeToLive -= 1
-        let originalSize = SpriteUtils.getObstacleOriginalSize(self)
-        let minWidth = Constants.obstacleMinimumWidth
-        let minHeight = minWidth * originalSize.height / originalSize.width
-        let remainingPercentage = CGFloat(timeToLive) / CGFloat(SpriteUtils.getObstacleTimeToLive(self))
-        self.shape.size = CGSize(width: minWidth + (originalSize.width - minWidth) * remainingPercentage,
-                                 height: minHeight + (originalSize.height - minHeight) * remainingPercentage)
-        self.resetPhysicsBodySize()
+        if self.timeToLive > 0 {
+            self.timeToLive -= 1
+            let originalSize = SpriteUtils.getObstacleOriginalSize(self)
+            let minWidth = Constants.obstacleMinimumWidth
+            let minHeight = minWidth * originalSize.height / originalSize.width
+            let remainingPercentage = CGFloat(timeToLive) / CGFloat(SpriteUtils.getObstacleTimeToLive(self))
+            self.shape.size = CGSize(width: minWidth + (originalSize.width - minWidth) * remainingPercentage,
+                                     height: minHeight + (originalSize.height - minHeight) * remainingPercentage)
+            self.resetPhysicsBodySize()
+        }
         _checkRep()
     }
 

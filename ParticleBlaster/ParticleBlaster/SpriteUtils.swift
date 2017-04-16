@@ -6,11 +6,21 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `SpriteUtils` class is designed to cut sprite sheet into array of SKTexture nodes
+ *  that can be used in animation later
+ */
+
 import UIKit
 import SpriteKit
 
+/*
+ *  The SpriteUtils class includes methods related to game sprites
+ */
+
 class SpriteUtils {
     
+    /// Get the textures of "explosion" from asset
     static func obtainSpriteNodeList(textureName: String, rows: Int, cols: Int) -> [SKTexture] {
         let texture = SKTexture(imageNamed: "explosion")
         let frameWidth = texture.size().width / CGFloat(cols)
@@ -33,10 +43,12 @@ class SpriteUtils {
         return resultSpriteNodeList
     }
 
+    /// Get the obstacle time to live value or return default value
     static func getObstacleTimeToLive(_ obstacle: Obstacle) -> Int {
         return Constants.timeToLiveMap[obstacle.imageName] ?? Constants.defaultTimeToLive
     }
 
+    /// get obstacle size which base on the obstacle sprite file name or return default value
     static func getObstacleOriginalSize(_ obstacle: Obstacle) -> CGSize {
         return Constants.obstacleSizeMap[obstacle.imageName] ?? Constants.obstacleBasicSize
     }
