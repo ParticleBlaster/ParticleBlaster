@@ -8,6 +8,13 @@
 
 import Foundation
 
+/*
+ *  The `GameSetting` class is the model keeping information gereral game settings
+ *  It contains the following properties:
+ *      -   instance        : static property to support singlaton pattern
+ *      -   isSoundEnabled  : determine the sound is turn on of off
+ *      -   isMusicEnabled  : determine the (background) music is turn on or off
+ */
 class GameSetting: NSObject, NSCoding {
     static var instance: GameSetting? = nil
     var isSoundEnabled: Bool {

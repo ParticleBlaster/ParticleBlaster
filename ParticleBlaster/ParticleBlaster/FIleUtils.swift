@@ -8,6 +8,9 @@
 
 import Foundation
 
+/*
+ *  The FileUtils class includes methods which support saving and loading data in user device
+ */
 class FileUtils {
     static let DocumentsDirectory = FileManager().urls(for: .documentDirectory, in: .userDomainMask).first!
 
@@ -33,10 +36,12 @@ class FileUtils {
         return NSKeyedArchiver.archiveRootObject(gameData, toFile: fileUrl.path)
     }
     
+    /// Get level filename for particular game id and game mode
     static func getLevelFilename(id: Int, gameMode: GameMode = .single) -> String {
         return "\(Constants.levelPrefix)_\(gameMode.rawValue)_\(id)"
     }
     
+    /// Get the level file url which we use to store the game level for particular game id and mode
     static func getLevelUrl(id: Int, gameMode: GameMode = .single) -> URL {
         return DocumentsDirectory.appendingPathComponent(getLevelFilename(id: id, gameMode: gameMode))
     }
@@ -51,6 +56,8 @@ class FileUtils {
         return NSKeyedArchiver.archiveRootObject(gameLevel, toFile: fileUrl.path)
     }
 
+    /// This method is called once when user open the app. It will check if this is very first time when user launch the app
+    ///  then it will save pre-defined levels into device
     static func savePreloadGameLevels() {
         // Detect is the first launch of user
         let launchedBefore = UserDefaults.standard.bool(forKey: Constants.launchedBeforeKey)
@@ -68,6 +75,7 @@ class FileUtils {
         }
     }
 
+    /// Copy file from particular file path to other file path in the device
     static func copyFile(fromPath: String, toPath: String) -> Bool {
         let fileManager = FileManager.default
         do {

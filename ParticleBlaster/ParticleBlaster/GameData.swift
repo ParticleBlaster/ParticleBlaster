@@ -8,6 +8,15 @@
 
 import Foundation
 
+/*
+ *  The `GameData` class is the model keeping information gereral game data
+ *  It contains the following properties:
+ *      -   instance                : static property to support singlaton pattern
+ *      -   numSingleModeLevel      : number of single player mode levels (default to be 12 - number of pre-defined levels)
+ *      -   numMultiModeLevel       : number of multiple player mode levels
+ *      -   achivedSingleModeLevel  : highest level that user have cleared (default to be -1). This
+ *          property is used to lock levels that user are not allow to play at current time.
+ */
 class GameData: NSObject, NSCoding {
     static var instance: GameData? = nil
     var numSingleModeLevel: Int = 12
@@ -15,6 +24,7 @@ class GameData: NSObject, NSCoding {
     var achievedSingleModeLevel: Int = -1
     
 
+    // Singlaton pattern to get instance of the GameData
     static func getInstance() -> GameData {
         if instance == nil {
             instance = FileUtils.loadGameData() ?? GameData()
@@ -22,6 +32,7 @@ class GameData: NSObject, NSCoding {
         return instance!
     }
 
+    // Update game data when user finish one level
     func finishGameLevel(_ level: GameLevel) {
         guard level.gameMode == .single else {
             return
@@ -33,6 +44,7 @@ class GameData: NSObject, NSCoding {
         let _ = FileUtils.saveGameData()
     }
 
+    // Save the game level and update the corresponding properties
     func saveLevel(_ level: GameLevel) -> Bool {
         guard FileUtils.saveGameLevel(level) else {
             return false
@@ -45,6 +57,7 @@ class GameData: NSObject, NSCoding {
         return FileUtils.saveGameData()
     }
 
+    // create a empty level for provided game mode
     func createLevel(gameMode: GameMode) -> GameLevel {
         let id = gameMode == .single ? numSingleModeLevel : numMultiModeLevel
         return GameLevel(id: id, gameMode: gameMode)

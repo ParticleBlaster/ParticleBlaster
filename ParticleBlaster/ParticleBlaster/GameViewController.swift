@@ -271,7 +271,7 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
                 let skView = view as! SKView
                 let gameOverScene = GameOverScene(size: view.bounds.size, message: "You Scored \(self.currLevelObtainedScore) !", viewController: self)
                 skView.presentScene(gameOverScene)
-                updateScoreAndShowLeaderboard()
+                updateScoreToLeaderboard()
             } else {
                 if (self.gameLogic as! MultiplayerGameLogic).doesPlayer1Win {
                     let skView = view as! SKView
@@ -294,14 +294,12 @@ class GameViewController: UIViewController, SKPhysicsContactDelegate {
     }
 
     // This method
-    private func updateScoreAndShowLeaderboard() {
+    private func updateScoreToLeaderboard() {
         let level = gameLevel.id
         let score = self.currLevelObtainedScore
         GameData.getInstance().finishGameLevel(gameLevel)
         GameCenterUtils.submitAchievedLevelToGC(level + 1)
-        GameCenterUtils.submitScore(for: level, score: score) {
-            GameCenterUtils.openLeaderboard(in: self, level: level)
-        }
+        GameCenterUtils.submitScore(for: level, score: score)
     }
 
     /* End of private methods */

@@ -8,6 +8,11 @@
 
 import Foundation
 
+
+/*
+ *  The Theme class is the model to store every assets related to particular theme
+ */
+
 class Theme {
     var name: String
     var iconName: String = ""
