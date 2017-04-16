@@ -6,24 +6,32 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
-import Foundation
+/*
+ *  The `Theme` class is the model for the Themes for GameLevel and LevelDesignerScene
+ *  It contains the identifier attributes and
+ *      - It defines the background image.
+ *      - It defines a list of obstacles associated with this theme.
+ *      - It defines a list of spaceships associated with this theme.
+ */
 
 /*
  *  The ThemeConfig class is used to initialize, config and retrieve theme assets
  */
 
 struct ThemeConfig {
+    /* Start of class attributes definition */
     static var themes = [String: Theme]()
-
-
     static let themeNames = ["Planets",
                              "StarWars"
                             ]
-
     static let themeObstacleNames = ["Planets":obstacleFileNamesPlanets,
                                      "StarWars":obstacleFileNamesStarWars]
     static let themeSpaceshipNames = ["Planets":spaceshipFileNamesPlanets,
                                       "StarWars":spaceshipFileNamesStarWars]
+    /* End of class attributes definition */
+    
+    /* Start of theme setting functions */
+    // This function sets up all the themes in the themes array
     static func setThemes() {
         for name in themeNames {
             setTheme(name: name,
@@ -33,7 +41,8 @@ struct ThemeConfig {
                      spaceshipNames: themeSpaceshipNames[name]!)
         }
     }
-
+    
+    // This function initializes individual theme
     static func setTheme(name: String,
                          logoName: String,
                          backgroundName: String,
@@ -48,7 +57,7 @@ struct ThemeConfig {
 
         themes[themeName] = theme
     }
-
+    /* End of theme setting functions */
 
     // MARK: Default Theme
     // Theme Planet

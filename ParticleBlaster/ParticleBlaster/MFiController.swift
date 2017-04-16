@@ -6,27 +6,41 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/*
+ *  The `MFiController` class is the controller class for MFi Bluetooth joysticks
+ *  It contains the connection related attributes and also includes the handler functions
+ *      - It specifies the what handler function will be triggered when pressing each button
+ *      - It specifies how the connection is established and terminated.
+ */
+
 import UIKit
 import GameController
 
 class MFiController: NSObject {
+    /* Start of class attributes definition */
+    // Only when pairing with a hardware it will be initialized, otherwise it remains nil
     var mainController: GCController?
+    // For translating the joystick direction input
     var direction = CGVector(dx: 0, dy: 0)
-    var isConnected = false
-    var moveHandler: ((CGVector) -> ())?
-    var endMoveHandler: (() -> ())?
-    var shootHandler: (() -> ())?
-    
+    var isConnected: Bool = false
     var isGamePaused: Bool = false
+    // The handler function for moving
+    var moveHandler: ((CGVector) -> ())?
+    // The handler function for stopping
+    var endMoveHandler: (() -> ())?
+    // The handler function for shooting
+    var shootHandler: (() -> ())?
+    // The handler function for pausing
     var pauseHandler: (() -> ())?
+    // The handler function for resuming
     var resumeHandler: (() -> ())?
-    
+    // For tracking the time elapsed for button press debouncing
     var inputTimestamp: DispatchTime = DispatchTime.now()
+    /* End of class attributes definition */
     
-    
+    /* Start of connection related functions */
+    // This function set up the notification center for connection / disconnection
     func setupConnectionNotificationCenter() {
-        print("start setupConnectionNotificationCenter")
-        
         NotificationCenter.default.addObserver(self,
                                                selector: #selector(controllerWasConnected),
                                                name: NSNotification.Name.GCControllerDidConnect,
@@ -35,10 +49,31 @@ class MFiController: NSObject {
                                                selector: #selector(controllerWasDisconnected),
                                                name: NSNotification.Name.GCControllerDidDisconnect,
                                                object: nil)
-        
-        print("done setupConnectionNotificationCenter")
     }
     
+    // This function specifies the configuration details after the hardware connects to the iPad
+    @objc func controllerWasConnected(_ notification: Notification) {
+        guard self.isConnected == false else {
+            return
+        }
+        
+        let controller: GCController = notification.object as! GCController
+        mainController = controller
+        isConnected = true
+        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
+        reactToInput()
+    }
+    
+    // This function specifies the configuration details after the hardware disconnects from the iPad
+    @objc func controllerWasDisconnected(_ notification: Notification) {
+        mainController = nil
+        isConnected = false
+    }
+    /* End of connection related functions */
+    
+    
+    /* Start of private functions */
+    // This function specifies the reaction for pressing different gamepad buttons
     private func reactToInput() {
         guard let profile: GCExtendedGamepad = self.mainController?.extendedGamepad else {
             return
@@ -61,34 +96,16 @@ class MFiController: NSObject {
         profile.valueChangedHandler = ({
             (gamepad: GCExtendedGamepad, element: GCControllerElement) in
             
-            
-            var message: String = ""
-            
-            
             // A button
             if (gamepad.buttonA == element && gamepad.buttonA.isPressed && self.inputTimestamp.getTimeInSecond(to: DispatchTime.now()) > Constants.debouncingInteval) {
-                message = "A Button"
                 if let shoot = self.shootHandler {
                     shoot()
                 }
                 self.inputTimestamp = DispatchTime.now()
             }
             
-            
-            // left stick
+            // Left stick
             if (gamepad.leftThumbstick == element) {
-                if (gamepad.leftThumbstick.up.isPressed) {
-                    message = "Left Stick %f \(gamepad.leftThumbstick.yAxis.value)"
-                }
-                if (gamepad.leftThumbstick.down.isPressed) {
-                    message = "Left Stick %f \(gamepad.leftThumbstick.yAxis.value)"
-                }
-                if (gamepad.leftThumbstick.left.isPressed) {
-                    message = "Left Stick %f \(gamepad.leftThumbstick.xAxis.value)"
-                }
-                if (gamepad.leftThumbstick.right.isPressed) {
-                    message = "Left Stick %f \(gamepad.leftThumbstick.xAxis.value)"
-                }
                 self.direction = CGVector(dx: CGFloat(gamepad.leftThumbstick.xAxis.value),
                                           dy: CGFloat(gamepad.leftThumbstick.yAxis.value))
                 
@@ -102,37 +119,9 @@ class MFiController: NSObject {
                     }
                 }
             }
-            
-            print(message)
         }) as GCExtendedGamepadValueChangedHandler
     }
-    
-    @objc func controllerWasConnected(_ notification: Notification) {
-        guard self.isConnected == false else {
-            return
-        }
-        
-        print("in controllerWasConnected")
-        let controller: GCController = notification.object as! GCController
-        let status = "MFi Controller: \(String(describing: controller.vendorName)) is connected"
-        print(status)
-        
-        mainController = controller
-        isConnected = true
-        MFiControllerConfig.startNextMFiConnectionNotificationCenter()
-        reactToInput()
-    }
-    
-    @objc func controllerWasDisconnected(_ notification: Notification) {
-        
-        print("in controllerWasDisconnected")
-        let controller: GCController = notification.object as! GCController
-        let status = "MFi Controller: \(String(describing: controller.vendorName)) is disconnected"
-        print(status)
-        
-        mainController = nil
-        isConnected = false
-    }
+    /* End of private functions */
 }
 
 
