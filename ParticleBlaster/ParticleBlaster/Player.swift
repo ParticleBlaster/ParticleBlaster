@@ -37,7 +37,9 @@ class Player : GameObject {
     // Decrease the time to live value upon hit by obstalce
     func hitByObstacle() {
         _checkRep()
-        self.timeToLive -= 1
+        if self.timeToLive > 0 {
+            self.timeToLive -= 1
+        }
         _checkRep()
     }
     
