@@ -444,6 +444,7 @@ extension LevelDesignerScene {
         gameLevel.removeAllObstacle()
     }
     
+    // This function is to clear all the spaceships from the level designer screen
     fileprivate func clearAllSpaceshipsFromLevelScreen() {
         for item in gameLevel.players {
             item.shape.removeFromParent()
@@ -451,6 +452,7 @@ extension LevelDesignerScene {
         gameLevel.players.removeAll()
     }
     
+    // This function draws the spaceships according to their pre-stored positions
     fileprivate func preparePlayers() {
         for player in players {
             player.shape.removeFromParent()
@@ -493,7 +495,8 @@ extension LevelDesignerScene {
             gameLevel.players.append(player)
         }
     }
-
+    
+    // This function is to read from thee current level and draw all the existing obstacles on the level designer screen
     fileprivate func drawInitialObstacles() {
         levelScreen.removeAllChildren()
         for obstacle in gameLevel.obstacles {
@@ -502,7 +505,8 @@ extension LevelDesignerScene {
             drawObstacle(obstacle, shouldTranslatePosition: false)
         }
     }
-
+    
+    // This function is to draw the obstacle on the screen, option provided for both on the general full screen and the level designer screen
     fileprivate func drawObstacle(_ obstacle: Obstacle, shouldTranslatePosition: Bool = true) {
         let shape = obstacle.shape
         shape.scale(to: CGSize(width: shape.size.width * Constants.levelScreenRatio,
