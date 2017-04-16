@@ -6,6 +6,10 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `HomePageViewController` is the view controller for controlling the home page scene, level selector scene and level designer scene
+ */
+
 import UIKit
 import SpriteKit
 import GameKit
@@ -32,19 +36,6 @@ class HomePageViewController: UIViewController {
         setupMFiControllers()
         MFiControllerConfig.startNextMFiConnectionNotificationCenter()
      }
-    
-    private func setupMFiControllers() {
-        for _ in 0 ..< MFiControllerConfig.maxMFi {
-            let mfi = MFiController()
-            MFiControllerConfig.mfis.append(mfi)
-            print("\(MFiControllerConfig.mfis.count) added")
-        }
-    }
-    
-    private func setupThemes() {
-        ThemeConfig.setThemes()
-    }
-
     
     func onGCEnableChange(isEnabled: Bool) {
         guard let scene = homePageScene else {
@@ -81,6 +72,22 @@ class HomePageViewController: UIViewController {
     override var prefersStatusBarHidden: Bool {
         return true
     }
+    
+    /* Start of private functions */
+    
+    private func setupMFiControllers() {
+        for _ in 0 ..< MFiControllerConfig.maxMFi {
+            let mfi = MFiController()
+            MFiControllerConfig.mfis.append(mfi)
+            print("\(MFiControllerConfig.mfis.count) added")
+        }
+    }
+    
+    private func setupThemes() {
+        ThemeConfig.setThemes()
+    }
+    
+    /* End of private functions */
 }
 
 extension HomePageViewController: GKGameCenterControllerDelegate {

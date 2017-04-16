@@ -5,9 +5,13 @@
 //  Created by Bui Hiep on 24/3/17.
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
+
+/**
+ *  The `LevelSelectScene` is the scene for displaying level selector.
+ */
+
 import SpriteKit
 
-/// MARK: Logic related part
 class LevelSelectScene: SKScene {
     var navigationDelegate: NavigationDelegate?
     fileprivate var gameData: GameData

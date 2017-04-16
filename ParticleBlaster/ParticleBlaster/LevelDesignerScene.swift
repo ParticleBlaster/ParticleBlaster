@@ -6,9 +6,12 @@
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
 
+/**
+ *  The `LevelDesignerScene` is the scene for displaying level designer.
+ */
+
 import SpriteKit
 
-/// MARK: Logic related part
 class LevelDesignerScene: SKScene {
     var gameLevel: GameLevel
     var navigationDelegate: NavigationDelegate?

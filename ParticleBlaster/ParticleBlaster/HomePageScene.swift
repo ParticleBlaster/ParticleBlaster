@@ -5,6 +5,11 @@
 //  Created by Richthofen on 13/03/2017.
 //  Copyright © 2017 ParticleBlaster. All rights reserved.
 //
+
+/**
+ *  The `HomePageScene` is the scene for displaying homepage.
+ */
+
 import SpriteKit
 
 class HomePageScene: SKScene {
