@@ -7,10 +7,13 @@
 //
 
 /*
- * The `GameObject` class is the base model for all UI elements appearing in the game area
- * It contains the fundamental SKSpriteNode for displaying purposes, a default timeToLive ('lives'), and a isStatic property
+ *  The `GameObject` class is the base model for all UI elements appearing in the game area
+ *  It contains the fundamental SKSpriteNode for displaying purposes, a default timeToLive ('lives'), and a isStatic property
  *      - It defines the basic initialization of any object in the game area from images
  *      - It defines the basic APIs for modifying the physics properties of the object
+ *
+ *  The representation invariants:
+ *      - The timeToLive value is non-negative
  */
 
 import UIKit

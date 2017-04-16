@@ -9,6 +9,9 @@
 /**
  *  The `MultiPlayerGameLogic` class conforms to GameLogic protocol
  *  It defines the logic for multi player mode
+ *
+ *  The representation invariants:
+ *      - There are exactly 2 players in the game logic
  */
 
 

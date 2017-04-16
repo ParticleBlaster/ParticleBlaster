@@ -9,6 +9,9 @@
 /**
  *  The `SinglePlayerGameLogic` class conforms to GameLogic protocol
  *  It defines the logic for single player mode
+ *
+ *  The representation invariants:
+ *      - There is exactly 1 player in the game logic
  */
 
 import UIKit
