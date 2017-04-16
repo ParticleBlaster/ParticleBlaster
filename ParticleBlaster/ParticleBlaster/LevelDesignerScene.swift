@@ -53,52 +53,7 @@ class LevelDesignerScene: SKScene {
         drawInitialObstacles()
         preparePlayers()
     }
-
-    private func isTouchInside(touch: UITouch, frame: CGRect, inside area: SKNode) -> Bool {
-        return frame.contains(touch.location(in: area))
-    }
-
-    private func validatePlayerPosition(_ position: CGPoint, for player: Player) -> CGPoint {
-        let node = player.shape
-        var x = position.x
-        var y = position.y
-        x = max(x, -levelScreen.frame.size.width / 2 + node.frame.size.width / 2)
-        x = min(x, levelScreen.frame.size.width / 2 - node.frame.size.width / 2)
-        y = max(y, -levelScreen.frame.size.height / 2 + node.frame.size.height / 2)
-        y = min(y, levelScreen.frame.size.height / 2 - node.frame.size.height / 2)
-        return CGPoint(x: x, y: y)
-    }
-
-    private func touchPaletteItems(touch: UITouch) {
-        guard gameLevel.obstacleCount < Constants.maxNumOfObstacle else {
-            return
-        }
-        for item in paletteItems {
-            if isTouchInside(touch: touch, frame: item.shape.frame, inside: self) {
-                addcurrentObject(item, at: touch.location(in: self))
-                return
-            }
-        }
-    }
-
-    private func touchSceenItems(touch: UITouch) {
-        for (index, item) in gameLevel.obstacles.enumerated() {
-            if isTouchInside(touch: touch, frame: item.shape.frame, inside: levelScreen) {
-                item.shape.removeFromParent()
-                addcurrentObject(item, at: touch.location(in: self))
-                gameLevel.removeObstacle(at: index)
-                return
-            }
-        }
-        // we use the player itself instead of making a copy, and will not allow user to move these players out of level screen
-        for player in players {
-            if isTouchInside(touch: touch, frame: player.shape.frame, inside: levelScreen) {
-                currentObject = player
-                return
-            }
-        }
-    }
-
+    
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         guard currentObject == nil, let touch = touches.first else {
             return
@@ -150,6 +105,8 @@ class LevelDesignerScene: SKScene {
         removeOutsideObstacles()
     }
     
+    /* Start of private methods */
+    // Check if the given UITouch falls inside the given frame
     private func checkTouchRange(touch: UITouch, frame: CGRect) -> Bool {
         let location = touch.location(in: self)
         if frame.contains(location) {
@@ -158,13 +115,15 @@ class LevelDesignerScene: SKScene {
             return false
         }
     }
-
+    
+    // Remove the given node with an scaling animation
     private func removeWithAnimation(_ node: SKNode) {
         let scaleAction = SKAction.scale(to: 0.1, duration: 0.2)
         scaleAction.timingMode = .easeOut
         node.run(SKAction.sequence([scaleAction, SKAction.removeFromParent()]))
     }
 
+    // Add the given object to the specified position
     private func addcurrentObject(_ selectedObstacle: Obstacle, at position: CGPoint) {
         guard currentObject == nil else {
             return
@@ -177,7 +136,8 @@ class LevelDesignerScene: SKScene {
         addChild(obstacle.shape)
         currentObject = obstacle
     }
-
+    
+    // Remove the currentObject (with animation if the withAnimation value is set to true)
     private func removecurrentObject(withAnimation: Bool) {
         guard currentObject != nil else {
             return
@@ -189,7 +149,57 @@ class LevelDesignerScene: SKScene {
         }
         currentObject = nil
     }
+    
+    // Check if the given UITouch inside the specified area falls into the given frame
+    private func isTouchInside(touch: UITouch, frame: CGRect, inside area: SKNode) -> Bool {
+        return frame.contains(touch.location(in: area))
+    }
+    
+    // Ensure the given player's position is validate
+    private func validatePlayerPosition(_ position: CGPoint, for player: Player) -> CGPoint {
+        let node = player.shape
+        var x = position.x
+        var y = position.y
+        x = max(x, -levelScreen.frame.size.width / 2 + node.frame.size.width / 2)
+        x = min(x, levelScreen.frame.size.width / 2 - node.frame.size.width / 2)
+        y = max(y, -levelScreen.frame.size.height / 2 + node.frame.size.height / 2)
+        y = min(y, levelScreen.frame.size.height / 2 - node.frame.size.height / 2)
+        return CGPoint(x: x, y: y)
+    }
+    
+    // Handle the touch of palette items
+    private func touchPaletteItems(touch: UITouch) {
+        guard gameLevel.obstacleCount < Constants.maxNumOfObstacle else {
+            return
+        }
+        for item in paletteItems {
+            if isTouchInside(touch: touch, frame: item.shape.frame, inside: self) {
+                addcurrentObject(item, at: touch.location(in: self))
+                return
+            }
+        }
+    }
+    
+    // Handle the touch of the items in the preview screen
+    private func touchSceenItems(touch: UITouch) {
+        for (index, item) in gameLevel.obstacles.enumerated() {
+            if isTouchInside(touch: touch, frame: item.shape.frame, inside: levelScreen) {
+                item.shape.removeFromParent()
+                addcurrentObject(item, at: touch.location(in: self))
+                gameLevel.removeObstacle(at: index)
+                return
+            }
+        }
+        // we use the player itself instead of making a copy, and will not allow user to move these players out of level screen
+        for player in players {
+            if isTouchInside(touch: touch, frame: player.shape.frame, inside: levelScreen) {
+                currentObject = player
+                return
+            }
+        }
+    }
 
+    // Remove the obstacles that is put outside of the preview screen
     private func removeOutsideObstacles() {
         for (index, obstacle) in gameLevel.obstacles.enumerated().reversed() {
             let position = obstacle.shape.position
@@ -204,21 +214,7 @@ class LevelDesignerScene: SKScene {
         }
     }
 
-    fileprivate func loadTheme(_ name: String?) {
-        guard name != gameLevel.themeName else {
-            return
-        }
-        
-        gameLevel.themeName = name!
-        currentTheme = ThemeConfig.themes[name!]
-        initPalette()
-        clearAllObstaclesFromLevelScreen()
-        initLevelScreen()
-        clearAllSpaceshipsFromLevelScreen()
-        preparePlayers()
-    }
-
-    /// Convert the current designing level to standard format game level
+    // Convert the current designing level to standard format game level
     private func convertToStandardLevel() -> GameLevel {
         let level = GameLevel(id: gameLevel.id, gameMode: gameLevel.gameMode)
         for player in players {
@@ -237,22 +233,43 @@ class LevelDesignerScene: SKScene {
         return level
     }
 
+    // Handle press on back button
     private func onBackButtonPressed() {
         self.navigationDelegate?.navigateToLevelSelectScene(gameMode: gameLevel.gameMode)
     }
-
+    
+    // Handle press on save button
     private func onSaveButtonPressed() {
         self.saveButton.isPositive = false
         self.saveButton.isEnabled = false
         let level = convertToStandardLevel()
         let _ = GameData.getInstance().saveLevel(level)
     }
-
+    
+    // Handle press on play button
     private func onPlayButtonPressed() {
         let level = convertToStandardLevel()
         self.navigationDelegate?.navigateToPlayScene(gameLevel: level)
     }
+    /* End of private methods */
 
+    /* Start of fileprivate methods */
+    // Update the theme to the theme with the given name
+    fileprivate func loadTheme(_ name: String?) {
+        guard name != gameLevel.themeName else {
+            return
+        }
+        
+        gameLevel.themeName = name!
+        currentTheme = ThemeConfig.themes[name!]
+        initPalette()
+        clearAllObstaclesFromLevelScreen()
+        initLevelScreen()
+        clearAllSpaceshipsFromLevelScreen()
+        preparePlayers()
+    }
+    
+    // Convert a position to a ratio over the size of the preview screen
     fileprivate func levelScreenPositionToRatioPosition(_ position: CGPoint) -> CGPoint {
         let sWidth = levelScreen.frame.size.width
         let sHeight = levelScreen.frame.size.height
@@ -260,7 +277,8 @@ class LevelDesignerScene: SKScene {
         let translatedY = position.y + sHeight/2
         return CGPoint(x: translatedX / sWidth, y: translatedY / sHeight)
     }
-
+    
+    // Convert a ratio over the size of the preview screen to an actual position
     fileprivate func ratioPositionToLevelScreenPosition(_ position: CGPoint) -> CGPoint {
         let sWidth = levelScreen.frame.size.width
         let sHeight = levelScreen.frame.size.height
@@ -268,18 +286,21 @@ class LevelDesignerScene: SKScene {
         let translatedY = position.y * sHeight - sHeight/2
         return CGPoint(x: translatedX, y: translatedY)
     }
-
+    
+    // Convert a postiion in the whole screen to a position in the level preview screen
     fileprivate func translateFromSelfToLevelScreen(_ position: CGPoint) -> CGPoint {
         let x = position.x - Constants.screenCenterPositionRatio * size.width
         let y = position.y - Constants.screenCenterPositionRatio * size.height
         return CGPoint(x: x, y: y)
     }
-
+    
+    // Convert a postiion in the level preview screen to a position in the whole screen
     fileprivate func translateFromLevelScreenToSelf(_ position: CGPoint) -> CGPoint {
         let x = position.x + Constants.screenCenterPositionRatio * size.width
         let y = position.y + Constants.screenCenterPositionRatio * size.height
         return CGPoint(x: x, y: y)
     }
+    /* End of fileprivate methods */
 }
 
 /// MARK: Viewing related part
@@ -343,7 +364,8 @@ extension LevelDesignerScene {
         addChild(levelScreenBorder)
         addChild(Boundary(rect: levelScreen.frame))
     }
-
+    
+    // Initialise palette
     fileprivate func initPalette() {
         for item in paletteItems {
             item.shape.removeFromParent()
@@ -366,11 +388,13 @@ extension LevelDesignerScene {
         }
     }
 
+    // Initialise the level preview screen
     fileprivate func initLevelScreen() {
         levelScreen.texture = SKTexture(imageNamed: currentTheme.backgroundName)
         gameLevel.backgroundImageName = currentTheme.backgroundName
     }
-
+    
+    // Initialise the different themes
     fileprivate func initThemeList() {
         var yValue = playButton.position.y - saveButton.size.height/2 - Constants.screenPaddingThinner.height - playButton.size.height / 2 - 30
         // Create obstacle pallete
@@ -392,11 +416,12 @@ extension LevelDesignerScene {
         }
     }
 
+    // Initialise the current theme
     fileprivate func initTheme() {
-        print("initTheme: gameLevel.themeName = \(gameLevel.themeName)")
         currentTheme = ThemeConfig.themes[gameLevel.themeName]
     }
-
+    
+    // Clear all existing obstacles from the level preview screen
     fileprivate func clearAllObstaclesFromLevelScreen() {
         for item in gameLevel.obstacles {
             item.shape.removeFromParent()
