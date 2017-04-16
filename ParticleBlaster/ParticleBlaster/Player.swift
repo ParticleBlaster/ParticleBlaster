@@ -19,6 +19,7 @@ import SpriteKit
 class Player : GameObject {
     var imageName: String
     var ratioPosition: CGPoint = .zero
+    
     init(image: String = Constants.spaceshipFilename, timeToLive: Int = Constants.playerTimeToLive) {
         self.imageName = image
         super.init(imageName: image, timeToLive: timeToLive)
@@ -26,18 +27,21 @@ class Player : GameObject {
         setupPhysicsProperty()
     }
     
+    // Update the rotation of the player
     func updateRotation(newAngle: CGFloat) {
         _checkRep()
         self.shape.zRotation = newAngle
         _checkRep()
     }
     
+    // Decrease the time to live value upon hit by obstalce
     func hitByObstacle() {
         _checkRep()
         self.timeToLive -= 1
         _checkRep()
     }
     
+    // Check if player had been destroyed
     func checkDead() -> Bool {
         _checkRep()
         if self.timeToLive == 0 {
@@ -75,6 +79,7 @@ class Player : GameObject {
         return copy
     }
 
+    // This function set up the physics property of the player
     private func setupPhysicsProperty() {
         _checkRep()
         self.shape.size = CGSize(width: Constants.playerWidth,
