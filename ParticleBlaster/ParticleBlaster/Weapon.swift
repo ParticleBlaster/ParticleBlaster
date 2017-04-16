@@ -36,7 +36,7 @@ class Weapon : GameObject {
     init(image: String) {
         self.weaponType = WeaponCategory.Bullet
         self.lauchMusicName = Constants.shootingSoundFilename
-        super.init(imageName: image)
+        super.init(imageName: image, timeToLive: Constants.defaultTimeToLive)
         setupPhysicsProperty()
     }
     
@@ -45,13 +45,13 @@ class Weapon : GameObject {
         switch weaponType {
         case .Bullet:
             self.lauchMusicName = Constants.shootingSoundFilename
-            super.init(imageName: Constants.defaultBulletSpriteFilename)
+            super.init(imageName: Constants.defaultBulletSpriteFilename, timeToLive: Constants.defaultTimeToLive)
         case .Grenade:
             self.lauchMusicName = Constants.throwGrenadeSoundFilename
-            super.init(imageName: Constants.defaultGrenadeSpriteFilename)
+            super.init(imageName: Constants.defaultGrenadeSpriteFilename, timeToLive: Constants.defaultTimeToLive)
         case .Missile:
             self.lauchMusicName = Constants.launchMissileSoundFilename
-            super.init(imageName: Constants.defaultMissileSpriteFilename)
+            super.init(imageName: Constants.defaultMissileSpriteFilename, timeToLive: Constants.defaultTimeToLive)
         }
         self.setupPhysicsProperty()
         

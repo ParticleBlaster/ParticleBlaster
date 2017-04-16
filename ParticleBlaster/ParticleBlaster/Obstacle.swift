@@ -35,7 +35,7 @@ class Obstacle : GameObject {
     init(image: String, userSetInitialPosition: CGPoint, timeToLive: Int) {
         self.imageName = image
         self.initialPosition = userSetInitialPosition
-        super.init(imageName: image)
+        super.init(imageName: image, timeToLive: Constants.defaultTimeToLive)
         self.timeToLive = timeToLive
         setupShape()
     }

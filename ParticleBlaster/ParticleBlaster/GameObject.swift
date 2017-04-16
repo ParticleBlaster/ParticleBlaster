@@ -53,10 +53,18 @@ class GameObject: NSObject, NSCoding {
         _checkRep()
     }
     
-    init(imageName: String, timeToLive: Int = Constants.defaultTimeToLive) {
+    init(imageName: String, timeToLive: Int) {
         self.shape = SKSpriteNode(imageNamed: imageName)
         self.timeToLive = timeToLive
         self.isStatic = false
+        super.init()
+        _checkRep()
+    }
+    
+    init(imageName: String) {
+        self.shape = SKSpriteNode(imageNamed: imageName)
+        self.timeToLive = Int.max
+        self.isStatic = true
         super.init()
         _checkRep()
     }

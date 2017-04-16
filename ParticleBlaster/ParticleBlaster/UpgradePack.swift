@@ -16,7 +16,7 @@ import SpriteKit
 class UpgradePack : GameObject {
     
     override init() {
-        super.init(imageName: Constants.defaultUpgradePackSpriteFilename)
+        super.init(imageName: Constants.defaultUpgradePackSpriteFilename, timeToLive: Constants.defaultTimeToLive)
         setupPhysicsProperty()
     }
     
